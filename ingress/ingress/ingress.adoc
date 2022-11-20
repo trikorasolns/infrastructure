@@ -67,3 +67,13 @@ If TLS is enabled for the Ingress, a Secret containing the certificate and key m
     tls.key: <base64 encoded key>
   type: kubernetes.io/tls
 ----
+
+=== DNS
+
+After deploying the Nginx Ingress on any service, the DNS for the host must point to the IP address assigned to the `LoadBalancer` service for the Ingress controller. This IP address can be obtained using the following command.
+
+[source.bash]
+----
+$ kubectl -n ingress-nginx get svc -o jsonpath='{ .items[?(@.spec.type=="LoadBalancer")].status.loadBalancer.ingress[0].ip }'
+192.168.10.22
+----
