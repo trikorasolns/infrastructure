@@ -1,0 +1,24 @@
+---
+apiVersion: awx.ansible.com/v1beta1
+kind: AWX
+metadata:
+  name: awx
+spec:
+  # image_version: latest
+  # image_version: "20.1.0"
+  # image_pull_policy: IfNotPresent
+# tag::serviceDefinition[]
+  # service_type: NodePort
+  # nodeport_port: 30080
+  service_type: LoadBalancer
+  loadbalancer_protocol: http
+  loadbalancer_port: 80
+# end::serviceDefinition[]
+  # postgres_image_version: "12.6"
+  service_annotations: |
+    environment: production
+  service_labels: |
+    environment: production
+  projects_persistence: false
+  # projects_storage_class: local-storage
+  # projects_storage_size: 2Gi

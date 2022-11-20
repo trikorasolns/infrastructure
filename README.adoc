@@ -1,15 +1,17 @@
-= k8s deployments
-:author:    A. Costa
-:email:     <a.costa@trikorasolutions.com>
-// :Date:      20210222
-:Revision:  1
+= Infrastructure Scripts
 :toc:       left
 :toc-title: Table of Contents
 :icons: font
-:description: This document describes the k8s implementation of different applications
+:description: This document describes the implementation of different applications.
 :source-highlighter: highlight.js
 
 == Generic resources
+
+:leveloffset: +1
+
+include::awx/README.adoc[]
+
+:leveloffset: -1
 
 === Storate Classes
 
@@ -19,64 +21,12 @@ Create.
 
 [source,bash]
 ----
-$ kubectl apply -f k8s/config/05-storageclass-local.yaml
+$ kubectl apply -f misc/k8s/05-storageclass-local.yaml
 ----
 
 Delete.
 
 [source,bash]
 ----
-$ kubectl delete -f k8s/config/05-storageclass-local.yaml
+$ kubectl delete -f misc/k8s/05-storageclass-local.yaml
 ----
-
-
-:leveloffset: +1
-
-include::gitlab/README.adoc[]
-
-include::glpi/README.adoc[]
-
-:leveloffset: -1
-
-
----
-title: k8s Deployements
-subtitle: Infrastructure As Code
----
-
-
-# k8s-deployments
-
-kubernetes deployment files.
-
-# Misc
-
-## Open shell on pod
-
-```bash
-$ kubectl -n gitlab exec gitlab-55df468644-rwvnn -it -- /bin/bash
-```
-
-# References
-
-## Kubernetes The Hard Way
-
-* https://github.com/kelseyhightower/kubernetes-the-hard-way/blob/master/README.md
-
-## External Provisioners
-
-* https://github.com/kubernetes-sigs/sig-storage-lib-external-provisioner
-
-### NFS External Provisioners
-
-* https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner
-* https://github.com/kubernetes-sigs/nfs-ganesha-server-and-external-provisioner
-
-
-# TODO
-
-1. quay: https://github.com/quay/quay
-2. GLPI project: https://glpi-project.org/downloads/
-   1. [redmine](_incubating/redmine/README.md) as alternative
-3. Dynamic NFS Provisioning
-4. 

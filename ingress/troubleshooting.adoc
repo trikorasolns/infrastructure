@@ -1,0 +1,18 @@
+= Ingress Troubleshooting
+:toc: left
+:toc-title: Table of Contents
+:icons: font
+:description: Ingress deployment guide
+:source-highlighter: highlight.js
+
+== service/ingress-nginx-controller EXTERNAL-IP <pending>
+
+*Problem*
+
+Ingress External IP is on state pending.
+
+*Cause*
+
+*Solution*
+
+Apply the metallb CRDs.

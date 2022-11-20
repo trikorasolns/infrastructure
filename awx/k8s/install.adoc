@@ -1,0 +1,228 @@
+= Installation Guide
+:description: AWX installation guide.
+:icons: font
+:toc: left
+:toclevels: 3
+:toc-title: Table of Contents
+
+== Requirements
+
+* kustomize
+* yq
+
+=== Install kustomize
+
+On the folder `kustomize` will be installed run the following script.
+
+[source,bash]
+----
+$ curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
+----
+
+References:
+
+* https://kubectl.docs.kubernetes.io/installation/kustomize/
+
+== Installation
+
+=== PV
+
+PV used are `local` PV.
+
+Define the variables for the PersistentVolume.
+
+.AWX PostgreSQL PV
+[%header, cols="1m, 2m, 4"]
+|===
+
+| Var Name
+| Sample Value
+| Description
+
+| AWX_PV_PREFIX
+| /opt/pv/awx
+| Root folder on the host for local storage PV required.
+
+| AWX_NODE_AFINITY
+| kubectl get nodes -o jsonpath="{.items[0].metadata.name}"
+| Host (Node) afinity for the PV.
+
+| AWX_HOST_NAME
+| localhost.localdomain
+| Hostname for the ingress controller
+
+|===
+
+[source,bash]
+----
+$ export AWX_PV_PREFIX=/opt/pv/awx
+$ export AWX_NODE_AFINITY=$(kubectl get nodes -o jsonpath="{.items[0].metadata.name}")
+----
+
+Create database PVC.
+
+[source,bash]
+----
+$ yq 'with(.spec; .local.path = env(AWX_PV_PREFIX) + "/db" | .nodeAffinity.required.nodeSelectorTerms[0].matchExpressions[0].values[0] = env(AWX_NODE_AFINITY))' awx/k8s/pv/pv-awx-db.yaml | kubectl apply -f -
+----
+
+Create projects PVC.
+
+[source,bash]
+----
+$ yq 'with(.spec; .local.path = env(AWX_PV_PREFIX) + "/awx-projects" | .nodeAffinity.required.nodeSelectorTerms[0].matchExpressions[0].values[0] = env(AWX_NODE_AFINITY))' awx/k8s/pv/pv-awx-projects.yaml | kubectl apply -f -
+----
+
+=== AWX
+
+References:
+
+* https://github.com/ansible/awx-operator
+* https://github.com/ansible/awx/blob/devel/INSTALL.md
+
+Deploy using the `kustomize` script.
+
+Run the following command to create the resources.
+
+[source,bash]
+----
+$ kustomize build awx/k8s/kustomize/ | kubectl apply -f -
+----
+
+The result should be something like.
+
+[source]
+----
+namespace/awx created
+customresourcedefinition.apiextensions.k8s.io/awxbackups.awx.ansible.com created
+customresourcedefinition.apiextensions.k8s.io/awxrestores.awx.ansible.com created
+customresourcedefinition.apiextensions.k8s.io/awxs.awx.ansible.com created
+serviceaccount/awx-operator-controller-manager created
+role.rbac.authorization.k8s.io/awx-operator-awx-manager-role created
+role.rbac.authorization.k8s.io/awx-operator-leader-election-role created
+clusterrole.rbac.authorization.k8s.io/awx-operator-metrics-reader created
+clusterrole.rbac.authorization.k8s.io/awx-operator-proxy-role created
+rolebinding.rbac.authorization.k8s.io/awx-operator-awx-manager-rolebinding created
+rolebinding.rbac.authorization.k8s.io/awx-operator-leader-election-rolebinding created
+clusterrolebinding.rbac.authorization.k8s.io/awx-operator-proxy-rolebinding created
+configmap/awx-operator-awx-manager-config created
+service/awx-operator-controller-manager-metrics-service created
+deployment.apps/awx-operator-controller-manager created
+error: unable to recognize "STDIN": no matches for kind "AWX" in version "awx.ansible.com/v1beta1"
+----
+
+[NOTE]
+====
+The statement has to be executed again and the `error: unable to recognize "STDIN": no matches for kind "AWX" in version "awx.ansible.com/v1beta1"` will be replaced by the `awx.awx.ansible.com/awx created` message.
+====
+
+Get information on the created resources.
+
+[source,bash]
+----
+$ kubectl -n awx get pods 
+
+NAME                                               READY   STATUS    RESTARTS   AGE
+awx-operator-controller-manager-7758c4f45c-zc262   2/2     Running   0          13s
+----
+
+[NOTE]
+====
+
+The service port is defined in the link:kustomize/awx.yaml[AWX Spec File].
+
+[source,yaml]
+----
+include::kustomize/awx.yaml[tag=serviceDefinition]
+----
+====
+
+=== Get `admin` password
+
+[source,bash]
+----
+$ kubectl -n awx get secret
+NAME                                 TYPE                  DATA   AGE
+awx-admin-password                   Opaque                1      70s
+...
+----
+
+
+[source,bash]
+----
+$ kubectl -n awx get secret/awx-admin-password -o jsonpath="{.data.password}" | base64 --decode
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx$
+----
+
+=== Ingress Controller
+
+.AWX Ingress Variables
+[%header, cols="1m, 2m, 4"]
+|===
+
+| Var Name
+| Sample Value
+| Description
+
+| AWX_HOST_NAME
+| localhost.localdomain
+| Hostname for the ingress controller
+
+|===
+
+[source,bash]
+----
+$ export AWX_HOST_NAME=localhost.localdomain
+$ yq '.spec.rules[0].host = env(AWX_HOST_NAME)' awx/k8s/ingress/ingress.yaml | kubectl apply -f -
+----
+
+After this deployment the DNS for the `AWX_HOST_NAME` should point to the IP address assigned to the LoadBalancer service for the Ingress controller.
+
+[source.bash]
+----
+$ kubectl -n ingress-nginx get svc -o jsonpath='{ .items[?(@.spec.type=="LoadBalancer")].status.loadBalancer.ingress[0].ip }'
+192.168.10.22
+----
+
+=== Get admin password
+
+To obtain the password associated to the default admin user use the following command.
+
+[source,bash]
+----
+$ kubectl -n awx get secret awx-admin-password -o jsonpath='{.data.password}' | base64 --decode
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+----
+
+== Uninstall
+
+Uninstall AWX.
+
+[source,bash]
+----
+$ kustomize build awx/k8s/kustomize/ | kubectl delete -f -
+
+namespace "awx" deleted
+customresourcedefinition.apiextensions.k8s.io "awxbackups.awx.ansible.com" deleted
+customresourcedefinition.apiextensions.k8s.io "awxrestores.awx.ansible.com" deleted
+customresourcedefinition.apiextensions.k8s.io "awxs.awx.ansible.com" deleted
+serviceaccount "awx-operator-controller-manager" deleted
+role.rbac.authorization.k8s.io "awx-operator-awx-manager-role" deleted
+role.rbac.authorization.k8s.io "awx-operator-leader-election-role" deleted
+clusterrole.rbac.authorization.k8s.io "awx-operator-metrics-reader" deleted
+clusterrole.rbac.authorization.k8s.io "awx-operator-proxy-role" deleted
+rolebinding.rbac.authorization.k8s.io "awx-operator-awx-manager-rolebinding" deleted
+rolebinding.rbac.authorization.k8s.io "awx-operator-leader-election-rolebinding" deleted
+clusterrolebinding.rbac.authorization.k8s.io "awx-operator-proxy-rolebinding" deleted
+configmap "awx-operator-awx-manager-config" deleted
+service "awx-operator-controller-manager-metrics-service" deleted
+deployment.apps "awx-operator-controller-manager" deleted
+----
+
+Remove PV.
+
+[source,bash]
+----
+$ kubectl delete -f awx/k8s/pv/pv-awx-db.yaml
+$ kubectl delete -f awx/k8s/pv/pv-awx-projects.yaml
+----

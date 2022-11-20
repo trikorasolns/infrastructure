@@ -1,0 +1,49 @@
+= Troubleshoting
+:author: A. Costa
+:description: AWX administration.
+:email: <a.costa@trikorasolutions.com>
+:icons: font
+:toc: left
+:toclevels: 1
+:toc-title: Table of Contents
+
+== AWX web first installation stuck on `wait-for-migrations`
+
+=== Problem
+
+AWX web is stuck on `wait-for-migrations`
+
+[source]
+----
+[wait-for-migrations] Waiting for database migrations...
+[wait-for-migrations] Attempt 1 of 30
+[wait-for-migrations] Waiting 0.5 seconds before next attempt
+[wait-for-migrations] Attempt 2 of 30
+[wait-for-migrations] Waiting 1 seconds before next attempt
+[wait-for-migrations] Attempt 3 of 30
+[wait-for-migrations] Waiting 2 seconds before next attempt
+...
+----
+
+=== Cause
+
+ATTOW the cause is not certain, it might be one of 2 causes.
+
+*Possible cause 1*: An existing database is found, probably a corrupt installation that might not have finished.
+
+*Possible cause 2*: Application startup is locked.
+
+=== Solution
+
+*Solution 1* 
+
+Cleanup the database storage contents as a previous installation might be corrupt
+
+*Solution 2* 
+
+Execute `awx-manage migrate --noinput` on the AWX Web container to unblock the installation process.
+
+[source,bash]
+----
+$ kubectl exec -n awx -it pod/awx-b76cd6f5-2kpfr -c awx-web  -- awx-manage migrate --noinput
+----

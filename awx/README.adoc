@@ -1,0 +1,14 @@
+= AWX
+:description: AWX
+:icons: font
+:toc: left
+:toclevels: 3
+:toc-title: Table of Contents
+
+This document describes the AWX installation and administration process.
+
+:leveloffset: +1
+
+include::k8s/README.adoc[]
+
+:leveloffset: -1

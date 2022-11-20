@@ -1,0 +1,31 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: awx-db-pv
+  labels:
+    app.kubernetes.io/name: awx-db-pv
+    app.kubernetes.io/instance: awx
+    app.kubernetes.io/version: "1.0.0"
+    app.kubernetes.io/component: pv
+    app.kubernetes.io/part-of: awx
+spec:
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    namespace: awx
+    name: postgres-13-awx-postgres-13-0
+  capacity:
+    storage: 20Gi
+  local:
+    path: "TO_BE_DEFINED"
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - localhost.localdomain
