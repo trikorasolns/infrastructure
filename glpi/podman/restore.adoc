@@ -1,0 +1,183 @@
+= GLPI Restore
+:author:    A. Costa
+:email:     <a dot costa at trikorasolutions dot com>
+// :Date:      20210222
+:Revision:  1
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: This section describes the restore instructions for GLPI.
+
+:toc:
+
+== Preparation
+
+Define backup environment variables.
+
+Set the root location of the backup folder.
+
+[source,bash]
+----
+$ BACKUP_ROOT_FOLDER=/z/_backup
+----
+
+== Restore
+
+WARNING: TODO
+
+Set database dump file to be restored.
+
+[source,bash]
+----
+$ GLPI_DUMP_PREFIX=20221028T151221.glpi.backup
+$ GLPI_MYSQL_DUMP_FILENAME=${GLPI_DUMP_PREFIX}.sql
+----
+
+Set the glpi container name variable.
+
+[source,bash]
+----
+$ GLPI_CONTAINER_NAME=glpi-web
+----
+
+Stop the GLPI container.
+
+[source,bash]
+----
+$ podman container stop ${GLPI_CONTAINER_NAME}
+----
+
+Copy the sql file to the `glpi_mariadb` container.
+
+[source,bash]
+----
+$ podman cp ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME} glpi-db:/tmp/${GLPI_MYSQL_DUMP_FILENAME}
+----
+
+Connect to the database container.
+
+[NOTE]
+====
+The `GLPI_MYSQL_DUMP_FILENAME` environment variable is passed so the mariadb dump is easily referenced.
+====
+
+[source,bash]
+----
+$ podman exec -it --env GLPI_MYSQL_DUMP_FILENAME=${GLPI_MYSQL_DUMP_FILENAME} glpi-db /bin/bash
+----
+
+Import the database.
+
+[source,bash]
+----
+#$ podman exec -it glpi_mariadb mysql -u root -p admin123 glpi < ${GLPI_MYSQL_DUMP_FILENAME}
+root@glpi:/# mysql -u root -p  glpi < /tmp/${GLPI_MYSQL_DUMP_FILENAME}
+Enter password: 
+----
+
+Exit the database container after the restore is finished.
+
+Copy the `files` and `plugins` `tar.gz` compressed folders to the glpi web container.
+
+[source,bash]
+----
+$ podman cp ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_DUMP_PREFIX}.files.tgz ${GLPI_CONTAINER_NAME}:/tmp/files.tgz
+$ podman cp ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_DUMP_PREFIX}.plugins.tgz ${GLPI_CONTAINER_NAME}:/tmp/plugins.tgz
+$ podman cp ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_DUMP_PREFIX}.config.tgz ${GLPI_CONTAINER_NAME}:/tmp/config.tgz
+----
+
+Che
+
+Open a bash to the pod.
+
+[source,bash]
+----
+$ podman exec -it ${GLPI_CONTAINER_NAME} /bin/bash
+[root@glpi html]#
+----
+
+Start the GLPI Web container.
+
+[source,bash]
+----
+$ podman container start ${GLPI_CONTAINER_NAME}
+----
+
+Extract the files to the corresponding folder.
+
+[source,bash]
+----
+$ podman exec -it ${GLPI_CONTAINER_NAME} tar -xzv -C / -f /tmp/files.tgz
+$ podman exec -it ${GLPI_CONTAINER_NAME} tar -xzv -C / -f /tmp/plugins.tgz
+----
+
+
+[source,bash]
+----
+$ cd /tmp
+$ tar -xzv -C / -f files.tgz
+$ tar -xzv -C / -f plugins.tgz
+----
+
+== Post tasks
+
+
+
+
+== Restore
+
+WARNING: TODO
+
+Set database dump file to be restores.
+
+[source,bash]
+----
+$ GLPI_DUMP_PREFIX=2021-06-13-00-09-16.glpi.backup
+$ GLPI_MYSQL_DUMP_FILENAME=${GLPI_DUMP_PREFIX}.sql
+----
+
+Import the database.
+
+[source,bash]
+----
+$ kubectl -n glpi exec -it glpi-mariadb-0 -- mysql -u root glpi < ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_DUMP_PREFIX}.sql
+----
+
+The result is the following:
+
+[source,bash]
+----
+Unable to use a TTY - input is not a terminal or the right kind of file
+
+$ 
+----
+
+TIP: Just ignore the `Unable to use a TTY - input is not a terminal or the right kind of file`
+message.
+
+
+Copy the `files` and `plugins` `tar.gz` compressed folders to the pod.
+
+[source,bash]
+----
+$ kubectl -n glpi cp ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_DUMP_PREFIX}.files.tgz ${POD_NAME}:/tmp/files.tgz
+$ kubectl -n glpi cp ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_DUMP_PREFIX}.plugins.tgz ${POD_NAME}:/tmp/plugins.tgz
+$ kubectl -n glpi cp ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_DUMP_PREFIX}.config.tgz ${POD_NAME}:/tmp/config.tgz
+----
+
+Open a bash to the pod.
+
+[source,bash]
+----
+$ kubectl -n glpi exec -it ${POD_NAME} -- /bin/bash
+[root@glpi-75c9d9c9dd-whzr8 html]#
+----
+
+Extract the files to the corresponding folder.
+
+[source,bash]
+----
+$ cd /tmp
+$ tar -xzv -C / -f files.tgz
+$ tar -xzv -C / -f plugins.tgz
+----

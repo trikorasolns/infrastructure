@@ -1,0 +1,55 @@
+---
+- name: "Install Pre install PostgreSQL"
+  hosts: "{{ k8s_host }}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+    - name: "Validate variables"
+      assert:
+        that:
+          - "k8s.pv_root_folder is defined"
+        fail_msg: "Root folder for k8s PV must be defined"
+        success_msg: "PV root folder is {{ k8s.pv_root_folder }}"
+
+    - name: "Set gitlab version"
+      ansible.builtin.set_fact:
+        gitlab_version: "15.4.0"
+        when: gitlab_version is undefined
+
+    - name: "Set facts"
+      ansible.builtin.set_fact:
+        PV_ROOT_FOLDER: "{{ k8s.pv_root_folder }}"
+
+  tasks:
+
+    - name: "Create GitLab root PV folder"
+      file:
+        path: "{{ k8s.pv_root_folder }}/gitlab"
+        state: directory
+        mode: 0777
+        owner: "{{ansible_user}}"
+        group: "{{ansible_user}}"
+      become: true
+
+    - name: "Create GitLab k8s namespace"
+      kubernetes.core.k8s:
+        name: gitlab
+        api_version: v1
+        kind: Namespace
+        state: present
+
+    # Patch existing namespace : add label
+    - name: "Add labels to GitLab namespace"
+      kubernetes.core.k8s:
+        state: patched
+        kind: Namespace
+        name: gitlab
+        definition:
+          metadata:
+            labels:
+              app.kubernetes.io/name: gitlab
+              app.kubernetes.io/version: "{{ gitlab_version }}"
+
+- import_playbook: playbook-pgsql-prepare.yaml
+- import_playbook: playbook-gitlab-prepare.yaml
+...

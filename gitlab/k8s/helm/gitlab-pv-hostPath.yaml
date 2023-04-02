@@ -1,0 +1,96 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: gitlab-gitlab-var-opt-local
+  labels:
+    app.kubernetes.io/name: gitlab
+    app.kubernetes.io/instance: gitlab-gitlab
+    app.kubernetes.io/version: "13.7.1"
+    app.kubernetes.io/component: scm
+    app.kubernetes.io/part-of: gitlab
+spec:
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    namespace: gitlab
+    name: gitlab-var-opt-local-pvc
+  capacity:
+    storage: 20Gi
+  hostPath:
+    path: "/data/k8s/pv/gitlab/gitlab-var-opt"
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  # nodeAffinity:
+  #   required:
+  #     nodeSelectorTerms:
+  #     - matchExpressions:
+  #       - key: kubernetes.io/hostname
+  #         operator: In
+  #         values:
+  #         - ${VM_NAME}.localdomain
+  #         - ${VM_NAME}.localdomain
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: gitlab-gitlab-var-log-local
+  labels:
+    app.kubernetes.io/name: gitlab
+    app.kubernetes.io/instance: gitlab-gitlab
+    app.kubernetes.io/version: "13.7.1"
+    app.kubernetes.io/component: scm
+    app.kubernetes.io/part-of: gitlab
+spec:
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    namespace: gitlab
+    name: gitlab-var-log-local-pvc
+  capacity:
+    storage: 5Gi
+  hostPath:
+    path: "/data/k8s/pv/gitlab/gitlab-var-log"
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  # nodeAffinity:
+  #   required:
+  #     nodeSelectorTerms:
+  #     - matchExpressions:
+  #       - key: kubernetes.io/hostname
+  #         operator: In
+  #         values:
+  #         - ${VM_NAME}.localdomain
+  #         - ${VM_NAME}.localdomain
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: gitlab-gitlab-etc-local
+  labels:
+    app.kubernetes.io/name: gitlab
+    app.kubernetes.io/instance: gitlab-gitlab
+    app.kubernetes.io/version: "13.7.1"
+    app.kubernetes.io/component: scm
+    app.kubernetes.io/part-of: gitlab
+spec:
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    namespace: gitlab
+    name: gitlab-etc-local-pvc
+  capacity:
+    storage: 5Gi
+  hostPath:
+    path: "/data/k8s/pv/gitlab/gitlab-etc"
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  # nodeAffinity:
+  #   required:
+  #     nodeSelectorTerms:
+  #     - matchExpressions:
+  #       - key: kubernetes.io/hostname
+  #         operator: In
+  #         values:
+  #         - ${VM_NAME}.localdomain
+  #         - ${VM_NAME}.localdomain

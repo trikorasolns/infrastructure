@@ -1,0 +1,100 @@
+= Gitlab Upgrade Guide (Podman)
+:author:    A. Costa
+:email:     <a dot costa at trikorasolutions dot com>
+:docdate: date (ISO)
+:Revision:  1
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: This section describes the Gitlab upgrade steps.
+
+== Preparation 
+
+Check the environment variable values from the link:install.adoc[Installation guide].
+
+
+== Pre-upgrade and post-upgrade checks
+
+Check the general configuration.
+
+[source,bash]
+----
+$  gitlab-rake gitlab:check
+----
+
+Confirm that encrypted database values can be decrypted.
+
+[source,bash]
+----
+$ gitlab-rake gitlab:doctor:secrets
+----
+
+== Plan Uprade
+
+As of 2022/10/07: 13.7.1
+
+[source]
+----
+13.7.1 -> 13.8.8 -> 13.12.15 -> 14.0.12 -> 14.3.6 -> 14.9.5 -> 14.10.Z -> 15.0.Z -> 15.4.0 -> latest 15.Y.Z
+                                                            -> 14.10.5 -> 15.0.2 -> 15.1.0
+----
+
+== Upgrade Steps
+
+Stop the running pod.
+
+
+.Stop pod with Podman command
+[source,bash]
+----
+$ podman pod stop ${GITLAB_POD_NAME}
+----
+
+.Stop pod with systemd (if service is created)
+[source,bash]
+----
+$ systemctl --user stop pod-gitlab.service
+----
+
+Remove the existing container.
+
+[source,bash]
+----
+$ podman container rm ${GITLAB_CONTAINER_NAME}
+----
+
+Pull the new image. For example, the latest GitLab image.
+
+[source,bash]
+----
+for GITLAB_VERSION in {'13.8.8','13.9.2','14.1.8','13.12.15','14.0.12','14.1.8','14.3.6','14.6.2','14.9.5','14.10.5','15.0.2','15.1.0'} 
+do
+    podman pull gitlab/gitlab-ee:${GITLAB_VERSION}-ee.0
+done
+----
+
+Create the container once again with the instructions specified on the link:install.adoc#deploy_gitlab_podman[Installation Guide]
+
+[source,bash]
+----
+$ podman run -d --name ${GITLAB_CONTAINER_NAME} --pod gitlab \
+  --restart always \
+  --volume ${GITLAB_HOME}/config:/etc/gitlab:Z \
+  --volume ${GITLAB_HOME}/logs:/var/log/gitlab:Z \
+  --volume ${GITLAB_HOME}/data:/var/opt/gitlab:Z \
+  --shm-size 256m \
+  --label "name=gitlab,component=scm,part-of=gitlab" \
+  gitlab/gitlab-ee:13.7.1-ee.0
+----
+
+
+== Migration
+
+Copy the backup tar file to the `var/opt/gitlab/backups/` folder.
+
+== Reference
+
+* Upgrade Path: https://docs.gitlab.com/ee/update/index.html#upgrade-paths
+* Upgrade Steps: https://docs.gitlab.com/ee/install/docker.html#upgrade
+* https://docs.gitlab.com/ee/update/plan_your_upgrade.html
+

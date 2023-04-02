@@ -1,0 +1,16 @@
+persistence:
+  enabled: true
+  storageClass: standard
+  accessMode: ReadWriteOnce
+  size: 50Gi
+  matchLabels: {}
+  matchExpressions: []
+  subPath: "/data"
+  annotations: {}
+
+global.gitaly.tls.enabled: false
+# global.gitaly.tls.secretName: ''
+
+# global.gitaly.hooks.preReceive.configmap
+# global.gitaly.hooks.postReceive.configmap
+# global.gitaly.hooks.update.configmap

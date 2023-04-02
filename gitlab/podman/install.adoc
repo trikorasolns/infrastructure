@@ -1,0 +1,271 @@
+= Gitlab Podman Deployment Guide
+:author:    A. Costa
+:email:     <a dot costa at trikorasolutions dot com>
+:Date:      20220502
+:Revision:  1
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: This document describes the GitLab installation process over Podman.
+
+== Preparation 
+
+=== Environment variables.
+
+.Production
+[source,bash]
+----
+include::config/env-pro.properties[]
+----
+
+.Development
+[source,bash]
+----
+include::config/env-dev.properties[]
+----
+
+[CAUTION]
+====
+The currently implemented GitLab version is `13.7.1-ee`.
+====
+
+=== GitLab User
+
+GitLab host mounted volumes for data persistence.
+
+.GitLab host volumes
+[%header, cols="1m, 1m, 3"]
+|===
+
+| Local location
+| Container location
+| Usage
+
+| $GITLAB_HOME/data	
+| /var/opt/gitlab	
+| For storing application data.
+
+| $GITLAB_HOME/logs	
+| /var/log/gitlab
+| For storing logs.
+
+| $GITLAB_HOME/config	
+| /etc/gitlab	
+| For storing the GitLab configuration files.
+
+|===
+
+The `GITLAB_HOME` environment variable will hold the GitLab volume root folder.
+
+Create the `GITLAB_HOME` folder.
+
+[source,bash]
+----
+sudo mkdir -p ${GITLAB_HOME}
+----
+
+[source,bash]
+----
+sudo mkdir -p ${GITLAB_HOME}/data
+sudo mkdir -p ${GITLAB_HOME}/logs
+sudo mkdir -p ${GITLAB_HOME}/config
+----
+
+Assign the correct `user:group` (TBD).
+
+[source,bash]
+----
+$ sudo chown gitlab:gitlab -R ${GITLAB_HOME}
+----
+
+Create the podman volumes that will store the database and odoo web application data.
+
+[source,bash]
+----
+podman volume create gitlab_data --label "name=${GITLAB_POD_NAME}_data,component=pv,part-of=${GITLAB_POD_NAME}"
+podman volume create gitlab_config --label "name=${GITLAB_POD_NAME}_config,component=pv,part-of=${GITLAB_POD_NAME}"
+----
+
+== Installation
+
+=== Ansible
+
+[source,bash]
+----
+$ ansible-playbook ansible-playbooks/devops/gitlab/gitlab-deploy.yaml -i ansible-inventory/inventory  --limit localhost -K
+----
+
+=== Podman Play Kube
+
+1. Create Secret
+1. Create ConfigMap
+
+[source,bash]
+----
+$ podman secret create gitlab-dev-secret app/gitlab/podman/config/omnibus_config_dev.yaml |
+   --label "name=gitlab,component=secret" --label "part-of=gitlab_dev" --label "environment=development"
+----
+
+=== Podman
+
+Create gitlab POD.
+
+.GitLab port mapping
+[%header, cols="1m, 1m, 1"]
+|===
+
+| Local port
+| Container port
+| Usage
+
+| 9380
+| 80
+| HTTP
+
+| 9343
+| 443
+| HTTPS
+
+| 9322
+| 22
+| SSH
+
+|===
+
+[NOTE]
+====
+Port numbers are defined as environment variables.
+====
+
+[source,bash]
+----
+$ podman pod create --name ${GITLAB_POD_NAME} \
+  --hostname ${GITLAB_HOSTNAME} \
+  -p ${APP_HOST_HTTP_PORT}:80 -p ${APP_HOST_HTTPS_PORT}:443 -p ${APP_HOST_SSH_PORT}:22 --label "name=${GITLAB_POD_NAME}" --label "environment=${APP_ENV}"
+----
+
+[[deploy_gitlab_podman]]Deploy the `gitlab` application... 
+
+[source,bash]
+----
+$ podman run -d --name ${GITLAB_CONTAINER_NAME} --pod ${GITLAB_POD_NAME} \
+  --restart always \
+  --volume ${GITLAB_HOME}/config:/etc/gitlab:Z \
+  --volume ${GITLAB_HOME}/logs:/var/log/gitlab:Z \
+  --volume ${GITLAB_HOME}/data:/var/opt/gitlab:Z \
+  --shm-size 256m \
+  --label "name=gitlab,component=scm" --label "part-of=${GITLAB_POD_NAME}" --label "environment=${APP_ENV}" \
+  gitlab/gitlab-ee:${GITLAB_CURRENT_VERSION}
+----
+
+Check the logs.
+
+[source,bash]
+----
+$ podman logs -f ${GITLAB_CONTAINER_NAME}
+----
+
+[CAUTION]
+====
+The server must be securet with a NGINX frontend. For testing purposes 
+the container ports will be opened on the server.
+====
+
+[source,bash]
+----
+$ sudo firewall-cmd --add-ports 9380/tcp --permanent
+$ sudo firewall-cmd --add-ports 9343/tcp --permanent
+$ sudo firewall-cmd --add-ports 9322/tcp --permanent
+----
+
+http://localhost.localdomain:9380/
+
+=== Install as service
+
+Create a user service for managing the `gitlab` pod.
+
+On the `$HOME/.config/systemd/user` folder and createthe systemd files.
+
+[source,bash]
+----
+$ cd $HOME/.config/systemd/user
+$ podman generate systemd --new --files --name ${GITLAB_POD_NAME}
+
+/home/gitlab/.config/systemd/user/pod-gitlab.service
+/home/gitlab/.config/systemd/user/container-gitlab_scm.service
+/home/gitlab/.config/systemd/user/container-gitlab-runner.service
+----
+
+[source,bash]
+----
+$ systemctl --user daemon-reload
+----
+
+Start the pod service and make sure the service is running
+
+[source,bash]
+----
+$ systemctl --user start pod-${GITLAB_POD_NAME}.service
+----
+
+[source,bash]
+----
+$ systemctl --user is-active pod-${GITLAB_POD_NAME}.service
+
+inactive
+----
+
+Check status
+
+[source,bash]
+----
+systemctl --user is-active pod-gitlab.service
+systemctl --user is-active container-gitlab_scm.service
+systemctl --user is-active container-gitlab-runner.service
+----
+
+Stop POD.
+
+[source,bash]
+----
+$ systemctl --user stop pod-gitlab.service
+----
+
+
+=== MTA
+
+https://gitlab.com/jebr/docker-postfix
+
+$ podman build -t docker-postfix:1.1 .
+
+=== SMTP
+
+
+
+== Uninstallation
+
+This is the procedure to delete GitLab.
+
+Delete the container.
+
+[source,bash]
+----
+$ podman pod stop ${GITLAB_POD_NAME} ; sleep 5 ; podman container rm ${GITLAB_CONTAINER_NAME}
+----
+
+Delete the PVs folders.
+
+[source,bash]
+----
+$ sudo rm -Rf ${GITLAB_HOME}
+----
+
+[source,bash]
+----
+$ podman pod rm ${GITLAB_POD_NAME}
+----
+
+
+== References
+
+  * https://docs.gitlab.com/ee/install/docker.html

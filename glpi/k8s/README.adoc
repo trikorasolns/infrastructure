@@ -1,0 +1,27 @@
+= GLPI for Kubernetes
+:Author:    Antonio Costa
+:Email:     a dot costa at trikorasolutions dot com
+:Date:      20210205
+:Revision:  1
+:table-caption: Table
+:toc: left
+:toc-title: Table of Contents
+:icons: font
+:description: GLPI on a kubernetes cluster documentation.
+:source-highlighter: highlight.js
+
+:leveloffset: +1
+
+include::install-helm.adoc[]
+
+include::backupNrestore.adoc[]
+
+include::upgrade.adoc[]
+
+include::phpmyadmin.adoc[]
+
+include::grafana.adoc[]
+
+include::install-kubectl.adoc[]
+
+:leveloffset: -1

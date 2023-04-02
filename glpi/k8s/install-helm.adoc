@@ -1,0 +1,203 @@
+= GLPI Deploy Guide (Helm)
+:author:    A. Costa
+:email:     <a dot costa at trikorasolutions dot com>
+:Date:      2022/05/02
+:Revision:  1
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: This section describes the GLPI deployment procedure.
+
+== Bare in mind
+
+This guide uses the https://github.com/trikorasolns/helm-charts[trikorasolns/helm-charts] repository helm charts.
+
+All commands assume the shell is connected to the correct k8s instance.
+
+[source,bash]
+----
+$ export KUBECONFIG=~/.kube/my-config-file
+----
+
+== Preparation 
+
+Install python requirements.
+
+[source,bash]
+----
+$ pip install -r glpi/k8s/ansible/requirements.txt
+----
+
+=== Create PV and folders
+
+The root folder for the PV is defined with the `PV_ROOT_FOLDER` environment variable.
+
+First connect to the k8s host and create the folders that will hold the PVs.
+
+[source,bash]
+----
+$ mkdir -p ${PV_ROOT_FOLDER}/glpi 
+$ pushd ${PV_ROOT_FOLDER}/glpi 
+$ mkdir {glpi-mariadb,glpi-glpi-files,glpi-glpi-plugins}
+$ popd
+----
+
+Set folder permissions.
+
+[source,bash]
+----
+$ chmod 777 -R ${PV_ROOT_FOLDER}/glpi/glpi-mariadb
+----
+
+Create the PVs.
+
+[NOTE]
+====
+Prior to applying the PV script check the contents of the `yaml ` file to make sure
+the routes are correct.
+====
+
+[source,bash]
+----
+$ jinja2 --format=yaml -DPV_ROOT_FOLDER=${PV_ROOT_FOLDER} glpi/k8s/helm/pv-glpi-hostPath.yaml | kubectl apply -f -
+$ jinja2 --format=yaml -DPV_ROOT_FOLDER=${PV_ROOT_FOLDER} glpi/k8s/helm/pv-mariadb-hostPath.yaml | kubectl apply -f -
+
+persistentvolume/glpi-mariadb-data created
+persistentvolume/glpi-glpi-files created
+persistentvolume/glpi-glpi-plugins created
+----
+
+=== Create GLPI file 
+
+On the `files` PV folder, create the required GLPI sub-folders...
+
+[source,bash]
+----
+$ pushd ${PV_ROOT_FOLDER}/glpi/glpi-glpi-files
+$ mkdir {_cache,_cron,_dumps,_graphs,_lock,_log,_pictures,_plugins,_rss,_sessions,_tmp,_uploads}
+----
+
+...and assign the correct `user:group`.
+
+[source,bash]
+----
+$ sudo chown 48:48 -R *
+----
+
+== Installation with Ansible
+
+[source,bash]
+----
+$ ansible-playbook glpi/k8s/ansible/install-helm.yaml  -e k8s_host=${K8S_HOST} -K
+----
+
+== Installation
+
+Create glpi namespace.
+
+[source,bash]
+----
+$ kubectl create namespace glpi
+$ kubectl label namespaces glpi app.kubernetes.io/name=glpi
+$ kubectl label namespaces glpi app.kubernetes.io/version=9.5.6
+----
+
+=== Deploy the mariadb database
+
+Deploy the `mariadb` database using the `trikorasolns/mariadb` helm chart.
+
+[source,bash]
+----
+$ jinja2 --format=yaml -DPV_ROOT_FOLDER=${PV_ROOT_FOLDER} glpi/k8s/helm/pv-glpi-hostPath.yaml > /tmp/pv-glpi-hostPath.yaml
+$ kubectl apply -f /tmp/pv-glpi-hostPath.yaml
+----
+
+[source,bash]
+----
+$ jinja2 --format=yaml -DDB_PASSWORD=${DB_PASSWORD} -DDB_ROOT_PASSWORD=${DB_ROOT_PASSWORD} glpi/k8s/helm/helm-mariadb-values.yaml > /tmp/helm-mariadb-values.yaml
+$ helm install --namespace glpi -f /tmp/helm-mariadb-values.yaml mariadb mariadb
+----
+
+Deploy phpMyAdmin
+
+References:
+
+* https://www.phpmyadmin.net/
+
+[source,bash]
+----
+$ helm install --namespace glpi phpmyadmin phpmyadmin
+----
+
+=== Deploy GLPI
+
+Deploy the `glpi` application using the `trikorasolns/glpi` helm chart.
+
+[source,bash]
+----
+$ jinja2 --format=yaml -DGLPI_URL=${GLPI_URL} glpi/k8s/helm/helm-glpi-values.yaml > /tmp/helm-glpi-values.yaml
+$ helm install --namespace glpi -f /tmp/helm-glpi-values.yaml glpi glpi
+----
+
+Follow the instructions to obtain the pod name.
+
+[source,bash]
+----
+$ POD_NAME=$(kubectl get pods --namespace glpi -l "app.kubernetes.io/name=glpi,app.kubernetes.io/instance=glpi" -o jsonpath="{.items[0].metadata.name}")
+----
+
+Install GLPI.
+
+[source,bash]
+----
+$ kubectl -n glpi exec -it ${POD_NAME} -- php bin/console glpi:database:install
+
+PHP Warning:  Table glpi_configs does not exists in /var/www/html/inc/dbmysql.class.php on line 1010
+PHP Warning:  Table glpi_configs does not exists in /var/www/html/inc/dbmysql.class.php on line 1010
++---------------+--------------------------------+
+| Database host | mariadb.glpi.svc.cluster.local |
+| Database name | glpi                           |
+| Database user | glpi                           |
++---------------+--------------------------------+
+Do you want to continue ? [Yes/no]
+----
+
+=== Update GLPI
+
+To make configuration changes update the corresponding files and redeploy with `helm upgrade`.
+
+[source,bash]
+----
+$ helm upgrade --namespace glpi -f glpi/helm/values.yaml glpi glpi
+----
+
+
+== Uninstallation
+
+This is the procedure to delete GLPI.
+
+Delete the mariadb database.
+
+[source,bash]
+----
+helm uninstall --namespace glpi mariadb mariadb
+----
+
+Finally delete the PVs...
+
+[source,bash]
+----
+$ kubectl -n glpi delete -f glpi/helm/glpi-pv-hostPath.yaml
+warning: deleting cluster-scoped resources, not scoped to the provided namespace
+persistentvolume "glpi-mariadb-data" deleted
+persistentvolume "glpi-glpi-files" deleted
+persistentvolume "glpi-glpi-plugins" deleted
+----
+
+...and it's folders.
+
+[source,bash]
+----
+$ cd /data/k8s/pv
+$ sudo rm -Rf {glpi-mariadb,glpi-glpi-files,glpi-glpi-plugins}
+----

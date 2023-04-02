@@ -1,0 +1,10 @@
+[[runners]]
+  name = "podman-test-runner-2022-10-26"
+  url = "http://gitlab.dev.localdomain:9380/"
+  token = "1frcHkTAysphF1e1TKQT"
+  executor = "docker"
+  [runners.docker]
+    host = "/run/user/1000/podman/podman.sock"
+    tls_verify = false
+    image = "quay.io/podman/stable"
+    privileged = true

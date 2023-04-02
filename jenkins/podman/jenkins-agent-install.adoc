@@ -1,0 +1,66 @@
+= Jenkins Podman Deployment Guide
+:author:    A. Costa
+:email:     <a dot costa at trikorasolutions dot com>
+:Date:      2022/05/02
+:Revision:  1
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: AWX installation procedure with Podman.
+
+== Bare in mind
+
+This guide uses the https://hub.docker.com/r/fametec/glpi[fametec/glpi] docker containers.
+
+== Preparation 
+
+=== Environment variables.
+
+
+== PV
+
+
+== Installation
+
+Create agent of type `Launch agent by connecting it to the controller`. 
+
+=== Docker Inbound Agent
+
+References:
+
+* https://github.com/jenkinsci/docker-inbound-agent/
+
+[source,bash]
+----
+$ podman run --pod jenkins-dev --init docker.io/jenkins/inbound-agent -url http://jenkins-dev-jenkins-master:8080 007 agent-1
+----
+
+.Work Directory
+[source,bash]
+----
+$ podman run --pod jenkins-dev --name jenkins-dev-agent-1 -d --init docker.io/jenkins/inbound-agent -url http://jenkins-dev-jenkins-master:8080 -workDir=/home/jenkins/agent 4724ab77e2091c54ebc06bdfb55b40e6dc13a21b3c31d6464b96d9400e06b2aa agent-1
+$ podman run --pod jenkins-dev --init docker.io/jenkins/inbound-agent -url http://jenkins-dev-jenkins-master:8080 007 agent-1
+----
+
+
+
+=== Launch agent via execution of command on the master.
+
+
+
+[source,bash]
+----
+$ podman run --pod jenkins-dev -i --rm --name agent --init docker.io/jenkins/agent java -jar /usr/share/jenkins/agent.jar
+----
+
+== References
+
+* https://hub.docker.com/r/jenkins/agent/
+
+* https://devopscube.com/jenkins-architecture-explained/
+* https://devopscube.com/docker-containers-as-build-slaves-jenkins/
+* https://devopscube.com/jenkins-build-agents-kubernetes/
+
+Older versions:
+
+* https://hub.docker.com/r/ansible/awx

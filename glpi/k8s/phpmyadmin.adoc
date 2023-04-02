@@ -1,0 +1,97 @@
+= phpMyAdmin Kubernetes Deployment Guide
+Optional Author Name <optional@author.email>
+Optional version, optional date
+:Author:    AlternativeWayToSetOptional Author Name
+:Email:     <AlternativeWayToSetOptional@author.email>
+:Date:      20220109
+:Revision:  1
+:table-caption: Table
+:toc:left
+:toc-title: Table of Contents
+:icons: font
+:description: Instructions on deploying GLPI on a kubernetes cluster.
+:source-highlighter: highlight.js
+
+== phpMyAdmin
+
+== Helm
+
+.Environment variables
+[cols="1m,3"]  
+|===
+| PHPMYADMIN_URL
+| URL for entering phpMyAdmin
+
+|===
+
+Export the environment variables.
+
+[source,bash]
+----
+$ export PHPMYADMIN_URL=???
+----
+
+Build the template.
+
+[source,bash]
+----
+$ jinja2 --format=yaml -DPHPMYADMIN_URL=${PHPMYADMIN_URL} glpi/k8s/helm/helm-phpmyadmin-values.yaml > /tmp/helm-phpmyadmin-values.yaml
+----
+
+[source,bash]
+----
+$ helm upgrade --install --namespace glpi -f /tmp/helm-phpmyadmin-values.yaml phpmyadmin phpmyadmin
+----
+
+To recover the `root` password check the `phpmyadmin` secret.
+
+[source,bash]
+----
+$ kubectl -n glpi get secret phpmyadmin
+NAME         TYPE     DATA   AGE
+phpmyadmin   Opaque   1      6d18h
+[glpi@localdomain helm-charts]$ kubectl -n glpi describe secret  phpmyadmin
+Name:         phpmyadmin
+Namespace:    glpi
+Labels:       app.kubernetes.io/instance=phpmyadmin
+              app.kubernetes.io/managed-by=Helm
+              app.kubernetes.io/name=phpmyadmin
+              app.kubernetes.io/version=1.16.0
+              helm.sh/chart=phpmyadmin-0.1.0
+Annotations:  meta.helm.sh/release-name: phpmyadmin
+              meta.helm.sh/release-namespace: glpi
+
+Type:  Opaque
+
+Data
+====
+root-password:  8 bytes
+----
+
+[source,bash]
+----
+$ kubectl -n glpi get secret phpmyadmin -o jsonpath="{.root-password}" | base64 --decode
+----
+
+== kubectl
+[source,bash]
+----
+$ kubectl delete -f phpmyadmin/40-phpmyadmin-ingress.yaml
+$ kubectl delete -f phpmyadmin/30-phpmyadmin-service.yaml
+$ kubectl delete -f phpmyadmin/20-phpmyadmin-deployment.yaml
+$ kubectl delete -f phpmyadmin/10-phpmyadmin-configmap.yaml
+$ kubectl delete -f phpmyadmin/05-phpmyadmin-secret.yaml
+
+$ kubectl create -f glpi/phpmyadmin/05-phpmyadmin-secret.yaml
+$ kubectl create -f glpi/phpmyadmin/10-phpmyadmin-configmap.yaml
+$ kubectl create -f glpi/phpmyadmin/20-phpmyadmin-deployment.yaml
+$ kubectl create -f glpi/phpmyadmin/30-phpmyadmin-service.yaml
+$ kubectl create -f glpi/phpmyadmin/40-phpmyadmin-ingress.yaml
+----
+
+== Connect
+
+http://phpmyadmin-glpi.${VM_NAME}.localdomain/
+
+User: glpi
+Password: _check secret_

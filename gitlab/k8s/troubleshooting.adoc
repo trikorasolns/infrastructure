@@ -1,0 +1,33 @@
+= Gitlab Troubleshooting Guide
+:author:    A. Costa
+:email:     <a dot costa at trikorasolutions dot com>
+// :Date:      20210222
+:Revision:  1
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: This document describes the k8s installation process for GitLab
+
+== Restart postgresql
+
+[source,bash]
+----
+$ kubectl -n gitlab rollout restart statefulset gitlab-postgres
+statefulset.apps/gitlab-postgres restarted
+----
+
+== login to postgresql pod
+
+[source,bash]
+----
+$ kubectl -n gitlab exec -it gitlab-postgres-0 /bin/bash
+----
+
+== ERROR:  unexpected data beyond EOF - HINT:  This has been seen to occur with buggy kernels; consider updating your system.
+
+ERROR:  unexpected data beyond EOF in block 120 of relation base/16384/2673
+HINT:  This has been seen to occur with buggy kernels; consider updating your system.
+
+* https://stackoverflow.com/questions/33649192/how-do-i-set-ulimit-for-containers-in-kubernetes
+* https://duckduckgo.com/?t=ffab&q=kubernetes+ulimit&ia=web
+* https://duckduckgo.com/?t=ffab&q=%22%2Fopt%2Fgitlab%2Fembedded%2Fbin%2Frunsvdir-start%22+line+37%3A+%2Fproc%2Fsys%2Ffs%2Ffile-max%3A+Read-only+file+system&ia=web

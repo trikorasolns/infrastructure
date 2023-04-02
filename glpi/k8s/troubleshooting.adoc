@@ -1,0 +1,257 @@
+= GLPI Troubleshooting
+:author:    A. Costa
+:email:     <a dot costa at trikorasolutions dot com>
+// :Date:      20210222
+:Revision:  1
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: This section describes some troubleshooting for GLPI.
+
+:toc:
+
+== Pod in CrashLoopBackOff state
+
+*Problem*
+
+*Symptoms*
+Getl all objects on namespace.
+
+.Get all objects in namespace
+[source,bash]
+----
+$ kubectl -n glpi get all
+NAME                                         READY   STATUS             RESTARTS   AGE
+pod/glpi-75f944445c-ncjss                    1/1     Running            1          41d
+pod/glpi-mariadb-0                           0/1     CrashLoopBackOff   739        41d
+pod/phpmyadmin-deployment-74fc9dd457-dljld   1/1     Running            1          44d
+
+NAME                         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+service/glpi-service         ClusterIP   10.102.53.170    <none>        80/TCP           41d
+service/mariadb              NodePort    10.107.14.104    <none>        3306:31538/TCP   41d
+service/phpmyadmin-service   NodePort    10.110.199.207   <none>        80:30100/TCP     44d
+
+NAME                                    READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/glpi                    1/1     1            1           41d
+deployment.apps/phpmyadmin-deployment   1/1     1            1           44d
+
+NAME                                               DESIRED   CURRENT   READY   AGE
+replicaset.apps/glpi-75f944445c                    1         1         1       41d
+replicaset.apps/phpmyadmin-deployment-74fc9dd457   1         1         1       44d
+
+NAME                            READY   AGE
+statefulset.apps/glpi-mariadb   0/1     41d
+----
+
+Check the folders for the pod PV.
+
+
+Check the gluster volume status.
+
+[source,bash]
+----
+# gluster volume status gv0
+Status of volume: gv0
+Gluster process                             TCP Port  RDMA Port  Online  Pid
+------------------------------------------------------------------------------
+Brick vms07.localdomain:/data/glus
+ter/brick1/gv0                              49153     0          Y       3420 
+Brick nas.localdomain:/data/glu
+ster/brick1/gv0                             N/A       N/A        N       N/A  
+Self-heal Daemon on localhost               N/A       N/A        Y       1101 
+Self-heal Daemon on 192.168.1.76            N/A       N/A        Y       1096 
+ 
+Task Status of Volume gv0
+------------------------------------------------------------------------------
+There are no active volume tasks
+----
+
+
+*Problem*
+
+The gluster volume is not _Online_.
+
+[source,]
+----
+Brick nas.localdomain:/data/glu
+ster/brick1/gv0                             N/A       N/A        N       N/A  
+----
+
+*Solution*
+
+Start the gluster volume on the running server.
+
+[source,bash]
+----
+# gluster volume start gv0 force
+volume start: gv0: success
+----
+
+Check that the volume is now _Online_.
+
+[source,bash]
+----
+# gluster volume status gv0
+Status of volume: gv0
+Gluster process                             TCP Port  RDMA Port  Online  Pid
+------------------------------------------------------------------------------
+Brick vms07.localdomain:/data/glus
+ter/brick1/gv0                              49153     0          Y       3420 
+Brick nas.localdomain:/data/glu
+ster/brick1/gv0                             49153     0          Y       1792 
+Self-heal Daemon on localhost               N/A       N/A        Y       1096 
+Self-heal Daemon on nas.localdomain                                  N/A       N/A        Y       1101 
+ 
+Task Status of Volume gv0
+------------------------------------------------------------------------------
+There are no active volume tasks
+
+----
+
+Restart pod.
+
+[source,bash]
+----
+$ kubectl -n glpi rollout restart deployment glpi
+----
+
+[source,bash]
+----
+$ kubectl -n glpi get pods
+NAME                                     READY   STATUS    RESTARTS   AGE
+glpi-747f9f7cc9-vm5qm                    1/1     Running   0          102s
+glpi-mariadb-0                           1/1     Running   743        42d
+phpmyadmin-deployment-74fc9dd457-dljld   1/1     Running   1          44d
+----
+
+=== Access the GLPI console
+
+==== Problem
+
+How to access the GLPI console
+
+==== Cause
+
+N/A
+
+==== Solution
+
+Execute the the `php bin/console` command in the `/var/www/html` folder.
+
+[source, shell script]
+----
+$ kubectl -n glpi exec -it glpi-5847c6b6b-scv8b --  /bin/bash
+[root@glpi-5847c6b6b-scv8b html]# cd /var/www/html
+[root@glpi-5847c6b6b-scv8b html]# php bin/console
+GLPI CLI 9.5.3
+
+Usage:
+  command [options] [arguments]
+
+Options:
+  -h, --help                     Display this help message
+  -q, --quiet                    Do not output any message
+  -V, --version                  Display this application version
+      --ansi                     Force ANSI output
+      --no-ansi                  Disable ANSI output
+  -n, --no-interaction           Do not ask any interactive question
+      --config-dir[=CONFIG-DIR]  Configuration directory to use
+      --no-plugins               Disable GLPI plugins (unless commands forces plugins loading)
+      --lang[=LANG]              Output language (default value is existing GLPI "language" configuration or "en_GB")
+  -v|vv|vvv, --verbose           Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
+Available commands:
+  help                                        Displays help for a command
+  list                                        Lists commands
+ glpi
+  glpi:config:set                             [config:set] Set configuration value
+  glpi:database:check                         [db:check] Check for schema differences between current database and installation file.
+  glpi:database:configure                     [db:configure] Define database configuration
+  glpi:database:install                       [db:install] Install database schema
+  glpi:database:update                        [db:update] Update database schema to new version
+  glpi:ldap:synchronize_users                 [ldap:sync] Synchronize users against LDAP server informations
+  glpi:maintenance:disable                    [maintenance:disable] Disable maintenance mode
+  glpi:maintenance:enable                     [maintenance:enable] Enable maintenance mode
+  glpi:migration:appliances_plugin_to_core    Migrate Appliances plugin data into GLPI core tables
+  glpi:migration:domains_plugin_to_core       Migrate Domains plugin data into GLPI core tables
+  glpi:migration:myisam_to_innodb             Migrate MyISAM tables to InnoDB
+  glpi:migration:racks_plugin_to_core         Migrate Racks plugin data into GLPI core tables
+  glpi:migration:timestamps                   Convert "datetime" fields to "timestamp" to use timezones.
+  glpi:plugin:activate                        [plugin:activate] Activate plugin(s)
+  glpi:plugin:deactivate                      [plugin:deactivate] Deactivate plugin(s)
+  glpi:plugin:install                         [plugin:install] Run plugin(s) installation script
+  glpi:rules:process_software_category_rules  [rules:process_software_category_rules] Process software category rules
+  glpi:rules:replay_dictionnary_rules         [rules:replay_dictionnary_rules] Replay dictionnary rules on existing items
+  glpi:security:change_key                    Change password storage key and update values in database.
+  glpi:system:check_requirements              [system:check_requirements] Check system requirements
+  glpi:system:clear_cache                     [system:clear_cache] Clear GLPI cache.
+  glpi:system:status                          [system:status] Check system status
+  glpi:task:unlock                            [task:unlock] Unlock automatic tasks
+----
+
+=== Blank screen when adding/updating ticket
+
+==== Problem
+
+When making some changes to GLPI, e.g. create or update tickets, a blank screen is returned.
+
+==== Cause
+
+Problem with internal certificate
+
+==== Solution
+
+Execute the 
+
+[source, shell script]
+----
+$ kubectl -n glpi exec -it glpi-5847c6b6b-scv8b --  /bin/bash
+[root@glpi-5847c6b6b-scv8b html]# cd /var/www/html
+[root@glpi-5847c6b6b-scv8b html]# php bin/console glpi:security:change_key
+Found 2 field(s) and 3 configuration entries requiring migration.
+Do you want to continue ? [Yes/no]Yes
+
+New security key generated; database updated.
+[root@glpi-5847c6b6b-scv8b html]# exit
+[glpi@localhost ~]$
+----
+
+=== Error sending email after system restore
+
+==== Problem
+
+After restoring GLPI emails cannot be sent.
+
+==== Cause
+
+The email password has been cleared.
+
+==== Solution
+
+Introduce the email password in the `SMTP password (optional)` field of the `Setup > Notifications > Email followups configuration` screen.
+
+=== Cannot delete PVC
+
+This happens when persistent volume is protected. You should be able to cross verify this:
+
+Command:
+
+[source,bash]
+----
+$ kubectl describe pvc PVC_NAME | grep Finalizers
+----
+
+Output:
+
+[source,bash]
+----
+Finalizers:    [kubernetes.io/pvc-protection]
+----
+
+You can fix this by setting finalizers to null using kubectl patch:
+
+[source,bash]
+----
+kubectl patch pvc PVC_NAME -p '{"metadata":{"finalizers": []}}' --type=merge
+----
+

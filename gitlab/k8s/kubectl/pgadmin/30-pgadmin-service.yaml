@@ -1,0 +1,19 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: pgadmin
+  namespace: gitlab
+  labels:
+    app.kubernetes.io/name: pgadmin
+    app.kubernetes.io/instance: pgadmin-gitlab
+    # app.kubernetes.io/version: "10.4"
+    app.kubernetes.io/component: db-frontend
+    app.kubernetes.io/part-of: gitlab
+spec:
+  ports:
+    - port: 80
+  selector:
+    app.kubernetes.io/name: pgadmin
+  # type: LoadBalancer
+status:
+  loadBalancer: {}

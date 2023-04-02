@@ -1,0 +1,59 @@
+---
+- name: "Install Grafana on GLPI"
+  hosts: "{{ k8s_host }}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+    - name: "Validate variables"
+      assert:
+        that:
+          - "k8s.pv_root_folder is defined"
+        fail_msg: "Root folder for k8s PV must be defined"
+        success_msg: "PV root folder is {{ k8s.pv_root_folder }}"
+
+    - name: "Set facts"
+      ansible.builtin.set_fact:
+        PV_ROOT_FOLDER: "{{ k8s.pv_root_folder }}"
+
+  tasks:
+
+    - name: "Create GLPI PV for Grafana"
+      file:
+        path: "{{ k8s.pv_root_folder }}/glpi/grafana"
+        state: directory
+        mode: 0755
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+      become: true
+
+    - name: "Template PV file"
+      ansible.builtin.template:
+        src: "../helm/pv-grafana-hostPath.yaml"
+        dest: "/tmp/pv-grafana-hostPath.yaml"
+
+    - name: "Apply PV file"
+      kubernetes.core.k8s:
+        state: present
+        src: "/tmp/pv-grafana-hostPath.yaml"
+
+    # From repository
+    # - name: Add stable chart repo
+    #   kubernetes.core.helm_repository:
+    #     name: stable
+    #     repo_url: "https://kubernetes.github.io/ingress-nginx"
+
+    # - name: "Template Mariadb values"
+    #   ansible.builtin.template:
+    #     src: "../helm/helm-mariadb-values.yaml"
+    #     dest: "/tmp/helm-mariadb-values.yaml"
+
+    #helm install --namespace glpi -f /tmp/helm-mariadb-values.yaml mariadb mariadb
+
+    # - name: "Delete PV file"
+    #   ansible.builtin.file:
+    #     path: /tmp/helm-mariadb-values.yaml
+    #     state: absent
+
+    #helm install --namespace glpi phpmyadmin phpmyadmin
+
+...

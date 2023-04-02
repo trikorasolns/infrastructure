@@ -1,0 +1,283 @@
+= Gitlab Restore (Podman Edition)
+:author:    A. Costa
+:email:     <a dot costa at trikorasolutions dot com>
+:docdate: date (ISO)
+:Revision:  1
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: This section describes the backup and restore instructions for GitLab running on Podman.
+
+:toc:
+
+Reference: 
+
+* https://docs.gitlab.com/ee/raketasks/backup_restore.html#requirements
+
+== Preparation
+
+Set the root location of the backup folder.
+
+[source,bash]
+----
+$ BACKUP_ROOT_FOLDER=/tmp/_backup
+----
+
+== Restore
+
+Copy the backup file to the backups folder. This can be done in 2 ways, copying the file to the persistent storage or to the container itself.
+
+[source,bash]
+----
+$ sudo cp 11493107454_2018_04_25_10.6.4-ce_gitlab_backup.tar /var/opt/gitlab/backups/
+$ sudo chown git.git /var/opt/gitlab/backups/11493107454_2018_04_25_10.6.4-ce_gitlab_backup.tar
+----
+
+Define the following variables.
+
+GITLAB_BK_FILE: Name of the file containing the backup to be restored.
+GITLAB_POD: Name of the gitlab pod (`kubectl -n gitlab get pods`)
+
+e.g.
+
+[source,bash]
+----
+GITLAB_BK_PREFIX=1617281387_2021_04_01_13.7.1-ee_gitlab_backup
+BACKUP_ROOT_FOLDER=/z/_backup/
+----
+
+Upload the backup file.
+
+[source,bash]
+----
+$ podman cp ${BACKUP_ROOT_FOLDER}/gitlab/${GITLAB_BK_PREFIX}.tar ${GITLAB_CONTAINER_NAME}:/var/opt/gitlab/backups/${GITLAB_BK_PREFIX}.tar
+----
+
+...and upload the gitlab secrets.
+
+[source,bash]
+----
+$ podman cp ${BACKUP_ROOT_FOLDER}/gitlab/${GITLAB_BK_PREFIX}.tar-gitlab-secrets.json ${GITLAB_CONTAINER_NAME}:/etc/gitlab/gitlab-secrets.json
+----
+
+Connect to the gitlab pod.
+
+[source,bash]
+----
+$ podman exec -it ${GITLAB_CONTAINER_NAME} /bin/bash
+----
+
+Stop the processes that are connected to the database. Leave the rest of GitLab running:
+
+[source,bash]
+----
+gitlab-ctl stop unicorn
+gitlab-ctl stop puma
+gitlab-ctl stop sidekiq
+----
+
+The `puma` and `sidekiq` output usually is:
+
+[source,bash]
+----
+gitlab-ctl stop puma
+ok: down: puma: 0s, normally up
+gitlab-ctl stop sidekiq
+ok: down: sidekiq: 0s, normally up
+----
+
+Verify the service status.
+
+[source,bash]
+----
+$ gitlab-ctl status
+run: alertmanager: (pid 597) 673s; run: log: (pid 545) 680s
+run: gitaly: (pid 243) 731s; run: log: (pid 297) 728s
+run: gitlab-exporter: (pid 475) 695s; run: log: (pid 485) 692s
+run: gitlab-workhorse: (pid 568) 674s; run: log: (pid 437) 710s
+run: grafana: (pid 609) 673s; run: log: (pid 595) 674s
+run: logrotate: (pid 459) 701s; run: log: (pid 472) 698s
+run: nginx: (pid 440) 707s; run: log: (pid 456) 704s
+run: prometheus: (pid 582) 674s; run: log: (pid 507) 686s
+down: puma: 23s, normally up; run: log: (pid 388) 722s
+down: sidekiq: 13s, normally up; run: log: (pid 403) 716s
+run: sshd: (pid 28) 761s; run: log: (pid 27) 761s
+----
+
+Next, restore the backup, specifying the timestamp of the backup you wish to restore. The backup ID is the tar file until the `_gitlab_backup.tar`, e.g., `11493107454_2018_04_25_10.6.4-ce`.
+
+WARNING: This command will overwrite the contents of your GitLab database!
+
+[source,bash]
+----
+$ gitlab-backup restore BACKUP=11493107454_2018_04_25_10.6.4-ce
+Unpacking backup ... done
+Be sure to stop Puma, Sidekiq, and any other process that
+connects to the database before proceeding. For Omnibus
+installs, see the following link for more information:
+https://docs.gitlab.com/ee/raketasks/backup_restore.html#restore-for-omnibus-gitlab-installations
+
+Before restoring the database, we will remove all existing
+tables to avoid future upgrade problems. Be aware that if you have
+custom tables in the GitLab database these tables and all data will be
+removed.
+
+Do you want to continue (yes/no)? yes
+Removing all tables. Press `Ctrl-C` within 5 seconds to abort
+2021-02-10 22:17:30 +0000 -- Cleaning the database ... 
+...
+2021-02-10 22:32:14 +0000 -- done
+This task will now rebuild the authorized_keys file.
+You will lose any data stored in the authorized_keys file.
+Do you want to continue (yes/no)? yes
+
+Warning: Your gitlab.rb and gitlab-secrets.json files contain sensitive data 
+and are not included in this backup. You will need to restore these files manually.
+Restore task is done.
+----
+
+[IMPORTANT]
+====
+Next, restore `/etc/gitlab/gitlab-secrets.json` and `/etc/gitlab/gitlab.rb`.
+====
+
+Reconfigure, restart and check GitLab:
+
+[source,bash]
+----
+podman exec -it ${GITLAB_CONTAINER_NAME} gitlab-ctl reconfigure
+podman exec -it ${GITLAB_CONTAINER_NAME} gitlab-ctl restart
+podman exec -it ${GITLAB_CONTAINER_NAME} gitlab-rake gitlab:check SANITIZE=true
+----
+
+[TIP]
+====
+On GitLab 13.1 and later, check database values can be decrypted especially if `/etc/gitlab/gitlab-secrets.json` was restored, or if a different server is the target for the restore.
+====
+
+[source,bash]
+----
+$ podman exec -it ${GITLAB_CONTAINER_NAME} gitlab-rake gitlab:doctor:secrets
+----
+
+For added assurance, you can perform an integrity check on the uploaded files:
+
+[source,bash]
+----
+gitlab-rake gitlab:artifacts:check
+gitlab-rake gitlab:lfs:check
+gitlab-rake gitlab:uploads:check
+----
+
+== Extra Steps
+
+* https://docs.gitlab.com/ee/raketasks/backup_restore.html#when-the-secrets-file-is-lost
+
+=== Reset CI/CD variables
+
+    Enter the database console:
+
+    For Omnibus GitLab 14.1 and earlier:
+
+    sudo gitlab-rails dbconsole
+
+For Omnibus GitLab 14.2 and later:
+
+sudo gitlab-rails dbconsole --database main
+
+For installations from source, GitLab 14.1 and earlier:
+
+sudo -u git -H bundle exec rails dbconsole -e production
+
+For installations from source, GitLab 14.2 and later:
+
+sudo -u git -H bundle exec rails dbconsole -e production --database main
+
+Examine the ci_group_variables and ci_variables tables:
+
+SELECT * FROM public."ci_group_variables";
+SELECT * FROM public."ci_variables";
+
+These are the variables that you need to delete.
+
+Drop the table:
+
+DELETE FROM ci_group_variables;
+DELETE FROM ci_variables;
+
+If you know the specific group or project from which you wish to delete variables, you can include a WHERE statement to specify that in your DELETE:
+
+DELETE FROM ci_group_variables WHERE group_id = <GROUPID>;
+DELETE FROM ci_variables WHERE project_id = <PROJECTID>;
+
+You may need to reconfigure or restart GitLab for the changes to take effect.
+
+=== Reset runner registration tokens
+
+    Enter the database console:
+
+    For Omnibus GitLab 14.1 and earlier:
+
+    sudo gitlab-rails dbconsole
+
+For Omnibus GitLab 14.2 and later:
+
+sudo gitlab-rails dbconsole --database main
+
+For installations from source, GitLab 14.1 and earlier:
+
+sudo -u git -H bundle exec rails dbconsole -e production
+
+For installations from source, GitLab 14.2 and later:
+
+sudo -u git -H bundle exec rails dbconsole -e production --database main
+
+Clear all tokens for projects, groups, and the entire instance:
+The final UPDATE operation stops the runners from being able to pick up new jobs. You must register new runners.
+
+-- Clear project tokens
+UPDATE projects SET runners_token = null, runners_token_encrypted = null;
+-- Clear group tokens
+UPDATE namespaces SET runners_token = null, runners_token_encrypted = null;
+-- Clear instance tokens
+UPDATE application_settings SET runners_registration_token_encrypted = null;
+-- Clear key used for JWT authentication
+-- This may break the $CI_JWT_TOKEN job variable:
+-- https://gitlab.com/gitlab-org/gitlab/-/issues/325965
+UPDATE application_settings SET encrypted_ci_jwt_signing_key = null;
+-- Clear runner tokens
+UPDATE ci_runners SET token = null, token_encrypted = null;
+
+=== Reset pending pipeline jobs
+
+    Enter the database console:
+
+    For Omnibus GitLab 14.1 and earlier:
+
+    sudo gitlab-rails dbconsole
+
+For Omnibus GitLab 14.2 and later:
+
+sudo gitlab-rails dbconsole --database main
+
+For installations from source, GitLab 14.1 and earlier:
+
+sudo -u git -H bundle exec rails dbconsole -e production
+
+For installations from source, GitLab 14.2 and later:
+
+sudo -u git -H bundle exec rails dbconsole -e production --database main
+
+Clear all the tokens for pending jobs:
+
+-- Clear build tokens
+UPDATE ci_builds SET token = null, token_encrypted = null;
+
+
+
+=== References
+
+* https://docs.gitlab.com/ee/raketasks/restore_gitlab.html
+
+== Troubleshooting
+

@@ -1,0 +1,23 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: jenkins
+  labels:
+    app.kubernetes.io/name: jenkins
+    app.kubernetes.io/instance: jenkins
+    app.kubernetes.io/version: "{{ jenkins_version }}"
+    app.kubernetes.io/component: cicd
+    app.kubernetes.io/part-of: jenkins
+spec:
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    namespace: jenkins
+    name: jenkins
+  capacity:
+    storage: 30Gi
+  hostPath:
+    path: "{{ pv_root_folder }}/jenkins/jenkins-data"
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage

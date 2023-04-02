@@ -1,0 +1,37 @@
+= GLPI
+:author:    A. Costa
+:email:     <a dot costa at trikorasolutions dot com>
+:Revision:  1
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: GLPI Index.
+:source-highlighter: highlight.js
+
+== Kubernetes
+
+:leveloffset: +1
+
+include::k8s/install-helm.adoc[]
+
+include::k8s/install-kubectl.adoc[]
+
+include::k8s/backupNrestore.adoc[]
+
+include::k8s/upgrade.adoc[]
+
+include::k8s/troubleshooting.adoc[]
+
+:leveloffset: -1
+
+== Podman
+
+:leveloffset: +1
+
+include::install.adoc[]
+
+include::maintenance.adoc[]
+
+include::troubleshooting.adoc[]
+
+:leveloffset: -1

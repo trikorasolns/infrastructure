@@ -1,0 +1,214 @@
+---
+title: GitLab
+subtitle: Installation Guide
+---
+
+Reference: 
+  * https://piotrminkowski.com/2020/10/19/gitlab-ci-cd-on-kubernetes/
+  * https://mattymo.io/deploying-gitlab-on-microk8s/
+
+# Implement
+
+Password
+
+# Deploy
+
+Reference:
+* https://aws.amazon.com/blogs/containers/introducing-security-groups-for-pods/
+
+Create gitlab namespace
+
+[source,bash]
+----
+$ kubectl delete -f 00-gitlab-namespace.yaml
+
+$ kubectl create -f 00-gitlab-namespace.yaml
+----
+
+## TBD - NFS managed storage ...
+
+**WIP: Not yet implemented as it didn't work before. Using PV/PVC for now.**
+
+```bash
+$ kubectl delete -f gitlab/nfs-managed-storage/30-nfs-storageclass.yaml 
+$ kubectl delete -f gitlab/nfs-managed-storage/20-nfs-deployment.yaml 
+$ kubectl delete -f gitlab/nfs-managed-storage/10-nfs-rbac.yaml 
+
+$ kubectl create -f gitlab/nfs-managed-storage/10-nfs-rbac.yaml 
+$ kubectl create -f gitlab/nfs-managed-storage/20-nfs-deployment.yaml 
+$ kubectl create -f gitlab/nfs-managed-storage/30-nfs-storageclass.yaml 
+```
+
+### PostgreSQL
+
+Persistence storage.
+
+```bash
+$ kubectl delete -f gitlab/postgresql/20-postgres-pvc-managed.yaml 
+
+$ kubectl create -f gitlab/postgresql/20-postgres-pvc-managed.yaml 
+```
+
+## PostgreSQL
+
+Persistence storage.
+
+```bash
+$ kubectl delete -f gitlab/postgresql/25-postgres-pvc.yaml
+$ kubectl delete -f gitlab/postgresql/24-postgres-pv.yaml
+
+$ kubectl create -f gitlab/postgresql/24-postgres-pv.yaml
+$ kubectl create -f gitlab/postgresql/25-postgres-pvc.yaml
+```
+
+Database.
+
+```bash
+$ kubectl delete -f gitlab/postgresql/40-postgres-service.yaml
+$ kubectl delete -f gitlab/postgresql/30-postgres-statefulset.yaml
+$ kubectl delete -f gitlab/postgresql/10-postgres-configmap.yaml
+$ kubectl delete -f gitlab/postgresql/05-postgres-secret.yaml
+
+$ kubectl create -f gitlab/postgresql/05-postgres-secret.yaml
+$ kubectl create -f gitlab/postgresql/10-postgres-configmap.yaml
+$ kubectl create -f gitlab/postgresql/30-postgres-statefulset.yaml
+$ kubectl create -f gitlab/postgresql/40-postgres-service.yaml
+```
+
+### Info from deployment
+
+Get information from the service.
+
+```bash
+$ kubectl -n gitlab get svc postgresql-service
+```
+
+### Connecting to postgresql
+
+To connect from inside the cluster use the following host `service.namespace.svc.cluster.local`.
+
+postgresql.gitlab.svc.cluster.local
+
+## pgadmin
+
+```bash
+$ kubectl delete -f gitlab/pgadmin/40-pgadmin-ingress.yaml 
+$ kubectl delete -f gitlab/pgadmin/30-pgadmin-service.yaml 
+$ kubectl delete -f gitlab/pgadmin/20-pgadmin-deployment.yaml 
+$ kubectl delete -f gitlab/pgadmin/10-pgadmin-configmap.yaml 
+$ kubectl delete -f gitlab/pgadmin/05-pgadmin-secret.yaml
+
+$ kubectl create -f gitlab/pgadmin/05-pgadmin-secret.yaml
+$ kubectl create -f gitlab/pgadmin/10-pgadmin-configmap.yaml 
+$ kubectl create -f gitlab/pgadmin/20-pgadmin-deployment.yaml 
+$ kubectl create -f gitlab/pgadmin/30-pgadmin-service.yaml 
+$ kubectl create -f gitlab/pgadmin/40-pgadmin-ingress.yaml 
+```
+
+## Redis
+
+Reference: 
+* https://www.jasonmars.org/2020/04/28/deploy-gitlab-service-in-kubernetes-quick-without-the-fuss-4-mins-or-less/
+* https://docs.gitlab.com/12.10/omnibus/settings/redis.html
+
+
+```bash
+$ kubectl delete -f gitlab/redis/30-gitlab-service.yaml
+$ kubectl delete -f gitlab/redis/20-redis-deployment.yaml
+
+$ kubectl create -f gitlab/redis/20-redis-deployment.yaml
+$ kubectl create -f gitlab/redis/30-gitlab-service.yaml
+```
+
+
+## GitLab
+
+Persistence storage.
+
+```bash
+$ kubectl delete -f gitlab/gitlab/40-gitlab-ingress.yaml
+$ kubectl delete -f gitlab/gitlab/30-gitlab-service.yaml
+$ kubectl delete -f gitlab/gitlab/20-gitlab-deployment.yaml
+$ kubectl delete -f gitlab/gitlab/12-gitlab-pvc.yaml
+$ kubectl delete -f gitlab/gitlab/10-gitlab-pv.yaml
+$ kubectl delete -f gitlab/gitlab/04-gitlab-configmap.yaml
+# $ kubectl delete -f gitlab/gitlab/02-gitlab-secrets.yaml
+$ kubectl delete -f gitlab/gitlab/01-gitlab-rbac.yaml
+
+$ kubectl create -f gitlab/gitlab/01-gitlab-rbac.yaml
+# $ kubectl create -f gitlab/gitlab/02-gitlab-secrets.yaml
+$ kubectl create -f gitlab/gitlab/04-gitlab-configmap.yaml
+$ kubectl create -f gitlab/gitlab/10-gitlab-pv.yaml
+$ kubectl create -f gitlab/gitlab/12-gitlab-pvc.yaml
+$ kubectl create -f gitlab/gitlab/20-gitlab-deployment.yaml
+$ kubectl create -f gitlab/gitlab/30-gitlab-service.yaml
+$ kubectl create -f gitlab/gitlab/40-gitlab-ingress.yaml
+```
+
+## GitLab - k8s Integration
+
+# Migration
+
+Reference: 
+  * https://docs.gitlab.com/charts/installation/migration/index.html
+
+
+# NFS
+
+/mnt/data/k8s-nfs/gitlab/gitlab-etc
+/mnt/data/k8s-nfs/gitlab/gitlab-var-log
+/mnt/data/k8s-nfs/gitlab/gitlab-var-opt
+/mnt/data/k8s-nfs/gitlab/pgsql
+
+/mnt/data/k8s-nfs/gitlab/gitlab-etc ${VM_NAME}.localdomain(rw,sync,no_subtree_check,no_all_squash)
+/mnt/data/k8s-nfs/gitlab/gitlab-var-log ${VM_NAME}.localdomain(rw,sync,no_subtree_check,no_all_squash)
+/mnt/data/k8s-nfs/gitlab/gitlab-var-opt ${VM_NAME}.localdomain(rw,sync,no_subtree_check,no_all_squash)
+/mnt/data/k8s-nfs/gitlab/pgsql ${VM_NAME}.localdomain(rw,sync,no_subtree_check,no_all_squash)
+
+# Usage
+
+## pgadmin
+
+http://gitlab-pgadmin.${VM_NAME}.localdomain/browser/
+
+
+user: PGADMIN_DEFAULT_EMAIL (admin@admin.com )
+password: PGADMIN_DEFAULT_PASSWORD (admin123)
+
+Database host: 
+
+# Troubleshooting
+
+## Restart postgresql
+
+[source,bash]
+----
+$ kubectl -n gitlab rollout restart statefulset gitlab-postgres
+statefulset.apps/gitlab-postgres restarted
+----
+
+
+
+
+## login to postgresql pod
+
+[source,bash]
+----
+$ kubectl -n gitlab exec -it gitlab-postgres-0 /bin/bash
+----
+
+
+# Maintenance
+
+## GitLab
+
+### Backup and Restore
+
+Reference: https://docs.gitlab.com/ee/raketasks/backup_restore.html#requirements
+
+Backup...
+
+[source,bash]
+----
+$ sudo gitlab-backup create
+----

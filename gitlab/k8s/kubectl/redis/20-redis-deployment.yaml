@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: gitlab
+  labels:
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/instance: redis-gitlab
+    # app.kubernetes.io/version: "5.7.21"
+    app.kubernetes.io/component: keyvalue
+    app.kubernetes.io/part-of: gitlab
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: redis
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: redis
+    spec:
+      containers:
+        - name: gitlab-redis-master
+          image: redis
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: "0.2"
+          ports:
+            - containerPort: 6379

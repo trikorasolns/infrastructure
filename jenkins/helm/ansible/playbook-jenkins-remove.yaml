@@ -1,0 +1,46 @@
+---
+- name: "Remove Jenkins"
+  hosts: "{{ k8s_host }}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+    - name: "Validate variables"
+      assert:
+        that:
+          - "k8s.pv_root_folder is defined"
+        fail_msg: "Root folder for k8s PV must be defined"
+        success_msg: "PV root folder is {{ k8s.pv_root_folder }}"
+
+    - name: "Set gitlab version"
+      ansible.builtin.set_fact:
+        gitlab_version: "15.4.0"
+        when: gitlab_version is undefined
+
+    - name: "Set facts"
+      ansible.builtin.set_fact:
+        pv_root_folder: "{{ k8s.pv_root_folder }}"
+
+  tasks:
+
+    - name: "Template PV file"
+      ansible.builtin.template:
+        src: "jenkins-pv-hostPath.yaml"
+        dest: "/tmp/jenkins-pv-hostPath.yaml"
+
+    - name: "Remove from PV file"
+      kubernetes.core.k8s:
+        state: absent
+        src: "/tmp/jenkins-pv-hostPath.yaml"
+
+    - name: "Remove postgresql PV file"
+      file:
+        path: "/tmp/jenkins-pv-hostPath.yaml"
+        state: absent
+
+    - name: "Create sub-folder for Jenkins PV"
+      file:
+        path: "{{ pv_root_folder }}/jenkins/jenkins-data"
+        state: absent
+      become: true
+
+...

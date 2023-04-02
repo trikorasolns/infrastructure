@@ -1,0 +1,81 @@
+= Gitlab Upgrade Guide
+:author:    A. Costa
+:email:     <a dot costa at trikorasolutions dot com>
+:docdate: date (ISO)
+:Revision:  1
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: This section describes the Gitlab upgrade steps.
+
+:toc:
+
+References: 
+
+* https://docs.gitlab.com/ee/update/plan_your_upgrade.html
+* Upgrade paths: https://docs.gitlab.com/ee/update/#upgrade-paths
+
+== Upgrade procedure
+
+Generate the correct `values.yaml` file.
+
+[source,bash]
+----
+$ jinja2 --format=yaml -DGITLAB_URL=${GITLAB_URL} -DGITLAB_VERSION=15.8.0 gitlab/k8s/helm/helm-gitlab-values.yaml > /tmp/helm-gitlab-values.yaml
+----
+
+Update helm.
+
+[source,bash]
+----
+$ helm upgrade --install --namespace gitlab -f /tmp/helm-gitlab-values.yaml gitlab gitlab
+----
+
+Check gitlab version.
+
+[source,bash]
+----
+$ gitlab-rake gitlab:env:info
+System information
+System:		
+Proxy:		no
+Current User:	git
+Using RVM:	no
+Ruby Version:	2.7.7p221
+Gem Version:	3.1.6
+Bundler Version:2.3.15
+Rake Version:	13.0.6
+Redis Version:	6.2.8
+Sidekiq Version:6.5.7
+Go Version:	unknown
+
+GitLab information
+Version:	15.7.5-ee
+Revision:	677cf66582b
+Directory:	/opt/gitlab/embedded/service/gitlab-rails
+DB Adapter:	PostgreSQL
+DB Version:	12.5
+URL:		http://gitlab.localdomain
+HTTP Clone URL:	http://gitlab.localdomain/some-group/some-project.git
+SSH Clone URL:	ssh://git@gitlab.localdomain:30022/some-group/some-project.git
+Elasticsearch:	no
+Geo:		no
+Using LDAP:	no
+Using Omniauth:	yes
+Omniauth Providers: 
+
+GitLab Shell
+Version:	14.14.0
+Repository storages:
+- default: 	unix:/var/opt/gitlab/gitaly/gitaly.socket
+GitLab Shell path:		/opt/gitlab/embedded/service/gitlab-shell
+
+----
+
+Reference: 
+  * https://docs.gitlab.com/charts/installation/migration/index.html
+
+
+Copy the backup tar file to the `var/opt/gitlab/backups/` folder.
+
+

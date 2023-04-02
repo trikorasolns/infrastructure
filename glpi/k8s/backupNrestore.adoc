@@ -1,0 +1,194 @@
+= GLPI Backup N Restore
+:author:    A. Costa
+:email:     <a dot costa at trikorasolutions dot com>
+// :Date:      20210222
+:Revision:  1
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: This section describes the backup and restore instructions for GLPI.
+
+:toc:
+
+== Preparation
+
+Define backup environment variables.
+
+Set the root location of the backup folder.
+
+[source,bash]
+----
+$ BACKUP_ROOT_FOLDER=/z/_backup
+----
+
+Set the kube config file.
+
+[source,bash]
+----
+$ export KUBECONFIG=~/.kube/config
+----
+
+
+== Backup
+
+Identify GLPI pod.
+
+[source,bash]
+----
+$ kubectl -n glpi get pods
+NAME                                     READY   STATUS    RESTARTS   AGE
+glpi-75f944445c-ncjss                    1/1     Running   0          18d
+glpi-mariadb-0                           1/1     Running   0          18d
+phpmyadmin-deployment-74fc9dd457-dljld   1/1     Running   0          20d
+----
+
+Define the pod for the GLPI application.
+
+[source,bash]
+----
+GLPI_POD=$(kubectl get pods --namespace glpi -l "app.kubernetes.io/name=glpi,app.kubernetes.io/instance=glpi" -o jsonpath="{.items[0].metadata.name}")
+GLPI_MARIADB_POD=$(kubectl get pods --namespace glpi -l "app.kubernetes.io/name=mariadb" -o jsonpath="{.items[0].metadata.name}")
+----
+
+Dump mysql database.
+
+[source,bash]
+----
+GLPI_MYSQL_DUMP_FILENAME_PREFIX=$(date +%Y-%m-%d-%H-%M-%S).glpi.backup
+kubectl -n glpi exec -it ${GLPI_MARIADB_POD} -- mysqldump -u root glpi > ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.sql
+----
+
+Get mariadb root password.
+
+[source,bash]
+----
+kubectl -n glpi get secret mariadb -o jsonpath="{.data.MARIADB_ROOT_PASSWORD}" | base64 --decode
+----
+
+
+[source,bash]
+----
+kubectl -n glpi exec -it ${GLPI_MARIADB_POD} -- env GLPI_MYSQL_DUMP_FILENAME_PREFIX=${GLPI_MYSQL_DUMP_FILENAME_PREFIX} /bin/bash
+----
+
+[source,bash]
+----
+root@mariadb-0:/#
+----
+
+.Dump from the container
+[source,bash]
+----
+mysqldump -u root -p glpi > /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.sql
+Enter password:
+----
+
+[source,bash]
+----
+tar --warning=no-file-changed -czvf /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.sql.tgz /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.sql
+rm /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.sql
+exit
+----
+
+[source,bash]
+----
+kubectl -n glpi cp ${GLPI_MARIADB_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.sql.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.sql.tgz
+----
+
+Compress and copy the folders with physical files.
+
+[source,bash]
+----
+kubectl -n glpi exec -it ${GLPI_POD} -- tar --warning=no-file-changed -czvf /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz /var/www/html/files 
+kubectl -n glpi exec -it ${GLPI_POD} -- tar --warning=no-file-changed -czvf /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz /var/www/html/plugins
+kubectl -n glpi cp ${GLPI_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz
+kubectl -n glpi cp ${GLPI_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz
+----
+
+== Restore
+
+WARNING: TODO
+
+Get POD names.
+
+[source,bash]
+----
+$ GLPI_MARIADB_POD=$(kubectl get pods --namespace glpi -l "app.kubernetes.io/name=mariadb" -o jsonpath="{.items[0].metadata.name}")
+$ GLPI_POD=$(kubectl get pods --namespace glpi -l "app.kubernetes.io/name=glpi,app.kubernetes.io/instance=glpi" -o jsonpath="{.items[0].metadata.name}")
+----
+
+Set database dump file to be restores.
+
+[source,bash]
+----
+$ GLPI_DUMP_PREFIX=2021-06-13-00-09-16.glpi.backup
+$ GLPI_MYSQL_DUMP_FILENAME=${GLPI_DUMP_PREFIX}.sql
+----
+
+Import the database.
+
+[source,bash]
+----
+$ kubectl -n glpi exec -it  -- mysql -u root glpi < ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_DUMP_PREFIX}.sql
+----
+
+If the database cannot be accessed without password first copy the sql file to the host.
+
+[source,bash]
+----
+$ kubectl -n glpi cp ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_DUMP_PREFIX}.sql ${GLPI_MARIADB_POD}:/tmp/${GLPI_DUMP_PREFIX}.sql
+----
+
+Then connect to the container and import the database.
+
+[source,bash]
+----
+$ kubectl -n glpi exec -it ${GLPI_MARIADB_POD} -- env GLPI_MYSQL_DUMP_FILENAME=${GLPI_MYSQL_DUMP_FILENAME} /bin/bash
+----
+
+Import the database.
+
+[source,bash]
+----
+root@mariadb-0:/# mysql -u root -p  glpi < /tmp/${GLPI_MYSQL_DUMP_FILENAME}
+Enter password: 
+----
+
+The result is the following:
+
+[source,bash]
+----
+Unable to use a TTY - input is not a terminal or the right kind of file
+
+$ 
+----
+
+TIP: Just ignore the `Unable to use a TTY - input is not a terminal or the right kind of file`
+message.
+
+
+Copy the `files` and `plugins` `tar.gz` compressed folders to the pod.
+
+[source,bash]
+----
+$ kubectl -n glpi cp ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_DUMP_PREFIX}.files.tgz ${GLPI_POD}:/tmp/files.tgz
+$ kubectl -n glpi cp ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_DUMP_PREFIX}.plugins.tgz ${GLPI_POD}:/tmp/plugins.tgz
+$ kubectl -n glpi cp ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_DUMP_PREFIX}.config.tgz ${GLPI_POD}:/tmp/config.tgz
+----
+
+Open a bash to the pod.
+
+[source,bash]
+----
+$ kubectl -n glpi exec -it ${GLPI_POD} -- /bin/bash
+[root@glpi-75c9d9c9dd-whzr8 html]#
+----
+
+Extract the files to the corresponding folder.
+
+[source,bash]
+----
+$ cd /tmp
+$ tar -xzv -C / -f files.tgz
+$ tar -xzv -C / -f plugins.tgz
+----
