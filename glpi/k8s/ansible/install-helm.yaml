@@ -1,0 +1,151 @@
+---
+- name: "Install GLPI"
+  hosts: "{{ k8s_host }}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+    - name: "Validate variables"
+      assert:
+        that:
+          - "k8s.pv_root_folder is defined"
+        fail_msg: "Root folder for k8s PV must be defined"
+        success_msg: "PV root folder is {{ k8s.pv_root_folder }}"
+
+    - name: "Set facts"
+      ansible.builtin.set_fact:
+        PV_ROOT_FOLDER: "{{ k8s.pv_root_folder }}"
+
+  tasks:
+
+    - name: "Install pip"
+      ansible.builtin.package:
+        name: python3-pip
+        state: present
+      become: true
+
+    - name: "Copy requirements file"
+      ansible.builtin.copy:
+        src: files/requirements.txt
+        dest: /tmp/requirements.txt
+
+    - name: "Install specified python requirements"
+      ansible.builtin.pip:
+        requirements: /tmp/requirements.txt
+
+    - name: "Create GLPI folder"
+      file:
+        path: "{{ k8s.pv_root_folder }}/glpi"
+        state: directory
+        mode: 0777
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+      become: true
+
+    - name: "Create GLPI PV sub-folders"
+      file:
+        path: "{{ k8s.pv_root_folder }}/glpi/{{ glpi_pod_folders }}"
+        state: directory
+        mode: 0777
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+      become: true
+      loop:
+        - "glpi-mariadb"
+        - "glpi-glpi-files"
+        - "glpi-glpi-plugins"
+      loop_control:
+        loop_var: glpi_pod_folders 
+
+    - name: "Create GLPI PV file sub-folders"
+      file:
+        path: "{{ k8s.pv_root_folder }}/glpi/glpi-glpi-files/{{ glpi_file_subfolders }}"
+        state: directory
+        mode: 0755
+        owner: "48"
+        group: "48"
+      become: true
+      loop:
+        - _cache
+        - _cron
+        - _dumps
+        - _graphs
+        - _lock
+        - _log
+        - _pictures
+        - _plugins
+        - _rss
+        - _sessions
+        - _tmp
+        - _uploads
+      loop_control:
+        loop_var: glpi_file_subfolders 
+
+    - name: "Create GLPI PV for Grafana"
+      file:
+        path: "{{ k8s.pv_root_folder }}/glpi/grafana"
+        state: directory
+        mode: 0755
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+      become: true
+
+    - name: "Create GLPI k8s namespace"
+      kubernetes.core.k8s:
+        name: glpi
+        api_version: v1
+        kind: Namespace
+        state: present
+
+    # Patch existing namespace : add label
+    - name: "Add labels to GLPI namespace"
+      kubernetes.core.k8s:
+        state: patched
+        kind: Namespace
+        name: glpi
+        definition:
+          metadata:
+            labels:
+              app.kubernetes.io/name: glpi
+              app.kubernetes.io/version: 9.5.6
+
+    - name: "Template PV file"
+      ansible.builtin.template:
+        src: "../helm/{{ loop_pv_template_file }}"
+        dest: "/tmp/{{ loop_pv_template_file }}"
+      loop:
+        - pv-mariadb-hostPath.yaml
+        - pv-glpi-hostPath.yaml
+      loop_control:
+        loop_var: loop_pv_template_file
+
+    - name: "Apply PV file"
+      kubernetes.core.k8s:
+        state: present
+        src: "/tmp/{{ loop_pv_file }}"
+      loop:
+        - pv-mariadb-hostPath.yaml
+        - pv-glpi-hostPath.yaml
+      loop_control:
+        loop_var: loop_pv_file
+
+    # From repository
+    # - name: Add stable chart repo
+    #   kubernetes.core.helm_repository:
+    #     name: stable
+    #     repo_url: "https://kubernetes.github.io/ingress-nginx"
+
+    # - name: "Template Mariadb values"
+    #   ansible.builtin.template:
+    #     src: "../helm/helm-mariadb-values.yaml"
+    #     dest: "/tmp/helm-mariadb-values.yaml"
+
+    #helm install --namespace glpi -f /tmp/helm-mariadb-values.yaml mariadb mariadb
+
+    # - name: "Delete PV file"
+    #   ansible.builtin.file:
+    #     path: /tmp/helm-mariadb-values.yaml
+    #     state: absent
+
+    #helm install --namespace glpi phpmyadmin phpmyadmin
+
+...

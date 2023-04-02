@@ -1,7 +1,7 @@
 = Troubleshoting
 :author: A. Costa
 :description: AWX administration.
-:email: <a.costa@trikorasolutions.com>
+:email: <a dot costa at trikorasolutions dot com>
 :icons: font
 :toc: left
 :toclevels: 1

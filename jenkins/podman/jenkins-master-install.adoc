@@ -1,0 +1,298 @@
+= Jenkins Podman Deployment Guide
+:author:    A. Costa
+:email:     <a dot costa at trikorasolutions dot com>
+:Date:      2022/05/02
+:Revision:  1
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: AWX installation procedure with Podman.
+
+== Bare in mind
+
+This guide uses the https://hub.docker.com/r/fametec/glpi[fametec/glpi] docker containers.
+
+== Preparation 
+
+=== Environment variables.
+
+
+== PV
+
+
+== Installation
+
+Create glpi POD.
+
+[source,bash]
+----
+$ podman play kube app/jenkins/podman/config/kube.yaml
+----
+
+Check deployment.
+
+[source,bash]
+----
+$  podman container ps --pod --filter "pod=jenkins-dev" --all
+CONTAINER ID  IMAGE                                    COMMAND     CREATED             STATUS                             PORTS                                             NAMES                       POD ID        PODNAME
+2181938b40e6  localhost/podman-pause:4.2.1-1662580699              2 minutes ago       Up About a minute ago              0.0.0.0:8080->8080/tcp, 0.0.0.0:50000->50000/tcp  737874ea7f1c-infra          737874ea7f1c  jenkins-dev
+4dc755c3f4c0  docker.io/jenkins/jenkins:lts-jdk11                  About a minute ago  Exited (1) Less than a second ago  0.0.0.0:8080->8080/tcp, 0.0.0.0:50000->50000/tcp  jenkins-dev-jenkins-master  737874ea7f1c  jenkins-dev
+----
+
+Obtain the `admin` password either by checking the installation log...
+
+[source,bash]
+----
+$ podman logs -f jenkins-dev-jenkins-master
+...
+2022-11-15 19:00:28.737+0000 [id=45]	INFO	jenkins.install.SetupWizard#init: 
+
+*************************************************************
+*************************************************************
+*************************************************************
+
+Jenkins initial setup is required. An admin user has been created and a password generated.
+Please use the following password to proceed to installation:
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+This may also be found at: /var/jenkins_home/secrets/initialAdminPassword
+
+*************************************************************
+*************************************************************
+*************************************************************
+...
+----
+
+... or the `/var/jenkins_home/secrets/initialAdminPassword` file.
+
+[source,bash]
+----
+$ podman exec -it jenkins-dev-jenkins-master cat /var/jenkins_home/secrets/initialAdminPassword
+----
+
+=== Deploy the mariadb database
+
+Deploy the `mariadb` database.
+
+[source,bash]
+----
+podman run --name glpi_mariadb -d --pod ${GLPI_POD_NAME} \
+  -e MYSQL_DATABASE=glpi -e MYSQL_USER=glpi -e MYSQL_PASSWORD=admin123 \
+  -e MYSQL_ROOT_PASSWORD=admin123 \
+  -v glpi_db_data:/var/lib/mysql \
+  --label "name=mariadb" --label "component=dabatase" --label "part-of=${GLPI_POD_NAME}" --label "environment=${APP_ENV}" \
+  mariadb:latest
+----
+
+=== Deploy phpMyAdmin
+
+TBD
+
+=== Deploy GLPI
+
+Deploy the `glpi` application...
+
+ --privileged 
+
+[source,bash]
+----
+podman run --name ${GLPI_CONTAINER_NAME} --pod ${GLPI_POD_NAME} -d \
+  -v "glpi_web_data:/var/www/html/files:z" -v "glpi_web_configs:/var/www/html/plugins:Z" \
+  -e GLPI_LANG=en_GB -e MARIADB_HOST=glpi_mariadb -e MARIADB_PORT=3306 \
+  -e MARIADB_DATABASE=glpi -e MARIADB_USER=glpi -e MARIADB_PASSWORD=admin123 \
+  -e VERSION=9.5.6 -e PLUGINS=all \
+  --label "name=glpi" --label "component=web" --label "part-of=${GLPI_POD_NAME}" --label "environment=${APP_ENV}" \
+  fametec/glpi:9.5.6
+----
+
+Connect to the POD and install GLPI.
+
+[source,bash]
+----
+$ podman exec -it ${GLPI_CONTAINER_NAME} php bin/console glpi:database:install
+
++---------------+--------------------------------+
+| Database host | mariadb.glpi.svc.cluster.local |
+| Database name | glpi                           |
+| Database user | glpi                           |
++---------------+--------------------------------+
+Do you want to continue ? [Yes/no]
+----
+
+Deploy the `glpi` cron...
+
+
+[source,bash]
+----
+$ podman run -d --name glpi_cron \
+  -v "glpi_cron:/usr/share/nginx/html/glpi:Z" \
+  -e MARIADB_DATABASE=glpi -e USER=glpi -e PASSWORD=admin123  -e HOST=glpi_mariadb -e USER=glpi \
+  --label "name=glpi_cron" --label "component=cron" --label "part-of=glpi" fametec/glpi:crond
+----
+
+== Install Grafana
+
+More information on the link:../../grafana/podman/install.adoc[Grafana Podman Installtion Guide].
+
+Create the *podman volumes* that will store the grafana application data.
+
+[source,bash]
+----
+podman volume create glpi_grafana --label "name=grafana" --label "component=pv" --label "part-of=glpi" --label "environment=production"
+podman volume create glpi_grafana_config --label "name=grafana-config" --label "component=pv" --label "part-of=glpi" --label "environment=production"
+----
+
+
+  -p ${GRAFANA_HOST_HTTP_PORT}:3000 \
+  -v glpi_grafana_config:/etc/grafana/grafana.ini:Z
+[source,bash]
+----
+$ podman run -d --name glpi_grafana --pod glpi \
+  -v glpi_grafana:/var/lib/grafana:Z \
+  --label "name=grafana" --label "component=pv" --label "part-of=glpi" --label "environment=production" \
+  grafana/grafana:latest
+----
+
+=== Configure Grafana
+
+http://grafana-glpi.localdomain/
+
+Login with `admin`/`admin`
+
+Create datasource to the glpi mariadb database.
+
+New MySQL datasource(`service.namespace.svc.cluster.local`).
+
+.MySQL datasource
+[cols="1h,3"]
+|===
+
+|Host
+| `mariadb.glpi.svc.cluster.local:3306` 
+
+|Database
+|`glpi`
+
+|User
+|_Check the mariadb configmap_
+
+|Password
+|_Check the mariadb secret_
+
+|=== 
+
+
+== Install as service
+
+Create a user service for managing the `glpi` pod.
+
+On the `$HOME/.config/systemd/user` folder and createthe systemd files.
+
+[source,bash]
+----
+$ cd $HOME/.config/systemd/user
+$ podman generate systemd --new --files --name ${GLPI_POD_NAME}
+
+~/.config/systemd/user/pod-glpi.service
+~/.config/systemd/user/container-glpi_web.service
+~/.config/systemd/user/container-glpi_grafana.service
+~/.config/systemd/user/container-glpi_mariadb.service
+
+----
+
+[source,bash]
+----
+$ systemctl --user daemon-reload
+----
+
+
+Check service status.
+
+[source,bash]
+----
+$ systemctl --user status pod-${GLPI_POD_NAME}.service
+○ pod-glpi.service - Podman pod-glpi.service
+     Loaded: loaded (/home/jebkis/.config/systemd/user/pod-glpi.service; disabled; vendor preset: disabled)
+     Active: inactive (dead)
+       Docs: man:podman-generate-systemd(1)
+
+----
+
+Enable service.
+
+[source,bash]
+----
+$ systemctl --user enable pod-${GLPI_POD_NAME}.service
+----
+
+
+Start the pod service and make sure the service is running
+
+[source,bash]
+----
+$ systemctl --user start pod-${GLPI_POD_NAME}.service
+----
+
+[source,bash]
+----
+$ systemctl --user is-active pod-${GLPI_POD_NAME}.service
+
+inactive
+----
+
+Check status
+
+[source,bash]
+----
+systemctl --user is-active pod-glpi.service
+systemctl --user is-active container-gitlab_scm.service
+systemctl --user is-active container-glpi-runner.service
+----
+
+Stop POD.
+
+[source,bash]
+----
+$ systemctl --user stop pod-glpi.service
+----
+
+
+== Uninstallation
+
+This is the procedure to delete GLPI.
+
+Delete the mariadb database.
+
+[source,bash]
+----
+helm uninstall --namespace glpi mariadb mariadb
+----
+
+Finally delete the PVs...
+
+[source,bash]
+----
+$ kubectl -n glpi delete -f glpi/helm/glpi-pv-hostPath.yaml
+warning: deleting cluster-scoped resources, not scoped to the provided namespace
+persistentvolume "glpi-mariadb-data" deleted
+persistentvolume "glpi-glpi-files" deleted
+persistentvolume "glpi-glpi-plugins" deleted
+----
+
+...and it's folders.
+
+[source,bash]
+----
+$ cd /data/k8s/pv
+$ sudo rm -Rf {glpi-mariadb,glpi-glpi-files,glpi-glpi-plugins}
+----
+
+== References
+
+* https://quay.io/repository/ansible/awx
+* https://github.com/ansible/awx/blob/17.1.0/INSTALL.md
+
+Older versions:
+
+* https://hub.docker.com/r/ansible/awx

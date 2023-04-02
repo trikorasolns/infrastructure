@@ -1,0 +1,12 @@
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations: {}
+  hosts:
+    - host: {% if PHPMYADMIN_URL is defined %}{{ PHPMYADMIN_URL }}{% else %}UNDEFINED_HOST{% endif %}
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            serviceName: phpmyadmin
+            servicePort: 80

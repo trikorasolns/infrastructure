@@ -1,0 +1,223 @@
+= GLPI Deploy Guide (manually with kubectl)
+:Author:    Antonio Costa
+:Email:     a dot costa at trikorasolutions dot com
+:Date:      20210205
+:Revision:  1
+:table-caption: Table
+:toc:left
+:toc-title: Table of Contents
+:icons: font
+:description: [DEPRECATED] check the helm install instructions. Instructions on deploying GLPI on a kubernetes cluster.
+:source-highlighter: highlight.js
+
+== Introduction
+
+CAUTION: This section is deprecated, check the helm install instructions.
+
+== GLPI k8s deployment guide
+
+References: 
+
+  * https://github.com/fametec/glpi
+  * https://glpi-install.readthedocs.io/en/latest/install/index.html#installation
+  * https://github.com/driket/docker-glpi
+
+Password
+
+== Deploy
+
+References:
+
+* https://aws.amazon.com/blogs/containers/introducing-security-groups-for-pods/
+
+Create glpi namespace.
+
+[source,bash]
+----
+$ kubectl delete -f glpi/00-glpi-namespace.yaml
+
+$ kubectl create -f 00-glpi-namespace.yaml
+----
+
+== mariadb
+
+Persistence storage and database.
+
+
+[source,bash]
+----
+$ kubectl delete -f glpi/mariadb/25-mariadb-pvc.yaml
+$ kubectl delete -f glpi/mariadb/24-mariadb-pv.yaml
+
+$ kubectl create -f glpi/mariadb/24-mariadb-pv.yaml
+$ kubectl create -f glpi/mariadb/25-mariadb-pvc.yaml
+----
+
+[source,bash]
+----
+$ kubectl delete -f glpi/mariadb/40-mariadb-service.yaml
+$ kubectl delete -f glpi/mariadb/30-mariadb-statefulset.yaml
+$ kubectl delete -f glpi/mariadb/10-mariadb-configmap.yaml
+$ kubectl delete -f glpi/mariadb/05-mariadb-secret.yaml
+
+$ kubectl create -f glpi/mariadb/05-mariadb-secret.yaml
+$ kubectl create -f glpi/mariadb/10-mariadb-configmap.yaml
+$ kubectl create -f glpi/mariadb/30-mariadb-statefulset.yaml
+$ kubectl create -f glpi/mariadb/40-mariadb-service.yaml
+----
+
+> NOTE: TBD: UID and GID for pv is 27:27.
+
+=== Info from deployment
+
+Get information from the service.
+
+[source,bash]
+----
+$ kubectl -n glpi get svc mariadb
+NAME       TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+mariadb   NodePort   10.99.55.151   <none>        5432:32737/TCP   33m
+----
+
+=== Connecting to mariadb
+
+To connect from inside the cluster use the following host `service.namespace.svc.cluster.local`.
+
+`mariadb.glpi.svc.cluster.local`
+
+== GLPI
+
+Persistence storage.
+
+[source,bash]
+----
+$ kubectl delete -f glpi/glpi/16-glpi-pvc.yaml
+$ kubectl delete -f glpi/glpi/15-glpi-pv.yaml
+
+$ kubectl create -f glpi/glpi/15-glpi-pv.yaml
+$ kubectl create -f glpi/glpi/16-glpi-pvc.yaml
+----
+
+On the PV folder, create GLPI folders...
+
+[source,bash]
+----
+$ mkdir _cron
+$ mkdir _dumps
+$ mkdir _graphs
+$ mkdir _lock
+$ mkdir _pictures
+$ mkdir _plugins
+$ mkdir _rss
+$ mkdir _sessions
+$ mkdir _tmp
+$ mkdir _uploads
+$ mkdir _cache
+----
+
+... and assign the correct `user:group`.
+
+[source,bash]
+----
+$ sudo chown 48:48 -R *
+----
+
+Installation.
+
+[source,bash]
+----
+$ kubectl delete -f glpi/glpi/40-glpi-ingress.yaml
+$ kubectl delete -f glpi/glpi/30-glpi-service.yaml
+$ kubectl delete -f glpi/glpi/20-glpi-deployment.yaml
+$ kubectl delete -f glpi/glpi/10-glpi-configmap.yaml
+$ kubectl delete -f glpi/glpi/05-glpi-secret.yaml
+$ kubectl delete -f glpi/glpi/01-glpi-serviceaccount.yaml
+
+$ kubectl create -f glpi/glpi/01-glpi-serviceaccount.yaml
+$ kubectl create -f glpi/glpi/05-glpi-secret.yaml
+$ kubectl create -f glpi/glpi/10-glpi-configmap.yaml
+$ kubectl create -f glpi/glpi/20-glpi-deployment.yaml
+$ kubectl create -f glpi/glpi/30-glpi-service.yaml
+$ kubectl create -f glpi/glpi/40-glpi-ingress.yaml
+----
+
+=== Configure GLPI
+
+Identify the GLPI pod.
+
+[source,bash]
+----
+$ kubectl -n glpi get pods
+NAME                                     READY   STATUS    RESTARTS   AGE
+glpi-75f944445c-ncjss                    1/1     Running   0          2m45s
+glpi-mariadb-0                           1/1     Running   0          179m
+phpmyadmin-deployment-74fc9dd457-dljld   1/1     Running   0          2d11h
+----
+
+Set the GLPI pod variable.
+
+[source,bash]
+----
+$ GLPI_POD=glpi-75f944445c-ncjss
+----
+
+[source,bash]
+----
+$ kubectl -n glpi exec -it ${GLPI_POD} -- php bin/console db:install
++---------------+--------------------------------+
+| Database host | mariadb.glpi.svc.cluster.local |
+| Database name | glpi                           |
+| Database user | glpi                           |
++---------------+--------------------------------+
+Do you want to continue ? [Yes/no]Yes
+Database already contains "glpi_*" tables. Use --force option to override existing database.
+command terminated with exit code 6
+----
+
+== Podman
+
+To test in podman.
+
+[source,bash]
+----
+$ podman pod rm glpi_db_pod ; podman pod create -p 7806:3306 --name glpi_db_pod
+$ podman run --name glpi_db --pod glpi_db_pod -d \
+  -e MYSQL_ROOT_PASSWORD=glpi -e MYSQL_DATABASE=glpi -e MYSQL_USER=glpi -e MYSQL_PASSWORD=glpi \
+  mariadb:latest
+----
+
+== Backup & Restore
+
+
+
+== Upgrade
+
+WARNING: TODO
+
+== Troubleshooting 
+
+=== Cannot delete PVC
+
+This happens when persistent volume is protected. You should be able to cross verify this:
+
+Command:
+
+[source,bash]
+----
+$ kubectl describe pvc PVC_NAME | grep Finalizers
+----
+
+Output:
+
+[source,bash]
+----
+Finalizers:    [kubernetes.io/pvc-protection]
+----
+
+You can fix this by setting finalizers to null using kubectl patch:
+
+[source,bash]
+----
+kubectl patch pvc PVC_NAME -p '{"metadata":{"finalizers": []}}' --type=merge
+----
+

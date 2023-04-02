@@ -1,0 +1,127 @@
+= Gitlab Backup (Podman Edition)
+:author:    A. Costa
+:email:     <a dot costa at trikorasolutions dot com>
+:docdate: date (ISO)
+:Revision:  1
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: This section describes the backup and restore instructions for GitLab running on Podman.
+
+:toc:
+
+Reference: 
+
+* https://docs.gitlab.com/ee/raketasks/backup_restore.html#requirements
+
+== Preparation
+
+Set the root location of the backup folder.
+[source,bash]
+----
+$ BACKUP_ROOT_FOLDER=/tmp/_backup
+----
+
+== Backup
+
+Identify containers on the `glpi` pod.
+
+[source,bash]
+----
+$ podman container ls --pod --filter "pod=gitlab"
+CONTAINER ID  IMAGE                                    COMMAND          CREATED     STATUS           PORTS                                                              NAMES               POD ID        PODNAME
+61d7aeb29d3a  localhost/podman-pause:4.2.1-1662580699                   2 days ago  Up 11 hours ago  0.0.0.0:9422->22/tcp, 0.0.0.0:9443->443/tcp, 0.0.0.0:9480->80/tcp  a890c8642cb3-infra  a890c8642cb3  gitlab
+1959f43531c0  docker.io/gitlab/gitlab-ee:15.4.0-ee.0   /assets/wrapper  2 days ago  Up 11 hours ago  0.0.0.0:9422->22/tcp, 0.0.0.0:9443->443/tcp, 0.0.0.0:9480->80/tcp  gitlab-app          a890c8642cb3  gitlab
+----
+
+Define the pod for the GLPI application.
+
+[source,bash]
+----
+$ GITLAB_CONTAINER=gitlab-app
+----
+
+Execute the container backup.
+
+[source,bash]
+----
+$ podman exec -it ${GITLAB_CONTAINER} gitlab-backup create
+
+2021-03-19 21:56:56 +0000 -- Dumping database ... 
+Dumping PostgreSQL database gitlab ... [DONE]
+2021-03-19 21:57:04 +0000 -- done
+2021-03-19 21:57:04 +0000 -- Dumping repositories ...
+...
+Creating backup archive: 1616191122_2021_03_19_13.7.1-ee_gitlab_backup.tar ... done
+Uploading backup archive to remote storage  ... skipped
+Deleting tmp directories ... done
+done
+done
+done
+done
+done
+done
+done
+2022-11-11 18:52:42 +0000 -- Warning: Your gitlab.rb and gitlab-secrets.json files contain sensitive data 
+and are not included in this backup. You will need these files to restore a backup.
+Please back them up manually.
+2022-11-11 18:52:42 +0000 -- Backup 1668192590_2022_11_11_15.4.0-ee is done.
+----
+
+Identify the file with the backup and assign it to the `GITLAB_BK_PREFIX` variable to the name of the gitlab backup. 
+
+[NOTE]
+====
+The file name is shown on the backup log `2022-11-11 18:52:42 +0000 -- Backup 1668192590_2022_11_11_15.4.0-ee is done.`
+====
+
+[source,bash]
+----
+$ podman exec -it ${GITLAB_CONTAINER} ls -lrth /var/opt/gitlab/backups
+
+total 2.4G
+-rw------- 1 git git 2.4G Mar 19 21:58 1616191122_2021_03_19_13.7.1-ee_gitlab_backup.tar
+
+$ GITLAB_BK_PREFIX=1616191122_2021_03_19_13.7.1-ee
+----
+
+[source,bash]
+----
+GITLAB_BK_PREFIX=1668107545_2022_11_10_15.4.0-ee
+GITLAB_BK_FILE=${GITLAB_BK_PREFIX}_gitlab_backup.tar
+----
+
+Download backup...
+
+[source,bash]
+----
+$ podman cp ${GITLAB_CONTAINER}:/var/opt/gitlab/backups/${GITLAB_BK_FILE} ${BACKUP_ROOT_FOLDER}/gitlab/${GITLAB_BK_FILE}
+----
+
+Download gitlab secrets:
+
+[source,bash]
+----
+$ podman cp ${GITLAB_CONTAINER}:/etc/gitlab/gitlab-secrets.json  ${BACKUP_ROOT_FOLDER}/gitlab/${GITLAB_BK_PREFIX}-gitlab-secrets-.json
+----
+
+Download `gitlab.rb`:
+
+[source,bash]
+----
+podman cp ${GITLAB_CONTAINER}:/etc/gitlab/gitlab.rb  ${BACKUP_ROOT_FOLDER}/gitlab/${GITLAB_BK_PREFIX}-gitlab.rb
+podman cp ${GITLAB_CONTAINER}:/etc/gitlab/ssh_host_rsa_key.pub    ${BACKUP_ROOT_FOLDER}/gitlab/${GITLAB_BK_PREFIX}-ssh_host_rsa_key.pub
+podman cp ${GITLAB_CONTAINER}:/etc/gitlab/ssh_host_rsa_key    ${BACKUP_ROOT_FOLDER}/gitlab/${GITLAB_BK_PREFIX}-ssh_host_rsa_key
+podman cp ${GITLAB_CONTAINER}:/etc/gitlab/ssh_host_ecdsa_key.pub    ${BACKUP_ROOT_FOLDER}/gitlab/${GITLAB_BK_PREFIX}-ssh_host_ecdsa_key.pub
+podman cp ${GITLAB_CONTAINER}:/etc/gitlab/ssh_host_ecdsa_key    ${BACKUP_ROOT_FOLDER}/gitlab/${GITLAB_BK_PREFIX}-ssh_host_ecdsa_key
+podman cp ${GITLAB_CONTAINER}:/etc/gitlab/ssh_host_ed25519_key.pub    ${BACKUP_ROOT_FOLDER}/gitlab/${GITLAB_BK_PREFIX}-ssh_host_ed25519_key.pub
+podman cp ${GITLAB_CONTAINER}:/etc/gitlab/ssh_host_ed25519_key    ${BACKUP_ROOT_FOLDER}/gitlab/${GITLAB_BK_PREFIX}-ssh_host_ed25519_key
+podman cp ${GITLAB_CONTAINER}:/etc/gitlab/trusted-certs    ${BACKUP_ROOT_FOLDER}/gitlab/${GITLAB_BK_PREFIX}-trusted-certs
+----
+
+Remove the backup file from the container. (NOT MANDATORY)
+
+[source,bash]
+----
+$ podman exec -it ${GITLAB_CONTAINER} rm -f /var/opt/gitlab/backups/${GITLAB_BK_FILE}
+----

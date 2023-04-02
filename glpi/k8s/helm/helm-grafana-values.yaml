@@ -1,0 +1,18 @@
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: {% if GRAFANA_URL is defined %}{{ GRAFANA_URL }}{% else %}UNDEFINED_HOST{% endif %}
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            serviceName: grafana
+            servicePort: 3000
+
+persistence:
+  volumeFileSize: 5Gi
+  storageClassName: local-storage

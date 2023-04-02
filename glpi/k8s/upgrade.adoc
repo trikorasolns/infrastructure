@@ -1,0 +1,57 @@
+= Upgrade GLPI
+:author:    A. Costa
+:email:     <a dot costa at trikorasolutions dot com>
+:Date:      20220502
+:Revision:  1
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: This section describes how to ugprade GLPI to a newer version.
+
+== Preparation
+
+Set the kube config file.
+
+[source,bash]
+----
+$ export KUBECONFIG=~/.kube/config
+----
+
+
+== Install the Helm Chart
+
+Deploy the `glpi` application using the `glpi` helm chart, overriding the application version.
+
+[source,bash]
+----
+$ helm install --namespace glpi --set image.tag=9.5.6 glpi glpi
+----
+
+Update the database.
+
+[source,bash]
+----
+$ php bin/console db:update
+Some optional system requirements are missing. Run "php bin/console glpi:system:check_requirements" for more details.
++-----------------------+--------------------------------+--------+
+|                       | Current                        | Target |
++-----------------------+--------------------------------+--------+
+| Database host         | mariadb.glpi.svc.cluster.local |        |
+| Database name         | glpi                           |        |
+| Database user         | glpi                           |        |
+| GLPI version          | 9.5.3                          | 9.5.6  |
+| GLPI database version | 9.5.3                          | 9.5.6  |
++-----------------------+--------------------------------+--------+
+Do you want to continue ? [Yes/no]Y
+----
+
+Press `Y` to go ahead with the update. The result should be something like.
+
+[source]
+----
+Do you want to continue ? [Yes/no]Y
+========================================= Update to 9.5.4 ==========================================
+========================================= Update to 9.5.5 ==========================================
+========================================= Update to 9.5.6 ==========================================
+Migration done.
+----

@@ -1,0 +1,159 @@
+= Gitlab Deployment Guide (helm)
+:author:    A. Costa
+:email:     <a dot costa at trikorasolutions dot com>
+:Date:      20220502
+:Revision:  1
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: This document describes the k8s installation process for GitLab using Helm Charts.
+
+== References
+
+  * https://docs.gitlab.com/charts/
+
+== Installation 
+
+[source,bash]
+----
+$ ansible-playbook gitlab/k8s/ansible/playbook-install-prepare.yaml -e k8s_host=${VM_NAME} -e @gitlab/k8s/ansible/default/main.yaml -K
+----
+
+== PostgreSQL
+
+[source,bash]
+----
+$ ansible-playbook gitlab/k8s/ansible/playbook-pgsql-prepare.yaml -e k8s_host=${VM_NAME} -e @gitlab/k8s/ansible/default/main.yaml -K
+$ helm upgrade --install --namespace gitlab postgresql ./postgresql
+----
+
+== Redis
+
+[source,bash]
+----
+$ helm upgrade --install --namespace gitlab redis ./redis
+----
+
+== GitLab
+
+Deploy the `gitlab` application using the `trikorasolns/gitlab` helm chart.
+
+[source,bash]
+----
+$ jinja2 --format=yaml -DGITLAB_URL=${GITLAB_URL} -DGITLAB_IP=${GITLAB_IP} -DGITLAB_VERSION=15.8.2 gitlab/k8s/helm/helm-gitlab-values.yaml > /tmp/helm-gitlab-values.yaml
+$ helm upgrade --install --namespace gitlab -f /tmp/helm-gitlab-values.yaml gitlab gitlab
+----
+
+
+[source,bash]
+----
+$ ansible-playbook gitlab/k8s/ansible/playbook-gitlab-prepare.yaml -e k8s_host=${VM_NAME} -e gitlab_hostname=${GITLAB_HOSTNAME} -e @gitlab/k8s/ansible/default/main.yaml -K
+$ helm upgrade --install --namespace gitlab gitlab ./gitlab
+----
+
+== Uninstallation
+
+GitLab
+
+[source,bash]
+----
+$ helm uninstall --namespace gitlab gitlab
+$ ansible-playbook gitlab/k8s/ansible/playbook-gitlab-remove.yaml -e k8s_host=${VM_NAME} -e @gitlab/k8s/ansible/default/main.yaml -K
+----
+
+PostgreSQL
+
+[source,bash]
+----
+$ helm uninstall --namespace gitlab postgresql
+$ ansible-playbook gitlab/k8s/ansible/playbook-pgsql-remove.yaml -e k8s_host=${VM_NAME} -e @gitlab/k8s/ansible/default/main.yaml -K
+----
+
+== Preparation 
+
+=== Ansible
+
+[source,bash]
+----
+$ ansible-playbook gitlab/k8s/ansible/install-preparation.yaml  -e k8s_host=${VM_NAME} -K
+----
+
+[source,bash]
+----
+$ ansible-playbook gitlab/k8s/ansible/playbook-install-prepare.yaml -e k8s_host=${VM_NAME} -e gitlab_hostname=${GITLAB_HOSTNAME} -e @gitlab/k8s/ansible/default/main.yaml -K
+----
+
+=== Create PV and folders
+
+First connect to the k8s host and create the folders that will hold the PVs.
+
+[source,bash]
+----
+$ cd /data/k8s/pv
+$ sudo mkdir -p {gitlab/postgresql-data,gitlab/gitaly-data,gitlab/gitlab-var-opt,gitlab/gitlab-var-log,gitlab/gitlab-etc}
+----
+
+Assign the correct `user:group`.
+
+[source,bash]
+----
+$ sudo chown 999 -R gitlab/postgresql-data
+$ sudo chown 1000 -R gitlab/gitlab-*
+----
+
+... or ??? ...
+
+[source,bash]
+----
+$ sudo chmod 777 -R gitlab/postgresql-data
+$ sudo chmod 777 -R gitlab/gitlab-*
+----
+
+Create the PVs.
+
+[source,bash]
+----
+$ kubectl apply -f gitlab/helm/gitlab-pv-hostPath.yaml
+----
+
+== Installation
+
+Create `gitlab` namespace.
+
+[source,bash]
+----
+$ kubectl create namespace gitlab
+----
+
+=== PostgreSQL
+
+[source,bash]
+----
+$ helm install --namespace gitlab postgresql ./postgresql
+----
+
+=== PHP My Admin
+
+TODO: Isn't working.
+
+[source,bash]
+----
+$ helm install --namespace gitlab -f gitlab/helm/pgadmin-values-dev.yaml pgadmin ./pgadmin
+----
+
+=== Redis
+
+[source,bash]
+----
+$ helm install --namespace gitlab redis ./redis
+----
+
+
+== Uninstallation
+
+=== PostgreSQL
+
+[source,bash]
+----
+$ helm uninstall --namespace gitlab postgresql ./postgresql
+----

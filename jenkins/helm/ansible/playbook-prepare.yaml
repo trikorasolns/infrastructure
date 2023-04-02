@@ -1,0 +1,49 @@
+---
+- name: "Prepare Jenkins"
+  hosts: "{{ k8s_host }}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+    - name: "Validate variables"
+      assert:
+        that:
+          - "k8s.pv_root_folder is defined"
+        fail_msg: "Root folder for k8s PV must be defined"
+        success_msg: "PV root folder is {{ k8s.pv_root_folder }}"
+
+    - name: "Set facts"
+      ansible.builtin.set_fact:
+        pv_root_folder: "{{ k8s.pv_root_folder }}"
+
+  tasks:
+
+    - name: "Create Jenkins root PV folder"
+      file:
+        path: "{{ pv_root_folder }}/jenkins"
+        state: directory
+        mode: 0777
+        owner: "{{ansible_user}}"
+        group: "{{ansible_user}}"
+      become: true
+
+    - name: "Create Jenkins k8s namespace"
+      kubernetes.core.k8s:
+        name: jenkins
+        api_version: v1
+        kind: Namespace
+        state: present
+
+    # Patch existing namespace : add label
+    - name: "Add labels to Jenkins namespace"
+      kubernetes.core.k8s:
+        state: patched
+        kind: Namespace
+        name: jenkins
+        definition:
+          metadata:
+            labels:
+              app.kubernetes.io/name: jenkins
+              app.kubernetes.io/version: "{{ jenkins_version }}"
+
+- import_playbook: playbook-jenkins-prepare.yaml
+...

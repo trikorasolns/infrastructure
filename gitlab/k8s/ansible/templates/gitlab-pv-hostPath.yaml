@@ -1,0 +1,69 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: gitlab-gitlab-var-opt-local
+  labels:
+    app.kubernetes.io/name: gitlab
+    app.kubernetes.io/instance: gitlab-gitlab
+    app.kubernetes.io/version: "{{ gitlab_version }}"
+    app.kubernetes.io/component: scm
+    app.kubernetes.io/part-of: gitlab
+spec:
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    namespace: gitlab
+    name: gitlab-var-opt-local
+  capacity:
+    storage: 20Gi
+  hostPath:
+    path: "{{ PV_ROOT_FOLDER }}/gitlab/gitlab-var-opt"
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: gitlab-gitlab-var-log-local
+  labels:
+    app.kubernetes.io/name: gitlab
+    app.kubernetes.io/instance: gitlab-gitlab
+    app.kubernetes.io/version: "{{ gitlab_version }}"
+    app.kubernetes.io/component: scm
+    app.kubernetes.io/part-of: gitlab
+spec:
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    namespace: gitlab
+    name: gitlab-var-log-local
+  capacity:
+    storage: 5Gi
+  hostPath:
+    path: "{{ PV_ROOT_FOLDER }}/gitlab/gitlab-var-log"
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: gitlab-gitlab-etc-local
+  labels:
+    app.kubernetes.io/name: gitlab
+    app.kubernetes.io/instance: gitlab-gitlab
+    app.kubernetes.io/version: "{{ gitlab_version }}"
+    app.kubernetes.io/component: scm
+    app.kubernetes.io/part-of: gitlab
+spec:
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    namespace: gitlab
+    name: gitlab-etc-local
+  capacity:
+    storage: 5Gi
+  hostPath:
+    path: "{{ PV_ROOT_FOLDER }}/gitlab/gitlab-etc"
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage

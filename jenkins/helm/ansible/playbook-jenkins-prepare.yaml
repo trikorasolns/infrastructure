@@ -1,0 +1,51 @@
+---
+- name: "Prepare for Jenkins deployment"
+  hosts: "{{ k8s_host }}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+    - name: "Validate variables"
+      assert:
+        that:
+          - "k8s.pv_root_folder is defined"
+        fail_msg: "Root folder for k8s PV must be defined"
+        success_msg: "PV root folder is {{ k8s.pv_root_folder }}"
+
+    - name: "Set facts"
+      ansible.builtin.set_fact:
+        pv_root_folder: "{{ k8s.pv_root_folder }}"
+
+  tasks:
+    - name: "Create sub-folder for Jenkins Data PV"
+      file:
+        path: "{{ pv_root_folder }}/jenkins/jenkins-data"
+        state: directory
+        mode: 0755
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        recurse: false
+      become: true
+
+    - name: "Template PV file"
+      ansible.builtin.template:
+        src: "jenkins-pv-hostPath.yaml"
+        dest: "/tmp/jenkins-pv-hostPath.yaml"
+
+    - name: "Apply PV file"
+      kubernetes.core.k8s:
+        state: present
+        src: "/tmp/jenkins-pv-hostPath.yaml"
+
+
+
+- name: "Local files"
+  hosts: localhost
+  connection: local 
+
+  tasks:
+    - name: "Template Helm values"
+      ansible.builtin.template:
+        src: "jenkins-helm-values.yaml"
+        dest: "/tmp/jenkins-helm-values.yaml"
+    
+...

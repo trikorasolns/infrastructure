@@ -1,0 +1,27 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: gitlab-postgres-pv
+  labels:
+    type: local
+    app.kubernetes.io/name: postgres
+    app.kubernetes.io/instance: postgres-gitlab
+    # app.kubernetes.io/version: "5.7.21"
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: postgres
+spec:
+  accessModes:
+    - ReadWriteOnce
+  # claimRef:
+  #   namespace: gitlab
+  #   name: gitlab-postgres-pvc
+  capacity:
+    storage: 10Gi
+  persistentVolumeReclaimPolicy: Retain
+  #storageClassName: local-storage
+  mountOptions:
+    - hard
+    # - nfsvers=4.1
+  volumeMode: Filesystem
+  hostPath:
+    path: "/data/k8s/pv/gitlab/pgsql"

@@ -1,0 +1,52 @@
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: {% if GITLAB_URL is defined %}{{ GITLAB_URL }}{% else %}UNDEFINED_HOST{% endif %}
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            serviceName: gitlab
+            servicePort: 80
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+# image:
+#   tag: "{{ GITLAB_VERSION }}-ee.0"
+
+prometheus:
+  alertmanager:
+    enabled: false
+    persistentVolume:
+      enabled: false
+      size: 2Gi
+  pushgateway:
+    enabled: false
+    persistentVolume:
+      enabled: false
+      size: 2Gi
+  server:
+    persistentVolume:
+      enabled: true
+      size: 8Gi
+
+# https://docs.gitlab.com/charts/installation/command-line-options.html#outgoing-email-configuration
+gitlab:
+  global:
+    smtp: 
+    email: 
+      from: 
+    hosts: 
+      domain: {% if GITLAB_URL is defined %}{{ GITLAB_URL }}{% else %}UNDEFINED_HOST{% endif %}
+      externalIP: {{ GITLAB_IP }}
+
+postgresql.image.tag: 13.6.0
+
+persistence:
+  storageClassName: local-storage

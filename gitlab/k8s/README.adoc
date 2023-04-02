@@ -1,0 +1,29 @@
+= Gitlab for Kubernetes
+:author:    A. Costa
+:email:     <a dot costa at trikorasolutions dot com>
+:Date:      20220502
+:Revision:  1
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+
+:leveloffset: +1
+
+include::install-helm.adoc[]
+
+include::backupNrestore.adoc[]
+
+include::upgrade.adoc[]
+
+include::troubleshooting.adoc[]
+
+== Deprecated
+
+:leveloffset: +1
+
+include::install-kubectl.adoc[]
+
+:leveloffset: -1
+
+:leveloffset: -1
+

@@ -1,0 +1,88 @@
+= GLPI Backup
+:author:    A. Costa
+:email:     <a dot costa at trikorasolutions dot com>
+// :Date:      20210222
+:Revision:  1
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: This section describes the backup and restore instructions for GLPI.
+
+:toc:
+
+== Preparation
+
+Define backup environment variables.
+
+Set the root location of the backup folder.
+
+[source,bash]
+----
+$ BACKUP_ROOT_FOLDER=/opt/_backup
+----
+
+== Backup
+
+Identify containers on the `glpi` pod.
+
+[source,bash]
+----
+$ podman container ls --pod --filter "pod=glpi"
+CONTAINER ID  IMAGE                                    COMMAND               CREATED     STATUS           PORTS                 NAMES               POD ID        PODNAME
+f2280dc2f642  localhost/podman-pause:4.2.1-1662580699                        4 days ago  Up 11 hours ago  0.0.0.0:9580->80/tcp  6b71fb0a7bfc-infra  6b71fb0a7bfc  glpi
+9748172c5926  docker.io/library/mariadb:latest         mariadbd              4 days ago  Up 11 hours ago  0.0.0.0:9580->80/tcp  glpi_mariadb        6b71fb0a7bfc  glpi
+d2b5e9127235  docker.io/fametec/glpi:9.5.6             /glpi-entrypoint....  4 days ago  Up 11 hours ago  0.0.0.0:9580->80/tcp  glpi_web            6b71fb0a7bfc  glpi
+----
+
+Define the pod for the GLPI application.
+
+[source,bash]
+----
+$ GLPI_CONTAINER=glpi-web
+----
+
+[source,bash]
+----
+$ GLPI_DUMP_PREFIX=$(date +%Y-%m-%d-%H-%M-%S).glpi.backup
+$ GLPI_MYSQL_DUMP_FILENAME=${GLPI_DUMP_PREFIX}.sql
+----
+
+Connect to the database container.
+
+[source,bash]
+----
+$ podman exec -it --env GLPI_MYSQL_DUMP_FILENAME=${GLPI_MYSQL_DUMP_FILENAME} glpi-db /bin/bash
+root@glpi:/# 
+----
+
+Dump mysql database.
+
+[source,bash]
+----
+mysqldump -u root -p glpi > /tmp/${GLPI_MYSQL_DUMP_FILENAME}
+
+Enter password: 
+----
+
+Disconnect from the pod and copy the dump file to the host.
+
+[source,bash]
+----
+$ podman cp glpi-db:/tmp/${GLPI_MYSQL_DUMP_FILENAME} ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME}
+----
+
+Compress and copy the folders with physical files.
+
+[source,bash]
+----
+podman exec -it glpi-web tar --warning=no-file-changed -czvf /tmp/${GLPI_DUMP_PREFIX}.files.tgz /var/www/html/files 
+podman exec -it glpi-web tar --warning=no-file-changed -czvf /tmp/${GLPI_DUMP_PREFIX}.plugins.tgz /var/www/html/plugins
+----
+
+Copy files.
+
+[source,bash]
+----
+podman cp ${GLPI_CONTAINER}:/tmp/${GLPI_DUMP_PREFIX}.files.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_DUMP_PREFIX}.files.tgz
+podman cp ${GLPI_CONTAINER}:/tmp/${GLPI_DUMP_PREFIX}.plugins.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_DUMP_PREFIX}.plugins.tgz
+----

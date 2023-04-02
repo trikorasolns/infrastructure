@@ -1,0 +1,16 @@
+= Gitlab Admin Guide
+:author:    A. Costa
+:email:     <a dot costa at trikorasolutions dot com>
+:Date:      20220502
+:Revision:  1
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: This document describes the GitLab administration.
+
+
+
+== References
+
+  * https://docs.gitlab.com/omnibus/settings/configuration.html
+

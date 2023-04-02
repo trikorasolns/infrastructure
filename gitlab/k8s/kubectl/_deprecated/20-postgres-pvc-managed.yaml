@@ -1,0 +1,20 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: gitlab-postgres-pv-claim
+  namespace: gitlab
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "gitlab-managed-nfs-storage"
+    # nfs.io/storage-path: "gitlab/pgsql/gitlab" # not required, depending on whether this annotation was shown in the storage class description
+  labels:
+    app.kubernetes.io/name: postgres
+    app.kubernetes.io/instance: postgres-gitlab
+    app.kubernetes.io/version: "10.4"
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: postgres
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi

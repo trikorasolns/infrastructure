@@ -1,0 +1,100 @@
+= Gitlab User Guide
+:author:    A. Costa
+:email:     <a dot costa at trikorasolutions dot com>
+// :Date:      20210222
+:Revision:  1
+:toc:       left
+:toclevels: 3
+:toc-title: Table of Contents
+:icons: font
+:description: This document describes the k8s installation process for GitLab
+
+== Usage
+
+=== pgadmin
+
+http://gitlab-pgadmin.${VM_NAME}.localdomain/browser/
+
+
+user: PGADMIN_DEFAULT_EMAIL (admin@admin.com )
+password: PGADMIN_DEFAULT_PASSWORD (admin123)
+
+Database host: 
+
+
+== Maintenance
+
+=== PostgreSQL 
+
+==== Container wont start with permission errors
+
+[source,bash]
+----
+chmod: changing permissions of '/var/lib/postgresql/data': Operation not permitted
+chown: changing ownership of '/var/lib/postgresql/data': Operation not permitted
+----
+
+The NFS folder user must be owned by user id 999.
+
+
+=== GitLab
+
+User IDs:
+
+[Attributes]
+|===
+| User | UID | GID
+
+| git | 996 | 993
+|===
+
+
+== Configure
+
+Reference: https://docs.gitlab.com/omnibus/settings/smtp.html
+
+SMTP 
+
+[source]
+----
+gitlab_rails['smtp_enable'] = true
+gitlab_rails['smtp_address'] = "smtp.server"
+gitlab_rails['smtp_port'] = 465
+gitlab_rails['smtp_user_name'] = "smtp user"
+gitlab_rails['smtp_password'] = "smtp password"
+gitlab_rails['smtp_domain'] = "example.com"
+gitlab_rails['smtp_authentication'] = "login"
+gitlab_rails['smtp_enable_starttls_auto'] = true
+gitlab_rails['smtp_openssl_verify_mode'] = 'peer'
+
+# If your SMTP server does not like the default 'From: gitlab@localhost' you
+# can change the 'From' with this setting.
+gitlab_rails['gitlab_email_from'] = 'gitlab@example.com'
+gitlab_rails['gitlab_email_reply_to'] = 'noreply@example.com'
+
+# If your SMTP server is using self signed certificates you can specify a custom ca file
+#gitlab_rails['smtp_ca_file'] = '/path/to/your/cacert.pem'
+----
+
+GMAIL
+
+[source]
+----
+gitlab_rails['smtp_enable'] = true
+gitlab_rails['smtp_address'] = "smtp.gmail.com"
+gitlab_rails['smtp_port'] = 587
+gitlab_rails['smtp_user_name'] = "my.email@gmail.com"
+gitlab_rails['smtp_password'] = "my-gmail-password"
+gitlab_rails['smtp_domain'] = "smtp.gmail.com"
+gitlab_rails['smtp_authentication'] = "login"
+gitlab_rails['smtp_enable_starttls_auto'] = true
+gitlab_rails['smtp_tls'] = false
+gitlab_rails['smtp_openssl_verify_mode'] = 'peer' # Can be: 'none', 'peer', 'client_once', 'fail_if_no_peer_cert', see http://api.rubyonrails.org/classes/ActionMailer/Base.html
+----
+
+
+:leveloffset: +1
+
+include::TROUBLESHOOTING.adoc[]
+
+:leveloffset: -1

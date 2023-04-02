@@ -1,0 +1,118 @@
+= Grafana GLPI Kubernetes Deployment Guide
+:Author:    Antonio Costa
+:Email:     a dot costa at trikorasolutions dot com
+:Date:      20221214
+:Revision:  1
+:table-caption: Table
+:toc: left
+:toc-title: Table of Contents
+:icons: font
+:description: Instructions on deploying Grafana on a kubernetes cluster.
+:source-highlighter: highlight.js
+
+== Grafana k8s deployment guide
+
+Reference: 
+  * https://grafana.com/docs/grafana/latest/installation/kubernetes/
+
+== Helm
+
+Environment variables.
+
+PV_ROOT_FOLDER: Root folder for the hostPath PV.
+
+Configure the PV.
+
+[source,bash]
+----
+$ jinja2 --format=yaml -DPV_ROOT_FOLDER=${PV_ROOT_FOLDER} glpi/k8s/helm/pv-grafana-hostPath.yaml > /tmp/pv-grafana-hostPath.yaml
+----
+
+Deploy the `PV`.
+
+[source,bash]
+----
+$ kubectl apply -f /tmp/pv-grafana-hostPath.yaml
+persistentvolume/glpi-grafana created
+----
+
+[source,bash]
+----
+$ jinja2 --format=yaml -DGRAFANA_URL=${GRAFANA_URL} glpi/k8s/helm/helm-grafana-values.yaml > /tmp/helm-grafana-values.yaml
+----
+
+[source,bash]
+----
+$ helm install --namespace glpi -f /tmp/helm-grafana-values.yaml grafana grafana
+----
+
+== Kubectl
+
+Create PV folder.
+
+[source,shell script]
+----
+mkdir /mnt/gluster-gv0-nas/k8s/glpi/grafana
+----
+
+Create PV and PVC.
+
+[source,shell script]
+----
+kubectl create -f glpi/kubectl/grafana/15-grafana-pv.yaml
+kubectl create -f glpi/kubectl/grafana/16-grafana-pvc.yaml
+----
+
+Deploy the application.
+
+[source,bash]
+----
+kubectl create -f glpi/kubectl/grafana/20-grafana-deployment.yaml
+kubectl create -f glpi/kubectl/grafana/30-grafana-service.yaml
+kubectl create -f glpi/kubectl/grafana/40-grafana-ingress.yaml
+----
+
+
+Delete the PVC and the PV.
+
+[source,shell script]
+----
+kubectl delete -f glpi/kubectl/grafana/16-grafana-pvc.yaml
+kubectl delete -f glpi/kubectl/grafana/15-grafana-pv.yaml
+----
+
+[source,bash]
+----
+kubectl delete -f glpi/kubectl/grafana/40-grafana-ingress.yaml
+kubectl delete -f glpi/kubectl/grafana/30-grafana-service.yaml
+kubectl delete -f glpi/kubectl/grafana/20-grafana-deployment.yaml
+----
+
+== Configure
+
+http://grafana.glpi.${VM_NAME}.localdomain/
+
+Login with `admin`/`admin`
+
+Create datasource to the glpi mariadb database.
+
+New MySQL datasource(`service.namespace.svc.cluster.local`).
+
+.MySQL datasource
+[cols="1h,3"]
+|===
+
+|Host
+| `mariadb.glpi.svc.cluster.local:3306` 
+
+|Database
+|`glpi`
+
+|User
+|_Check the mariadb configmap_
+
+|Password
+|_Check the mariadb secret_
+
+|=== 
+

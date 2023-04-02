@@ -1,0 +1,12 @@
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations: {}
+  hosts:
+    - host: pgadmin.gitlab.localdomain
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            serviceName: pgadmin
+            servicePort: 80

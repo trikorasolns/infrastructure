@@ -1,0 +1,150 @@
+---
+- name: "GLPI backup"
+  hosts: "localhost"
+  gather_facts: yes
+
+  pre_tasks:
+    - name: "Check variables"
+      assert:
+        that:
+          # - "k8s_config_file is defined"
+          - "k8s_ns is defined"
+          - "backup_root_folder is defined"
+
+    - name: "Set variables"
+      set_fact:
+        backup_file_prefix: "{{ ansible_date_time.iso8601_basic_short }}.glpi.backup"
+        db_bk_user: "{{ db_user | default('root') }}"
+
+    - name: "Collect backup folder stats"
+      stat:
+        path: "{{ backup_root_folder }}/{{ k8s_ns }}"
+      register: backup_folder_stats
+
+    - name: "Check backup folder exists"
+      assert:
+        that:
+          - "backup_folder_stats.stat.exists"
+
+  tasks:
+    - name: "Get pods"
+      kubernetes.core.k8s_info:
+        kind: "Pod"
+        namespace: "{{ k8s_ns }}"
+        # kubeconfig: "{{ k8s_config_file }}"
+      register: pod_list
+
+    - name: "Build custom Pod information list"
+      set_fact:
+        pod_card_list: "{{ pod_list.resources | json_query(jmesquery) }}"
+      vars:
+        jmesquery: "[*].{MetadataName: metadata.name, MetadataNamespace: metadata.namespace, MetadataOwnerKind: metadata.ownerReferences[0].kind}"
+
+    - name: "Print pod card list"
+      debug:
+        msg: "pod_card_list: {{ pod_card_list }}"
+        verbosity: 2
+
+    - name: "Print pod list 2"
+      debug:
+        msg: "select pod (filter: {{ item }}): {{ pod_card_list | to_json | from_json | community.general.json_query(item) }}"
+        verbosity: 2
+      with_items:
+        - "[?contains(MetadataName,'glpi-') && MetadataOwnerKind=='ReplicaSet']"
+
+    - name: "Fetch mariadb Pod name"
+      set_fact:
+        mariadb_pod_name: "{{ pod_card_list | to_json | from_json | community.general.json_query(jmesquery) | first }}"
+      vars:
+        jmesquery: "[?contains(MetadataName,'mariadb') && MetadataOwnerKind=='StatefulSet'].MetadataName"
+
+  # GLPI_MYSQL_DUMP_FILENAME_PREFIX=$(date +%Y-%m-%d-%H-%M-%S).glpi.backup
+  # kubectl -n glpi exec -it glpi-mariadb-0 -- mysqldump -u root glpi > ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.sql
+    - name: "Backup GLPI database"
+      kubernetes.core.k8s_exec:
+        command: "mysqldump -u {{ db_bk_user }} glpi"
+        # kubeconfig: "{{ k8s_config_file }}"
+        namespace: "{{ k8s_ns }}"
+        pod: "{{ mariadb_pod_name }}"
+      register: mysqldump_res
+
+    - name: "Write DB backup to file"
+      copy: 
+        content: "{{ mysqldump_res.stdout }}" 
+        dest: "{{ backup_root_folder }}/{{ k8s_ns }}/{{ backup_file_prefix }}.sql"
+
+    # - name: "Print pod card list"
+    #   debug:
+    #     msg: "mysqldump_res: {{ mysqldump_res }}"
+    #     verbosity: 2
+
+    - name: "Fetch GLPI Pod name"
+      set_fact:
+        glpi_pod_name: "{{ pod_card_list | to_json | from_json | community.general.json_query(jmesquery) | first }}"
+      vars:
+        jmesquery: "[?contains(MetadataName,'glpi-') && MetadataOwnerKind=='ReplicaSet'].MetadataName"
+
+    - name: "Print pod card list"
+      debug:
+        msg: "glpi_pod_name: {{ glpi_pod_name }}"
+        verbosity: 2
+
+  # kubectl -n glpi exec -it ${GLPI_POD} -- tar --warning=no-file-changed -czvf /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz /var/www/html/files 
+    - name: "Backup GLPI files"
+      kubernetes.core.k8s_exec:
+        command: "tar --warning=no-file-changed -czvf /tmp/{{ backup_file_prefix }}.files.tgz /var/www/html/files "
+        # kubeconfig: "{{ k8s_config_file }}"
+        namespace: "{{ k8s_ns }}"
+        pod: "{{ glpi_pod_name }}"
+      register: glpi_file_bk_res
+
+  # kubectl -n glpi cp ${GLPI_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz
+    - name: "Download file backup"
+      kubernetes.core.k8s_cp:
+        # kubeconfig: "{{ k8s_config_file }}"
+        namespace: "{{ k8s_ns }}"
+        pod: "{{ glpi_pod_name }}"
+        state: from_pod
+        remote_path: "/tmp/{{ backup_file_prefix }}.files.tgz"
+        local_path: "{{ backup_root_folder }}/{{ k8s_ns }}/{{ backup_file_prefix }}.files.tgz"
+
+  # kubectl -n glpi exec -it ${GLPI_POD} -- tar --warning=no-file-changed -czvf /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz /var/www/html/plugins
+    - name: "Backup GLPI plugins"
+      kubernetes.core.k8s_exec:
+        command: "tar --warning=no-file-changed -czvf /tmp/{{ backup_file_prefix }}.plugins.tgz /var/www/html/plugins"
+        # kubeconfig: "{{ k8s_config_file }}"
+        namespace: "{{ k8s_ns }}"
+        pod: "{{ glpi_pod_name }}"
+      register: glpi_plugin_bk_res
+
+
+  # kubectl -n glpi cp ${GLPI_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz
+    - name: "Download plugin backup"
+      kubernetes.core.k8s_cp:
+        # kubeconfig: "{{ k8s_config_file }}"
+        namespace: "{{ k8s_ns }}"
+        pod: "{{ glpi_pod_name }}"
+        state: from_pod
+        remote_path: "/tmp/{{ backup_file_prefix }}.plugins.tgz"
+        local_path: "{{ backup_root_folder }}/{{ k8s_ns }}/{{ backup_file_prefix }}.plugins.tgz"
+
+  # kubectl -n glpi exec -it ${GLPI_POD} -- tar --warning=no-file-changed -czvf /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz /var/www/html/plugins
+    - name: "Backup GLPI config"
+      kubernetes.core.k8s_exec:
+        command: "tar --warning=no-file-changed -czvf /tmp/{{ backup_file_prefix }}.config.tgz /var/www/html/config"
+        # kubeconfig: "{{ k8s_config_file }}"
+        namespace: "{{ k8s_ns }}"
+        pod: "{{ glpi_pod_name }}"
+      register: glpi_config_bk_res
+
+
+  # kubectl -n glpi cp ${GLPI_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.config.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz
+    - name: "Download config backup"
+      kubernetes.core.k8s_cp:
+        # kubeconfig: "{{ k8s_config_file }}"
+        namespace: "{{ k8s_ns }}"
+        pod: "{{ glpi_pod_name }}"
+        state: from_pod
+        remote_path: "/tmp/{{ backup_file_prefix }}.config.tgz"
+        local_path: "{{ backup_root_folder }}/{{ k8s_ns }}/{{ backup_file_prefix }}.config.tgz"
+...

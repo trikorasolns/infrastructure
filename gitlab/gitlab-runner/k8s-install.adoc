@@ -1,0 +1,78 @@
+= Gitlab Runner on Kubernetes with Helm
+:author:    A. Costa
+:email:     <a dot costa at trikorasolutions dot com>
+:Date:      20230119
+:Revision:  1
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: This document describes deployment of gitlab runner on a Kubernetes cluster with Helm.
+
+== Prepare
+
+=== Podman Service
+
+[source, bash]
+----
+$ jinja2 --format=yaml -DGITLAB_URL=${GITLAB_URL} -DGITLAB_REGISTRATION_TOKEN=${GITLAB_REGISTRATION_TOKEN} gitlab/gitlab-runner/values.yaml > /tmp/gitlab-runner-values.yaml
+----
+
+=== Podman Volumes 
+
+Create volume.  
+
+[source,bash]
+----
+$ podman volume create gitlab_runner_config \
+  --label "name=gitlab_runner_config" --label "component=pv" --label "part-of=gitlab" --label "environment=production"
+----
+
+== Deploy
+
+[source,bash]
+----
+$ podman run -d --name gitlab_runner_gradle --pod gitlab \
+  --restart always --security-opt label=disable \
+  -v /run/user/1000/podman/podman.sock:/var/run/docker.sock \
+  -v gitlab_runner_config:/etc/gitlab-runner \
+  --label "name=gitlab_runner" --label "component=pv" --label "part-of=gitlab" --label "environment=production" \
+  docker.io/gitlab/gitlab-runner:latest
+----
+
+docker run --rm -it -v /srv/gitlab-runner/config:/etc/gitlab-runner gitlab/gitlab-runner register
+
+== Register
+
+Connect to the 
+[source,bash]
+----
+$ podman exec -it gitlab_runner_gradle /bin/bash
+----
+
+[source,bash]
+----
+$ cat > /tmp/test-config.template.toml << EOF
+[[runners]]
+[runners.docker]
+EOF
+----
+
+[source,bash]
+----
+$ gitlab-runner register \
+  --non-interactive \
+  --url "http://gitlab_app" \
+  --registration-token "${REGISTRATION_TOKEN}" \
+  --description "gitlab-ee-gradle-latest" \
+  --executor "docker" \
+  --docker-image gradle:latest
+----
+
+  --template-config /tmp/test-config.template.toml \
+
+== References
+
+  * https://docs.gitlab.com/runner/executors/docker.html#use-podman-to-run-docker-commands
+  * https://docs.gitlab.com/runner/install/docker.html
+  * https://docs.gitlab.com/runner/examples/gitlab.html
+

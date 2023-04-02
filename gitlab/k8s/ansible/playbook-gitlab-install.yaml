@@ -1,0 +1,101 @@
+---
+- name: "Install GITLAB"
+  hosts: "{{ k8s_host }}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+    - name: "Validate variables"
+      assert:
+        that:
+          - "k8s.pv_root_folder is defined"
+        fail_msg: "Root folder for k8s PV must be defined"
+        success_msg: "PV root folder is {{ k8s.pv_root_folder }}"
+
+    - name: "Set gitlab version"
+      ansible.builtin.set_fact:
+        gitlab_version: "15.4.0"
+        when: gitlab_version is undefined
+
+    - name: "Set facts"
+      ansible.builtin.set_fact:
+        PV_ROOT_FOLDER: "{{ k8s.pv_root_folder }}"
+
+  tasks:
+
+    - name: "Gitlab: Template PV file"
+      ansible.builtin.template:
+        src: "gitlab-pv-hostPath.yaml"
+        dest: "/tmp/gitlab-pv-hostPath.yaml"
+
+    - name: "Gitlab: Apply PV file"
+      kubernetes.core.k8s:
+        state: present
+        src: "/tmp/gitlab-pv-hostPath.yaml"
+
+    # - name: "Delete PV file"
+    #   file:
+    #     state: absent
+    #     path: "gitlab-pv-hostPath.yaml"
+
+    - name: "Gitlab: Template ConfigMap"
+      ansible.builtin.template:
+        src: "gitlab-configmap.yaml"
+        dest: "/tmp/gitlab-configmap.yaml"
+
+    - name: "Gitlab: Apply ConfigMap"
+      kubernetes.core.k8s:
+        src: "/tmp/gitlab-configmap.yaml"
+        state: present
+
+    - name: "Gitlab: Template PVC"
+      ansible.builtin.template:
+        src: "gitlab-pvc-hostPath.yaml"
+        dest: "/tmp/gitlab-pvc-hostPath.yaml"
+
+    - name: "Gitlab: Apply PVC"
+      kubernetes.core.k8s:
+        src: "/tmp/gitlab-pvc-hostPath.yaml"
+        state: present
+
+    - name: "Gitlab: Template RBAC, Deployment and Service"
+      ansible.builtin.template:
+        src: "{{ rds_template_item }}"
+        dest: "/tmp/{{ rds_template_item }}"
+      loop:
+        - gitlab-rbac.yaml
+        - gitlab-deployment.yaml
+        - gitlab-service.yaml
+      loop_control:
+        loop_var: rds_template_item
+
+    - name: "Gitlab: Apply RBAC, Deployment and Service"
+      kubernetes.core.k8s:
+        src: "/tmp/{{ rds_item }}"
+        state: present
+      loop:
+        - gitlab-rbac.yaml
+        - gitlab-deployment.yaml
+        - gitlab-service.yaml
+      loop_control:
+        loop_var: rds_item
+
+    # From repository
+    # - name: Add stable chart repo
+    #   kubernetes.core.helm_repository:
+    #     name: stable
+    #     repo_url: "https://kubernetes.github.io/ingress-nginx"
+
+    # - name: "Template Mariadb values"
+    #   ansible.builtin.template:
+    #     src: "../helm/helm-mariadb-values.yaml"
+    #     dest: "/tmp/helm-mariadb-values.yaml"
+
+    #helm install --namespace glpi -f /tmp/helm-mariadb-values.yaml mariadb mariadb
+
+    # - name: "Delete PV file"
+    #   ansible.builtin.file:
+    #     path: /tmp/helm-mariadb-values.yaml
+    #     state: absent
+
+    #helm install --namespace glpi phpmyadmin phpmyadmin
+...

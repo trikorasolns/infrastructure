@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: jenkins-dev
+  namespace: jenkins-dev
+  # annotations:
+  labels:
+    app: jenkins-dev
+spec:
+  containers:
+    - name: jenkins-master
+      # securityContext:
+      #   privileged: {{ web_security_context_privileged }}
+      image: docker.io/jenkins/jenkins:lts-jdk11
+      # imagePullPolicy: Always
+      ports:
+        - containerPort: 8080
+          hostPort: 8080
+        - containerPort: 50000
+          hostPort: 50000
+      # env:
+      # - name: REQUESTS_CA_BUNDLE
+      #   value: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
+      resources:
+        requests:
+          memory: "1Gi"
+          cpu: "500m"
+        # limits:
+        #   memory: "{{ web_mem_limit }}Gi"
+        #   cpu: "{{ web_cpu_limit }}m"
+      restartPolicy: Always
+      volumeMounts:
+        - name: jenkins-home
+          mountPath: "/var/jenkins_home:z"
+  volumes:
+  - hostPath:
+      path: /z/var/opt/lib/podman/jenkins-dev/jenkins-home
+      type: Directory
+    name: jenkins-home

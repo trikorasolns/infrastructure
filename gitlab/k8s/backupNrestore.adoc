@@ -1,0 +1,311 @@
+= Gitlab Backup N Restore
+:author:    A. Costa
+:email:     <a dot costa at trikorasolutions dot com>
+:docdate: date (ISO)
+:Revision:  1
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: This section describes the backup and restore instructions for GitLab.
+
+:toc:
+
+Reference: 
+
+* https://docs.gitlab.com/ee/raketasks/backup_restore.html#requirements
+
+== Preparation
+
+Set the root location of the backup folder.
+[source,bash]
+----
+$ BACKUP_ROOT_FOLDER=/z/_backup
+----
+
+== Backup
+
+Identify the gitlab pod and set the `GITLAB_POD` variable with the name of the pod.
+
+[source,bash]
+----
+$ kubectl -n gitlab get pods
+NAME                      READY   STATUS    RESTARTS   AGE
+gitlab-645ccb994c-xvx5v   1/1     Running   2          37d
+gitlab-postgres-0         1/1     Running   12         7d6h
+pgadmin-689c7ff6-h4n97    1/1     Running   2          38d
+redis-75cdb44b8c-sb8wf    1/1     Running   2          38d
+----
+
+Define the pod for the GitLab application.
+
+[source,bash]
+----
+GITLAB_POD=$(kubectl get pods --namespace gitlab -l "app.kubernetes.io/name=gitlab,app.kubernetes.io/instance=gitlab" -o jsonpath="{.items[0].metadata.name}")
+----
+
+
+[source,bash]
+----
+$ sudo gitlab-backup create
+----
+
+On k8s...
+
+[source,bash]
+----
+kubectl -n gitlab exec -it ${GITLAB_POD} -- gitlab-backup create
+----
+
+.Gitlab backup output sample...
+[source,bash]
+----
+2021-03-19 21:56:56 +0000 -- Dumping database ... 
+Dumping PostgreSQL database gitlab ... [DONE]
+2021-03-19 21:57:04 +0000 -- done
+2021-03-19 21:57:04 +0000 -- Dumping repositories ...
+...
+Creating backup archive: 1616191122_2021_03_19_13.7.1-ee_gitlab_backup.tar ... done
+Uploading backup archive to remote storage  ... skipped
+Deleting tmp directories ... done
+done
+done
+done
+done
+done
+done
+done
+Deleting old backups ... skipping
+Warning: Your gitlab.rb and gitlab-secrets.json files contain sensitive data 
+and are not included in this backup. You will need these files to restore a backup.
+Please back them up manually.
+Backup task is done.
+----
+
+Identify the file with the backup and assign it to the `GITLAB_BK_FILE` variable.
+
+[source,bash]
+----
+$ kubectl -n gitlab exec -it ${GITLAB_POD} -- ls -lrth /var/opt/gitlab/backups
+
+total 2.4G
+-rw------- 1 git git 2.4G Mar 19 21:58 1616191122_2021_03_19_13.7.1-ee_gitlab_backup.tar
+
+$ GITLAB_BK_FILE=1616191122_2021_03_19_13.7.1-ee_gitlab_backup.tar
+----
+
+Download backup...
+
+[source,bash]
+----
+kubectl -n gitlab cp ${GITLAB_POD}:/var/opt/gitlab/backups/${GITLAB_BK_FILE} ${BACKUP_ROOT_FOLDER}/gitlab/${GITLAB_BK_FILE}
+----
+
+Download gitlab secrets:
+
+[source,bash]
+----
+kubectl -n gitlab cp ${GITLAB_POD}:/etc/gitlab/gitlab-secrets.json  ${BACKUP_ROOT_FOLDER}/gitlab/$(date +%Y-%m-%d-%H-%M-%S)-gitlab-secrets.json
+----
+
+Download `gitlab.rb`:
+
+[source,bash]
+----
+kubectl -n gitlab cp ${GITLAB_POD}:/etc/gitlab/gitlab.rb  ${BACKUP_ROOT_FOLDER}/gitlab/$(date +%Y-%m-%d-%H-%M-%S)-gitlab.rb
+----
+
+Remove the backup file from the container. (NOT MANDATORY)
+
+[source,bash]
+----
+kubectl -n gitlab exec -it ${GITLAB_POD} -- rm -f /var/opt/gitlab/backups/${GITLAB_BK_FILE}
+
+total 2.4G
+-rw------- 1 git git 2.4G Mar 19 21:58 1616191122_2021_03_19_13.7.1-ee_gitlab_backup.tar
+
+$ GITLAB_BK_FILE=1616191122_2021_03_19_13.7.1-ee_gitlab_backup.tar
+----
+
+== Restore
+
+Copy the backup file to the backups folder. This can be done in 2 ways, copying the file to the persistent storage or to the container itself.
+
+[source,bash]
+----
+$ sudo cp 11493107454_2018_04_25_10.6.4-ce_gitlab_backup.tar /var/opt/gitlab/backups/
+$ sudo chown git.git /var/opt/gitlab/backups/11493107454_2018_04_25_10.6.4-ce_gitlab_backup.tar
+----
+
+Define the following variables.
+
+GITLAB_BK_FILE: Name of the file containing the backup to be restored.
+GITLAB_POD: Name of the gitlab pod (`kubectl -n gitlab get pods`)
+
+e.g.
+
+[source,bash]
+----
+GITLAB_BK_PREFIX=1617281387_2021_04_01_13.7.1-ee
+GITLAB_POD=gitlab-66d579bc94-czqt9
+BACKUP_ROOT_FOLDER=/z/_backup/k8s
+----
+
+Upload the backup file.
+
+[source,bash]
+----
+kubectl -n gitlab cp ${BACKUP_ROOT_FOLDER}/gitlab/${GITLAB_BK_PREFIX}_gitlab_backup.tar ${GITLAB_POD}:/var/opt/gitlab/backups/${GITLAB_BK_PREFIX}_gitlab_backup.tar
+----
+
+...and upload the gitlab secrets.
+
+[source,bash]
+----
+$ kubectl -n gitlab cp ${BACKUP_ROOT_FOLDER}/gitlab/${GITLAB_BK_PREFIX}-gitlab-secrets.json ${GITLAB_POD}:/etc/gitlab/gitlab-secrets.json
+----
+
+
+Connect to the gitlab pod.
+
+[source,bash]
+----
+$ kubectl -n gitlab exec -it ${GITLAB_POD} -- env GITLAB_BK_PREFIX=${GITLAB_BK_PREFIX} /bin/bash
+----
+
+Stop the processes that are connected to the database. Leave the rest of GitLab running:
+
+[source,bash]
+----
+gitlab-ctl stop unicorn
+gitlab-ctl stop puma
+gitlab-ctl stop sidekiq
+----
+
+The `puma` and `sidekiq` output usually is:
+
+[source,bash]
+----
+gitlab-ctl stop puma
+ok: down: puma: 0s, normally up
+gitlab-ctl stop sidekiq
+ok: down: sidekiq: 0s, normally up
+----
+
+Verify the service status.
+
+[source,bash]
+----
+$ gitlab-ctl status
+run: alertmanager: (pid 597) 673s; run: log: (pid 545) 680s
+run: gitaly: (pid 243) 731s; run: log: (pid 297) 728s
+run: gitlab-exporter: (pid 475) 695s; run: log: (pid 485) 692s
+run: gitlab-workhorse: (pid 568) 674s; run: log: (pid 437) 710s
+run: grafana: (pid 609) 673s; run: log: (pid 595) 674s
+run: logrotate: (pid 459) 701s; run: log: (pid 472) 698s
+run: nginx: (pid 440) 707s; run: log: (pid 456) 704s
+run: prometheus: (pid 582) 674s; run: log: (pid 507) 686s
+down: puma: 23s, normally up; run: log: (pid 388) 722s
+down: sidekiq: 13s, normally up; run: log: (pid 403) 716s
+run: sshd: (pid 28) 761s; run: log: (pid 27) 761s
+----
+
+Next, restore the backup, specifying the timestamp of the backup you wish to restore. The backup ID is the tar file until the `_gitlab_backup.tar`, e.g., `11493107454_2018_04_25_10.6.4-ce`.
+
+[TIP]
+====
+The backup file might have the wrong permissions which will result on a `Permission denied` error.
+
+[source]
+----
+2023-01-19 08:23:38 +0000 -- Unpacking backup ... 
+tar: 1674076750_2023_01_18_15.4.0-ee_gitlab_backup.tar: Cannot open: Permission denied
+tar: Error is not recoverable: exiting now
+----
+
+To fix this change the backup file permissions to `666`.
+
+[source,bash]
+----
+$ chmod 666  /var/opt/gitlab/backups/${GITLAB_BK_PREFIX}*
+----
+
+====
+
+[WARNING]
+====
+Executing the restore of the system will overwrite the contents of the GitLab database!
+====
+
+[source,bash]
+----
+$ gitlab-backup restore BACKUP=${GITLAB_BK_PREFIX}
+----
+
+The restore procedure will ask for confirmation.
+
+[source,bash]
+----
+2023-01-19 08:26:02 +0000 -- Unpacking backup ... 
+2023-01-19 08:26:07 +0000 -- Unpacking backup ... done
+2023-01-19 08:26:07 +0000 -- Restoring main_database ... 
+2023-01-19 08:26:07 +0000 -- Be sure to stop Puma, Sidekiq, and any other process that
+connects to the database before proceeding. For Omnibus
+installs, see the following link for more information:
+https://docs.gitlab.com/ee/raketasks/backup_restore.html#restore-for-omnibus-gitlab-installations
+
+Before restoring the database, we will remove all existing
+tables to avoid future upgrade problems. Be aware that if you have
+custom tables in the GitLab database these tables and all data will be
+removed.
+
+Do you want to continue (yes/no)? 
+----
+
+The output will be something like this...
+
+[source]
+----
+Unpacking backup ... done
+Be sure to stop Puma, Sidekiq, and any other process that
+connects to the database before proceeding. For Omnibus
+installs, see the following link for more information:
+https://docs.gitlab.com/ee/raketasks/backup_restore.html#restore-for-omnibus-gitlab-installations
+
+Before restoring the database, we will remove all existing
+tables to avoid future upgrade problems. Be aware that if you have
+custom tables in the GitLab database these tables and all data will be
+removed.
+
+Do you want to continue (yes/no)? yes
+Removing all tables. Press `Ctrl-C` within 5 seconds to abort
+2021-02-10 22:17:30 +0000 -- Cleaning the database ... 
+...
+2021-02-10 22:32:14 +0000 -- done
+This task will now rebuild the authorized_keys file.
+You will lose any data stored in the authorized_keys file.
+Do you want to continue (yes/no)? yes
+
+Warning: Your gitlab.rb and gitlab-secrets.json files contain sensitive data 
+and are not included in this backup. You will need to restore these files manually.
+Restore task is done.
+----
+
+NOTE: Users of GitLab 12.1 and earlier should use the command `gitlab-rake gitlab:backup:restore` instead. 
+
+Next, restore `/etc/gitlab/gitlab-secrets.json` and `/etc/gitlab/gitlab.rb``.
+
+Reconfigure, restart and check GitLab:
+
+[source,bash]
+----
+kubectl -n gitlab exec ${GITLAB_POD} -- gitlab-ctl reconfigure
+kubectl -n gitlab exec ${GITLAB_POD} -- gitlab-ctl restart
+kubectl -n gitlab exec ${GITLAB_POD} -- gitlab-rake gitlab:check SANITIZE=true
+----
+
+TIP: On GitLab 13.1 and later, check database values can be decrypted especially if `/etc/gitlab/gitlab-secrets.json` was restored, or if a different server is the target for the restore.
+
+[source,bash]
+----
+$ kubectl exec -it ${GITLAB_POD} -- gitlab-rake gitlab:doctor:secrets
+----
