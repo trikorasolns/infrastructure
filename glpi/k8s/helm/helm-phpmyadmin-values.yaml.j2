@@ -3,10 +3,13 @@ ingress:
   className: "nginx"
   annotations: {}
   hosts:
-    - host: {% if PHPMYADMIN_URL is defined %}{{ PHPMYADMIN_URL }}{% else %}UNDEFINED_HOST{% endif %}
+    - host: {% if glpi_url is defined %}phpmyadmin.{{ glpi_url }}{% else %}UNDEFINED_HOST{% endif %}
       paths:
         - path: /
           pathType: Prefix
           backend:
             serviceName: phpmyadmin
             servicePort: 80
+
+phpmyadmin:
+  rootPassword: {{ phpmyadmin_root_pw }}

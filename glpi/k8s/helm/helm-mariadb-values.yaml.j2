@@ -11,7 +11,7 @@ image:
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   # tag: "10.2.14"
-  tag: "latest"
+  tag: "{{ mariadb_version }}"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -67,12 +67,20 @@ affinity: {}
 persistence:
   storageClassName: "local-storage"
   # If not set a RANDOM password will be generated
-  {% if DB_ROOT_PASSWORD is defined %}dbRootPassword: {{ DB_ROOT_PASSWORD }}{% endif %}
+  {% if db_root_password is defined %}dbRootPassword: {{ db_root_password }}{% endif %}
   # Set MARIADB_MYSQL_LOCALHOST_USER to a non-empty value to create the mysql@locahost database user. 
   # This user is especially useful for a variety of health checks and backup scripts.
-  dbLocalhostUser: local
-  dbName: glpi
-  dbUser: glpi
-  dbPassword: {{ DB_PASSWORD }}
+  dbLocalhostUser: {{ db_local_user | default('glpilocal') }}
+  dbName: {{ db_name | default('glpi') }}
+  dbUser: {{ db_user | default('glpi') }}
+  dbPassword: {{ db_password }}
   mysqlDataSize: 10Gi
   mountPath: "/var/lib/mysql:Z"
+
+database: 
+  dbName: {{ db_name | default('glpi') }}
+  dbPassword: {{ db_password }}
+  {% if db_root_password is defined %}dbRootPassword: {{ db_root_password }}{% endif %}
+
+  dbUser: {{ db_user | default('glpi') }}
+  localDbUser: 1

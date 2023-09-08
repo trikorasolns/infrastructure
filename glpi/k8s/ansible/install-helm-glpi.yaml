@@ -1,9 +1,10 @@
 ---
-- name: "Install Grafana on GLPI"
+- name: "Install GLPI"
   hosts: "localhost"
   gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
 
   pre_tasks:
+
     - name: "Include project default vars"
       ansible.builtin.include_vars: "{{ file_to_include }}"
       loop:
@@ -22,6 +23,14 @@
           - "glpi_version must be defined with the GLPI version"
           - "k8s_host must be defined with the kubernetes host"
 
+    # - name: Print facts
+    #   ansible.builtin.debug:
+    #     msg: 
+    #       - "hostvars: {{ hostvars }}"
+    #       - "k8s_host: {{ k8s_host }}"
+    #       - "hostvars: {{ hostvars[k8s_host] }}"
+    #       - "hostvars: {{ hostvars[k8s_host]['k8s']['pv_root_folder'] }}"
+
     - name: Set facts from k8s host
       ansible.builtin.set_fact:
         k8s:
@@ -31,31 +40,38 @@
 
     - name: "Template PV file"
       ansible.builtin.template:
-        src: "../helm/pv-grafana-hostPath.yaml.j2"
-        dest: "/tmp/pv-grafana-hostPath.yaml"
+        src: "../helm/{{ loop_pv_template_file }}.j2"
+        dest: "/tmp/{{ loop_pv_template_file }}"
+      loop:
+        - pv-glpi-hostPath.yaml
+      loop_control:
+        loop_var: loop_pv_template_file
 
     - name: "Apply PV file"
       kubernetes.core.k8s:
         state: present
-        src: "/tmp/pv-grafana-hostPath.yaml"
+        src: "/tmp/{{ loop_pv_file }}"
+      loop:
+        - pv-glpi-hostPath.yaml
+      loop_control:
+        loop_var: loop_pv_file
 
-    - name: "Template Grafana Helm values file"
+    - name: "Template GLPI Helm values file"
       ansible.builtin.template:
-        src: ../helm/helm-grafana-values.yaml.j2
-        dest: /tmp/helm-grafana-values.yaml
+        src: ../helm/helm-glpi-values.yaml.j2
+        dest: /tmp/helm-glpi-values.yaml
 
-    - name: "Deploy Grafana with Helm"
+    - name: "Deploy GLPI with Helm"
       kubernetes.core.helm:
-        name: grafana
-        chart_ref: "{{ trikora_helm_project_dir }}/grafana"
+        name: glpi
+        chart_ref: "{{ trikora_helm_project_dir }}/glpi"
         release_namespace: "{{ app_namespace }}"
         wait: true
+        # replace: true
         values_files:
-          - /tmp/helm-grafana-values.yaml
-      register: grafana_helm_res 
+          - /tmp/helm-glpi-values.yaml
+      register: glpi_helm_res 
 
-    - name: Print Grafana Helm Chart output
-      ansible.builtin.debug:
-        msg:
-          - "grafana_helm_res: {{ grafana_helm_res }}"
+    #helm install --namespace glpi phpmyadmin phpmyadmin
+
 ...

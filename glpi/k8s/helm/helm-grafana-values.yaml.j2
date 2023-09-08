@@ -1,3 +1,8 @@
+{% if grafana_version is defined %}
+image:
+  tag: {{ grafana_version }}
+{% endif %}
+
 ingress:
   enabled: true
   className: "nginx"
@@ -5,7 +10,8 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: {% if GRAFANA_URL is defined %}{{ GRAFANA_URL }}{% else %}UNDEFINED_HOST{% endif %}
+    - host: {% if glpi_url is defined %}grafana.{{ glpi_url }}{% else %}UNDEFINED_HOST{% endif %}
+    
       paths:
         - path: /
           pathType: Prefix
