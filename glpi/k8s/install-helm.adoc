@@ -28,6 +28,260 @@ Install python requirements.
 $ pip install -r glpi/k8s/ansible/requirements.txt
 ----
 
+
+== Installation with Ansible
+
+Required variables.
+
+.Helm install prepare parameters
+[cols="20%,80%"]
+|===
+|Field name |Description
+
+
+| `app_namespace`
+
+[.fuchsia]#string#
+
+[.red]#required# 
+
+a| Namespace used in kubernetes for deploying the application.
+
+It's also the root folder for the application PV folders.
+
+| `db_name`
+
+[.fuchsia]#string#
+
+[.red]#required# 
+
+a| Database name
+
+| `db_user`
+
+[.fuchsia]#string#
+
+[.red]#required# 
+
+a| Database user
+
+| `db_password`
+
+[.fuchsia]#string#
+
+[.red]#required# 
+
+a| Database password
+
+| `db_root_password`
+
+[.fuchsia]#string#
+
+[.red]#required# 
+
+a| Database root password
+
+| `glpi_url`
+
+[.fuchsia]#string#
+
+[.red]#required# 
+
+a| URL to be assigned to the host on the Ingress controller.
+
+_e.g._: `glpi.localdomain`
+
+| `glpi_version`
+
+[.fuchsia]#string#
+
+[.red]#required# 
+
+a| GLPI version being installed. 
+
+[NOTE]
+====
+ATTOW ths version is only used to inform k8s object metadata.
+====
+
+| `k8s_host`
+
+[.fuchsia]#string#
+
+[.red]#required# 
+
+a| Kubernetes node
+
+| `trikora_helm_project_dir`
+
+[.fuchsia]#string#
+
+[.red]#required# 
+
+a| Folder, on the host system, with a clone of the link:https://github.com/trikorasolns/helm-charts[TrikoraSolutions Helm Charts] Github repository.
+
+| `k8s.pv_root_folder`
+
+[.fuchsia]#string#
+
+[.red]#required# 
+
+a| Root folder on the node FS where the required PV sub-folders will be created.
+
+[NOTE]
+====
+The default installation uses `hostPath` for persistence.
+====
+
+[NOTE]
+====
+Can be provided by the host information on the Ansible Inventory.
+====
+
+|===
+
+Create a yaml file with the values for each of the required variables.
+
+.Sample data values file
+[source,yaml]
+----
+app_namespace: glpi
+db_name: glpi
+db_user: glpi
+db_password: glpi
+db_root_password: glpi
+glpi_url: glpi.localdomain
+glpi_version: "10.0.9"
+k8s_host: myhost
+trikora_helm_project_dir: /tmp/trikora-helm-charts
+----
+
+=== Prepare the k8s host
+
+The environment is prepared with the following tasks.
+
+* Install the requirements on the server
+* Create the required `hostPath` folder structure
+* Create the namespace
+
+.Prepare the k8s host FS
+[source,bash]
+----
+ansible-playbook glpi/k8s/ansible/install-helm-prepare-fs.yaml \
+  -e k8s_host=${K8S_HOST} \
+  -e app_namespace=${GLPI_NAMESPACE} \
+  -K
+----
+
+[WARNING]
+====
+Make sure the default kubeconfig is pointing to the correct kubernetes cluster before running the next playbook.
+====
+
+.Prepare the k8s host
+[source,bash]
+----
+ansible-playbook glpi/k8s/ansible/install-helm-prepare.yaml \
+  -e k8s_host=${K8S_HOST} \
+  -e app_namespace=${GLPI_NAMESPACE}
+----
+
+=== Install the MariaDB database
+
+Install the MariaDB database
+
+.Playbook command to install the MariaDB database.
+[source,bash]
+----
+ansible-playbook glpi/k8s/ansible/install-helm-database.yaml \
+  -e app_namespace=${GLPI_NAMESPACE} \
+  -e db_name=glpi \
+  -e db_user=glpi \
+  -e db_password=glpi \
+  -e db_root_password=glpi \
+  -e glpi_version="10.0.9" \
+  -e trikora_helm_project_dir=${TRIKORA_HELM_PROJECT_DIR} \
+  -e k8s_host=${K8S_HOST}
+----
+
+=== Install GLPI
+
+Install.
+
+[source,bash]
+----
+ansible-playbook glpi/k8s/ansible/install-helm-glpi.yaml \
+  -e app_namespace=${GLPI_NAMESPACE} \
+  -e db_name=glpi \
+  -e db_user=glpi \
+  -e db_password=glpi \
+  -e db_root_password=glpi \
+  -e glpi_version="10.0.9" \
+  -e glpi_url=${GLPI_URL} \
+  -e trikora_helm_project_dir=${TRIKORA_HELM_PROJECT_DIR} \
+  -e k8s_host=${K8S_HOST}
+----
+
+Uninstall
+
+[source,bash]
+----
+ansible-playbook glpi/k8s/ansible/uninstall-helm-glpi.yaml \
+  -e app_namespace=${GLPI_NAMESPACE} \
+  -e db_name=glpi \
+  -e db_user=glpi \
+  -e db_password=glpi \
+  -e db_root_password=glpi \
+  -e glpi_version="10.0.9" \
+  -e glpi_url=${GLPI_URL} \
+  -e trikora_helm_project_dir=${TRIKORA_HELM_PROJECT_DIR} \
+  -e k8s_host=${K8S_HOST}
+----
+
+=== Install Grafana
+
+Install Grafana.
+
+[source,bash]
+----
+ansible-playbook glpi/k8s/ansible/install-helm-grafana.yaml \
+  -e @/tmp/data_values_file.yaml \
+  -e trikora_helm_project_dir=${TRIKORA_HELM_PROJECT_DIR} \
+  -e k8s_host=${K8S_HOST}
+----
+
+Uninstall Grafana.
+
+[source,bash]
+----
+ansible-playbook glpi/k8s/ansible/uninstall-helm-grafana.yaml \
+  -e @/tmp/data_values_file.yaml \
+  -e trikora_helm_project_dir=${TRIKORA_HELM_PROJECT_DIR} \
+  -e k8s_host=${K8S_HOST}
+----
+
+
+=== Install phpMyAdmin
+
+Install phpMyAdmin.
+
+.Playbook command to install the phpMyAdmin console.
+[source,bash]
+----
+ansible-playbook glpi/k8s/ansible/install-helm-phpmyadmin.yaml \
+  -e app_namespace=${GLPI_NAMESPACE} \
+  -e db_name=glpi \
+  -e db_user=glpi \
+  -e db_password=glpi \
+  -e db_root_password=glpi \
+  -e glpi_version="10.0.9" \
+  -e trikora_helm_project_dir=${TRIKORA_HELM_PROJECT_DIR} \
+  -e k8s_host=${K8S_HOST}
+----
+
+
+== Installation (Deprecated)
+
 === Create PV and folders
 
 The root folder for the PV is defined with the `PV_ROOT_FOLDER` environment variable.
@@ -84,14 +338,7 @@ $ mkdir {_cache,_cron,_dumps,_graphs,_lock,_log,_pictures,_plugins,_rss,_session
 $ sudo chown 48:48 -R *
 ----
 
-== Installation with Ansible
-
-[source,bash]
-----
-$ ansible-playbook glpi/k8s/ansible/install-helm.yaml  -e k8s_host=${K8S_HOST} -K
-----
-
-== Installation
+=== Create the namespace
 
 Create glpi namespace.
 

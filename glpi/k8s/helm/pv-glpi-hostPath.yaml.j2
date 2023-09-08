@@ -1,0 +1,119 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: {{ app_namespace }}-glpi-files
+  labels:
+    type: local
+    app.kubernetes.io/name: glpi
+    app.kubernetes.io/instance: glpi-glpi
+    app.kubernetes.io/version: "{{ glpi_version }}"
+    app.kubernetes.io/component: application
+    app.kubernetes.io/part-of: glpi
+spec:
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    namespace: {{ app_namespace }}
+    name: glpi-files
+  capacity:
+    storage: 5Gi
+  hostPath:
+    path: {{ k8s.pv_root_folder }}/{{ app_namespace }}/glpi-files
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: {{ app_namespace }}-glpi-log
+  labels:
+    type: local
+    app.kubernetes.io/name: glpi
+    app.kubernetes.io/instance: glpi-glpi
+    app.kubernetes.io/version: "{{ glpi_version }}"
+    app.kubernetes.io/component: application
+    app.kubernetes.io/part-of: glpi
+spec:
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    namespace: {{ app_namespace }}
+    name: glpi-log
+  capacity:
+    storage: 1Gi
+  hostPath:
+    path: {{ k8s.pv_root_folder }}/{{ app_namespace }}/glpi-log
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: {{ app_namespace }}-glpi-config
+  labels:
+    type: local
+    app.kubernetes.io/name: glpi
+    app.kubernetes.io/instance: glpi-glpi
+    app.kubernetes.io/version: "{{ glpi_version }}"
+    app.kubernetes.io/component: application
+    app.kubernetes.io/part-of: glpi
+spec:
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+      namespace: {{ app_namespace }}
+      name: glpi-config
+  capacity:
+    storage: 1Gi
+  hostPath:
+    path: {{ k8s.pv_root_folder }}/{{ app_namespace }}/glpi-config
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: {{ app_namespace }}-glpi-marketplace
+  labels:
+    type: local
+    app.kubernetes.io/name: glpi
+    app.kubernetes.io/instance: glpi-glpi
+    app.kubernetes.io/version: "{{ glpi_version }}"
+    app.kubernetes.io/component: application
+    app.kubernetes.io/part-of: glpi
+spec:
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    namespace: {{ app_namespace }}
+    name: glpi-marketplace
+  capacity:
+    storage: 5Gi
+  hostPath:
+    path: {{ k8s.pv_root_folder }}/{{ app_namespace }}/glpi-marketplace
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+#---
+#kind: PersistentVolume
+#apiVersion: v1
+#metadata:
+#  name: {{ app_namespace }}-glpi-plugins
+#  labels:
+#    type: local
+#    app.kubernetes.io/name: glpi
+#    app.kubernetes.io/instance: glpi-glpi
+#    app.kubernetes.io/version: "{{ glpi_version }}"
+#    app.kubernetes.io/component: application
+#    app.kubernetes.io/part-of: glpi
+#spec:
+#  accessModes:
+#    - ReadWriteOnce
+#  claimRef:
+#    namespace: {{ app_namespace }}
+#    name: glpi-plugins
+#  capacity:
+#    storage: 1Gi
+#  hostPath:
+#    path: {{ k8s.pv_root_folder }}/{{ app_namespace }}/glpi-plugins
+#  persistentVolumeReclaimPolicy: Retain
+#  storageClassName: local-storage

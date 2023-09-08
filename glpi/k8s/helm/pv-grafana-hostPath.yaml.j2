@@ -1,23 +1,23 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: glpi-grafana
+  name: {{ app_namespace }}-grafana
   labels:
     type: local
     app.kubernetes.io/name: glpi
     app.kubernetes.io/instance: glpi-glpi
-    app.kubernetes.io/version: "9.5.6"
+    app.kubernetes.io/version: "{{ grafana_version }}"
     app.kubernetes.io/component: application
     app.kubernetes.io/part-of: glpi
 spec:
   accessModes:
     - ReadWriteOnce
   claimRef:
-    namespace: glpi
+    namespace: {{ app_namespace }}
     name: grafana
   capacity:
     storage: 5Gi
   hostPath:
-    path: {{ PV_ROOT_FOLDER }}/glpi/grafana
+    path: {{ k8s.pv_root_folder }}/{{ app_namespace }}/grafana
   persistentVolumeReclaimPolicy: Retain
   storageClassName: local-storage

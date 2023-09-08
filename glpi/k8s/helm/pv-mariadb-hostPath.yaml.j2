@@ -1,25 +1,25 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: glpi-mariadb-data
+  name: {{ app_namespace }}-mariadb-data
   labels:
     type: local
     app.kubernetes.io/name: mariadb
     app.kubernetes.io/instance: mariadb-glpi
-    app.kubernetes.io/version: "9.4.3"
+    app.kubernetes.io/version: "{{ mariadb_version }}"
     app.kubernetes.io/component: database
     app.kubernetes.io/part-of: glpi
 spec:
   accessModes:
     - ReadWriteOnce
   claimRef:
-    namespace: glpi
+    namespace: {{ app_namespace }}
     name: mariadb
   capacity:
     storage: 10Gi
   hostPath:
-    path: "{{ PV_ROOT_FOLDER }}/glpi/glpi-mariadb"
-  mountOptions:
-    - hard
+    path: {{ k8s.pv_root_folder }}/{{ app_namespace }}/mariadb
+#  mountOptions:
+#    - hard
   persistentVolumeReclaimPolicy: Retain
   storageClassName: local-storage

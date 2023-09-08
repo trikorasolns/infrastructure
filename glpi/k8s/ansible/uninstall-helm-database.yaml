@@ -1,0 +1,60 @@
+---
+- name: "Uninstall MariaDB database"
+  hosts: "localhost"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+
+    - name: "Include project default vars"
+      ansible.builtin.include_vars: "{{ file_to_include }}"
+      loop:
+        - defaults/main.yaml
+      loop_control:
+        loop_var: file_to_include
+
+    - name: "Validate variables"
+      assert:
+        that:
+          - "app_namespace is defined"
+          - "glpi_version is defined"
+        fail_msg: 
+          - "app_namespace must be defined"
+          - "glpi_version must be defined"
+
+    - name: Set facts
+      ansible.builtin.set_fact:
+        k8s:
+          pv_root_folder: "{{ hostvars[k8s_host]['k8s']['pv_root_folder'] }}"
+
+  tasks:
+
+    - name: "Undeploy MariaDB with Helm"
+      kubernetes.core.helm:
+        name: mariadb
+        state: absent
+        chart_ref: "{{ trikora_helm_project_dir }}/mariadb"
+        release_namespace: "{{ app_namespace }}"
+        wait: true
+        # replace: true
+        # values_files:
+        #   - /tmp/helm-mariadb-values.yaml
+      register: mariadb_helm_res 
+
+    - name: "Template PV file"
+      ansible.builtin.template:
+        src: "../helm/{{ loop_pv_template_file }}.j2"
+        dest: "/tmp/{{ loop_pv_template_file }}"
+      loop:
+        - pv-mariadb-hostPath.yaml
+      loop_control:
+        loop_var: loop_pv_template_file
+
+    - name: "Remove PV file"
+      kubernetes.core.k8s:
+        state: absent
+        src: "/tmp/{{ loop_pv_file }}"
+      loop:
+        - pv-mariadb-hostPath.yaml
+      loop_control:
+        loop_var: loop_pv_file
+...

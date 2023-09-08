@@ -97,7 +97,7 @@ Download backup...
 
 [source,bash]
 ----
-kubectl -n gitlab cp ${GITLAB_POD}:/var/opt/gitlab/backups/${GITLAB_BK_FILE} ${BACKUP_ROOT_FOLDER}/gitlab/${GITLAB_BK_FILE}
+kubectl -n gitlab --retries 999 cp ${GITLAB_POD}:/var/opt/gitlab/backups/${GITLAB_BK_FILE} ${BACKUP_ROOT_FOLDER}/gitlab/${GITLAB_BK_FILE}
 ----
 
 Download gitlab secrets:

@@ -1,9 +1,10 @@
 ---
-- name: "Install Grafana on GLPI"
+- name: "Uninstall GLPI"
   hosts: "localhost"
   gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
 
   pre_tasks:
+
     - name: "Include project default vars"
       ansible.builtin.include_vars: "{{ file_to_include }}"
       loop:
@@ -29,33 +30,37 @@
 
   tasks:
 
-    - name: "Template PV file"
-      ansible.builtin.template:
-        src: "../helm/pv-grafana-hostPath.yaml.j2"
-        dest: "/tmp/pv-grafana-hostPath.yaml"
-
-    - name: "Apply PV file"
-      kubernetes.core.k8s:
-        state: present
-        src: "/tmp/pv-grafana-hostPath.yaml"
-
-    - name: "Template Grafana Helm values file"
-      ansible.builtin.template:
-        src: ../helm/helm-grafana-values.yaml.j2
-        dest: /tmp/helm-grafana-values.yaml
-
-    - name: "Deploy Grafana with Helm"
+    - name: "Remove GLPI with Helm"
       kubernetes.core.helm:
-        name: grafana
-        chart_ref: "{{ trikora_helm_project_dir }}/grafana"
+        name: glpi
+        state: absent
+        chart_ref: "{{ trikora_helm_project_dir }}/glpi"
         release_namespace: "{{ app_namespace }}"
         wait: true
-        values_files:
-          - /tmp/helm-grafana-values.yaml
-      register: grafana_helm_res 
+        # replace: true
+        # values_files:
+        #   - /tmp/helm-glpi-values.yaml
+      register: glpi_helm_res 
 
-    - name: Print Grafana Helm Chart output
-      ansible.builtin.debug:
-        msg:
-          - "grafana_helm_res: {{ grafana_helm_res }}"
+    - name: "Template PV file"
+      ansible.builtin.template:
+        src: "../helm/{{ loop_pv_template_file }}.j2"
+        dest: "/tmp/{{ loop_pv_template_file }}"
+      loop:
+        - pv-glpi-hostPath.yaml
+      loop_control:
+        loop_var: loop_pv_template_file
+
+    - name: "Delete PVs"
+      kubernetes.core.k8s:
+        state: absent
+        src: "/tmp/{{ loop_pv_file }}"
+      loop:
+        - pv-glpi-hostPath.yaml
+      loop_control:
+        loop_var: loop_pv_file
+
+
+    #helm install --namespace glpi phpmyadmin phpmyadmin
+
 ...
