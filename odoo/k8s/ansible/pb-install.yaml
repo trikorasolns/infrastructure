@@ -1,0 +1,30 @@
+---
+- name: "Install PostgreSQL"
+  import_playbook: "{{ project_root_folder | default('../../..') }}/pgsql/k8s/ansible/pb-install-pgsql.yaml"
+  vars:
+    db_password: 
+    db_name: "postgresql"
+    db_user: "odoo"
+    db_image_tag: "13"
+
+- name: "Install"
+  hosts: "{{ k8s_host }}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  tasks:
+    - name: "Validate variables"
+      assert:
+        that:
+          - "pv_root_folder is defined"
+          - "app_name is defined"
+          - "app_version is defined"
+        fail_msg: "Root folder for k8s PV must be defined"
+        success_msg: "PV root folder is {{ k8s.pv_root_folder }}"
+
+    - name: "Set facts"
+      ansible.builtin.set_fact:
+        PV_ROOT_FOLDER: "{{ pv_root_folder }}"
+        APP_NAME: "{{ app_name }}"
+        app_namespace: "{{ app_name }}"
+        # K8S_WORKSPACE: "{{ app_name }}-{{ app_version }}"
+...

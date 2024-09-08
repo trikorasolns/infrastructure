@@ -1,0 +1,20 @@
+---
+- name: "Prepare PostgreSql deployment with Local PV"
+  hosts: kubernetes
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  tasks:
+
+    - name: "Init PV"
+      ansible.builtin.include_role:
+        name: "kubernetes/pv_local"
+      vars:
+        pv_local_pv_root_folder: "{{ pv_root_folder }}"
+        pv_local_pv_name: "postgresql"
+        pv_local_component: "database"
+        pv_local_app_name: "{{ app_name }}"
+        pv_local_app_version: "{{ app_version }}"
+        pv_local_storage_capacity: "10Gi"
+        state: present
+
+...

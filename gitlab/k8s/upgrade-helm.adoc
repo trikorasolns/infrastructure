@@ -1,8 +1,7 @@
 = Gitlab Upgrade Guide
-:author:    A. Costa
-:email:     <a dot costa at trikorasolutions dot com>
-:docdate: date (ISO)
-:Revision:  1
+:author:    Antonio C.
+:email:     <sp38af (at) trikorasolutions (dot) com>
+:revdate: {docdate}
 :toc:       left
 :toc-title: Table of Contents
 :icons: font
@@ -15,27 +14,61 @@ References:
 * https://docs.gitlab.com/ee/update/plan_your_upgrade.html
 * Upgrade paths: https://docs.gitlab.com/ee/update/#upgrade-paths
 
-== Upgrade procedure
+== Pre-upgrade tasks
 
-Generate the correct `values.yaml` file.
+Either generate the correct `values.yaml` file...
 
 [source,bash]
 ----
 $ jinja2 --format=yaml -DGITLAB_URL=${GITLAB_URL} -DGITLAB_VERSION=15.8.0 gitlab/k8s/helm/helm-gitlab-values.yaml > /tmp/helm-gitlab-values.yaml
 ----
 
-Update helm.
+...or extract the existing helm values for the application
 
 [source,bash]
 ----
-$ helm upgrade --install --namespace gitlab -f /tmp/helm-gitlab-values.yaml gitlab gitlab
+helm get values -n gitlab gitlab > /tmp/gitlab_values.yaml
+----
+
+Check the gitlab upgrade path to identify the required stops.
+
+== Upgrade procedure
+
+Get the gitlab pod ID.
+
+[source,bash]
+----
+GITLAB_POD=$(kubectl get pods --namespace gitlab -l "app.kubernetes.io/name=gitlab,app.kubernetes.io/instance=gitlab" -o jsonpath="{.items[0].metadata.name}")
+----
+
+Check the status of batched background migrations.
+
+[source,bash]
+----
+kc -n gitlab exec -it ${GITLAB_POD} -- gitlab-psql -c "SELECT job_class_name, table_name, column_name, job_arguments FROM batched_background_migrations WHERE status NOT IN(3, 6);"
+----
+
+Reconfigure gitlab.
+
+[source,bash]
+----
+kc -n gitlab exec -it ${GITLAB_POD} -- gitlab-ctl reconfigure
+----
+
+Update the APP_VERSION on the helm chart.
+
+Upgrade gitlab by executing `helm upgrade`.
+
+[source,bash]
+----
+$ helm upgrade --install --namespace gitlab -f /tmp/gitlab_values.yaml gitlab gitlab
 ----
 
 Check gitlab version.
 
 [source,bash]
 ----
-$ gitlab-rake gitlab:env:info
+kc -n gitlab exec -it ${GITLAB_POD} -- gitlab-rake gitlab:env:info
 System information
 System:		
 Proxy:		no
@@ -79,3 +112,14 @@ Reference:
 Copy the backup tar file to the `var/opt/gitlab/backups/` folder.
 
 
+== Execution history
+
+
+* 15.11.13 <=
+* 16.0.8 (PG >= 13.6)
+* 16.1.6
+* 16.2.9
+* 16.3.7
+* 16.7.8
+* 16.11.5
+* 17.0.3

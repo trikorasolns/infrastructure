@@ -1,8 +1,8 @@
 = Gitlab Runner on Podman
-:author:    A. Costa
-:email:     <a dot costa at trikorasolutions dot com>
+:author:    Antonio C.
+:email:     <sp38af (at) trikorasolutions (dot) com>
 :Date:      20220502
-:Revision:  1
+:revdate: {docdate}
 :toc:       left
 :toc-title: Table of Contents
 :icons: font
@@ -15,7 +15,7 @@
 [source, bash]
 ----
 $ systemctl --user --now enable podman.socket
-Created symlink /home/tkr517/.config/systemd/user/sockets.target.wants/podman.socket → /usr/lib/systemd/user/podman.socket.
+Created symlink /home/janedoe/.config/systemd/user/sockets.target.wants/podman.socket → /usr/lib/systemd/user/podman.socket.
 $ systemctl status --user podman.socket
 ● podman.socket - Podman API Socket
      Loaded: loaded (/usr/lib/systemd/user/podman.socket; enabled; vendor preset: disabled)

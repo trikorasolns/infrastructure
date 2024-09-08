@@ -1,0 +1,70 @@
+= AWX Execution Environments
+Antonio C. <sp38af (at) trikorasolutions (dot) com>
+:icons: font
+:revdate: {docdate}
+:stem: latexmath
+:toc: left
+:toclevels: 3
+:toc-title: Table of Contents
+:description: Documentation regarding AWX Execution Environments
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+== Create Execution Environment
+
+Files required for building an Execution Enviromnent.
+
+* `execution-environment.yml`: Execution Environment definition
+* `bindep.txt`: System dependencies
+* `requirements.txt`: Python requiremends
+* `requirements.yml`: Ansible requirements
+
+.Default `bindep.txt` - https://github.com/ansible/awx-ee/blob/devel/_build/bindep.txt  
+[source]
+----
+python38-devel [platform:rpm compile]
+subversion [platform:rpm]
+subversion [platform:dpkg]
+git-lfs [platform:rpm]
+----
+
+.Default `requirements.txt` - https://github.com/ansible/awx-ee/blob/devel/_build/requirements.txt
+[source]
+----
+git+https://github.com/ansible/ansible-sign
+ansible-runner>=2.3.1
+----
+
+.Default requirements.yml - https://github.com/ansible/awx-ee/blob/devel/_build/requirements.yml
+[source, yaml]
+----
+---
+collections:
+  - name: awx.awx
+  - name: azure.azcollection
+  - name: amazon.aws
+  - name: theforeman.foreman
+  - name: google.cloud
+  - name: openstack.cloud
+  - name: community.vmware
+  - name: ovirt.ovirt
+  - name: kubernetes.core
+  - name: ansible.posix
+  - name: ansible.windows
+  - name: redhatinsights.insights
+...
+----
+
+== Implemented Execution Environments
+
+* link:ee-glpi.adoc[GLPI Inventory]
+* link:ee-trikorasolutions.adoc[Trikora Solutions default]
+
+== References
+
+* https://thedatabaseme.de/2022/09/09/self-build-awx-execution-environment/

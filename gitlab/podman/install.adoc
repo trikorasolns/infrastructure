@@ -1,8 +1,8 @@
 = Gitlab Podman Deployment Guide
-:author:    A. Costa
-:email:     <a dot costa at trikorasolutions dot com>
+:author:    Antonio C.
+:email:     <sp38af (at) trikorasolutions (dot) com>
 :Date:      20220502
-:Revision:  1
+:revdate: {docdate}
 :toc:       left
 :toc-title: Table of Contents
 :icons: font

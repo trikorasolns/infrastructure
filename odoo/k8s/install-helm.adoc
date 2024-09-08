@@ -1,0 +1,102 @@
+= Odoo install with Helm
+:author:      Antonio C.
+:email:       <sp38af (at) trikorasolutions (dot) com>
+:revdate:     {docdate}
+:toc:         left
+:toc-title:   Table of Contents
+:icons:       font
+:description: Odoo Deployment Guide Helm edition.
+
+== Install
+
+=== PostgreSQL
+
+[source,bash]
+----
+ansible-playbook pgsql/k8s/ansible/pb-install-pgsql.yaml \
+  -e app_name=${APP_NAME} \
+  -e app_version=${APP_VERSION} \
+  -e trikora_helm_project_dir=${TRIKORA_HELM} \
+  -e app_namespace=${APP_NAME} \
+  -e db_password=${DB_PASSWORD} \
+  -e db_name=postgresql \
+  -e db_user=odoo \
+  -e db_image_tag=13
+----
+
+  -e k8s_host=${KUBERNETES_NODE_NAME} \
+
+=== Odoo
+
+=== Manually
+
+Template the helm file.
+
+[source,bash]
+----
+jinja2 --format=yaml -DDB_PASSWORD=${DB_PASSWORD} app/odoo/k8s/helm/helm-odoo-pgsql-values.yaml.j2 > /tmp/helm-odoo-pgsql-values.yaml
+----
+
+Install PostgreSQL with the helm chart.
+
+[source,bash]
+----
+helm upgrade --install --namespace ${APP_NAME} -f /tmp/helm-odoo-pgsql-values.yaml postgresql ${HELM_CHART_FOLDER:-.}/postgresql
+----
+
+=== Odoo
+
+Template the helm file.
+
+[source,bash]
+----
+jinja2 --format=yaml -DDB_PASSWORD=${DB_PASSWORD} -DAPP_NAME=${APP_NAME} app/odoo/k8s/helm/helm-odoo-odoo-values.yaml.j2 > /tmp/helm-odoo-odoo-values.yaml
+----
+
+[source,bash]
+----
+helm upgrade --install --namespace ${APP_NAME} -f /tmp/helm-odoo-odoo-values.yaml odoo ${HELM_CHART_FOLDER:-.}/odoo
+----
+
+== Uninstall 
+
+[source,bash]
+----
+$ helm uninstall --namespace ${APP_NAME} postgresql
+$ ansible-playbook gitlab/k8s/ansible/playbook-pgsql-remove.yaml -e k8s_host=${VM_NAME} -e @gitlab/k8s/ansible/default/main.yaml -K
+----
+
+Remove the references to the PVs.
+
+[source,bash]
+----
+kubectl patch pv ${APP_NAME}-odoo-web-addons ${APP_NAME}-odoo-web-configs ${APP_NAME}-odoo-web-data ${APP_NAME}-postgres-pv -p '{"spec":{"claimRef": null}}'
+----
+
+== Troubleshooting
+
+=== 0/1 nodes are available: 1 node(s) didn't find available persistent volumes to bind.
+
+*Problem*
+
+Pod won't start with error  `0/1 nodes are available: 1 node(s) didn't find available persistent volumes to bind`.
+
+*Symptom*
+
+The PV with status _Released_.
+
+*Cause*
+
+The PV have claim references to the previous POD.
+
+*Solution*
+
+Clean the PV references.
+
+.Sample command for cleaning the PV references
+[source,bash]
+----
+kubectl patch pv odoo-16-odoo-web-addons odoo-16-odoo-web-configs odoo-16-odoo-web-data -p '{"spec":{"claimRef": null}}'
+----
+
+And they will change their status to _Available_.

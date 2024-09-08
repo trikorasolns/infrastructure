@@ -1,0 +1,61 @@
+= Odoo Troubleshoting
+:toc: left
+:images: font
+:Description: Guide for troubleshooting Odoo.
+
+== unauthorized error when executing podman run
+
+*Problem* 
+
+`podman run` command fails with *unauthorized*.
+
+*Symptoms*
+
+The command returns `unable to retrieve auth token: invalid username/password: unauthorized: incorrect username or password` 
+error.
+
+*Cause*
+
+The stored credentials aren't valid.
+
+*Solution*
+
+Login into docker.io with `podman login`.
+
+[source,bash]
+====
+$ podman login docker.io
+
+Authenticating with existing credentials for docker.io
+Existing credentials are invalid, please enter valid username and password
+Username (<current_credentials>): <my login>
+Password: **** my password ****
+Login Succeeded!
+====
+
+== Permission denied when restoring a database
+
+*Problem*
+
+The Restore database command fails with Permission denied error.
+
+*Symptoms*
+
+The restore process is aborted and Permission denied errors show on the console.
+
+[source]
+----
+Database restore error: [('/tmp/tmpxjim_n7i/filestore/4e/4e045328e56934c778b1cba31cab5fc88c4ff5a6', '/var/lib/odoo/.local/share/Odoo/filestore/trikorasolns/4e/4e045328e56934c778b1cba31cab5fc88c4ff5a6', "[Errno 13]
+...
+Permission denied: '/var/lib/odoo/.local/share/Odoo/filestore/trikorasolns'")]
+----
+
+*Cause*
+
+Incorrect permissions on the podman volume.
+
+*Solution*
+
+Use the `--privileged` switch when creating the Odoo web container.
+
+

@@ -1,0 +1,22 @@
+---
+- name: "Unnstall PostgreSQL"
+  hosts: "{{ k8s_host }}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+    - name: "Validate variables"
+    assert:
+      that:
+        - "db_password is defined"
+        - "db_name is defined"
+        - "db_user is defined"
+      fail_msg: "Missing variables"
+      success_msg: "PV root folder is {{ k8s.pv_root_folder }}"
+
+  tasks:
+    - name: "Deploy Jenkins with Helm"
+      kubernetes.core.helm:
+        name: pgsql
+        state: absent
+      register: pgsql_helm_res 
+...

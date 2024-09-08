@@ -1,0 +1,15 @@
+= Odoo
+:author:    Antonio C.
+:email:     <sp38af (at) trikorasolutions (dot) com>
+:Revision:  1
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: Odoo Index.
+:source-highlighter: highlight.js
+
+
+== Systems
+
+* link:podman/README.adoc[Podman]
+* link:kubernetes/README.adoc[Kubernetes]

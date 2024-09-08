@@ -1,14 +1,18 @@
 = GLPI Backup N Restore
-:author:    A. Costa
-:email:     <a dot costa at trikorasolutions dot com>
-// :Date:      20210222
-:Revision:  1
+:author:    Antonio C.
+:email:     <sp38af (at) trikorasolutions (dot) com>
+:revdate: {docdate}
 :toc:       left
 :toc-title: Table of Contents
 :icons: font
-:description: This section describes the backup and restore instructions for GLPI.
-
-:toc:
+:description: GLPI backup and restore
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
 
 == Preparation
 
@@ -18,16 +22,15 @@ Set the root location of the backup folder.
 
 [source,bash]
 ----
-$ BACKUP_ROOT_FOLDER=/z/_backup
+BACKUP_ROOT_FOLDER=/z/_backup
 ----
 
 Set the kube config file.
 
 [source,bash]
 ----
-$ export KUBECONFIG=~/.kube/config
+export KUBECONFIG=~/.kube/config
 ----
-
 
 == Backup
 
@@ -50,50 +53,113 @@ GLPI_POD=$(kubectl get pods --namespace glpi -l "app.kubernetes.io/name=glpi,app
 GLPI_MARIADB_POD=$(kubectl get pods --namespace glpi -l "app.kubernetes.io/name=mariadb" -o jsonpath="{.items[0].metadata.name}")
 ----
 
+Print the pods.
+
+[source,bash]
+----
+echo "GLPI_POD: ${GLPI_POD}"
+echo "GLPI_MARIADB_POD: ${GLPI_MARIADB_POD}"
+----
+
+=== Database
+
+[.lead]
 Dump mysql database.
+
+Define the backup name.
 
 [source,bash]
 ----
 GLPI_MYSQL_DUMP_FILENAME_PREFIX=$(date +%Y-%m-%d-%H-%M-%S).glpi.backup
-kubectl -n glpi exec -it ${GLPI_MARIADB_POD} -- mysqldump -u root glpi > ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.sql
 ----
 
-Get mariadb root password.
+[WARNING]
+====
+If the root access to the mysql database server is alloewed without password 
+ the dump can be done directly with this command. Otherwise check the 
+ step-by-step instructions that follow.
 
 [source,bash]
 ----
-kubectl -n glpi get secret mariadb -o jsonpath="{.data.MARIADB_ROOT_PASSWORD}" | base64 --decode
+kubectl -n glpi exec -it ${GLPI_MARIADB_POD} -- mysqldump -u root glpi > ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.sql
+----
+====
+
+Get mariadb root password.
+
+[CAUTION]
+====
+The secret variable can either be `MARIADB_ROOT_PASSWORD` or 
+ `MYSQL_ROOT_PASSWORD`.
+====
+
+
+[source,bash]
+----
+kubectl -n glpi get secret mariadb -o jsonpath="{.data.MYSQL_ROOT_PASSWORD}" | base64 --decode
 ----
 
+Open a bash on the kubernetes container passing the prefix variable as 
+ environment variable for the session.
 
 [source,bash]
 ----
 kubectl -n glpi exec -it ${GLPI_MARIADB_POD} -- env GLPI_MYSQL_DUMP_FILENAME_PREFIX=${GLPI_MYSQL_DUMP_FILENAME_PREFIX} /bin/bash
 ----
 
+The bash session shows.
+
 [source,bash]
 ----
 root@mariadb-0:/#
 ----
 
+[NOTE]
+====
+On the bash session a variable named `GLPI_MYSQL_DUMP_FILENAME_PREFIX` should 
+ exist.
+
+[source,]
+----
+root@mariadb-0:/# echo ${GLPI_MYSQL_DUMP_FILENAME_PREFIX}
+1970-01-01-00-00-00.glpi.backup
+----
+====
+
+Dump the database. If prompted fill the mysql root password with the value 
+ obtained previously from the kubernetes secret.
+
 .Dump from the container
 [source,bash]
 ----
 mysqldump -u root -p glpi > /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.sql
+----
+
+The password will be requested.
+
+[source,bash]
+----
 Enter password:
 ----
+
+Compress the dump file.
 
 [source,bash]
 ----
 tar --warning=no-file-changed -czvf /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.sql.tgz /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.sql
+tar tzvf /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.sql.tgz
 rm /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.sql
 exit
 ----
+
+Download the dump file from the container to a local folder.
 
 [source,bash]
 ----
 kubectl -n glpi cp ${GLPI_MARIADB_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.sql.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.sql.tgz
 ----
+
+=== Application Files
 
 Compress and copy the folders with physical files.
 
@@ -103,6 +169,32 @@ kubectl -n glpi exec -it ${GLPI_POD} -- tar --warning=no-file-changed -czvf /tmp
 kubectl -n glpi exec -it ${GLPI_POD} -- tar --warning=no-file-changed -czvf /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz /var/www/html/plugins
 kubectl -n glpi --retries 999 cp ${GLPI_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz
 kubectl -n glpi --retries 999 cp ${GLPI_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz
+GLPI_FILES_LOCATION=/var/lib/glpi
+GLPI_CONFIG_LOCATION=/etc/glpi
+----
+
+Backup the files.
+
+[source,bash]
+----
+kubectl -n glpi exec -it ${GLPI_POD} -- tar --warning=no-file-changed -czvf /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz ${GLPI_FILES_LOCATION}
+kubectl -n glpi cp ${GLPI_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz
+----
+
+Backup the configuration.
+
+[source,bash]
+----
+kubectl -n glpi exec -it ${GLPI_POD} -- tar --warning=no-file-changed -czvf /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.config.tgz ${GLPI_CONFIG_LOCATION}
+kubectl -n glpi cp ${GLPI_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.config.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.config.tgz
+----
+
+Backup the plugins, only if not included on the files folder.
+
+[source,bash]
+----
+kubectl -n glpi exec -it ${GLPI_POD} -- tar --warning=no-file-changed -czvf /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz /var/www/html/plugins
+kubectl -n glpi cp ${GLPI_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz
 ----
 
 == Restore
@@ -113,8 +205,8 @@ Get POD names.
 
 [source,bash]
 ----
-$ GLPI_MARIADB_POD=$(kubectl get pods --namespace glpi -l "app.kubernetes.io/name=mariadb" -o jsonpath="{.items[0].metadata.name}")
-$ GLPI_POD=$(kubectl get pods --namespace glpi -l "app.kubernetes.io/name=glpi,app.kubernetes.io/instance=glpi" -o jsonpath="{.items[0].metadata.name}")
+GLPI_MARIADB_POD=$(kubectl get pods --namespace glpi -l "app.kubernetes.io/name=mariadb" -o jsonpath="{.items[0].metadata.name}")
+GLPI_POD=$(kubectl get pods --namespace glpi -l "app.kubernetes.io/name=glpi,app.kubernetes.io/instance=glpi" -o jsonpath="{.items[0].metadata.name}")
 ----
 
 Set database dump file to be restores.

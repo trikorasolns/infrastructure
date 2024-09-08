@@ -1,0 +1,17 @@
+= Odoo Administration Guide
+:author:    Antonio C.
+:email:     <sp38af (at) trikorasolutions (dot) com>
+:Revision:  1
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: Odoo Index.
+:source-highlighter: highlight.js
+
+== Reset the database manager password.
+
+Edit the `/etc/odoo/odoo.conf` file.
+
+Comment the `admin_passwd`.
+
+Restart odoo.

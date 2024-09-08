@@ -1,14 +1,18 @@
 = Gitlab Backup N Restore
-:author:    A. Costa
-:email:     <a dot costa at trikorasolutions dot com>
-:docdate: date (ISO)
-:Revision:  1
+:author:    Antonio C.
+:email:     <sp38af (at) trikorasolutions (dot) com>
+:revdate: {docdate}
 :toc:       left
 :toc-title: Table of Contents
 :icons: font
-:description: This section describes the backup and restore instructions for GitLab.
-
-:toc:
+:description: GitLab backup and restore
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
 
 Reference: 
 
@@ -119,11 +123,6 @@ Remove the backup file from the container. (NOT MANDATORY)
 [source,bash]
 ----
 kubectl -n gitlab exec -it ${GITLAB_POD} -- rm -f /var/opt/gitlab/backups/${GITLAB_BK_FILE}
-
-total 2.4G
--rw------- 1 git git 2.4G Mar 19 21:58 1616191122_2021_03_19_13.7.1-ee_gitlab_backup.tar
-
-$ GITLAB_BK_FILE=1616191122_2021_03_19_13.7.1-ee_gitlab_backup.tar
 ----
 
 == Restore

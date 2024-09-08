@@ -25,6 +25,14 @@ References:
 
 == Installation
 
+=== References
+
+Check the instructions on:
+
+* https://github.com/ansible/awx-operator/blob/devel/docs/installation/basic-install.md
+* https://github.com/ansible/awx-operator
+* https://github.com/ansible/awx/blob/devel/INSTALL.md
+
 === PV
 
 PV used are `local` PV.
@@ -74,11 +82,6 @@ $ yq 'with(.spec; .local.path = env(AWX_PV_PREFIX) + "/awx-projects" | .nodeAffi
 ----
 
 === AWX
-
-References:
-
-* https://github.com/ansible/awx-operator
-* https://github.com/ansible/awx/blob/devel/INSTALL.md
 
 Deploy using the `kustomize` script.
 
@@ -193,6 +196,56 @@ To obtain the password associated to the default admin user use the following co
 $ kubectl -n awx get secret awx-admin-password -o jsonpath='{.data.password}' | base64 --decode
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ----
+
+== Upgrade
+
+Check the link:https://github.com/ansible/awx-operator/blob/devel/docs/upgrade/upgrading.md[Upgrade Instructions].
+
+Stop the existing POD by scaling to 0 the deployments.
+
+[source,bash]
+----
+kubectl -n awx get deployment
+
+NAME                              READY   UP-TO-DATE   AVAILABLE   AGE
+awx-operator-controller-manager   0/0     0            0           254d
+awx-task                          0/0     0            0           4m31s
+awx-web                           1/0     1            1           62s
+----
+
+[source,bash]
+----
+kubectl -n awx scale --replicas=0 deployment.apps/awx-web deployment.apps/awx-task deployment.apps/awx-operator-controller-manager
+----
+
+The result should be.
+
+[source]
+----
+deployment.apps/awx-web scaled
+deployment.apps/awx-task scaled
+deployment.apps/awx-operator-controller-manager scaled
+----
+
+Delete the existing configuration.
+
+[source,bash]
+----
+kubectl -n awx delete deployment awx-operator-controller-manager
+kubectl -n awx delete serviceaccount awx-operator-controller-manager
+kubectl -n awx delete clusterrolebinding awx-operator-proxy-rolebinding
+kubectl -n awx delete clusterrole awx-operator-proxy-role awx-operator-metrics-reader
+----
+
+Apply the <<Installation>> instructions.
+
+Then scale to `1`, or which number desired, the deployments again.
+
+[source,bash]
+----
+kubectl -n awx scale --replicas=1 deployment.apps/awx deployment.apps/awx-operator-controller-manager
+----
+
 
 == Uninstall
 

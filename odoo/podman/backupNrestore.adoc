@@ -1,0 +1,19 @@
+= Backup and Restore Guide
+Antonio C. <sp38af (at) trikorasolutions (dot) com>
+:toc: left
+:revdate: {docdate}
+:images: font
+:Description: Guide for deploying Odoo as a podman container.
+
+== Backup
+
+
+== Restore
+
+Start a fresh odoo installation.
+
+Select the _Restore Database_ option.
+
+Using the _File_ button select a backup file.
+
+Press _Import_.

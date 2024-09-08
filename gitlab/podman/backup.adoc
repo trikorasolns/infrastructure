@@ -1,8 +1,7 @@
 = Gitlab Backup (Podman Edition)
-:author:    A. Costa
-:email:     <a dot costa at trikorasolutions dot com>
-:docdate: date (ISO)
-:Revision:  1
+:author:    Antonio C.
+:email:     <sp38af (at) trikorasolutions (dot) com>
+:revdate: {docdate}
 :toc:       left
 :toc-title: Table of Contents
 :icons: font

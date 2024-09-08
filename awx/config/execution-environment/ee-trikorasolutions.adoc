@@ -1,0 +1,79 @@
+= Trikora Solutions default AWX Execution Environment
+Antonio C. <sp38af (at) trikorasolutions (dot) com>
+:icons: font
+:revdate: {docdate}
+:stem: latexmath
+:toc: left
+:toclevels: 3
+:toc-title: Table of Contents
+:description: Build process for the Trikora Solutions Default AWX execution environment.
+
+== Create the EE
+
+[NOTE]
+====
+`podman` can be replaced by `docker` as `container-runtime`. Check the `ansible-builder build --help`.
+====
+
+[source,bash]
+----
+$ ansible-builder build --tag xxxxxxxx/awx-ee-glpi:0.0.1 --container-runtime podman --file glpi/execution-environment.yml --context contexts/glpi/
+Running command:
+  podman build -f context/Containerfile -t xxxxxxxx/awx-ee-glpi:0.0.1 context
+Complete! The build context can be found at: /mnt/e/Projekte/Ansible/awx-ee/context
+----
+
+[source,bash]
+----
+$ podman image ls | grep ee
+REPOSITORY                                   TAG                  IMAGE ID      CREATED         SIZE
+localhost/xxxxxxxx/awx-ee-glpi          0.0.1                0dfd4e306b8a  5 minutes ago   1.1 GB
+----
+
+=== Push the image to Quay.io
+
+Login into [quay.io](https://quay.io/).
+
+[source,bash]
+----
+$ buildah login quay.io
+Username: xxxxxxx
+Password: 
+Login Succeeded!
+----
+
+Push the image tag to [quay.io](https://quay.io/).
+
+[source,bash]
+----
+$ buildah images
+REPOSITORY                                    TAG                   IMAGE ID       CREATED          SIZE
+localhost/xxxxxxxx/awx-ee-glpi           0.0.1                 0dfd4e306b8a   4 minutes ago    1.1 GB
+----
+
+[source,bash]
+----
+$ buildah push localhost/xxxxxxxx/awx-ee-glpi:0.0.1 docker://quay.io/trikorasolns/awx-ee-glpi:0.0.1
+----
+
+If the `push` succeeds the output should end with:
+
+[source,bash]
+----
+Writing manifest to image destination
+Storing signatures
+----
+
+And the container will be available at https://quay.io/repository/trikorasolns/awx-ee-glpi.
+
+[NOTE]
+====
+To also tag the image as the `latest` image to:
+
+[source,bash]
+----
+$ buildah push localhost/xxxxxxxx/awx-ee-glpi:0.0.1 docker://quay.io/trikorasolns/awx-ee-glpi:latest
+----
+
+====
+

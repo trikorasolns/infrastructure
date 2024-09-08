@@ -1,0 +1,40 @@
+= AWX Execution Environments Troubleshooting
+:toc: left
+:toclevels: 3
+
+== Error creating pod: container failed to start, ImagePullBackOff
+
+*Problem*
+
+Error creating pod: container failed to start, ImagePullBackOff
+
+*Symptoms*
+
+[source,bash]
+----
+$ kubectl -n awx get all
+NAME                                                   READY   STATUS         RESTARTS       AGE
+pod/automation-job-28-cftwg                            0/1     ErrImagePull   0              34s
+----
+
+[source,bash]
+----
+$ kubectl -n awx describe pod/automation-job-28-cftwg
+...
+  Type     Reason     Age               From               Message
+  ----     ------     ----              ----               -------
+  Normal   Scheduled  21s               default-scheduler  Successfully assigned awx/automation-job-28-cftwg to awx.localdomain
+  Normal   BackOff    16s               kubelet            Back-off pulling image "quay.io/trikorasolns/awx-ee-glpi:latest"
+  Warning  Failed     16s               kubelet            Error: ImagePullBackOff
+  Normal   Pulling    4s (x2 over 19s)  kubelet            Pulling image "quay.io/trikorasolns/awx-ee-glpi:latest"
+  Warning  Failed     3s (x2 over 17s)  kubelet            Failed to pull image "quay.io/trikorasolns/awx-ee-glpi:latest": rpc error: code = Unknown desc = Error response from daemon: manifest for quay.io/trikorasolns/awx-ee-glpi:latest not found: manifest unknown: manifest unknown
+  Warning  Failed     3s (x2 over 17s)  kubelet            Error: ErrImagePull
+----
+
+*Cause*
+
+The `latest` tag doesn't exist.
+
+*Solution*
+
+Either push the image as the `latest` tag or replace with the correct version.

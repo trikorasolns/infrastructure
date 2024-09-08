@@ -4,7 +4,7 @@ Optional version, optional date
 :Author:    AlternativeWayToSetOptional Author Name
 :Email:     <AlternativeWayToSetOptional@author.email>
 :Date:      20220109
-:Revision:  1
+:revdate: {docdate}
 :table-caption: Table
 :toc:left
 :toc-title: Table of Contents

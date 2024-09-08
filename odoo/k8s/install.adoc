@@ -1,0 +1,33 @@
+= Install Odoo on Kubernetes
+:author:    Antonio C.
+:email:     <sp38af (at) trikorasolutions (dot) com>
+:revdate:   {{docdate}}
+:toc:       left
+:toc-title: Table of Contents
+:icons:     font
+:description: Deploy Odoo on Kubernetes cluster
+:source-highlighter: highlight.js
+
+== Before we start
+
+[source,bash]
+----
+KUBERNETES_NODE_NAME=xxxx
+----
+
+== Preparation
+
+Check the link:install-preparation.adoc[Preparation Guide].
+
+== Installation
+
+The installation process will use helm charts. Follow to the link:install-helm.adoc[Odoo install with Helm] Guide.
+
+== Uninstall
+
+[source,bash]
+----
+ansible-playbook -K odoo/k8s/ansible/pb-uninstall.yaml \
+  -e app_name=${APP_NAME} \
+  -e app_version=${APP_VERSION}
+----

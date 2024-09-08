@@ -2,7 +2,7 @@
 :Author:    Antonio Costa
 :Email:     a dot costa at trikorasolutions dot com
 :Date:      20221214
-:Revision:  1
+:revdate: {docdate}
 :table-caption: Table
 :toc: left
 :toc-title: Table of Contents

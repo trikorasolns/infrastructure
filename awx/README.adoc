@@ -7,8 +7,11 @@
 
 This document describes the AWX installation and administration process.
 
-:leveloffset: +1
+== Deployment
 
-include::k8s/README.adoc[]
+link:k8s/README.adoc[k8s deployment instructions]
 
-:leveloffset: -1
+== Execution Environments
+
+link:config/execution-environment/README.adoc[Execution Envirments]
+

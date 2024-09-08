@@ -1,0 +1,25 @@
+= Odoo on KPodman
+:author:    Antonio C.
+:email:     <sp38af (at) trikorasolutions (dot) com>
+:Revision:  1
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: Odoo Index.
+:source-highlighter: highlight.js
+
+
+== Installation
+
+* link:install.adoc[Installation Guide]
+
+== Maintenance
+
+* link:maintenance.adoc[Maintenance Guide]
+* link:backupNrestore.adoc[Backup and Restore Guide]
+* link:upgrade.adoc[Upgrade Guide]
+
+== Troubleshooting
+
+* link:troubleshooting.adoc[Troubleshooting Guide]
+

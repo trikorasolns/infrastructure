@@ -1,8 +1,8 @@
 = Jenkins Helm Deployment Guide
-:author:    A. Costa
-:email:     <a dot costa at trikorasolutions dot com>
+:author:    Antonio C.
+:email:     <sp38af (at) trikorasolutions (dot) com>
 :Date:      2022/05/02
-:Revision:  1
+:revdate: {docdate}
 :toc:       left
 :toc-title: Table of Contents
 :icons: font

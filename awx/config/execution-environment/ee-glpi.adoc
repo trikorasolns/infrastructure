@@ -1,6 +1,12 @@
-== AWX Execution Environments
+= GLPI AWX Execution Environment
+Antonio C. <sp38af (at) trikorasolutions (dot) com>
+:icons: font
+:revdate: {docdate}
+:stem: latexmath
 :toc: left
 :toclevels: 3
+:toc-title: Table of Contents
+:description: Build process for the GLPI AWX execution environment.
 
 == Create Execution Environment
 

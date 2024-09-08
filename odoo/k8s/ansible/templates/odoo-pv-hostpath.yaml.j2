@@ -1,0 +1,69 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: "{{ APP_NAME }}-odoo-web-addons"
+  labels:
+    app.kubernetes.io/name: odoo
+    app.kubernetes.io/instance: "odoo-{{ APP_NAME }}"
+    app.kubernetes.io/version: "{{ app_version }}"
+    app.kubernetes.io/component: web
+    app.kubernetes.io/part-of: "{{ APP_NAME }}"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    namespace: "{{ APP_NAME }}"
+    name: odoo-web-addons
+  capacity:
+    storage: 5Gi
+  hostPath:
+    path: "{{ PV_ROOT_FOLDER }}/{{ APP_NAME }}/odoo_web_addons"
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: "{{ APP_NAME }}-odoo-web-configs"
+  labels:
+    app.kubernetes.io/name: odoo
+    app.kubernetes.io/instance: "odoo-{{ APP_NAME }}"
+    app.kubernetes.io/version: "{{ app_version }}"
+    app.kubernetes.io/component: web
+    app.kubernetes.io/part-of: "{{ APP_NAME }}"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    namespace: "{{ APP_NAME }}"
+    name: odoo-web-configs
+  capacity:
+    storage: 1Gi
+  hostPath:
+    path: "{{ PV_ROOT_FOLDER }}/{{ APP_NAME }}/odoo_web_configs"
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: "{{ APP_NAME }}-odoo-web-data"
+  labels:
+    app.kubernetes.io/name: odoo
+    app.kubernetes.io/instance: "odoo-{{ APP_NAME }}"
+    app.kubernetes.io/version: "{{ app_version }}"
+    app.kubernetes.io/component: web
+    app.kubernetes.io/part-of: "{{ APP_NAME }}"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    namespace: "{{ APP_NAME }}"
+    name: odoo-web-data
+  capacity:
+    storage: 20Gi
+  hostPath:
+    path: "{{ PV_ROOT_FOLDER }}/{{ APP_NAME }}/odoo_web_data"
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage

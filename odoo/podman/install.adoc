@@ -1,0 +1,99 @@
+= Odoo Podman Install Guide
+:toc: left
+:images: font
+:Description: Guide for deploying Odoo as a podman container.
+
+== Preparation
+
+Create the folders that will hold Odoo configuration and addons.
+
+[source,bash]
+----
+mkdir -p /z/var/lib/odoo_volumes/odoo_web_config
+mkdir -p /z/var/lib/odoo_volumes/odoo_web_addons
+mkdir -p /z/var/lib/odoo_volumes/odoo_web_data
+mkdir -p /z/var/lib/odoo_volumes/odoo_db_data
+----
+
+Create the podman volumes that will store the database and odoo web application data.
+
+[source,bash]
+----
+podman volume create odoo_db_data --label "name=odoo_db_data,component=pv,part-of=odoo"
+podman volume create odoo_web_data --label "name=odoo_web_data,component=pv,part-of=odoo"
+podman volume create odoo_web_configs --label "name=odoo_web_data,component=pv,part-of=odoo"
+podman volume create odoo_web_addons --label "name=odoo_web_data,component=pv,part-of=odoo"
+----
+
+== Deployment
+
+Create the `odoo` POD that will hold the odoo application and resources. 
+
+[NOTE]
+====
+The only port that will be mapped, in this document, is `8069` which is the default
+odoo web application port. If required the database port could also be published
+by adding extra `-p` parameters.
+====
+
+[source,bash]
+----
+podman pod create --name odoo -p 8069:8069 -p 5432:5432 --label "name=odoo"
+----
+
+
+Start the PostgreSQL database container inside the `odoo`.
+
+[TIP]
+====
+The `-d` switch will run the container in detached mode. 
+====
+
+[source,bash]
+----
+podman run --name odoo_pgsql --pod odoo -d -v "odoo_db_data:/var/lib/postgresql/data/pgdata:Z" -e POSTGRES_DB=postgres -e POSTGRES_USER=odoo -e POSTGRES_PASSWORD=1234 -e "PGDATA=/var/lib/postgresql/data/pgdata"  --label "name=postgresql,component=database,part-of=odoo" postgres:13
+----
+
+Start the odoo container inside the `odoo` pod.
+
+[NOTE]
+====
+The `--privileged` switch is used to fix the *Permission denied when restoring a database* problem.
+====
+
+[source,bash]
+----
+podman run --name odoo_web --privileged --pod odoo -d -v "odoo_web_data:/var/lib/odoo:z" -v "odoo_web_configs:/etc/odoo:Z"  -v "odoo_web_addons:/mnt/extra-addons:Z" -e POSTGRES_DB=postgres -e USER=odoo -e PASSWORD=1234  -e HOST=odoo_pgsql -e USER=odoo  --label "name=odoo,component=web,part-of=odoo" odoo:16.0
+----
+
+== Uninstall
+
+Stop the pods.
+
+[source,bash]
+----
+podman pod stop odoo
+----
+
+Remove the podman pod with everything inside.
+
+[source,bash]
+----
+podman pod rm -f odoo
+----
+
+Remove the local folders.
+
+[source,bash]
+----
+rm -Rf /z/var/lib/odoo_volumes
+----
+
+Remove the podman volumes.
+
+Create the podman volumes that will store the database and odoo web application data.
+
+[source,bash]
+----
+podman volume rm odoo_db_data odoo_web_data odoo_web_configs odoo_web_addons
+----

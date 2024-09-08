@@ -1,0 +1,6 @@
+persistence:
+  dbPassword: {{ db_password }}
+  dbName: {{ db_name }}
+  dbUser: {{ db_user }}
+image:
+  tag: {{ db_image_tag | default('13') }}

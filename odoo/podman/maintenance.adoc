@@ -1,0 +1,127 @@
+= Odoo Podman Maintenance Guide
+:toc: left
+:images: font
+:Description: Guide for maintaining Odoo as a podman container.
+
+== Stop and Start
+
+[source,bash]
+----
+$ find / -name odoo.conf
+find: ‘/etc/ssl/private’: Permission denied
+find: ‘/proc/tty/driver’: Permission denied
+find: ‘/root’: Permission denied
+/usr/lib/python3/dist-packages/odoo/addons/point_of_sale/tools/posbox/configuration/odoo.conf
+find: ‘/var/cache/apt/archives/partial’: Permission denied
+find: ‘/var/cache/ldconfig’: Permission denied
+----
+
+== Log in into the container
+
+[source,bash]
+----
+$ podman exec -it odoo_web /bin/bash
+----
+
+== Mapped Folders
+
+=== odoo.conf
+
+`odoo.conf` configuration file location is `/usr/lib/python3/dist-packages/odoo/addons/point_of_sale/tools/posbox/configuration/odoo.conf`.
+
+[source,bash]
+----
+$ find / -name odoo.conf
+find: ‘/etc/ssl/private’: Permission denied
+find: ‘/proc/tty/driver’: Permission denied
+find: ‘/root’: Permission denied
+/usr/lib/python3/dist-packages/odoo/addons/point_of_sale/tools/posbox/configuration/odoo.conf
+find: ‘/var/cache/apt/archives/partial’: Permission denied
+find: ‘/var/cache/ldconfig’: Permission denied
+----
+
+[source,bash]
+----
+$ cat /usr/lib/python3/dist-packages/odoo/addons/point_of_sale/tools/posbox/configuration/odoo.conf
+[options]
+data_dir = /var/run/odoo
+log_level = error
+logfile = /var/log/odoo/odoo-server.log
+pidfile = /var/run/odoo/odoo.pid
+limit_time_cpu = 600
+limit_time_real = 1200
+----
+
+Default `odoo.conf` file location on a Linux VM.
+
+[source,bash]
+----
+$ cat /etc/odoo/odoo.conf 
+admin_passwd = xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+db_host = localhost
+db_port = 5432
+db_user = odoo
+db_password = xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+db_name = odoo
+dbfilter = .*
+#dbfilter = ^trikorasolns.*$
+
+limit_memory_hard = 1677721600
+limit_memory_soft = 530242876
+limit_request = 8192
+limit_time_cpu = 600
+limit_time_real = 1200
+max_cron_threads = 1
+workers = 2
+----
+
+=== The default configuration file for the server
+
+`/z/var/lib/odoo_volumes/config:/etc/odoo`
+
+The default configuration file for the server (located at /etc/odoo/odoo.conf) can be overriden at startup using volumes. 
+
+[source,bash]
+----
+$ ll /etc/odoo
+total 4
+-rw-rw----. 1 odoo root 343 Dec  4  2019 odoo.conf
+----
+
+=== /var/lib/odoo
+
+`odoo_web_data:/var/lib/odoo`
+
+The path /var/lib/odoo used as the mount point of the volume must match the odoo data_dir in the config file or as CLI parameters.
+
+[source,bash]
+----
+$ ll /var/lib/odoo
+total 0
+----
+
+[source,bash]
+----
+$ sudo ls -l /home/odoo/.local/share/Odoo/
+total 12
+drwx------. 3 odoo odoo   18 Dec  3  2019 addons
+drwxr-xr-x. 3 odoo odoo   26 Dec  4  2019 filestore
+drwx------. 2 odoo odoo 8192 Sep  9 09:38 sessions
+----
+
+
+
+By default, Odoo 14.0 uses a filestore (located at /var/lib/odoo/filestore/) for attachments.
+
+`/z/var/lib/odoo_volumes/addons:/mnt/extra-addons`
+
+You can mount your own Odoo addons within the Odoo container, at `/mnt/extra-addons`.
+
+----
+$ ll /mnt/extra-addons
+ls: cannot access '/mnt/extra-addons': No such file or directory
+----
+
+== References
+
+* https://hub.docker.com/_/odoo//var

@@ -1,0 +1,25 @@
+= Odoo on Kubernetes
+:author:    Antonio C.
+:email:     <sp38af (at) trikorasolutions (dot) com>
+:revdate:   {{docdate}}
+:toc:       left
+:toc-title: Table of Contents
+:icons:     font
+:description: Odoo on a Kubernetes cluster
+:source-highlighter: highlight.js
+
+== Introduction
+
+[.lead]
+This document describes having Odoo deployed on a Kubernetes cluster.
+
+== Installation Guide
+
+Preparation
+
+* link:install-preparation.adoc[Prepare for the installation]
+
+Installation
+
+* link:install-help.adoc[Install with Helm Guide]
+* link:install.adoc[Installation Guide]

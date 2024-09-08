@@ -1,0 +1,98 @@
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-4.2.1
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    io.kubernetes.cri-o.ContainerType/odoopgsql: container
+    io.kubernetes.cri-o.ContainerType/odooweb: container
+    io.kubernetes.cri-o.SandboxID/odoopgsql: 35536853fe15125a001a624121d7cc064e9253ed09f4ed8b3864fa5cdffe8e3
+    io.kubernetes.cri-o.SandboxID/odooweb: 35536853fe15125a001a624121d7cc064e9253ed09f4ed8b3864fa5cdffe8e3
+    io.kubernetes.cri-o.TTY/odoopgsql: "false"
+    io.kubernetes.cri-o.TTY/odooweb: "false"
+    io.podman.annotations.autoremove/odoopgsql: "FALSE"
+    io.podman.annotations.autoremove/odooweb: "FALSE"
+    io.podman.annotations.init/odoopgsql: "FALSE"
+    io.podman.annotations.init/odooweb: "FALSE"
+    io.podman.annotations.privileged/odoopgsql: "FALSE"
+    io.podman.annotations.privileged/odooweb: "TRUE"
+    io.podman.annotations.publish-all/odoopgsql: "FALSE"
+    io.podman.annotations.publish-all/odooweb: "FALSE"
+  creationTimestamp: "2022-11-07T15:56:33Z"
+  labels:
+    app: odoo
+  name: odoo
+spec:
+  containers:
+  - args:
+    - postgres
+    env:
+    - name: POSTGRES_USER
+      value: odoo
+    - name: PGDATA
+      value: /var/lib/postgresql/data/pgdata
+    - name: POSTGRES_DB
+      value: postgres
+    - name: POSTGRES_PASSWORD
+      value: "1234"
+    image: docker.io/library/postgres:13
+    name: odoopgsql
+    ports:
+    - containerPort: 8069
+      hostPort: 8069
+    resources: {}
+    securityContext:
+      capabilities:
+        drop:
+        - CAP_MKNOD
+        - CAP_NET_RAW
+        - CAP_AUDIT_WRITE
+    volumeMounts:
+    - mountPath: /var/lib/postgresql/data
+      name: 90b46adbc4c4f1c70e63913bfafceeba073582f0287d2bfc8394e6682c64db85-pvc
+    - mountPath: /var/lib/postgresql/data/pgdata
+      name: odoo_db_data-pvc
+  - args:
+    - odoo
+    env:
+    - name: POSTGRES_DB
+      value: postgres
+    - name: USER
+      value: odoo
+    - name: HOST
+      value: odoo_pgsql
+    - name: PASSWORD
+      value: "1234"
+    image: docker.io/library/odoo:13.0
+    name: odooweb
+    resources: {}
+    securityContext:
+      privileged: true
+    volumeMounts:
+    - mountPath: /mnt/extra-addons
+      name: odoo_web_addons-pvc
+    - mountPath: /var/lib/odoo
+      name: odoo_web_data-pvc
+    - mountPath: /etc/odoo
+      name: odoo_web_configs-pvc
+  hostname: odoo
+  restartPolicy: Never
+  volumes:
+  - name: odoo_web_addons-pvc
+    persistentVolumeClaim:
+      claimName: odoo_web_addons
+  - name: odoo_web_data-pvc
+    persistentVolumeClaim:
+      claimName: odoo_web_data
+  - name: odoo_web_configs-pvc
+    persistentVolumeClaim:
+      claimName: odoo_web_configs
+  - name: 90b46adbc4c4f1c70e63913bfafceeba073582f0287d2bfc8394e6682c64db85-pvc
+    persistentVolumeClaim:
+      claimName: 90b46adbc4c4f1c70e63913bfafceeba073582f0287d2bfc8394e6682c64db85
+  - name: odoo_db_data-pvc
+    persistentVolumeClaim:
+      claimName: odoo_db_data
+status: {}
