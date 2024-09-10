@@ -1,12 +1,12 @@
 image:
-  tag: "{{ APP_VERSION | default('16.0') }}"
+  tag: "{{ app_version | default('16.0') }}"
 
 ingress:
   enabled: true
   className: "nginx"
   annotations: {}
   hosts:
-    - host: "{{ APP_NAME }}.trikorasolutions.net"
+    - host: "{{ app_name }}.trikorasolutions.net"
       paths:
         - path: /
           pathType: Prefix
@@ -15,7 +15,7 @@ ingress:
             servicePort: 8069
 
 database:
-  name: postgresql
+  name: postgres
   user: odoo
-  password: {{ DB_PASSWORD }}
-  host: postgresql.{{ APP_NAME }}.svc.cluster.local
+  password: {{ db_password }}
+  host: postgresql.{{ app_name }}.svc.cluster.local

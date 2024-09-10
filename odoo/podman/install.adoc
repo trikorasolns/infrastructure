@@ -51,7 +51,7 @@ The `-d` switch will run the container in detached mode.
 
 [source,bash]
 ----
-podman run --name odoo_pgsql --pod odoo -d -v "odoo_db_data:/var/lib/postgresql/data/pgdata:Z" -e POSTGRES_DB=postgres -e POSTGRES_USER=odoo -e POSTGRES_PASSWORD=1234 -e "PGDATA=/var/lib/postgresql/data/pgdata"  --label "name=postgresql,component=database,part-of=odoo" postgres:13
+podman run --name odoo_pgsql --pod odoo --pull always -d -v "odoo_db_data:/var/lib/postgresql/data/pgdata:Z" -e POSTGRES_DB=postgres -e POSTGRES_USER=odoo -e POSTGRES_PASSWORD=1234 -e "PGDATA=/var/lib/postgresql/data/pgdata"  --label "name=postgresql,component=database,part-of=odoo" postgres:13
 ----
 
 Start the odoo container inside the `odoo` pod.
@@ -63,7 +63,7 @@ The `--privileged` switch is used to fix the *Permission denied when restoring a
 
 [source,bash]
 ----
-podman run --name odoo_web --privileged --pod odoo -d -v "odoo_web_data:/var/lib/odoo:z" -v "odoo_web_configs:/etc/odoo:Z"  -v "odoo_web_addons:/mnt/extra-addons:Z" -e POSTGRES_DB=postgres -e USER=odoo -e PASSWORD=1234  -e HOST=odoo_pgsql -e USER=odoo  --label "name=odoo,component=web,part-of=odoo" odoo:16.0
+podman run --name odoo_web --privileged --pod odoo --pull always -d -v "odoo_web_data:/var/lib/odoo:z" -v "odoo_web_configs:/etc/odoo:Z"  -v "odoo_web_addons:/mnt/extra-addons:Z" -e POSTGRES_DB=postgres -e USER=odoo -e PASSWORD=1234  -e HOST=odoo_pgsql -e USER=odoo  --label "name=odoo,component=web,part-of=odoo" odoo:16.0
 ----
 
 == Uninstall

@@ -1,30 +1,33 @@
 ---
-- name: "Install PostgreSQL"
-  import_playbook: "{{ project_root_folder | default('../../..') }}/pgsql/k8s/ansible/pb-install-pgsql.yaml"
-  vars:
-    db_password: 
-    db_name: "postgresql"
-    db_user: "odoo"
-    db_image_tag: "13"
-
 - name: "Install"
-  hosts: "{{ k8s_host }}"
+  hosts: "localhost"
   gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
 
-  tasks:
+  pre_tasks:
     - name: "Validate variables"
       assert:
         that:
-          - "pv_root_folder is defined"
+          # - "pv_root_folder is defined"
           - "app_name is defined"
           - "app_version is defined"
-        fail_msg: "Root folder for k8s PV must be defined"
-        success_msg: "PV root folder is {{ k8s.pv_root_folder }}"
+          - "app_namespace is defined"
+        fail_msg: "Missing required parameters"
 
-    - name: "Set facts"
-      ansible.builtin.set_fact:
-        PV_ROOT_FOLDER: "{{ pv_root_folder }}"
-        APP_NAME: "{{ app_name }}"
-        app_namespace: "{{ app_name }}"
-        # K8S_WORKSPACE: "{{ app_name }}-{{ app_version }}"
+  tasks:
+    - name: "Template Odoo deployment files"
+      ansible.builtin.template:
+        src: "helm-odoo-odoo-values.yaml.j2"
+        dest: "/tmp/helm-odoo-odoo-values.yaml"
+        mode: '0600'
+
+    - name: "Deploy Odoo with Helm"
+      kubernetes.core.helm:
+        name: odoo
+        chart_ref: "{{ trikora_helm_project_dir }}/odoo"
+        release_namespace: "{{ app_namespace }}"
+        wait: true
+        replace: true
+        values_files:
+          - /tmp/helm-odoo-odoo-values.yaml
+      register: odoo_helm_res 
 ...

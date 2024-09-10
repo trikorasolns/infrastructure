@@ -1,0 +1,67 @@
+---
+- import_playbook: pb-init.yaml
+
+- name: "UninsRemove Odoo"
+  hosts: kubernetes
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  tasks:
+    - name: "Delete Odoo PV"
+      ansible.builtin.include_role:
+        name: "kubernetes/pv_local"
+      vars:
+        pv_local_pv_root_folder: "{{ pv_root_folder }}"
+        pv_local_pv_name: "{{ pv_info_var.pv_name }}"
+        pv_local_component: "app"
+        pv_local_app_name: "{{ app_name }}"
+        pv_local_app_version: "{{ app_version }}"
+        pv_local_storage_capacity: "{{ pv_info_var.pv_capacity }}"
+        state: absent
+      loop:
+        - { pv_name: "odoo-web-addons", pv_capacity: "5Gi"}
+        - { pv_name: "odoo-web-configs", pv_capacity: "1Gi"}
+        - { pv_name: "odoo-web-data", pv_capacity: "20Gi"}
+      loop_control:
+        loop_var: pv_info_var
+
+    - name: "Delete PostgreSQL PV"
+      ansible.builtin.include_role:
+        name: "kubernetes/pv_local"
+      vars:
+        pv_local_pv_root_folder: "{{ pv_root_folder }}"
+        pv_local_pv_name: "{{ gitlab_pod_folders }}"
+        pv_local_component: "database"
+        pv_local_app_name: "{{ app_name }}"
+        pv_local_app_version: "{{ app_version }}"
+        pv_local_storage_capacity: "10Gi"
+        state: absent
+      #   pv_root_folder: 
+      #   app_name: 
+      loop:
+        - "pgsql"
+      loop_control:
+        loop_var: gitlab_pod_folders 
+
+    - name: "Print delete folder"
+      ansible.builtin.debug:
+        msg:
+          - "{{ pv_root_folder }}/{{ app_name }}"
+
+    - name: "Delete the PV folder"
+      ansible.builtin.file:
+        name: "{{ pv_root_folder }}/{{ app_name }}"
+        state: absent
+      become: true
+
+    - name: "Delete Odoo k8s namespace"
+      kubernetes.core.k8s:
+        name: "{{ app_name }}"
+        api_version: v1
+        kind: Namespace
+        state: absent
+
+- import_playbook: "{{ project_root_folder | default('../../..') }}/pgsql/k8s/ansible/pb-uninstall.yaml"
+
+# - import_playbook: playbook-gitlab-remove.yaml
+# - import_playbook: playbook-pgsql-remove.yaml
+...

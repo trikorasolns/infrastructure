@@ -1,16 +1,15 @@
 ---
-- import_playbook: playbook-init.yaml
+- import_playbook: pb-init.yaml
 
 - name: "Prepare Odoo install with Local PV"
   hosts: kubernetes
   gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
 
   # pre_tasks:
-  #   - name: "Check required variables"
-  #     assert:
-  #       that:
-  #         - "pv_root_folder is defined"
-  #         - "app_name is defined"
+  #   - name: "Set PV_ROOT_FOLDER from kubernetes host if not set"
+  #     set_fact:
+  #       pv_root_folder: 
+  #     when: pv_root_folder is undefined and k8s is defined and k8s.pv_root_folder is defined
 
   tasks:
 
@@ -34,23 +33,23 @@
       loop_control:
         loop_var: pv_info_var
 
-    - name: "Init PV"
-      ansible.builtin.include_role:
-        name: "kubernetes/pv_local"
-      vars:
-        pv_local_pv_root_folder: "{{ pv_root_folder }}"
-        pv_local_pv_name: "{{ gitlab_pod_folders }}"
-        pv_local_component: "database"
-        pv_local_app_name: "{{ app_name }}"
-        pv_local_app_version: "{{ app_version }}"
-        pv_local_storage_capacity: "10Gi"
-        state: present
-      #   pv_root_folder: 
-      #   app_name: 
-      loop:
-        - "pgsql"
-      loop_control:
-        loop_var: gitlab_pod_folders 
+    # - name: "Init PV"
+    #   ansible.builtin.include_role:
+    #     name: "kubernetes/pv_local"
+    #   vars:
+    #     pv_local_pv_root_folder: "{{ pv_root_folder }}"
+    #     pv_local_pv_name: "{{ gitlab_pod_folders }}"
+    #     pv_local_component: "database"
+    #     pv_local_app_name: "{{ app_name }}"
+    #     pv_local_app_version: "{{ app_version }}"
+    #     pv_local_storage_capacity: "10Gi"
+    #     state: present
+    #   #   pv_root_folder: 
+    #   #   app_name: 
+    #   loop:
+    #     - "pgsql"
+    #   loop_control:
+    #     loop_var: gitlab_pod_folders 
 
 # - import_playbook: playbook-prepare-pgsql.yaml
 # - import_playbook: playbook-prepare-odoo.yaml

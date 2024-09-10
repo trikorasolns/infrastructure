@@ -1,0 +1,127 @@
+= Troubleshooting Odoo on Kubernetes
+:author:    Antonio C.
+:email:     <sp38af (at) trikorasolutions (dot) com>
+:revdate:   {{docdate}}
+:toc:       left
+:toc-title: Table of Contents
+:icons:     font
+:description: Troubleshooting Odoo on a Kubernetes cluster.
+:source-highlighter: highlight.js
+
+== 0/1 nodes are available: 1 node(s) didn't find available persistent volumes to bind.
+
+*Problem*
+
+Pod won't start with error  `0/1 nodes are available: 1 node(s) didn't find available persistent volumes to bind`.
+
+*Symptom*
+
+The PV with status _Released_.
+
+*Cause*
+
+The PV have claim references to the previous POD.
+
+*Solution*
+
+Clean the PV references.
+
+.Sample command for cleaning the PV references
+[source,bash]
+----
+kubectl patch pv odoo-16-odoo-web-addons odoo-16-odoo-web-configs odoo-16-odoo-web-data -p '{"spec":{"claimRef": null}}'
+----
+
+And they will change their status to _Available_.
+
+== virtual real time limit (138/120s) reached.
+
+*Problem*
+
+Database import fails with a WARNING.
+
+[source,]
+----
+2024-09-10 13:26:53,406 1 INFO ? odoo.service.db: RESTORING DB: loremipsummet 
+2024-09-10 13:29:09,470 1 WARNING ? odoo.service.server: Thread <Thread(odoo.service.http.request.139757198305024, started 139757198305024)> virtual real time limit (138/120s) reached. 
+2024-09-10 13:29:09,471 1 INFO ? odoo.service.server: Dumping stacktrace of limit exceeding threads before reloading 
+2024-09-10 13:29:09,606 1 INFO ? odoo.tools.misc: 
+# Thread: <Thread(odoo.service.http.request.139757198305024, started 139757198305024)> (db:n/a) (uid:n/a) (url:http://odoo-16.localdomain/web/database/restore)
+----
+
+When it should be something like this.
+
+[source,]
+----
+2024-09-10 14:06:38,649 1 INFO None odoo.service.db: RESTORING DB: loremipsummet 
+2024-09-10 14:07:08,794 1 INFO loremipsummet odoo.modules.loading: loading 1 modules... 
+2024-09-10 14:07:08,801 1 INFO loremipsummet odoo.modules.loading: 1 modules loaded in 0.01s, 0 queries (+0 extra) 
+2024-09-10 14:07:08,805 1 WARNING loremipsummet odoo.modules.graph: module account_statement_import_file: not installable, skipped 
+2024-09-10 14:07:08,807 1 INFO loremipsummet odoo.modules.loading: loading 73 modules... 
+2024-09-10 14:07:09,271 1 INFO loremipsummet odoo.modules.loading: 73 modules loaded in 0.46s, 0 queries (+0 extra) 
+2024-09-10 14:07:09,403 1 ERROR loremipsummet odoo.modules.loading: Some modules are not loaded, some dependencies or manifest may be missing: ['account_statement_import_file'] 
+2024-09-10 14:07:09,403 1 INFO loremipsummet odoo.modules.loading: Modules loaded. 
+2024-09-10 14:07:09,407 1 INFO loremipsummet odoo.modules.registry: Registry loaded in 0.617s 
+2024-09-10 14:07:09,656 1 INFO loremipsummet odoo.service.db: RESTORE DB: loremipsummet 
+2024-09-10 14:07:09,669 1 INFO loremipsummet werkzeug: 10.0.2.100 - - [10/Sep/2024 14:07:09] "POST /web/database/restore HTTP/1.1" 303 - 47 0.590 32.534
+----
+
+*Cause*
+
+Odoo has a functionality that prevents a worker from using more than _<limit>_ CPU seconds, killing the process. The default limit is 120s.
+
+Check the Odoo documentation on the `limit_time_real` parameter.
+
+* https://www.odoo.com/documentation/16.0/developer/reference/cli.html
+* https://github.com/odoo/docker/blob/master/16.0/odoo.conf#L16
+
+*Solution*
+
+[.lead]
+Increase the `limit_time_real` value.
+
+Connect to the shell of the Odoo container.
+
+[source,bash]
+----
+kubectl -n odoo-16 exec -it pod/$(kubectl get pods -n odoo-16 | grep odoo |  awk '{print $1}') -- /bin/bash
+----
+
+Go to the `/etc/odoo` folder.
+
+[source,bash]
+----
+cd /etc/odoo
+----
+
+Backup the `/etc/odoo/odoo.conf` file.
+
+[source,bash]
+----
+cp odoo.conf odoo.conf.bk
+----
+
+Add the `limit_time_real` parameter.
+
+[source,bash]
+----
+cat <<EOF >> odoo.conf
+limit_time_real = 1800
+EOF
+----
+
+Restart Odoo.
+
+[source,bash]
+----
+kc -n odoo-16 scale --replicas=0 deployment.apps/odoo
+sleep 5
+kc -n odoo-16 scale --replicas=1 deployment.apps/odoo
+----
+
+Check the logs.
+
+[source,bash]
+----
+kc -n odoo-16 logs -f pod/$(kubectl get pods -n odoo-16 | grep odoo |  awk '{print $1}')
+----

@@ -3,6 +3,11 @@
 - assert:
     that: "state == 'present' or state == 'absent'"
 
+- name: "Debug variables"
+  ansible.builtin.debug:
+    msg:
+      - "pv_local_pv_root_folder: {{ pv_local_pv_root_folder }}"
+
 - include_tasks: install.yml
   when: "state == 'present'"
 

@@ -1,19 +1,16 @@
 ---
-- import_playbook: playbook-init.yaml
-  # vars:
-  #   pv_root_folder: "{{ k8s.pv_root_folder }}"
+- import_playbook: pb-init.yaml
 
 - name: "Prepare Odoo install"
   hosts: kubernetes
   gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
 
   # pre_tasks:
-  #   - name: "Check required variables"
-  #     assert:
-  #       that:
-  #         - "pv_root_folder is defined"
-  #         - "app_name is defined"
-
+  #   - name: "Set PV_ROOT_FOLDER from kubernetes host if not set"
+  #     set_fact:
+  #       pv_root_folder: 
+  #     when: pv_root_folder is undefined and k8s is defined and k8s.pv_root_folder is defined
+      
   tasks:
 
     - name: "Create Odoo k8s namespace"
@@ -35,9 +32,14 @@
               app.kubernetes.io/name: "{{ app_name }}"
               app.kubernetes.io/version: "{{ app_version }}"
 
-- import_playbook: "{{ project_root_folder | default('../../..') }}/pgsql/k8s/ansible/pb-install-prepare-pv-local.yaml"
+    - name: "Debug variables"
+      ansible.builtin.debug:
+        msg:
+          - "pv_root_folder: {{ pv_root_folder }}"
 
 - import_playbook: pb-install-prepare-pv-local.yaml
+
+- import_playbook: "{{ project_root_folder | default('../../..') }}/pgsql/k8s/ansible/pb-install-prepare-pv-local.yaml"
 
 # - import_playbook: playbook-prepare-pgsql.yaml
 # - import_playbook: playbook-prepare-odoo.yaml
