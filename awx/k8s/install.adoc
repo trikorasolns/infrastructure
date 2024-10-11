@@ -25,6 +25,11 @@ References:
 
 == Installation
 
+[source,bash]
+----
+kc apply -k awx/k8s/kustomize/
+----
+
 === References
 
 Check the instructions on:
@@ -248,6 +253,11 @@ kubectl -n awx scale --replicas=1 deployment.apps/awx deployment.apps/awx-operat
 
 
 == Uninstall
+
+[source,bash]
+----
+kc delete -k awx/k8s/kustomize/
+----
 
 Uninstall AWX.
 
