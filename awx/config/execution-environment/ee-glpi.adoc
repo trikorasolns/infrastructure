@@ -61,9 +61,15 @@ collections:
 `podman` can be replaced by `docker` as `container-runtime`. Check the `ansible-builder build --help`.
 ====
 
+[CAUTION]
+====
+Replace `xxxxxxxx` with the quay user/organization.
+====
+
+
 [source,bash]
 ----
-$ ansible-builder build --tag xxxxxxxx/awx-ee-glpi:0.0.1 --container-runtime podman --file glpi/execution-environment.yml --context contexts/glpi/
+$ ansible-builder build --tag xxxxxxxx/awx-ee-glpi:0.0.1 --container-runtime podman --file awx/config/execution-environment/glpi/execution-environment.yml --context contexts/glpi/
 Running command:
   podman build -f context/Containerfile -t xxxxxxxx/awx-ee-glpi:0.0.1 context
 Complete! The build context can be found at: /mnt/e/Projekte/Ansible/awx-ee/context
