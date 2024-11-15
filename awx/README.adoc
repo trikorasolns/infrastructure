@@ -15,3 +15,47 @@ link:k8s/README.adoc[k8s deployment instructions]
 
 link:config/execution-environment/README.adoc[Execution Envirments]
 
+== Usage
+
+=== Install awx cli
+
+Create a Python Virtual Environment
+
+[source,bash]
+----
+python  -m venv /z/python-venv/3.12
+----
+
+Enable `include-system-site-packages` on the venv configuarion file.
+
+[source,bash]
+----
+sed -i "s/include-system-site-packages = false/include-system-site-packages = true/g" /z/python-venv/3.12/pyvenv.cfg
+----
+
+Activate the Python venv.
+
+[source,bash]
+----
+source /z/python-venv/3.12/bin/activate
+----
+
+Install Ansible Tower CLI.
+
+[source,bash]
+----
+pip install --user https://releases.ansible.com/ansible-tower/cli/ansible-tower-cli-latest.tar.gz
+----
+
+== Add this project to AWX
+
+Create a project for this infrastructure repository.
+
+[source,bash]
+----
+awx projects create \
+  --name "trikorasolns/infrastructure" \
+  --organization <ID> \
+  --scm_type git \
+  --scm_url https://github.com/trikorasolns/infrastructure
+----
