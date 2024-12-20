@@ -1,0 +1,118 @@
+---
+- name: "gitlab backup"
+  hosts: "localhost"
+  gather_facts: yes
+
+  pre_tasks:
+    - name: "Check variables"
+      ansible.builtin.assert:
+        that:
+          - "k8s_ns is defined"
+          - "backup_root_folder is defined"
+
+    - name: "Set variables"
+      ansible.builtin.set_fact:
+        backup_file_prefix: "{{ ansible_date_time.iso8601_basic_short }}.gitlab.backup"
+        db_bk_user: "{{ db_user | default('root') }}"
+
+    - name: "Collect backup folder stats"
+      ansible.builtin.stat:
+        path: "{{ backup_root_folder }}/{{ k8s_ns }}"
+      register: backup_folder_stats
+
+    - name: "Check backup folder exists"
+      ansible.builtin.assert:
+        that:
+          - "backup_folder_stats.stat.exists"
+
+  tasks:
+    - name: "Get pods"
+      kubernetes.core.k8s_info:
+        kind: "Pod"
+        namespace: "{{ k8s_ns }}"
+        validate_certs: false
+      register: pod_list
+
+    - name: "Build custom Pod information list"
+      ansible.builtin.set_fact:
+        pod_card_list: "{{ pod_list.resources | json_query(jmesquery) }}"
+      vars:
+        jmesquery: "[*].{MetadataName: metadata.name, MetadataNamespace: metadata.namespace, MetadataOwnerKind: metadata.ownerReferences[0].kind}"
+
+    - name: "Print pod card list"
+      ansible.builtin.debug:
+        msg: "pod_card_list: {{ pod_card_list }}"
+        verbosity: 2
+
+    - name: "Print pod list 2"
+      ansible.builtin.debug:
+        msg: "select pod (filter: {{ item }}): {{ pod_card_list | to_json | from_json | community.general.json_query(item) }}"
+        verbosity: 2
+      with_items:
+        - "[?contains(MetadataName,'gitlab-') && MetadataOwnerKind=='ReplicaSet']"
+
+    - name: "Fetch GITLAB Pod name"
+      ansible.builtin.set_fact:
+        gitlab_pod_name: "{{ pod_card_list | to_json | from_json | community.general.json_query(jmesquery) | first }}"
+      vars:
+        jmesquery: "[?contains(MetadataName,'gitlab-') && MetadataOwnerKind=='ReplicaSet'].MetadataName"
+
+    - name: "Print pod card list"
+      ansible.builtin.debug:
+        msg: "gitlab_pod_name: {{ gitlab_pod_name }}"
+        verbosity: 2
+
+    - name: "Backup GITLAB files"
+      kubernetes.core.k8s_exec:
+        command: "gitlab-backup create"
+        namespace: "{{ k8s_ns }}"
+        pod: "{{ gitlab_pod_name }}"
+      register: gitlab_file_bk_res
+
+    - name: "Print pod list 2"
+      ansible.builtin.debug:
+        msg: "gitlab_file_bk_res: {{ gitlab_file_bk_res }}"
+        verbosity: 2
+
+    - name: "Get the existing gitlab backup files"
+      kubernetes.core.k8s_exec:
+        command: "ls -t1 /var/opt/gitlab/backups"
+        namespace: "{{ k8s_ns }}"
+        pod: "{{ gitlab_pod_name }}"
+      register: gitlab_bk_file_name_res
+
+    - name: "Print GitLab backup file name"
+      ansible.builtin.debug:
+        msg: 
+        - "gitlab_bk_file_name_res: {{ gitlab_bk_file_name_res }}"
+        - "gitlab_bk_file_name_res: {{ gitlab_bk_file_name_res.stdout | split }}"
+        - "gitlab_bk_file_name_res: {{ (gitlab_bk_file_name_res.stdout | split)[0]}}"
+        verbosity: 2
+
+    - name: "Set backup file"
+      ansible.builtin.set_fact:
+        gitlab_backup_file_name: "{{ (gitlab_bk_file_name_res.stdout | split)[0]}}"
+
+    - name: "Download latest backup file"
+      kubernetes.core.k8s_cp:
+        namespace: "{{ k8s_ns }}"
+        pod: "{{ gitlab_pod_name }}"
+        state: from_pod
+        remote_path: "/var/opt/gitlab/backups/{{ gitlab_backup_file_name }}"
+        local_path: "{{ backup_root_folder }}/{{ k8s_ns }}/{{ gitlab_backup_file_name }}"
+
+    - name: "Download secrets file"
+      kubernetes.core.k8s_cp:
+        namespace: "{{ k8s_ns }}"
+        pod: "{{ gitlab_pod_name }}"
+        state: from_pod
+        remote_path: "/etc/gitlab/gitlab-secrets.json"
+        local_path: "{{ backup_root_folder }}/{{ k8s_ns }}/{{ gitlab_backup_file_name }}-gitlab-secrets.json"
+
+    - name: "Remove the latest backup file"
+      kubernetes.core.k8s_exec:
+        command: "rm -f /var/opt/gitlab/backups/{{ gitlab_backup_file_name }}"
+        namespace: "{{ k8s_ns }}"
+        pod: "{{ gitlab_pod_name }}"
+      register: gitlab_file_bk_res
+...

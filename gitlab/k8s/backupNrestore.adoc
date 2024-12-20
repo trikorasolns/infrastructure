@@ -28,6 +28,15 @@ $ BACKUP_ROOT_FOLDER=/z/_backup
 
 == Backup
 
+=== With Ansible
+
+[source,bash]
+----
+ansible-playbook gitlab/k8s/ansible/backup.yml -e k8s_ns=gitlab -e backup_root_folder=${BACKUP_ROOT_FOLDER}
+----
+
+=== Using the command line
+
 Identify the gitlab pod and set the `GITLAB_POD` variable with the name of the pod.
 
 [source,bash]
