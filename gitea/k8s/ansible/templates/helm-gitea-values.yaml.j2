@@ -1,5 +1,5 @@
 image:
-  tag: "{{ app_version | default('18.0') }}"
+  tag: "{{ app_version }}"
 
 ingress:
   enabled: true
@@ -12,10 +12,10 @@ ingress:
           pathType: Prefix
           backend:
             serviceName: http
-            servicePort: 8069
+            servicePort: 3000
 
 database:
-  name: postgres
-  user: odoo
+  name: gitea
+  user: gitea
   password: {{ db_password }}
   host: postgresql.{{ app_name }}.svc.cluster.local

@@ -1,0 +1,42 @@
+---
+- name: "Uninstall PostgreSQL"
+  hosts: "{{ k8s_host | default ('localhost') }}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+  - name: "Validate variables"
+    assert:
+      that:
+        # - "db_password is defined"
+        # - "db_name is defined"
+        # - "db_user is defined"
+        - "app_namespace is defined"
+      fail_msg: "Missing variables"
+
+  tasks:
+    - name: "Uninstall PostgreSQL Helm Chart"
+      kubernetes.core.helm:
+        name: postgresql
+        state: absent
+        release_namespace: "{{ app_namespace }}"
+      register: pgsql_helm_res 
+
+# - name: "Remove PostgreSQL PV"
+#   hosts: kubernetes
+#   gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+#   tasks:
+#     - name: "Init PV"
+#       ansible.builtin.include_role:
+#         name: "kubernetes/pv_local"
+#       vars:
+#         pv_local_pv_root_folder: "{{ pv_root_folder }}"
+#         pv_local_pv_name: "postgresql"
+#         pv_local_component: "database"
+#         pv_local_app_name: "{{ app_name }}"
+#         pv_local_app_version: "{{ app_version }}"
+#         pv_local_storage_capacity: "10Gi"
+#         pv_local_pv_owner: "999"
+#         pv_local_pv_group: "999"
+#         state: absent
+...

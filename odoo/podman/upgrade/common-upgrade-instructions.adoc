@@ -1,0 +1,256 @@
+= Common Upgrade Instructions
+Antonio C. <sp38af (at) trikorasolutions (dot) com>
+:toc: left
+:revdate: {docdate}
+:icons: font
+:Description: Guide for deploying Odoo as a podman container.
+
+== Execute the upgrade [[execute_the_upgrade]]
+
+Execute the upgrade.
+
+[source,bash]
+----
+odoo -c /etc/odoo/odoo.upg.conf --database=trikorasolns --upgrade-path=/mnt/extra-addons/openupgrade_scripts/scripts --load=base,web,openupgrade_framework --update all --stop-after-init --i18n-overwrite
+----
+
+== Install Python Virtual Environment [[install_python_vend]]
+
+Create a Python venv for this version.
+
+[NOTE]
+====
+If required, install Python.
+
+[source,bash]
+----
+sudo dnf install python${ODOO_PYTHON_VERSION}
+----
+====
+
+[source,bash]
+----
+python${ODOO_PYTHON_VERSION} -m venv /z/_tmp/venv_python_${ODOO_PYTHON_VERSION}
+----
+
+Activate the Python venv.
+
+[source,bash]
+----
+source /z/_tmp/venv_python_${ODOO_PYTHON_VERSION}/bin/activate
+----
+
+Install pip.
+
+[source,bash]
+----
+python -m ensurepip --upgrade
+----
+
+
+== Install openupgradelib [[openupgradelib]]
+
+Install the latest `openupgradelib` version, locally.
+
+[NOTE]
+====
+Check the Python version for the Odoo container.
+
+[source,bash]
+----
+python3 --version
+Python 3.10.12
+----
+
+* For Odoo 13.0 use Python 3.7.
+* For Odoo 14.0 use Python 3.9.
+* For Odoo 16.0 use Python 3.10.
+====
+
+Set the Python version.
+
+[source,bash]
+----
+ODOO_PYTHON_VERSION=3.10
+----
+
+=== On local machine
+
+Create a Python venv for this version.
+
+[NOTE]
+====
+If required, install Python.
+
+[source,bash]
+----
+sudo dnf install python${ODOO_PYTHON_VERSION}
+----
+====
+
+[source,bash]
+----
+python${ODOO_PYTHON_VERSION} -m venv /z/_tmp/venv_python_${ODOO_PYTHON_VERSION}
+----
+
+Activate the Python venv.
+
+[source,bash]
+----
+source /z/_tmp/venv_python_${ODOO_PYTHON_VERSION}/bin/activate
+----
+
+Install pip.
+
+[source,bash]
+----
+python -m ensurepip --upgrade
+----
+
+Install `openupgradelib` from the GitHub main branch.
+
+[source,bash]
+----
+python -m pip install git+https://github.com/OCA/openupgradelib.git@3.7.2#egg=openupgradelib
+
+#python -m pip install git+https://github.com/OCA/openupgradelib.git@master#egg=openupgradelib
+
+#python${ODOO_PYTHON_VERSION} -m pip install git+https://github.com/OCA/openupgradelib.git@master#egg=openupgradelib
+#pip3.7 install git+https://github.com/OCA/openupgradelib.git@master#egg=openupgradelib
+----
+
+Generate pip `requirements.txt` file for the `openupgradelib` version.
+
+[source,bash]
+----
+python -m pip freeze | grep openupgradelib > requirements.txt
+----
+
+[NOTE]
+====
+This doesn't work with Python 3.7 and IDK why!
+
+Check the manual instructions <<manually_copy_openupgradelib>>.
+====
+
+Generate a requirements folder with the downloaded `openupgradelib` library.
+
+[source,bash]
+----
+mkdir pip-reqs
+python -m pip download -r requirements.txt -d pip-reqs/
+----
+
+Step out of the Python virtual environment.
+
+[source,bash]
+----
+deactivate
+----
+
+Copy the requirements to Odoo container.
+
+[source,bash]
+----
+podman cp pip-reqs/ odoo_web:/opt/
+----
+
+On the Odoo container, install `openupgradelib` from the requirements folder.
+
+[source,bash]
+----
+pip3 uninstall -y openupgradelib
+pip3 install openupgradelib --find-links=/opt/pip-reqs/
+----
+
+== Install _master_ openupgradelib python library [[manually_copy_openupgradelib]]
+
+After installing 
+
+Install `openupgradelib` from the GitHub main branch.
+
+[source,bash]
+----
+#python -m pip install git+https://github.com/OCA/openupgradelib.git@3.7.2#egg=openupgradelib
+
+python -m pip install git+https://github.com/OCA/openupgradelib.git@master#egg=openupgradelib
+
+#python${ODOO_PYTHON_VERSION} -m pip install git+https://github.com/OCA/openupgradelib.git@master#egg=openupgradelib
+#pip3.7 install git+https://github.com/OCA/openupgradelib.git@master#egg=openupgradelib
+----
+
+
+Copy the files to the Odoo container.
+
+[CAUTION]
+====
+*Before making the copy*, check that the 
+`/var/lib/odoo/.local/lib/python${ODOO_PYTHON_VERSION}` folder exists on the 
+ Odoo container.
+
+If the folder doesn't exist create it by installing anything, _e.g._ `yq`.
+
+[source,bash]
+----
+python3.10 -m pip install yq
+----
+====
+
+Check the name of the folder with the `openupgradelib` specific version, something like 
+ `openupgradelib-3.7.3.dev3+g1f84d5c-py3.10.egg-info` under the `site-packages`
+ folder.
+
+[source,bash]
+----
+podman cp /z/_tmp/venv_python_${ODOO_PYTHON_VERSION}/lib/python${ODOO_PYTHON_VERSION}/site-packages/openupgradelib/ odoo_web:/var/lib/odoo/.local/lib/python${ODOO_PYTHON_VERSION}/site-packages/
+podman cp /z/_tmp/venv_python_${ODOO_PYTHON_VERSION}/lib/python${ODOO_PYTHON_VERSION}/site-packages/openupgradelib-3.7.3.dev3+g1f84d5c-py${ODOO_PYTHON_VERSION}.egg-info/ odoo_web:/var/lib/odoo/.local/lib/python${ODOO_PYTHON_VERSION}/site-packages/
+----
+
+
+== Old instructions
+
+[NOTE]
+====
+Old instructions for historical purposes only.
+
+On the podman bash shell, install openupgradelib
+
+[source,bash]
+----
+pip3 install openupgradelib
+pip3 install git+https://github.com/OCA/openupgradelib.git@master#egg=openupgradelib
+pip3 install "openupgradelib==2.0.0"
+----
+
+To uninstall.
+
+[source,bash]
+----
+pip3 uninstall -y openupgradelib
+----
+
+====
+
+== Cleanup existing installation
+
+Cleanup any existing installation.
+
+[source,bash]
+----
+podman stop odoo_web
+podman rm odoo_web
+podman volume rm odoo_web_data
+podman volume rm odoo_web_addons
+podman stop odoo_pgsql
+podman rm odoo_pgsql
+podman volume rm odoo_db_data
+----
+
+Create the podman volumes to be used by Odoo to persist data.
+
+[source,bash]
+----
+podman volume create odoo_web_data
+podman volume create odoo_web_addons
+podman volume create odoo_db_data
+----

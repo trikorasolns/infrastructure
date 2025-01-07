@@ -1,1 +1,25 @@
-odoo_version: 16.0
+app_name: odoo-18
+app_namespace: odoo-18
+app_version: 18.0
+
+db_name: postgres
+db_user: odoo
+# storage_class: local-storage
+
+volumes:
+  - name: odoo-web-addons
+    capacity: 5Gi
+    component: application
+  - name: odoo-web-configs
+    capacity: 1Gi
+    component: application
+  - name: odoo-web-data
+    capacity: 20Gi
+    component: application
+  - name: postgresql
+    capacity: 10Gi
+    owner_user: 26
+    owner_group: 26
+    component: database
+
+  

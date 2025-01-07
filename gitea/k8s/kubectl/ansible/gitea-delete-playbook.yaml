@@ -1,0 +1,75 @@
+---
+- name: "Install Gitea"
+  hosts: "{{ k8s_host }}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+    - name: "Set gitea version"
+      ansible.builtin.set_fact:
+        app_version: "1.22.6"
+      when: app_version is undefined
+
+  tasks:
+
+    - name: "Gitea: Template ConfigMap"
+      ansible.builtin.template:
+        src: "gitea-configmap.yaml"
+        dest: "/tmp/gitea-configmap.yaml"
+
+    - name: "Gitea: Apply ConfigMap"
+      kubernetes.core.k8s:
+        src: "/tmp/gitea-configmap.yaml"
+        state: present
+
+    - name: "Gitea: Template PVC"
+      ansible.builtin.template:
+        src: "gitea-pvc-hostPath.yaml"
+        dest: "/tmp/gitea-pvc-hostPath.yaml"
+
+    - name: "Gitea: Apply PVC"
+      kubernetes.core.k8s:
+        src: "/tmp/gitea-pvc-hostPath.yaml"
+        state: present
+
+    - name: "Gitea: Template RBAC, Deployment and Service"
+      ansible.builtin.template:
+        src: "{{ rds_template_item }}"
+        dest: "/tmp/{{ rds_template_item }}"
+      loop:
+        - gitea-rbac.yaml
+        - gitea-deployment.yaml
+        - gitea-service.yaml
+      loop_control:
+        loop_var: rds_template_item
+
+    - name: "Gitea: Apply RBAC, Deployment and Service"
+      kubernetes.core.k8s:
+        src: "/tmp/{{ rds_item }}"
+        state: present
+      loop:
+        - gitea-rbac.yaml
+        - gitea-deployment.yaml
+        - gitea-service.yaml
+      loop_control:
+        loop_var: rds_item
+
+    # From repository
+    # - name: Add stable chart repo
+    #   kubernetes.core.helm_repository:
+    #     name: stable
+    #     repo_url: "https://kubernetes.github.io/ingress-nginx"
+
+    # - name: "Template Mariadb values"
+    #   ansible.builtin.template:
+    #     src: "../helm/helm-mariadb-values.yaml"
+    #     dest: "/tmp/helm-mariadb-values.yaml"
+
+    #helm install --namespace glpi -f /tmp/helm-mariadb-values.yaml mariadb mariadb
+
+    # - name: "Delete PV file"
+    #   ansible.builtin.file:
+    #     path: /tmp/helm-mariadb-values.yaml
+    #     state: absent
+
+    #helm install --namespace glpi phpmyadmin phpmyadmin
+...

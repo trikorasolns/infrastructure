@@ -20,14 +20,10 @@ Install PostgreSQL using the Helm Chart.
 
 [source,bash]
 ----
-ansible-playbook pgsql/k8s/ansible/pb-install-pgsql.yaml \
-  -e app_name=${APP_NAME} \
-  -e app_version=${APP_VERSION} \
+ansible-playbook pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml \
+  -e "@odoo/k8s/ansible/default/main.yaml" \
   -e trikora_helm_project_dir=${TRIKORA_HELM} \
-  -e app_namespace=${APP_NAME} \
   -e db_password=${DB_PASSWORD} \
-  -e db_name=postgres \
-  -e db_user=odoo \
   -e db_image_tag=13
 ----
 
@@ -37,11 +33,10 @@ Install Odoo using the Helm Chart.
 
 [source,bash]
 ----
-ansible-playbook odoo/k8s/ansible/pb-install.yaml \
-  -e app_name=${APP_NAME} \
-  -e app_version=${APP_VERSION} \
+ansible-playbook odoo/k8s/ansible/odoo-install-playbook.yaml \
+  -e "@odoo/k8s/ansible/default/main.yaml" \
+  -e "@_local_config/network.yaml" \
   -e trikora_helm_project_dir=${TRIKORA_HELM} \
-  -e app_namespace=${APP_NAME} \
   -e db_password=${DB_PASSWORD} 
 ----
 

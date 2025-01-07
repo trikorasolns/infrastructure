@@ -1,0 +1,50 @@
+---
+- import_playbook: hostpath-init-playbook.yaml
+
+- name: "Prepare Odoo install"
+  hosts: kubernetes
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+  #   - name: "Set PV_ROOT_FOLDER from kubernetes host if not set"
+  #     set_fact:
+  #       pv_root_folder: 
+  #     when: pv_root_folder is undefined and k8s is defined and k8s.pv_root_folder is defined
+      
+
+    - name: "Debug variables"
+      ansible.builtin.debug:
+        msg:
+          - "app_name: {{ app_name }}"
+          - "app_version: {{ app_version }}"
+
+  tasks:
+
+    - name: "Create application k8s namespace"
+      kubernetes.core.k8s:
+        name: "{{ app_name }}"
+        api_version: v1
+        kind: Namespace
+        state: present
+
+    # Patch existing namespace : add label
+    # Doesn't work, raising error:
+    # json: cannot unmarshal number into Go struct field ObjectMeta.metadata.labels of type string\",\"field\":\"patch\"}]},\"code\":422}\\n'", "reason": "Unprocessable Entity"
+    # - name: "Add labels to application namespace"
+    #   kubernetes.core.k8s:
+    #     state: patched
+    #     kind: Namespace
+    #     name: "{{ app_name }}"
+    #     definition:
+    #       metadata:
+    #         labels:
+    #           name: "{{ app_name }}"
+    #           version: "{{ app_version }}"
+    #           # app.kubernetes.io/name: "{{ app_name }}"
+    #           # app.kubernetes.io/version: "{{ app_version }}"
+
+# - import_playbook: "{{ project_root_folder | default('../../..') }}/pgsql/k8s/ansible/pb-install-prepare-pv-local.yaml"
+
+# - import_playbook: playbook-prepare-pgsql.yaml
+# - import_playbook: playbook-prepare-odoo.yaml
+...

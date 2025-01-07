@@ -1,0 +1,53 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: gitlab-var-opt-local-pvc
+  namespace: gitlab
+  labels:
+    app.kubernetes.io/name: gitlab
+    app.kubernetes.io/instance: gitlab-gitlab
+    app.kubernetes.io/version: "13.7.1"
+    app.kubernetes.io/component: scm
+    app.kubernetes.io/part-of: gitlab
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gitlab-etc-local-pvc
+  namespace: gitlab
+  labels:
+    app.kubernetes.io/name: gitlab
+    app.kubernetes.io/instance: gitlab-gitlab
+    app.kubernetes.io/version: "13.7.1"
+    app.kubernetes.io/component: scm
+    app.kubernetes.io/part-of: gitlab
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gitlab-var-log-local-pvc
+  namespace: gitlab
+  labels:
+    app.kubernetes.io/name: gitlab
+    app.kubernetes.io/instance: gitlab-gitlab
+    app.kubernetes.io/version: "13.7.1"
+    app.kubernetes.io/component: scm
+    app.kubernetes.io/part-of: gitlab
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi

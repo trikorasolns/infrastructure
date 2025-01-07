@@ -1,0 +1,119 @@
+---
+hosts:
+    children: [linux, windows]
+    itemtype: Computer
+    fields:
+    - 1   # name
+    - 4   # ComputerType.name
+    - 7   # Alternate username
+    - 8   # Alternate username number
+    - 21  # MAC address.mac
+    - 22  # Ethernet socket
+    - 31  # State.completename
+    - 32  # Network.name
+    # - 33  # Domain.name
+    - 40  # Model.name
+    - 45  # OS.name
+    - 46  # OS.version
+    - 71
+    - 80  # Entity.completename
+    - 126 # IP
+    - 205 # Domain
+    - 901
+    # hostname: $1.$33
+    criteria:
+    - { link: AND, field: 31, searchtype: contains, value: 'Operational' }
+    hostname: $1
+    # vars: 
+    #     ansible_host: $1
+    hostvars:
+        glpi_type: $4        # Set computer type to hostvars (`glpi.type`)
+        glpi_state: $31      # Set state to hostvars (`glpi.state`)
+        glpi_os_name: $45
+        glpi_entity: $80
+        ansible_host: $1
+        ansible_user: $8
+        glpi_domain: $205
+        glpi_ethernet_socket: $22
+        glpi_network_name: $32
+    retrieve: yes
+
+## Linux servers
+linux:
+    # children: [debian, fedora, ubuntu, rhel]
+    children: [generic_linux, fedora, rhel]
+    # criteria:
+    # - { link: AND, field: 45, searchtype: contains, value: 'Linux' }
+    # vars:
+    # ansible_connection: winrm
+    # ansible_winrm_transport: kerberos
+    # ansible_winrm_kinit_mode: manual
+    # ansible_port: 22
+
+rhel:
+    criteria:
+    - { link: AND, field: 45, searchtype: contains, value: 'RHEL' }
+    # vars:
+    # ansible_connection: winrm
+    # ansible_winrm_transport: kerberos
+    # ansible_winrm_kinit_mode: manual
+    # ansible_port: 22
+
+generic_linux:
+    criteria:
+    - { link: AND, field: 45, searchtype: contains, value: 'Linux' }
+
+fedora:
+    criteria:
+    - { link: AND, field: 45, searchtype: contains, value: 'Fedora' }
+
+# linux: { children: [debian, ubuntu, centos] }
+
+## Windows servers
+windows:
+    # children: [windows2008, windows2012, windows2016]
+    criteria:
+    - { link: AND, field: 45, searchtype: contains, value: 'Windows' }
+    vars:
+        ansible_connection: winrm
+        ansible_winrm_transport: kerberos
+        ansible_winrm_kinit_mode: manual
+        ansible_port: 5985
+
+#
+# Virtualisation.
+#
+kvm_hypervisors:
+    itemtype: Computer
+    fields: [1, 33, 160]
+    criteria:
+    - { link: AND, field: 163, searchtype: contains, value: '^libvirt$' }
+    - { link: AND, field: 161, searchtype: contains, value: '^running$' }
+    # hostname: $1.$33
+    hostname: $1
+    hostvars:
+        vms: $160
+
+kvm_vms:
+    itemtype: Computer
+    fields: [160]
+    criteria:
+    - { link: AND, field: 163, searchtype: contains, value: '^libvirt$' }
+    - { link: AND, field: 161, searchtype: contains, value: '^running$' }
+    hostname: $160
+    hostvars:
+        hypervisor: $1
+
+#
+# Containers.
+#
+docker:
+    itemtype: Computer
+    fields: [160]
+    criteria:
+    - { link: AND, field: 163, searchtype: contains, value: '^docker$' }
+    - { link: AND, field: 161, searchtype: contains, value: '^running$' }
+    # - { link: AND, field: 160, searchtype: contains, value: 'k8s' }
+    hostname: $160
+    hostvars:
+        hypervisor: $1

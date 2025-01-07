@@ -47,14 +47,18 @@ APP_VERSION=16
 APP_PV_ROOT_FOLDER=${PV_ROOT_FOLDER}/${APP_NAME}
 ----
 
-Create the namespace, folders and PV with Ansible.
+Create the namespace.
 
 [source,bash]
 ----
-ansible-playbook -K odoo/k8s/ansible/pb-install-prepare.yaml \
-  -e app_name=${APP_NAME} \
-  -e app_version=${APP_VERSION}
+ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-prepare-playbook.yaml \
+  -e "@odoo/k8s/ansible/default/main.yaml"
 ----
 
-  -e k8s_host=${KUBERNETES_NODE_NAME} \
-  -e pv_root_folder=${PV_ROOT_FOLDER} \
+Create HostPath PVs and their supporting folders.
+
+[source,bash]
+----
+ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-prepare-pv-playbook.yaml -K \
+  -e "@odoo/k8s/ansible/default/main.yaml"
+----
