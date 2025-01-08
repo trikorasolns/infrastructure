@@ -1,7 +1,7 @@
 ---
 - import_playbook: hostpath-init-playbook.yaml
 
-- name: "Prepare Odoo install"
+- name: "Prepare for Install"
   hosts: kubernetes
   gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
 

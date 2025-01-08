@@ -21,10 +21,14 @@
           - "trikora_helm_project_dir: {{ trikora_helm_project_dir }}"
 
   tasks:
+    - name: "Set the helm values file name"
+      ansible.builtin.set_fact:
+        target_values_file: "/tmp/helm-gitea-gitea-values.yaml"
+
     - name: "Template Gitea deployment files"
       ansible.builtin.template:
         src: "helm-gitea-values.yaml.j2"
-        dest: "/tmp/helm-gitea-values.yaml"
+        dest: "{{ target_values_file }}"
         mode: '0600'
 
     - name: "Deploy Gitea with Helm"
@@ -36,7 +40,7 @@
         wait: true
         replace: true
         values_files:
-          - /tmp/helm-gitea-values.yaml
+          - "{{ target_values_file }}"
       register: gitea_helm_res
 
     - name: "Print output"

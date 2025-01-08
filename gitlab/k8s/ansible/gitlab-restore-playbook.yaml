@@ -1,0 +1,164 @@
+---
+- name: "Restore GitLab installation"
+  hosts: "localhost"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+    - name: "Validate backup file location is defined"
+      assert:
+        that:
+          - "gitlab_bk_file is defined"
+        fail_msg: "Backup file location must be defined under the gitlab_bk_file variable (-e gitlab_bk_file=...)"
+        success_msg: "Backup file is {{ gitlab_bk_file }}"
+
+  tasks:
+
+    - name: "Identify the GitLab POD name"
+      ansible.builtin.shell: |
+        kubectl get pods -n gitlab | grep gitlab- |  awk '{print $1}'
+      register: gitlab_pod_name_res
+
+    - name: "Get the file name from the backup"
+      ansible.builtin.set_fact: 
+        gitlab_pod_name: "{{ gitlab_pod_name_res.stdout }}"
+        bk_file_name: "{{ gitlab_bk_file | basename }}"
+
+    - name: "Get backup file prefix"
+      ansible.builtin.set_fact: 
+        bk_file_prefix: "{{ bk_file_name | replace('_gitlab_backup.tar', '') }}"
+
+    - name: "Print variables"
+      ansible.builtin.debug: 
+        msg: 
+          - "gitlab_pod_name: {{ gitlab_pod_name }}"
+          - "bk_file_name: {{ bk_file_name }}"
+          - "bk_file_prefix: {{ bk_file_prefix }}"
+
+    - name: "Copy the backup file to the kubernetes pod"
+      kubernetes.core.k8s_cp:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ gitlab_pod_name }}"
+        # container: some-container
+        remote_path: /var/opt/gitlab/backups/
+        local_path: "{{ gitlab_bk_file }}"
+        no_preserve: True
+        state: to_pod
+
+    - name: "Copy the secrets file to the kubernetes pod"
+      kubernetes.core.k8s_cp:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ gitlab_pod_name }}"
+        # container: some-container
+        remote_path: /etc/gitlab/gitlab-secrets.json
+        local_path: "{{ gitlab_secrets_file }}"
+        no_preserve: True
+        state: to_pod
+      when: gitlab_secrets_file is defined and (gitlab_secrets_file | length > 0)
+
+    - name: "Stop GitLab services"
+      kubernetes.core.k8s_exec:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ gitlab_pod_name }}"
+        command: "{{ item }}"
+      register: command_status
+      ignore_errors: True
+      loop: 
+        - gitlab-ctl stop unicorn
+        - gitlab-ctl stop puma
+        - gitlab-ctl stop sidekiq
+
+    - name: "Check GitLab service status"
+      kubernetes.core.k8s_exec:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ gitlab_pod_name }}"
+        command: "gitlab-ctl status"
+      register: gitlab_service_status_res
+      ignore_errors: True
+
+    - name: "Print GitLab service status"
+      ansible.builtin.debug: 
+        msg: 
+          - "gitlab_service_status_res: {{ gitlab_service_status_res }}"
+
+    - name: "Restore GitLab backup"
+      kubernetes.core.k8s_exec:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ gitlab_pod_name }}"
+        command: "gitlab-backup restore BACKUP={{ bk_file_prefix }} force=yes"
+      register: gitlab_restore_res
+
+    - name: "Print GitLab Restore log"
+      ansible.builtin.debug: 
+        msg: 
+          - "gitlab_restore_res: {{ gitlab_restore_res }}"
+
+    - name: "Reconfigure GitLab"
+      kubernetes.core.k8s_exec:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ gitlab_pod_name }}"
+        command: "gitlab-ctl reconfigure"
+      register: gitlab_service_status_res
+
+    - name: "Restart GitLab"
+      kubernetes.core.k8s_exec:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ gitlab_pod_name }}"
+        command: "gitlab-ctl restart"
+      register: gitlab_service_status_res
+
+    - name: "Check GitLab status"
+      kubernetes.core.k8s_exec:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ gitlab_pod_name }}"
+        command: "gitlab-rake gitlab:check SANITIZE=true"
+      register: gitlab_service_status_res
+
+    - name: "Check database values can be decrypted"
+      kubernetes.core.k8s_exec:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ gitlab_pod_name }}"
+        command: "gitlab-rake gitlab:doctor:secrets"
+      register: gitlab_doctor_secrets_res
+
+    - name: "Print database check result"
+      ansible.builtin.debug: 
+        msg: 
+          - "gitlab_doctor_secrets_res: {{ gitlab_doctor_secrets_res }}"
+
+    - name: "Check artifacts"
+      kubernetes.core.k8s_exec:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ gitlab_pod_name }}"
+        command: "gitlab-rake gitlab:artifacts:check"
+      register: gitlab_artifact_check_res
+
+    - name: "Print artifact check result"
+      ansible.builtin.debug: 
+        msg: 
+          - "gitlab_artifact_check_res: {{ gitlab_artifact_check_res }}"
+
+    - name: "Check LFS"
+      kubernetes.core.k8s_exec:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ gitlab_pod_name }}"
+        command: "gitlab-rake gitlab:lfs:check"
+      register: gitlab_lfs_check_res
+
+    - name: "Print LFS check result"
+      ansible.builtin.debug: 
+        msg: 
+          - "gitlab_artifact_check_res: {{ gitlab_lfs_check_res }}"
+
+    - name: "Check Uploads"
+      kubernetes.core.k8s_exec:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ gitlab_pod_name }}"
+        command: "gitlab-rake gitlab:uploads:check"
+      register: gitlab_uploads_check_res
+
+    - name: "Print artifact check result"
+      ansible.builtin.debug: 
+        msg: 
+          - "gitlab_uploads_check_res: {{ gitlab_uploads_check_res }}"
+
+...

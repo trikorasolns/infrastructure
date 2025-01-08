@@ -23,4 +23,4 @@ volumes:
     owner_group: 26
     component: database
 
-  
+db_image_tag: 14

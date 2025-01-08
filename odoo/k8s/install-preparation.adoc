@@ -59,6 +59,6 @@ Create HostPath PVs and their supporting folders.
 
 [source,bash]
 ----
-ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-prepare-pv-playbook.yaml -K \
+ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-prepare-playbook.yaml -K \
   -e "@odoo/k8s/ansible/default/main.yaml"
 ----

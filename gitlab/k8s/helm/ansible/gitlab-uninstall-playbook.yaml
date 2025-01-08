@@ -1,0 +1,30 @@
+---
+- name: "Uninstall GitLab"
+  hosts: "localhost"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+    - name: "Validate app_namespace"
+      assert:
+        that:
+          - "app_namespace is defined and (trikora_helm_project_dir | length > 0)"
+        fail_msg: "app_namespace must be defined"
+        success_msg: "Deploying into {{ app_namespace }} namespace"
+
+    - name: "Validate trikora_helm_project_dir"
+      assert:
+        that:
+          - "trikora_helm_project_dir is defined and (trikora_helm_project_dir | length > 0)"
+        fail_msg: "trikora_helm_project_dir must be defined"
+        success_msg: "Using Trikora Helm from {{ trikora_helm_project_dir }}"
+
+
+  tasks:
+
+    - name: "Deploy Gitlab version {{ app_version }}"
+      kubernetes.core.helm:
+        name: gitlab
+        chart_ref: "{{ trikora_helm_project_dir }}/gitlab"
+        release_namespace: "{{ app_namespace }}"
+        state: absent
+...

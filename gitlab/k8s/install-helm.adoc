@@ -12,31 +12,147 @@
 
   * https://docs.gitlab.com/charts/
 
-== Installation 
+== Prepare
+
+Create the namespace.
 
 [source,bash]
 ----
-$ ansible-playbook gitlab/k8s/ansible/playbook-install-prepare.yaml -e k8s_host=${VM_NAME} -e @gitlab/k8s/ansible/default/main.yaml -K
+ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-prepare-playbook.yaml \
+  -e "@gitlab/k8s/ansible/default/main.yaml"
 ----
+
+Create HostPath PVs and their supporting folders.
+
+The persistence information is provided in the 
+ link:ansible/default/main.yaml[] file.
+
+[source,bash]
+----
+ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-prepare-playbook.yaml -K \
+  -e "@gitlab/k8s/ansible/default/main.yaml"
+----
+
+== Install 
 
 == PostgreSQL
 
+Install PostgreSQL. The PV have already been provisioned in the preparation 
+ steps.
+
+This will deploy a PostgreSQL database on the application namespace.
+
 [source,bash]
 ----
-$ ansible-playbook gitlab/k8s/ansible/playbook-pgsql-prepare.yaml -e k8s_host=${VM_NAME} -e @gitlab/k8s/ansible/default/main.yaml -K
-$ helm upgrade --install --namespace gitlab postgresql ./postgresql
+ansible-playbook pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml \
+  -e "@gitlab/k8s/ansible/default/main.yaml" \
+  -e trikora_helm_project_dir=${TRIKORA_HELM} \
+  -e db_password=${DB_PASSWORD}
 ----
 
 == Redis
 
 [source,bash]
 ----
-$ helm upgrade --install --namespace gitlab redis ./redis
+ansible-playbook gitlab/k8s/helm/ansible/redis-install-playbook.yaml \
+  -e "@gitlab/k8s/ansible/default/main.yaml" \
+  -e trikora_helm_project_dir=${TRIKORA_HELM}
+----
+
+Installing manually with Helm would be.
+
+[source,bash]
+----
+helm upgrade --install --namespace gitlab redis ./redis
+----
+
+To remove redis execute the corresponding uninstall playbook.
+
+[source,bash]
+----
+ansible-playbook gitlab/k8s/helm/ansible/redis-install-playbook.yaml \
+  -e "@gitlab/k8s/ansible/default/main.yaml" \
+  -e trikora_helm_project_dir=${TRIKORA_HELM}
 ----
 
 == GitLab
 
 Deploy the `gitlab` application using the `trikorasolns/gitlab` helm chart.
+
+[source,bash]
+----
+ansible-playbook gitlab/k8s/helm/ansible/gitlab-install-playbook.yaml \
+  -e "@gitlab/k8s/ansible/default/main.yaml" \
+  -e "@_local_config/network.yaml" \
+  -e trikora_helm_project_dir=${TRIKORA_HELM} \
+  -e db_password=${DB_PASSWORD} 
+----
+
+== Uninstall
+
+Use the following playbook command to uninstall the helm chart.
+
+[source,bash]
+----
+ansible-playbook gitlab/k8s/helm/ansible/gitlab-uninstall-playbook.yaml \
+  -e "@gitlab/k8s/ansible/default/main.yaml" \
+  -e "@_local_config/network.yaml" \
+  -e trikora_helm_project_dir=${TRIKORA_HELM} \
+  -e db_password=${DB_PASSWORD} 
+----
+
+Delete the GitLab namespace.
+
+[source,bash]
+----
+kubectl delete ns gitlab
+----
+
+Cleanup the PVs.
+
+[source,bash]
+----
+ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-cleanup-playbook.yaml -K \
+  -e "@gitlab/k8s/ansible/default/main.yaml"
+----
+
+Don't forget to check and eventually patch the _Released_ PVs.
+
+[source,bash]
+----
+kubectl get pv
+----
+
+[source,bash]
+----
+NAME                             CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS
+gitlab-gitlab-etc-local-pv       5Gi        RWO            Retain           Released
+gitlab-gitlab-var-log-local-pv   5Gi        RWO            Retain           Released
+gitlab-gitlab-var-opt-local-pv   20Gi       RWO            Retain           Released
+----
+
+Or completely remove everything.
+
+[NOTE]
+====
+The persistence information is provided in the 
+ link:ansible/default/main.yaml[] file.
+====
+
+[source,bash]
+----
+ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-cleanup-playbook.yaml -K \
+  -e "@gitlab/k8s/ansible/default/main.yaml"
+----
+
+== Manual steps
+
+== Manually Install 
+
+[source,bash]
+----
+kubectl patch pv gitlab-gitlab-etc-local-pv gitlab-gitlab-var-opt-local-pv gitlab-gitlab-var-log-local-pv -p '{"spec":{"claimRef": null}}'
+----
 
 [source,bash]
 ----
@@ -51,7 +167,7 @@ $ ansible-playbook gitlab/k8s/ansible/playbook-gitlab-prepare.yaml -e k8s_host=$
 $ helm upgrade --install --namespace gitlab gitlab ./gitlab
 ----
 
-== Uninstallation
+=== Manual Uninstall
 
 GitLab
 

@@ -30,10 +30,9 @@ Create HostPath PVs and their supporting folders.
 
 [source,bash]
 ----
-ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-prepare-pv-playbook.yaml -K \
+ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-prepare-playbook.yaml -K \
   -e "@gitea/k8s/ansible/default/main.yaml"
 ----
-
 
 2 PV will be created, one for the database and the other for the application.
 
@@ -53,7 +52,8 @@ Cleanup preparation.
 
 [source,bash]
 ----
-ansible-playbook gitea/k8s/ansible/gitea-prepare-playbook.yaml -e k8s_host=${K8S_HOST}
+ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-cleanup-playbook.yaml -K \
+  -e "@gitea/k8s/ansible/default/main.yaml"
 ----
 
 == Install
@@ -74,8 +74,7 @@ Install PostgreSQL using the Helm Chart.
 ansible-playbook pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml \
   -e "@gitea/k8s/ansible/default/main.yaml" \
   -e trikora_helm_project_dir=${TRIKORA_HELM} \
-  -e db_password=${DB_PASSWORD} \
-  -e db_image_tag=14
+  -e db_password=${DB_PASSWORD}
 ----
 
 Get information from the service.
@@ -106,9 +105,47 @@ postgresql   ClusterIP   10.111.102.121   <none>        5432/TCP   4m48s
 
 [source,bash]
 ----
-ansible-playbook gitea/k8s/ansible/gitea-install-playbook.yaml \
+ansible-playbook gitea/k8s/helm/ansible/gitea-install-playbook.yaml \
   -e "@gitea/k8s/ansible/default/main.yaml" \
   -e "@_local_config/network.yaml" \
   -e trikora_helm_project_dir=${TRIKORA_HELM} \
   -e db_password=${DB_PASSWORD} 
+----
+
+=== Uninstall
+
+Use the following playbook command to uninstall the helm chart.
+
+[source,bash]
+----
+
+----
+
+Don't forget to check and eventually patch the _Released_ PVs.
+
+[source,bash]
+----
+kubectl get pv
+----
+
+[source,bash]
+----
+NAME                             CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS
+gitlab-gitlab-etc-local-pv       5Gi        RWO            Retain           Released
+gitlab-gitlab-var-log-local-pv   5Gi        RWO            Retain           Released
+gitlab-gitlab-var-opt-local-pv   20Gi       RWO            Retain           Released
+----
+
+Or completely remove everything.
+
+[NOTE]
+====
+The persistence information is provided in the 
+ link:ansible/default/main.yaml[] file.
+====
+
+[source,bash]
+----
+ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-cleanup-playbook.yaml -K \
+  -e "@gitea/k8s/ansible/default/main.yaml"
 ----

@@ -127,6 +127,18 @@ kubectl -n gitlab exec -it ${GITLAB_POD} -- rm -f /var/opt/gitlab/backups/${GITL
 
 == Restore
 
+== Using Ansible Playbook
+
+[source,bash]
+----
+ansible-playbook gitlab/k8s/ansible/gitlab-restore-playbook.yaml \
+  -e "@gitlab/k8s/ansible/default/main.yaml" \
+  -e gitlab_bk_file=/z/_backup/gitlab/1734688197_2024_12_20_15.11.13-ee_gitlab_backup.tar \
+  -e gitlab_secrets_file=/z/_backup/gitlab/20241220T110708-gitlab-secrets.json
+----
+
+== Manually
+
 Copy the backup file to the backups folder. This can be done in 2 ways, copying the file to the persistent storage or to the container itself.
 
 [source,bash]

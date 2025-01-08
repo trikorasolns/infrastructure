@@ -14,8 +14,9 @@ ingress:
             serviceName: http
             servicePort: 3000
 
-database:
-  name: gitea
-  user: gitea
-  password: {{ db_password }}
-  host: postgresql.{{ app_name }}.svc.cluster.local
+persistence:
+  dbName: {{ db_name }}
+  dbUserName: {{ db_user }}
+  dbPassword: {{ db_password }}
+  dbHost: postgresql.{{ app_name }}.svc.cluster.local
+  storageClassName: local-storage
