@@ -195,8 +195,6 @@ ansible-playbook mariadb/k8s/helm/ansible/mariadb-install-playbook.yaml \
   -e db_password=${DB_PASSWORD}
 ----
 
-
-
 === GLPI
 
 Deploy the `gitlab` application using the `trikorasolns/gitlab` helm chart.

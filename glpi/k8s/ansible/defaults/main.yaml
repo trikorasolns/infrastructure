@@ -20,9 +20,9 @@ volumes:
   - name: glpi-marketplace
     capacity: 5Gi
     component: application
-  - name: glpi-plugins
-    capacity: 1Gi
-    component: application
+  # - name: glpi-plugins
+  #   capacity: 1Gi
+  #   component: application
   - name: mariadb
     capacity: 10Gi
     # owner_user: 26

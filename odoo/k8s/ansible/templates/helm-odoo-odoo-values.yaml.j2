@@ -14,8 +14,8 @@ ingress:
             serviceName: http
             servicePort: 8069
 
-database:
-  name: postgres
-  user: odoo
-  password: {{ db_password }}
-  host: postgresql.{{ app_name }}.svc.cluster.local
+persistence:
+  dbName: postgres
+  dbUser: odoo
+  dbPassword: {{ db_password }}
+  dbHost: postgresql.{{ app_name }}.svc.cluster.local

@@ -16,7 +16,7 @@ ingress:
 
 persistence:
   dbName: {{ db_name }}
-  dbUserName: {{ db_user }}
+  dbUser: {{ db_user }}
   dbPassword: {{ db_password }}
   dbHost: postgresql.{{ app_name }}.svc.cluster.local
   storageClassName: local-storage

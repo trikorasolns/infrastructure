@@ -76,11 +76,7 @@ persistence:
   dbPassword: {{ db_password }}
   mysqlDataSize: 10Gi
   mountPath: "/var/lib/mysql:Z"
-
-database: 
   dbName: {{ db_name | default('glpi') }}
   dbPassword: {{ db_password }}
   {% if db_root_password is defined %}dbRootPassword: {{ db_root_password }}{% endif %}
-
-  dbUser: {{ db_user | default('glpi') }}
   localDbUser: 1

@@ -22,12 +22,13 @@ ingress:
 
 persistence:
   dbName: {{ db_name }}
-  dbUserName: {{ db_user }}
+  dbUser: {{ db_user }}
   dbPassword: {{ db_password }}
   dbHost: postgresql.{{ app_name }}.svc.cluster.local
   storageClassName: local-storage
-mountPaths:
-  config: /etc/glpi:Z
-  files: /var/lib/glpi:Z
-  plugins: /var/www/html/glpi/plugins:Z
+
+#mountPaths:
+#  config: /etc/glpi:Z
+#  files: /var/lib/glpi:Z
+##  plugins: /var/www/html/glpi/plugins:Z
 #  marketplace: /var/www/html/glpi/plugins:Z
