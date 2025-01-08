@@ -1,2 +1,32 @@
-glpi_version: 10.0.9
-mariadb_version: 10.10.2
+app_name: glpi
+app_namespace: glpi
+app_version: "10.0.9"
+#app_image_tag: "10.0.9"
+
+db_name: glpi
+db_user: glpi
+storage_class: local-storage
+
+volumes:
+  - name: glpi-files
+    capacity: 5Gi
+    component: application
+  - name: glpi-log
+    capacity: 1Gi
+    component: application
+  - name: glpi-marketplace
+    capacity: 5Gi
+    component: application
+  - name: glpi-plugins
+    capacity: 1Gi
+    component: application
+  - name: mariadb
+    capacity: 10Gi
+    # owner_user: 26
+    # owner_group: 26
+    component: database
+
+db_image_tag: 10.10.2
+
+# glpi_version: 10.0.9
+# mariadb_version: 10.10.2

@@ -19,7 +19,7 @@ Create the namespace.
 [source,bash]
 ----
 ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-prepare-playbook.yaml \
-  -e "@gitlab/k8s/ansible/default/main.yaml"
+  -e "@gitlab/k8s/ansible/defaults/main.yaml"
 ----
 
 Create HostPath PVs and their supporting folders.
@@ -30,7 +30,7 @@ The persistence information is provided in the
 [source,bash]
 ----
 ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-prepare-playbook.yaml -K \
-  -e "@gitlab/k8s/ansible/default/main.yaml"
+  -e "@gitlab/k8s/ansible/defaults/main.yaml"
 ----
 
 == Install 
@@ -45,7 +45,7 @@ This will deploy a PostgreSQL database on the application namespace.
 [source,bash]
 ----
 ansible-playbook pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml \
-  -e "@gitlab/k8s/ansible/default/main.yaml" \
+  -e "@gitlab/k8s/ansible/defaults/main.yaml" \
   -e trikora_helm_project_dir=${TRIKORA_HELM} \
   -e db_password=${DB_PASSWORD}
 ----
@@ -55,7 +55,7 @@ ansible-playbook pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml \
 [source,bash]
 ----
 ansible-playbook gitlab/k8s/helm/ansible/redis-install-playbook.yaml \
-  -e "@gitlab/k8s/ansible/default/main.yaml" \
+  -e "@gitlab/k8s/ansible/defaults/main.yaml" \
   -e trikora_helm_project_dir=${TRIKORA_HELM}
 ----
 
@@ -71,7 +71,7 @@ To remove redis execute the corresponding uninstall playbook.
 [source,bash]
 ----
 ansible-playbook gitlab/k8s/helm/ansible/redis-install-playbook.yaml \
-  -e "@gitlab/k8s/ansible/default/main.yaml" \
+  -e "@gitlab/k8s/ansible/defaults/main.yaml" \
   -e trikora_helm_project_dir=${TRIKORA_HELM}
 ----
 
@@ -82,7 +82,7 @@ Deploy the `gitlab` application using the `trikorasolns/gitlab` helm chart.
 [source,bash]
 ----
 ansible-playbook gitlab/k8s/helm/ansible/gitlab-install-playbook.yaml \
-  -e "@gitlab/k8s/ansible/default/main.yaml" \
+  -e "@gitlab/k8s/ansible/defaults/main.yaml" \
   -e "@_local_config/network.yaml" \
   -e trikora_helm_project_dir=${TRIKORA_HELM} \
   -e db_password=${DB_PASSWORD} 
@@ -95,7 +95,7 @@ Use the following playbook command to uninstall the helm chart.
 [source,bash]
 ----
 ansible-playbook gitlab/k8s/helm/ansible/gitlab-uninstall-playbook.yaml \
-  -e "@gitlab/k8s/ansible/default/main.yaml" \
+  -e "@gitlab/k8s/ansible/defaults/main.yaml" \
   -e "@_local_config/network.yaml" \
   -e trikora_helm_project_dir=${TRIKORA_HELM} \
   -e db_password=${DB_PASSWORD} 
@@ -113,7 +113,7 @@ Cleanup the PVs.
 [source,bash]
 ----
 ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-cleanup-playbook.yaml -K \
-  -e "@gitlab/k8s/ansible/default/main.yaml"
+  -e "@gitlab/k8s/ansible/defaults/main.yaml"
 ----
 
 Don't forget to check and eventually patch the _Released_ PVs.
@@ -142,7 +142,7 @@ The persistence information is provided in the
 [source,bash]
 ----
 ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-cleanup-playbook.yaml -K \
-  -e "@gitlab/k8s/ansible/default/main.yaml"
+  -e "@gitlab/k8s/ansible/defaults/main.yaml"
 ----
 
 == Manual steps
@@ -163,7 +163,7 @@ $ helm upgrade --install --namespace gitlab -f /tmp/helm-gitlab-values.yaml gitl
 
 [source,bash]
 ----
-$ ansible-playbook gitlab/k8s/ansible/playbook-gitlab-prepare.yaml -e k8s_host=${VM_NAME} -e gitlab_hostname=${GITLAB_HOSTNAME} -e @gitlab/k8s/ansible/default/main.yaml -K
+$ ansible-playbook gitlab/k8s/ansible/playbook-gitlab-prepare.yaml -e k8s_host=${VM_NAME} -e gitlab_hostname=${GITLAB_HOSTNAME} -e @gitlab/k8s/ansible/defaults/main.yaml -K
 $ helm upgrade --install --namespace gitlab gitlab ./gitlab
 ----
 
@@ -174,7 +174,7 @@ GitLab
 [source,bash]
 ----
 $ helm uninstall --namespace gitlab gitlab
-$ ansible-playbook gitlab/k8s/ansible/playbook-gitlab-remove.yaml -e k8s_host=${VM_NAME} -e @gitlab/k8s/ansible/default/main.yaml -K
+$ ansible-playbook gitlab/k8s/ansible/playbook-gitlab-remove.yaml -e k8s_host=${VM_NAME} -e @gitlab/k8s/ansible/defaults/main.yaml -K
 ----
 
 PostgreSQL
@@ -182,7 +182,7 @@ PostgreSQL
 [source,bash]
 ----
 $ helm uninstall --namespace gitlab postgresql
-$ ansible-playbook gitlab/k8s/ansible/playbook-pgsql-remove.yaml -e k8s_host=${VM_NAME} -e @gitlab/k8s/ansible/default/main.yaml -K
+$ ansible-playbook gitlab/k8s/ansible/playbook-pgsql-remove.yaml -e k8s_host=${VM_NAME} -e @gitlab/k8s/ansible/defaults/main.yaml -K
 ----
 
 == Preparation 
@@ -196,7 +196,7 @@ $ ansible-playbook gitlab/k8s/ansible/install-preparation.yaml  -e k8s_host=${VM
 
 [source,bash]
 ----
-$ ansible-playbook gitlab/k8s/ansible/playbook-install-prepare.yaml -e k8s_host=${VM_NAME} -e gitlab_hostname=${GITLAB_HOSTNAME} -e @gitlab/k8s/ansible/default/main.yaml -K
+$ ansible-playbook gitlab/k8s/ansible/playbook-install-prepare.yaml -e k8s_host=${VM_NAME} -e gitlab_hostname=${GITLAB_HOSTNAME} -e @gitlab/k8s/ansible/defaults/main.yaml -K
 ----
 
 === Create PV and folders

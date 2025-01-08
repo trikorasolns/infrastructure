@@ -1,8 +1,8 @@
 ---
-- import_playbook: hostpath-init-playbook.yaml
+# - import_playbook: hostpath-init-playbook.yaml
 
 - name: "Prepare for Install"
-  hosts: kubernetes
+  hosts: localhost
   gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
 
   pre_tasks:
@@ -11,7 +11,6 @@
   #       pv_root_folder: 
   #     when: pv_root_folder is undefined and k8s is defined and k8s.pv_root_folder is defined
       
-
     - name: "Debug variables"
       ansible.builtin.debug:
         msg:
@@ -22,7 +21,7 @@
 
     - name: "Create application k8s namespace"
       kubernetes.core.k8s:
-        name: "{{ app_name }}"
+        name: "{{ app_namespace | default(app_name) }}"
         api_version: v1
         kind: Namespace
         state: present

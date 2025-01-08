@@ -52,7 +52,7 @@ Create the namespace.
 [source,bash]
 ----
 ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-prepare-playbook.yaml \
-  -e "@odoo/k8s/ansible/default/main.yaml"
+  -e "@odoo/k8s/ansible/defaults/main.yaml"
 ----
 
 Create HostPath PVs and their supporting folders.
@@ -60,5 +60,5 @@ Create HostPath PVs and their supporting folders.
 [source,bash]
 ----
 ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-prepare-playbook.yaml -K \
-  -e "@odoo/k8s/ansible/default/main.yaml"
+  -e "@odoo/k8s/ansible/defaults/main.yaml"
 ----

@@ -17,7 +17,7 @@
 
 [source,bash]
 ----
-$ ansible-playbook jenkins/helm/ansible/playbook-jenkins-prepare.yaml -e jenkins_url="${JENKINS_URL}" -e k8s_host=${K8S_MASTER} -e @jenkins/helm/ansible/default/main.yaml -K
+$ ansible-playbook jenkins/helm/ansible/playbook-jenkins-prepare.yaml -e jenkins_url="${JENKINS_URL}" -e k8s_host=${K8S_MASTER} -e @jenkins/helm/ansible/defaults/main.yaml -K
 ----
 
 [source,bash]

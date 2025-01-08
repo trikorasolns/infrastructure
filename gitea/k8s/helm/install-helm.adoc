@@ -23,7 +23,7 @@ Create the namespace.
 [source,bash]
 ----
 ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-prepare-playbook.yaml \
-  -e "@gitea/k8s/ansible/default/main.yaml"
+  -e "@gitea/k8s/ansible/defaults/main.yaml"
 ----
 
 Create HostPath PVs and their supporting folders.
@@ -31,7 +31,7 @@ Create HostPath PVs and their supporting folders.
 [source,bash]
 ----
 ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-prepare-playbook.yaml -K \
-  -e "@gitea/k8s/ansible/default/main.yaml"
+  -e "@gitea/k8s/ansible/defaults/main.yaml"
 ----
 
 2 PV will be created, one for the database and the other for the application.
@@ -53,7 +53,7 @@ Cleanup preparation.
 [source,bash]
 ----
 ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-cleanup-playbook.yaml -K \
-  -e "@gitea/k8s/ansible/default/main.yaml"
+  -e "@gitea/k8s/ansible/defaults/main.yaml"
 ----
 
 == Install
@@ -72,7 +72,7 @@ Install PostgreSQL using the Helm Chart.
 [source,bash]
 ----
 ansible-playbook pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml \
-  -e "@gitea/k8s/ansible/default/main.yaml" \
+  -e "@gitea/k8s/ansible/defaults/main.yaml" \
   -e trikora_helm_project_dir=${TRIKORA_HELM} \
   -e db_password=${DB_PASSWORD}
 ----
@@ -106,7 +106,7 @@ postgresql   ClusterIP   10.111.102.121   <none>        5432/TCP   4m48s
 [source,bash]
 ----
 ansible-playbook gitea/k8s/helm/ansible/gitea-install-playbook.yaml \
-  -e "@gitea/k8s/ansible/default/main.yaml" \
+  -e "@gitea/k8s/ansible/defaults/main.yaml" \
   -e "@_local_config/network.yaml" \
   -e trikora_helm_project_dir=${TRIKORA_HELM} \
   -e db_password=${DB_PASSWORD} 
@@ -147,5 +147,5 @@ The persistence information is provided in the
 [source,bash]
 ----
 ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-cleanup-playbook.yaml -K \
-  -e "@gitea/k8s/ansible/default/main.yaml"
+  -e "@gitea/k8s/ansible/defaults/main.yaml"
 ----

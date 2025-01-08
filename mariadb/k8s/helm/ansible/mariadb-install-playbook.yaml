@@ -1,0 +1,40 @@
+---
+- name: "Install MariaDB"
+  hosts: "{{ k8s_host | default ('localhost') }}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+    - name: "Validate variables"
+      assert:
+        that:
+          - "db_password is defined"
+          - "db_name is defined"
+          - "db_user is defined"
+        fail_msg: "Missing variables"
+
+  tasks:
+    - name: "Template MariaDB deployment files (default)"
+      ansible.builtin.template:
+        src: "helm-mariadb-values.yaml.j2"
+        dest: "/tmp/helm-mariadb-values.yaml"
+        mode: '0644'
+      when: custom_helm_values_file is not defined or (custom_helm_values_file | length == 0)
+
+    - name: "Template MariaDB deployment files (custom)"
+      ansible.builtin.template:
+        src: "{{ custom_helm_values_file }}"
+        dest: "/tmp/helm-mariadb-values.yaml"
+        mode: '0644'
+      when: custom_helm_values_file is defined and  (custom_helm_values_file | length > 0)
+
+    - name: "Deploy MariaDB with Helm"
+      kubernetes.core.helm:
+        name: mariadb
+        chart_ref: "{{ trikora_helm_project_dir }}/mariadb"
+        release_namespace: "{{ app_namespace }}"
+        wait: true
+        replace: true
+        values_files:
+          - /tmp/helm-mariadb-values.yaml
+      register: pgsql_helm_res 
+...

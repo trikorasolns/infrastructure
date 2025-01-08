@@ -21,7 +21,7 @@ Install PostgreSQL using the Helm Chart.
 [source,bash]
 ----
 ansible-playbook pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml \
-  -e "@odoo/k8s/ansible/default/main.yaml" \
+  -e "@odoo/k8s/ansible/defaults/main.yaml" \
   -e trikora_helm_project_dir=${TRIKORA_HELM} \
   -e db_password=${DB_PASSWORD} \
   -e db_image_tag=13
@@ -34,7 +34,7 @@ Install Odoo using the Helm Chart.
 [source,bash]
 ----
 ansible-playbook odoo/k8s/ansible/odoo-install-playbook.yaml \
-  -e "@odoo/k8s/ansible/default/main.yaml" \
+  -e "@odoo/k8s/ansible/defaults/main.yaml" \
   -e "@_local_config/network.yaml" \
   -e trikora_helm_project_dir=${TRIKORA_HELM} \
   -e db_password=${DB_PASSWORD} 
@@ -111,7 +111,7 @@ ansible-playbook -K pgsql/k8s/ansible/pb-uninstall.yaml \
 [source,bash]
 ----
 $ helm uninstall --namespace ${APP_NAME} postgresql
-$ ansible-playbook gitlab/k8s/ansible/playbook-pgsql-remove.yaml -e k8s_host=${VM_NAME} -e @gitlab/k8s/ansible/default/main.yaml -K
+$ ansible-playbook gitlab/k8s/ansible/playbook-pgsql-remove.yaml -e k8s_host=${VM_NAME} -e @gitlab/k8s/ansible/defaults/main.yaml -K
 ----
 
 Remove the references to the PVs.
