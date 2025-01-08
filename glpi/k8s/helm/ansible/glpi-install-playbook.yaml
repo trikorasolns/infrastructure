@@ -5,13 +5,6 @@
 
   pre_tasks:
 
-    - name: "Include project default vars"
-      ansible.builtin.include_vars: "{{ file_to_include }}"
-      loop:
-        - defaults/main.yaml
-      loop_control:
-        loop_var: file_to_include
-
     - name: "Validate variables"
       assert:
         that:
@@ -30,8 +23,8 @@
 
     - name: "Template GLPI Helm values file"
       ansible.builtin.template:
-        src: helm-glpi-values.yaml.j2
-        dest: /tmp/helm-glpi-values.yaml
+        src: helm-glpi-glpi-values.yaml.j2
+        dest: /tmp/helm-glpi-glpi-values.yaml
 
     - name: "Deploy GLPI with Helm"
       kubernetes.core.helm:
@@ -41,9 +34,9 @@
         wait: true
         # replace: true
         values_files:
-          - /tmp/helm-glpi-values.yaml
+          - /tmp/helm-glpi-glpi-values.yaml
       register: glpi_helm_res 
 
-    #helm install --namespace glpi phpmyadmin phpmyadmin
+    #helm install --namespace glpi  phpmyadmin phpmyadmin
 
 ...
