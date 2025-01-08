@@ -1,0 +1,49 @@
+---
+- name: "Install GLPI"
+  hosts: "localhost"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+
+    - name: "Include project default vars"
+      ansible.builtin.include_vars: "{{ file_to_include }}"
+      loop:
+        - defaults/main.yaml
+      loop_control:
+        loop_var: file_to_include
+
+    - name: "Validate variables"
+      assert:
+        that:
+          - "app_namespace is defined and (app_namespace | length > 0)"
+          - "app_version is defined and (app_version | length > 0)"
+        fail_msg: 
+          - "app_namespace must be defined with the kubernetes namespace"
+          - "app_version must be defined with the GLPI version"
+
+    # - name: Set facts from k8s host
+    #   ansible.builtin.set_fact:
+    #     k8s:
+    #       pv_root_folder: "{{ hostvars[k8s_host]['k8s']['pv_root_folder'] }}"
+
+  tasks:
+
+    - name: "Template GLPI Helm values file"
+      ansible.builtin.template:
+        src: helm-glpi-values.yaml.j2
+        dest: /tmp/helm-glpi-values.yaml
+
+    - name: "Deploy GLPI with Helm"
+      kubernetes.core.helm:
+        name: glpi
+        chart_ref: "{{ trikora_helm_project_dir }}/glpi"
+        release_namespace: "{{ app_namespace }}"
+        wait: true
+        # replace: true
+        values_files:
+          - /tmp/helm-glpi-values.yaml
+      register: glpi_helm_res 
+
+    #helm install --namespace glpi phpmyadmin phpmyadmin
+
+...

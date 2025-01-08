@@ -180,7 +180,7 @@ ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-prepare
 == Install
 
 
-== MariaDB
+=== MariaDB
 
 Install MariaDB. The PV have already been provisioned in the preparation 
  steps.
@@ -190,10 +190,87 @@ This will deploy a MariaDB database on the application namespace.
 [source,bash]
 ----
 ansible-playbook mariadb/k8s/helm/ansible/mariadb-install-playbook.yaml \
-  -e "@gitlab/k8s/ansible/defaults/main.yaml" \
+  -e "@glpi/k8s/ansible/defaults/main.yaml" \
   -e trikora_helm_project_dir=${TRIKORA_HELM} \
   -e db_password=${DB_PASSWORD}
 ----
+
+
+
+=== GLPI
+
+Deploy the `gitlab` application using the `trikorasolns/gitlab` helm chart.
+
+[source,bash]
+----
+ansible-playbook glpi/k8s/helm/ansible/glpi-install-playbook.yaml \
+  -e "@glpi/k8s/ansible/defaults/main.yaml" \
+  -e "@_local_config/network.yaml" \
+  -e trikora_helm_project_dir=${TRIKORA_HELM} \
+  -e db_password=${DB_PASSWORD} 
+----
+
+== Uninstall
+
+Use the following playbook command to uninstall the helm chart.
+
+[source,bash]
+----
+ansible-playbook gitlab/k8s/helm/ansible/gitlab-uninstall-playbook.yaml \
+  -e "@gitlab/k8s/ansible/defaults/main.yaml" \
+  -e "@_local_config/network.yaml" \
+  -e trikora_helm_project_dir=${TRIKORA_HELM} \
+  -e db_password=${DB_PASSWORD} 
+----
+
+Delete the GitLab namespace.
+
+[source,bash]
+----
+kubectl delete ns gitlab
+----
+
+Cleanup the PVs.
+
+[source,bash]
+----
+ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-cleanup-playbook.yaml -K \
+  -e "@gitlab/k8s/ansible/defaults/main.yaml"
+----
+
+Don't forget to check and eventually patch the _Released_ PVs.
+
+[source,bash]
+----
+kubectl get pv
+----
+
+[source,bash]
+----
+NAME                             CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS
+gitlab-gitlab-etc-local-pv       5Gi        RWO            Retain           Released
+gitlab-gitlab-var-log-local-pv   5Gi        RWO            Retain           Released
+gitlab-gitlab-var-opt-local-pv   20Gi       RWO            Retain           Released
+----
+
+Or completely remove everything.
+
+[NOTE]
+====
+The persistence information is provided in the 
+ link:ansible/default/main.yaml[] file.
+====
+
+[source,bash]
+----
+ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-cleanup-playbook.yaml -K \
+  -e "@gitlab/k8s/ansible/defaults/main.yaml"
+----
+
+
+
+
+
 
 == Manual Install
 
