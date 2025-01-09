@@ -22,6 +22,7 @@ This playbook will:
 ----
 ansible-playbook gitea/k8s/ansible/gitea-prepare-playbook.yaml -e k8s_host=${K8S_HOST} \
   -e "@gitea/k8s/gitea_variables.yaml" \
+  -e "@_local_config/iscsi.yaml"
   -e iscsiInitiatorName=${ISCSI_INITIATOR_NAME}
 ----
 
