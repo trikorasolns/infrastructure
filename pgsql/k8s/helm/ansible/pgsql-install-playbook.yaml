@@ -7,9 +7,9 @@
     - name: "Validate variables"
       assert:
         that:
-          - "db_password is defined"
-          - "db_name is defined"
-          - "db_user is defined"
+          - "db_password is defined and (db_password | length > 0)"
+          - "db_name is defined and (db_name | length > 0)"
+          - "db_user is defined and (db_user | length > 0)"
         fail_msg: "Missing variables"
 
   tasks:
@@ -37,7 +37,7 @@
     - name: "Deploy PostgreSQL with Helm"
       kubernetes.core.helm:
         name: postgresql
-        chart_ref: "{{ trikora_helm_project_dir }}/postgresql"
+        chart_ref: "{{ trikora_helm_project_dir }}/charts/postgresql"
         release_namespace: "{{ app_namespace }}"
         wait: true
         replace: true

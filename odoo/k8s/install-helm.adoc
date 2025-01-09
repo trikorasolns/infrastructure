@@ -7,6 +7,55 @@
 :icons:       font
 :description: Odoo Deployment Guide Helm edition.
 
+
+== Prepare
+
+This task will:
+
+* create the application namespace
+* create the folders that will support the local pv
+* create the pv
+
+=== Set environment variables
+
+The installation process requires setting the following environment variables.
+
+[source,bash]
+----
+K8S_HOST=kuberneteshost
+DB_PASSWORD=admin123
+ODOO_VERSION=18
+----
+
+
+=== Create kubernetes namespace
+
+[.lead]
+Create the PV and it's FS folders on the kubernetes node.
+
+This task will be performed by Ansible.
+
+Create the namespace.
+
+[source,bash]
+----
+ansible-playbook kubernetes/ansible/host_path/app-prepare-playbook.yaml \
+  -e "@odoo/k8s/ansible/defaults/main.yaml" \
+  -e "@odoo/k8s/ansible/defaults/odoo-${ODOO_VERSION}.yaml"
+----
+
+=== Prepare PV
+
+Create HostPath PVs and their supporting folders.
+
+[source,bash]
+----
+ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-prepare-playbook.yaml -K \
+  -e "@odoo/k8s/ansible/defaults/main.yaml" \
+  -e "@odoo/k8s/ansible/defaults/odoo-${ODOO_VERSION}.yaml"
+----
+
+
 == Install
 
 [WARNING]
@@ -22,9 +71,10 @@ Install PostgreSQL using the Helm Chart.
 ----
 ansible-playbook pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml \
   -e "@odoo/k8s/ansible/defaults/main.yaml" \
+  -e "@odoo/k8s/ansible/defaults/odoo-${ODOO_VERSION}.yaml" \
+  -e db_image_tag=13 \
   -e trikora_helm_project_dir=${TRIKORA_HELM} \
-  -e db_password=${DB_PASSWORD} \
-  -e db_image_tag=13
+  -e db_password=${DB_PASSWORD}
 ----
 
 === Odoo
@@ -35,45 +85,15 @@ Install Odoo using the Helm Chart.
 ----
 ansible-playbook odoo/k8s/ansible/odoo-install-playbook.yaml \
   -e "@odoo/k8s/ansible/defaults/main.yaml" \
+  -e "@odoo/k8s/ansible/defaults/odoo-${ODOO_VERSION}.yaml" \
   -e "@_local_config/network.yaml" \
   -e trikora_helm_project_dir=${TRIKORA_HELM} \
   -e db_password=${DB_PASSWORD} 
 ----
 
-
-=== Manually
-
-Template the helm file.
-
-[source,bash]
-----
-jinja2 --format=yaml -DDB_PASSWORD=${DB_PASSWORD} app/odoo/k8s/helm/helm-odoo-pgsql-values.yaml.j2 > /tmp/helm-odoo-pgsql-values.yaml
-----
-
-Install PostgreSQL with the helm chart.
-
-[source,bash]
-----
-helm upgrade --install --namespace ${APP_NAME} -f /tmp/helm-odoo-pgsql-values.yaml postgresql ${HELM_CHART_FOLDER:-.}/postgresql
-----
-
-=== Odoo
-
-Template the helm file.
-
-[source,bash]
-----
-jinja2 --format=yaml -DDB_PASSWORD=${DB_PASSWORD} -DAPP_NAME=${APP_NAME} app/odoo/k8s/helm/helm-odoo-odoo-values.yaml.j2 > /tmp/helm-odoo-odoo-values.yaml
-----
-
-[source,bash]
-----
-helm upgrade --install --namespace ${APP_NAME} -f /tmp/helm-odoo-odoo-values.yaml odoo ${HELM_CHART_FOLDER:-.}/odoo
-----
-
 == Uninstall 
 
-=== Ansible
+=== Odoo
 
 Uninstall Odoo.
 
@@ -95,29 +115,35 @@ ansible-playbook -K odoo/k8s/ansible/pb-uninstall-cleanup.yaml \
   -e app_namespace=${APP_NAME}
 ----
 
+=== Uninstall PostgreSQL
+
 Uninstall PostgreSQL.
 
 [source,bash]
 ----
-ansible-playbook -K pgsql/k8s/ansible/pb-uninstall.yaml \
-  -e app_name=${APP_NAME} \
-  -e app_version=${APP_VERSION} \
-  -e app_namespace=${APP_NAME}
+ansible-playbook pgsql/k8s/helm/ansible/pgsql-uninstall-playbook.yaml \
+  -e "@odoo/k8s/ansible/defaults/main.yaml" \
+  -e "@odoo/k8s/ansible/defaults/odoo-${ODOO_VERSION}.yaml" \
+  -e db_image_tag=13 \
+  -e trikora_helm_project_dir=${TRIKORA_HELM} \
+  -e db_password=${DB_PASSWORD}
 ----
 
-
-=== Manually
+If required patch the PV to clear the PVC reference.
 
 [source,bash]
 ----
-$ helm uninstall --namespace ${APP_NAME} postgresql
-$ ansible-playbook gitlab/k8s/ansible/playbook-pgsql-remove.yaml -e k8s_host=${VM_NAME} -e @gitlab/k8s/ansible/defaults/main.yaml -K
+kubectl patch pv odoo-${ODOO_VERSION}-postgresql-pv -p '{"spec":{"claimRef": null}}'
 ----
+
+== Remove PV
 
 Remove the references to the PVs.
 
 [source,bash]
 ----
-kubectl patch pv ${APP_NAME}-odoo-web-addons ${APP_NAME}-odoo-web-configs ${APP_NAME}-odoo-web-data ${APP_NAME}-postgres-pv -p '{"spec":{"claimRef": null}}'
+ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-cleanup-playbook.yaml -K \
+  -e "@odoo/k8s/ansible/defaults/main.yaml" \
+  -e "@odoo/k8s/ansible/defaults/odoo-${ODOO_VERSION}.yaml"
 ----
 

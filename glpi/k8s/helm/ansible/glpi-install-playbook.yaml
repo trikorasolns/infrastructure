@@ -29,7 +29,7 @@
     - name: "Deploy GLPI with Helm"
       kubernetes.core.helm:
         name: glpi
-        chart_ref: "{{ trikora_helm_project_dir }}/glpi"
+        chart_ref: "{{ trikora_helm_project_dir }}/charts/glpi"
         release_namespace: "{{ app_namespace }}"
         wait: true
         # replace: true

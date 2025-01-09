@@ -23,7 +23,7 @@
     - name: "Deploy Odoo with Helm"
       kubernetes.core.helm:
         name: odoo
-        chart_ref: "{{ trikora_helm_project_dir }}/odoo"
+        chart_ref: "{{ trikora_helm_project_dir }}/charts/odoo"
         release_namespace: "{{ app_namespace }}"
         wait: true
         replace: true

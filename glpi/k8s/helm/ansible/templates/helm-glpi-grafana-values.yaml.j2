@@ -10,8 +10,7 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: {% if glpi_url is defined %}grafana.{{ glpi_url }}{% else %}UNDEFINED_HOST{% endif %}
-    
+    - host: "grafana.{{ app_name }}.{{ local_domain }}"    
       paths:
         - path: /
           pathType: Prefix
@@ -20,5 +19,5 @@ ingress:
             servicePort: 3000
 
 persistence:
-  volumeFileSize: 5Gi
+  volumeFileSize: 1Gi
   storageClassName: local-storage

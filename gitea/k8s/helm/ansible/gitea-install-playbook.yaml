@@ -34,7 +34,7 @@
     - name: "Deploy Gitea with Helm"
       kubernetes.core.helm:
         name: gitea
-        chart_ref: "{{ trikora_helm_project_dir }}/gitea"
+        chart_ref: "{{ trikora_helm_project_dir }}/charts/gitea"
         release_namespace: "{{ app_namespace }}"
         state: present
         wait: true

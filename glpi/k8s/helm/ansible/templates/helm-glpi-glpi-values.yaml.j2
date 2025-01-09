@@ -24,7 +24,7 @@ persistence:
   dbName: {{ db_name }}
   dbUser: {{ db_user }}
   dbPassword: {{ db_password }}
-  dbHost: postgresql.{{ app_name }}.svc.cluster.local
+  dbHost: mariadb.{{ app_name }}.svc.cluster.local
   storageClassName: local-storage
 
 #mountPaths:

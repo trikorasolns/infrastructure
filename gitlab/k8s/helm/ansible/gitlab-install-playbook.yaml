@@ -46,7 +46,7 @@
     - name: "Deploy Gitlab version {{ app_version }}"
       kubernetes.core.helm:
         name: gitlab
-        chart_ref: "{{ trikora_helm_project_dir }}/gitlab"
+        chart_ref: "{{ trikora_helm_project_dir }}/charts/gitlab"
         release_namespace: "{{ app_namespace }}"
         wait: true
         replace: true

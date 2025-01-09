@@ -1,0 +1,164 @@
+---
+- name: "Restore GLPI files"
+  hosts: "localhost"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+    - name: "Validate backup file location is defined"
+      assert:
+        that:
+          - "glpi_bk_file is defined"
+        fail_msg: "Backup file location must be defined under the glpi_bk_file variable (-e glpi_bk_file=...)"
+        success_msg: "Backup file is {{ glpi_bk_file }}"
+
+  tasks:
+
+    - name: "Identify the GLPI POD name"
+      ansible.builtin.shell: |
+        kubectl get pods -n glpi | grep glpi- |  awk '{print $1}'
+      register: glpi_pod_name_res
+
+    - name: "Get the file name from the backup"
+      ansible.builtin.set_fact: 
+        glpi_pod_name: "{{ glpi_pod_name_res.stdout }}"
+        bk_file_name: "{{ glpi_bk_file | basename }}"
+
+    - name: "Get backup file prefix"
+      ansible.builtin.set_fact: 
+        bk_file_prefix: "{{ bk_file_name | replace('_glpi_backup.tar', '') }}"
+
+    - name: "Print variables"
+      ansible.builtin.debug: 
+        msg: 
+          - "glpi_pod_name: {{ glpi_pod_name }}"
+          - "bk_file_name: {{ bk_file_name }}"
+          - "bk_file_prefix: {{ bk_file_prefix }}"
+
+    - name: "Copy the backup file to the kubernetes pod"
+      kubernetes.core.k8s_cp:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ glpi_pod_name }}"
+        # container: some-container
+        remote_path: /var/opt/glpi/backups/
+        local_path: "{{ glpi_bk_file }}"
+        no_preserve: True
+        state: to_pod
+
+    - name: "Copy the secrets file to the kubernetes pod"
+      kubernetes.core.k8s_cp:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ glpi_pod_name }}"
+        # container: some-container
+        remote_path: /etc/glpi/glpi-secrets.json
+        local_path: "{{ glpi_secrets_file }}"
+        no_preserve: True
+        state: to_pod
+      when: glpi_secrets_file is defined and (glpi_secrets_file | length > 0)
+
+    - name: "Stop GLPI services"
+      kubernetes.core.k8s_exec:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ glpi_pod_name }}"
+        command: "{{ item }}"
+      register: command_status
+      ignore_errors: True
+      loop: 
+        - glpi-ctl stop unicorn
+        - glpi-ctl stop puma
+        - glpi-ctl stop sidekiq
+
+    - name: "Check GLPI service status"
+      kubernetes.core.k8s_exec:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ glpi_pod_name }}"
+        command: "glpi-ctl status"
+      register: glpi_service_status_res
+      ignore_errors: True
+
+    - name: "Print GLPI service status"
+      ansible.builtin.debug: 
+        msg: 
+          - "glpi_service_status_res: {{ glpi_service_status_res }}"
+
+    - name: "Restore GLPI backup"
+      kubernetes.core.k8s_exec:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ glpi_pod_name }}"
+        command: "glpi-backup restore BACKUP={{ bk_file_prefix }} force=yes"
+      register: glpi_restore_res
+
+    - name: "Print GLPI Restore log"
+      ansible.builtin.debug: 
+        msg: 
+          - "glpi_restore_res: {{ glpi_restore_res }}"
+
+    - name: "Reconfigure GLPI"
+      kubernetes.core.k8s_exec:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ glpi_pod_name }}"
+        command: "glpi-ctl reconfigure"
+      register: glpi_service_status_res
+
+    - name: "Restart GLPI"
+      kubernetes.core.k8s_exec:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ glpi_pod_name }}"
+        command: "glpi-ctl restart"
+      register: glpi_service_status_res
+
+    - name: "Check GLPI status"
+      kubernetes.core.k8s_exec:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ glpi_pod_name }}"
+        command: "glpi-rake glpi:check SANITIZE=true"
+      register: glpi_service_status_res
+
+    - name: "Check database values can be decrypted"
+      kubernetes.core.k8s_exec:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ glpi_pod_name }}"
+        command: "glpi-rake glpi:doctor:secrets"
+      register: glpi_doctor_secrets_res
+
+    - name: "Print database check result"
+      ansible.builtin.debug: 
+        msg: 
+          - "glpi_doctor_secrets_res: {{ glpi_doctor_secrets_res }}"
+
+    - name: "Check artifacts"
+      kubernetes.core.k8s_exec:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ glpi_pod_name }}"
+        command: "glpi-rake glpi:artifacts:check"
+      register: glpi_artifact_check_res
+
+    - name: "Print artifact check result"
+      ansible.builtin.debug: 
+        msg: 
+          - "glpi_artifact_check_res: {{ glpi_artifact_check_res }}"
+
+    - name: "Check LFS"
+      kubernetes.core.k8s_exec:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ glpi_pod_name }}"
+        command: "glpi-rake glpi:lfs:check"
+      register: glpi_lfs_check_res
+
+    - name: "Print LFS check result"
+      ansible.builtin.debug: 
+        msg: 
+          - "glpi_artifact_check_res: {{ glpi_lfs_check_res }}"
+
+    - name: "Check Uploads"
+      kubernetes.core.k8s_exec:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ glpi_pod_name }}"
+        command: "glpi-rake glpi:uploads:check"
+      register: glpi_uploads_check_res
+
+    - name: "Print artifact check result"
+      ansible.builtin.debug: 
+        msg: 
+          - "glpi_uploads_check_res: {{ glpi_uploads_check_res }}"
+
+...

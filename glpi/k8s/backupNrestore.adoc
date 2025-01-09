@@ -84,7 +84,7 @@ GLPI_MYSQL_DUMP_FILENAME_PREFIX=$(date +%Y-%m-%d-%H-%M-%S).glpi.backup
 
 [WARNING]
 ====
-If the root access to the mysql database server is alloewed without password 
+If the root access to the mysql database server is allowed without password 
  the dump can be done directly with this command. Otherwise check the 
  step-by-step instructions that follow.
 
@@ -208,7 +208,31 @@ kubectl -n glpi cp ${GLPI_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.t
 
 == Restore
 
-WARNING: TODO
+[WARNING]
+====
+WIP
+====
+
+=== Using Ansible Playbooks
+
+[.lead]
+Restore GLPI using ansible playbooks.
+
+Start the database without the application running.
+
+Restore the database.
+
+[source,bash]
+----
+ansible-playbook glpi/k8s/ansible/glpi-restore-database-playbook.yaml \
+  -e "@glpi/k8s/ansible/defaults/main.yaml" \
+  -e glpi_bk_file=${GLPI_DB_FILE_LOCATION}
+----
+
+Restore the application.
+
+
+=== Manually 
 
 Get POD names.
 
@@ -218,7 +242,7 @@ GLPI_MARIADB_POD=$(kubectl get pods --namespace glpi -l "app.kubernetes.io/name=
 GLPI_POD=$(kubectl get pods --namespace glpi -l "app.kubernetes.io/name=glpi,app.kubernetes.io/instance=glpi" -o jsonpath="{.items[0].metadata.name}")
 ----
 
-Set database dump file to be restores.
+Set database dump file to be restored.
 
 [source,bash]
 ----

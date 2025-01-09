@@ -31,7 +31,7 @@
     - name: "Deploy phpMyAdmin with Helm"
       kubernetes.core.helm:
         name: mariadb
-        chart_ref: "{{ trikora_helm_project_dir }}/phpmyadmin"
+        chart_ref: "{{ trikora_helm_project_dir }}/charts/phpmyadmin"
         release_namespace: "{{ app_namespace }}"
         wait: true
         replace: true

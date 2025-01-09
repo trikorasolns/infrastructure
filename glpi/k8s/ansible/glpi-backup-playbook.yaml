@@ -1,0 +1,55 @@
+---
+- name: "Backup GitLab installation"
+  hosts: "localhost"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+    - name: "Validate backup file location is defined"
+      assert:
+        that:
+          - "gitlab_bk_file is defined"
+        fail_msg: "Backup file location must be defined under the gitlab_bk_file variable (-e gitlab_bk_file=...)"
+        success_msg: "Backup file is {{ gitlab_bk_file }}"
+
+  tasks:
+
+    - name: "Identify the GitLab POD name"
+      ansible.builtin.shell: |
+        kubectl get pods -n gitlab | grep gitlab- |  awk '{print $1}'
+      register: gitlab_pod_name
+
+    - name: "Get the file name from the backup "
+      ansible.builtin.set_fact: 
+        bk_file_name: "{{ gitlab_bk_file | basename }}"
+
+    - name: "Backup GitLab"
+      kubernetes.core.k8s_exec:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ gitlab_pod_name }}"
+        command: "gitlab-backup create"
+      register: gitlab_backup_res
+
+
+#     - name: "Copy the backup file to the kubernetes pod"
+#       kubernetes.core.k8s_cp:
+#         namespace: "{{ app_namespace }}"
+#         pod: "{{ gitlab_pod_name.stdout }}"
+#         # container: some-container
+#         remote_path: /var/opt/gitlab/backups/
+#         local_path: "{{ gitlab_bk_file }}"
+#         no_preserve: True
+#         state: to_pod
+
+#     - name: "Copy the secrets file to the kubernetes pod"
+#       kubernetes.core.k8s_cp:
+#         namespace: "{{ app_namespace }}"
+#         pod: "{{ gitlab_pod_name.stdout }}"
+#         # container: some-container
+#         remote_path: /etc/gitlab/gitlab-secrets.json
+#         local_path: "{{ gitlab_secrets_file }}"
+#         no_preserve: True
+#         state: to_pod
+#       when: gitlab_secrets_file is defined and (gitlab_secrets_file | length > 0)
+
+
+...

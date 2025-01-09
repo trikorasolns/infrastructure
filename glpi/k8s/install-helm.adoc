@@ -208,6 +208,16 @@ ansible-playbook glpi/k8s/helm/ansible/glpi-install-playbook.yaml \
   -e db_password=${DB_PASSWORD} 
 ----
 
+=== Grafana
+
+[source,bash]
+----
+ansible-playbook glpi/k8s/helm/ansible/grafana-install-playbook.yaml \
+  -e "@glpi/k8s/ansible/defaults/main.yaml" \
+  -e "@_local_config/network.yaml" \
+  -e trikora_helm_project_dir=${TRIKORA_HELM}
+----
+
 == Uninstall
 
 Use the following playbook command to uninstall the helm chart.

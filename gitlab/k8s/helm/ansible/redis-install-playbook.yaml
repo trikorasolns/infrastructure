@@ -23,7 +23,7 @@
     - name: "Deploy Redis using Helm"
       kubernetes.core.helm:
         name: redis
-        chart_ref: "{{ trikora_helm_project_dir }}/redis"
+        chart_ref: "{{ trikora_helm_project_dir }}/charts/redis"
         release_namespace: "{{ app_namespace }}"
 
 ...

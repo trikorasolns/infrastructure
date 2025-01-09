@@ -28,6 +28,9 @@ volumes:
     # owner_user: 26
     # owner_group: 26
     component: database
+  - name: grafana
+    capacity: 1Gi
+    component: analytics
 
 db_image_tag: 10.10.2
 
