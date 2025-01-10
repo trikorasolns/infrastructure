@@ -195,9 +195,13 @@ ansible-playbook mariadb/k8s/helm/ansible/mariadb-install-playbook.yaml \
   -e db_password=${DB_PASSWORD}
 ----
 
+If you want to Restore a previous GLPI backup check the 
+ link:./backupNrestore.adoc[Backup & Restore] guide at this point as some 
+ tasks need to be executed before starting the application.
+
 === GLPI
 
-Deploy the `gitlab` application using the `trikorasolns/gitlab` helm chart.
+Deploy the `glpi` application using the `trikorasolns/glpi` helm chart.
 
 [source,bash]
 ----
@@ -205,7 +209,21 @@ ansible-playbook glpi/k8s/helm/ansible/glpi-install-playbook.yaml \
   -e "@glpi/k8s/ansible/defaults/main.yaml" \
   -e "@_local_config/network.yaml" \
   -e trikora_helm_project_dir=${TRIKORA_HELM} \
-  -e db_password=${DB_PASSWORD} 
+  -e db_password=${DB_PASSWORD}
+----
+
+If deploying the application to restore an existing backup consider adding 
+ the `GLPICRYPT` environment variable so the `glpycrypt.key` file is restored 
+ instead of GLPI having a new one generated.
+
+[source,bash]
+----
+ansible-playbook glpi/k8s/helm/ansible/glpi-install-playbook.yaml \
+  -e "@glpi/k8s/ansible/defaults/main.yaml" \
+  -e "@_local_config/network.yaml" \
+  -e trikora_helm_project_dir=${TRIKORA_HELM} \
+  -e db_password=${DB_PASSWORD} \
+  -e glpicrypt_targz_file="${GLPICRYPT_TARGZ_FILE}"
 ----
 
 === Grafana
@@ -220,22 +238,41 @@ ansible-playbook glpi/k8s/helm/ansible/grafana-install-playbook.yaml \
 
 == Uninstall
 
-Use the following playbook command to uninstall the helm chart.
+Use the following playbook command to uninstall the helm chart. 
+
+This playbook will perform the following tasks:
+
+* Execute the Helm uninstall that will remove the GLPI deployment and related
+ resources
+* Clean the GLPI PV refs so their state becomes _Available_. Otherwise the 
+ state would be _Released_.
+* Reset the PV _Claim Ref_ to the original PVC so when re-installing the PVC 
+ won't be attached to the wrong PV.
 
 [source,bash]
 ----
-ansible-playbook gitlab/k8s/helm/ansible/gitlab-uninstall-playbook.yaml \
-  -e "@gitlab/k8s/ansible/defaults/main.yaml" \
-  -e "@_local_config/network.yaml" \
-  -e trikora_helm_project_dir=${TRIKORA_HELM} \
-  -e db_password=${DB_PASSWORD} 
+ansible-playbook glpi/k8s/helm/ansible/glpi-uninstall-playbook.yaml \
+  -e "@glpi/k8s/ansible/defaults/main.yaml"
 ----
 
-Delete the GitLab namespace.
+[WARNING]
+====
+Decide what to do with the _hostPath_ folders on the kubernetes server.
+
+ATTOW their contents can be recreate using the following bash command when 
+ located under the root folder for the GLPI files.
 
 [source,bash]
 ----
-kubectl delete ns gitlab
+sudo rm -Rf glpi-files/ glpi-log/ glpi-marketplace/ glpi-plugins/ ; mkdir -p glpi-config glpi-files/{'_cron','_dumps','_graphs','_lock','_pictures','_plugins','_rss','_sessions','_tmp','_uploads','_cache/templates'} glpi-log glpi-marketplace glpi-plugins ; chmod 777 -R glpi-files/ glpi-log/ glpi-marketplace/ glpi-plugins/ ; sudo chown 33:33 -R glpi-files/ glpi-log/ glpi-marketplace/ glpi-plugins/
+----
+====
+
+Delete the GLPI namespace.
+
+[source,bash]
+----
+kubectl delete ns glpi
 ----
 
 Cleanup the PVs.
@@ -243,7 +280,7 @@ Cleanup the PVs.
 [source,bash]
 ----
 ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-cleanup-playbook.yaml -K \
-  -e "@gitlab/k8s/ansible/defaults/main.yaml"
+  -e "@glpi/k8s/ansible/defaults/main.yaml"
 ----
 
 Don't forget to check and eventually patch the _Released_ PVs.
@@ -256,9 +293,9 @@ kubectl get pv
 [source,bash]
 ----
 NAME                             CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS
-gitlab-gitlab-etc-local-pv       5Gi        RWO            Retain           Released
-gitlab-gitlab-var-log-local-pv   5Gi        RWO            Retain           Released
-gitlab-gitlab-var-opt-local-pv   20Gi       RWO            Retain           Released
+glpi-glpi-etc-local-pv       5Gi        RWO            Retain           Released
+glpi-glpi-var-log-local-pv   5Gi        RWO            Retain           Released
+glpi-glpi-var-opt-local-pv   20Gi       RWO            Retain           Released
 ----
 
 Or completely remove everything.
@@ -272,7 +309,7 @@ The persistence information is provided in the
 [source,bash]
 ----
 ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-cleanup-playbook.yaml -K \
-  -e "@gitlab/k8s/ansible/defaults/main.yaml"
+  -e "@glpi/k8s/ansible/defaults/main.yaml"
 ----
 
 

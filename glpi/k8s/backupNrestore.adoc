@@ -231,6 +231,13 @@ ansible-playbook glpi/k8s/ansible/glpi-restore-database-playbook.yaml \
 
 Restore the application.
 
+[source,bash]
+----
+ansible-playbook glpi/k8s/ansible/glpi-restore-files-playbook.yaml \
+  -e "@glpi/k8s/ansible/defaults/main.yaml" \
+  -e glpi_bk_file=${GLPI_BK_FILES_LOCATION}
+----
+
 
 === Manually 
 

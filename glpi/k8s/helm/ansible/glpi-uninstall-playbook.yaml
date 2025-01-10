@@ -34,7 +34,7 @@
         msg:
           - "glpi_helm_res: {{ glpi_helm_res }}"
 
-    - name: "Free the GLPI PV"
+    - name: "Free the GLPI PV so they become available"
       ansible.builtin.shell: |
         kubectl patch pv {{ app_namespace }}-{{ item }}-pv -p '{"spec":{"claimRef": null}}'
       # kubernetes.core.k8s:
@@ -43,6 +43,16 @@
       #   definition:
       #     spec:
       #       claimRef: null
+      loop:
+        - glpi-config
+        - glpi-files
+        - glpi-log
+        - glpi-marketplace
+        - glpi-plugins
+
+    - name: "Patch the GLPI PV so they will be bound to the correct PVC"
+      ansible.builtin.shell: |
+        kubectl patch pv {{ app_namespace }}-{{ item }}-pv -p '{"spec":{"claimRef": {"name": "{{ item }}", "namespace": "{{ app_namespace }}"}}}'
       loop:
         - glpi-config
         - glpi-files

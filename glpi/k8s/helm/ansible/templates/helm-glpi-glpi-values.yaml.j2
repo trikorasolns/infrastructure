@@ -32,3 +32,8 @@ persistence:
 #  files: /var/lib/glpi:Z
 ##  plugins: /var/www/html/glpi/plugins:Z
 #  marketplace: /var/www/html/glpi/plugins:Z
+
+application:
+{% if app_image_tag is defined %}
+  glpicrypt: {{ glpi_crypt_targz_base64 }}
+{% endif %}
