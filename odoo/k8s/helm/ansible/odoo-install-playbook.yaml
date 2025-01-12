@@ -1,6 +1,6 @@
 ---
 - name: "Install"
-  hosts: "localhost"
+  hosts: "{{ k8s_host | default('localhost') }}"
   gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
 
   pre_tasks:
@@ -9,7 +9,6 @@
         that:
           # - "pv_root_folder is defined"
           - "app_name is defined"
-          - "app_version is defined"
           - "app_namespace is defined"
         fail_msg: "Missing required parameters"
 

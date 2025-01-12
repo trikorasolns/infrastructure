@@ -18,7 +18,7 @@ Create the namespace.
 
 [source,bash]
 ----
-ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-prepare-playbook.yaml \
+ansible-playbook -e k8s_host=${K8S_HOST} kubernetes/ansible/host_path/app-prepare-playbook.yaml \
   -e "@gitlab/k8s/ansible/defaults/main.yaml"
 ----
 
@@ -29,7 +29,7 @@ The persistence information is provided in the
 
 [source,bash]
 ----
-ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-prepare-playbook.yaml -K \
+ansible-playbook -e k8s_host=${K8S_HOST} kubernetes/ansible/host_path/app-pv-prepare-playbook.yaml -K \
   -e "@gitlab/k8s/ansible/defaults/main.yaml"
 ----
 
@@ -96,9 +96,7 @@ Use the following playbook command to uninstall the helm chart.
 ----
 ansible-playbook gitlab/k8s/helm/ansible/gitlab-uninstall-playbook.yaml \
   -e "@gitlab/k8s/ansible/defaults/main.yaml" \
-  -e "@_local_config/network.yaml" \
-  -e trikora_helm_project_dir=${TRIKORA_HELM} \
-  -e db_password=${DB_PASSWORD} 
+  -e trikora_helm_project_dir=${TRIKORA_HELM}
 ----
 
 Delete the GitLab namespace.
@@ -129,6 +127,15 @@ NAME                             CAPACITY   ACCESS MODES   RECLAIM POLICY   STAT
 gitlab-gitlab-etc-local-pv       5Gi        RWO            Retain           Released
 gitlab-gitlab-var-log-local-pv   5Gi        RWO            Retain           Released
 gitlab-gitlab-var-opt-local-pv   20Gi       RWO            Retain           Released
+----
+
+Mark the `postgresql` PV as _Avilable_ and attach it to the `postgresql` PVC 
+ on the `gitlab` namespace.
+
+[source,bash]
+----
+kubectl patch pv gitlab-postgresql-pv -p '{"spec":{"claimRef": null}}'
+kubectl patch pv gitlab-postgresql-pv -p '{"spec":{"claimRef": {"name": "postgresql", "namespace": "gitlab"}}}'
 ----
 
 Or completely remove everything.

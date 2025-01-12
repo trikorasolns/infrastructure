@@ -72,7 +72,6 @@ Install PostgreSQL using the Helm Chart.
 ansible-playbook pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml \
   -e "@odoo/k8s/ansible/defaults/main.yaml" \
   -e "@odoo/k8s/ansible/defaults/odoo-${ODOO_VERSION}.yaml" \
-  -e db_image_tag=13 \
   -e trikora_helm_project_dir=${TRIKORA_HELM} \
   -e db_password=${DB_PASSWORD}
 ----
@@ -83,7 +82,7 @@ Install Odoo using the Helm Chart.
 
 [source,bash]
 ----
-ansible-playbook odoo/k8s/ansible/odoo-install-playbook.yaml \
+ansible-playbook odoo/k8s/helm/ansible/odoo-install-playbook.yaml \
   -e "@odoo/k8s/ansible/defaults/main.yaml" \
   -e "@odoo/k8s/ansible/defaults/odoo-${ODOO_VERSION}.yaml" \
   -e "@_local_config/network.yaml" \
@@ -99,10 +98,8 @@ Uninstall Odoo.
 
 [source,bash]
 ----
-ansible-playbook odoo/k8s/ansible/pb-uninstall.yaml \
-  -e app_name=${APP_NAME} \
-  -e app_version=${APP_VERSION} \
-  -e app_namespace=${APP_NAME}
+ansible-playbook odoo/k8s/helm/ansible/odoo-uninstall-playbook.yaml \
+  -e "@odoo/k8s/ansible/defaults/odoo-${ODOO_VERSION}.yaml"
 ----
 
 Cleanup all Odoo installation.

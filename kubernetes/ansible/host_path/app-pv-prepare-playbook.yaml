@@ -2,7 +2,8 @@
 - import_playbook: hostpath-init-playbook.yaml
 
 - name: "Prepare PV for install with localPath"
-  hosts: kubernetes
+  # hosts: kubernetes
+  hosts: "{{ k8s_host }}"
   gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
 
   pre_tasks:

@@ -1,6 +1,7 @@
 ---
 - name: "Init environment"
-  hosts: kubernetes
+  # hosts: kubernetes
+  hosts: "{{ k8s_host }}"
   gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
 
   pre_tasks:

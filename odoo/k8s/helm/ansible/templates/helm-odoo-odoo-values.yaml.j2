@@ -6,11 +6,13 @@ ingress:
   enabled: true
   className: "nginx"
   annotations:
-    nginx.ingress.kubernetes.io/proxy-read-timeout: 180
-    nginx.ingress.kubernetes.io/proxy-send-timeout: 180
-    nginx.ingress.kubernetes.io/proxy-connect-timeout: 180
-    nginx.ingress.kubernetes.io/proxy-read-timeout: 180
-    nginx.ingress.kubernetes.io/proxy-send-timeout: 180
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "180"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "180"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "180"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "180"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "180"
+    nginx.ingress.kubernetes.io/proxy-body-size: 50m
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 50m
   hosts:
     - host: "{{ app_name }}.{{ local_domain }}"
       paths:

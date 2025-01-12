@@ -21,10 +21,26 @@
 
   tasks:
 
-    - name: "Deploy Gitlab version {{ app_version }}"
+    - name: "Uninstall Gitlab using Helm"
       kubernetes.core.helm:
         name: gitlab
         chart_ref: "{{ trikora_helm_project_dir }}/charts/gitlab"
         release_namespace: "{{ app_namespace }}"
         state: absent
+
+    - name: "Free the GLPI PV so they become available"
+      ansible.builtin.shell: |
+        kubectl patch pv {{ app_namespace }}-{{ item }}-pv -p '{"spec":{"claimRef": null}}'
+      loop:
+        - gitlab-var-opt-local
+        - gitlab-var-log-local
+        - gitlab-etc-local
+
+    - name: "Patch the GLPI PV so they will be bound to the correct PVC"
+      ansible.builtin.shell: |
+        kubectl patch pv {{ app_namespace }}-{{ item }}-pv -p '{"spec":{"claimRef": {"name": "{{ item }}", "namespace": "{{ app_namespace }}"}}}'
+      loop:
+        - gitlab-var-opt-local
+        - gitlab-var-log-local
+        - gitlab-etc-local
 ...
