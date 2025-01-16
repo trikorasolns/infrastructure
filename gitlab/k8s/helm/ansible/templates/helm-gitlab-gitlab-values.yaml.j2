@@ -8,7 +8,9 @@ image:
 ingress:
   enabled: true
   className: "nginx"
-  annotations: {}
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 100m
   hosts:
     - host: "{{ app_name }}.{{ local_domain }}"
       paths:
