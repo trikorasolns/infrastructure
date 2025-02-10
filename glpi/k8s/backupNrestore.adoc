@@ -38,7 +38,7 @@ export KUBECONFIG=~/.kube/config
 
 [source,bash]
 ----
-ansible-playbook glpi/k8s/ansible/backup.yml -e k8s_ns=glpi -e backup_root_folder=${BACKUP_ROOT_FOLDER} -e db_bk_pw=$(kc -n glpi get secret mariadb -o jsonpath="{.data.MYSQL_ROOT_PASSWORD}" | base64 -d) -e db_user=root
+ansible-playbook glpi/k8s/ansible/glpi-backup-playbook.yaml -e k8s_ns=glpi -e backup_root_folder=${BACKUP_ROOT_FOLDER} -e db_bk_pw=$(kc -n glpi get secret mariadb -o jsonpath="{.data.MYSQL_ROOT_PASSWORD}" | base64 -d) -e db_user=root
 ----
 
 === Manually
