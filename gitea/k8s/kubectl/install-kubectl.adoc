@@ -1,0 +1,302 @@
+= Gitea Deployment Guide (manually with kubectl)
+:author:    Antonio C.
+:email:     <sp38af (at) trikorasolutions (dot) com>
+// :Date:      20210222
+:revdate: {docdate}
+:toc:       left
+:toclevels: 3
+:toc-title: Table of Contents
+:icons: font
+:description: This document describes the k8s installation process for Gitea
+
+Reference: 
+  * https://docs.gitea.com/next/installation/install-with-docker
+
+== Implement
+
+Password
+
+== Prepare
+
+[.lead]
+Prepare the environment.
+
+This playbook will:
+* Create the gitea namespace
+* create 2 PV for the database and gitea data
+
+[source,bash]
+----
+ansible-playbook gitea/k8s/kubectl/ansible/gitea-prepare-playbook.yaml -e k8s_host=${K8S_HOST} \
+  -e iscsiInitiatorName=${ISCSI_INITIATOR_NAME}
+----
+
+Cleanup preparation.
+
+[source,bash]
+----
+ansible-playbook gitea/k8s/kubectl/ansible/gitea-cleanup-playbook.yaml -e k8s_host=${K8S_HOST} 
+----
+
+== Deploy
+
+=== PostgreSQL
+
+Deploy the postgreSQL database.
+
+[source,bash]
+----
+ansible-playbook pgsql/k8s/kubectl/ansible/pgsql-install-playbook.yaml -e k8s_host=${K8S_HOST} -e app_name=gitea -e app_version="1.22.6"
+----
+
+Get information from the service.
+
+[source,bash]
+----
+$ kubectl -n gitlab get pod gitlab-postgres-0
+NAME                READY   STATUS    RESTARTS   AGE
+gitlab-postgres-0   1/1     Running   0          11m
+----
+
+[source,bash]
+----
+$ kubectl -n gitlab get svc postgres
+NAME       TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+postgres   NodePort   10.111.52.248   <none>        5432:30759/TCP   14s
+----
+
+==== Connecting to postgresql
+
+To connect from inside the cluster use the following host `service.namespace.svc.cluster.local`.
+
+`postgres.gitlab.svc.cluster.local`
+
+=== pgAdmin - PostgreSQL Tools
+
+Deploy the pgAdmin PostgreSQL administration tool.
+
+[source,bash]
+----
+kubectl create -f gitlab/kubectl/pgadmin/05-pgadmin-secret.yaml
+kubectl create -f gitlab/kubectl/pgadmin/10-pgadmin-configmap.yaml 
+kubectl create -f gitlab/kubectl/pgadmin/20-pgadmin-deployment.yaml 
+kubectl create -f gitlab/kubectl/pgadmin/30-pgadmin-service.yaml 
+kubectl create -f gitlab/kubectl/pgadmin/40-pgadmin-ingress.yaml 
+----
+
+Open the pgadmin webpage - http://gitlab-pgadmin.${VM_NAME}.localdomain/
+
+=== Remove
+
+[source,bash]
+----
+ansible-playbook pgsql/k8s/kubectl/ansible/pgsql-remove-playbook.yaml -e k8s_host=${K8S_HOST} -e app_name=gitea
+----
+
+== Redis
+
+Reference: 
+* https://www.jasonmars.org/2020/04/28/deploy-gitlab-service-in-kubernetes-quick-without-the-fuss-4-mins-or-less/
+* https://docs.gitlab.com/12.10/omnibus/settings/redis.html
+
+Deploy the redis infrastructure.
+
+[source,bash]
+----
+kubectl create -f gitlab/redis/20-redis-deployment.yaml
+kubectl create -f gitlab/redis/30-gitlab-service.yaml
+----
+
+Delete the redis infrastructure.
+
+[source,bash]
+----
+kubectl delete -f gitlab/redis/30-gitlab-service.yaml
+kubectl delete -f gitlab/redis/20-redis-deployment.yaml
+----
+
+
+== GitLab
+
+Deploy and delete instructions for the GitLab application.
+
+=== Persistent Storage
+
+Persistence storage.
+
+==== NFS
+
+NFS Persistence storage.
+
+[source,bash]
+----
+$ kubectl delete -f gitlab/kubectl/gitlab/16-gitlab-pvc-nfs.yaml
+$ kubectl delete -f gitlab/kubectl/gitlab/15-gitlab-pv-nfs.yaml
+
+$ kubectl create -f gitlab/kubectl/gitlab/15-gitlab-pv-nfs.yaml
+$ kubectl create -f gitlab/kubectl/gitlab/16-gitlab-pvc-nfs.yaml
+----
+
+==== Local
+
+Local Persistence storage.
+
+WARNING: Requires local storage class be created.
+
+*Deploy* the gitlab PV and PVC for *LOCAL FS*.
+
+[source,bash]
+----
+kubectl create -f gitlab/kubectl/gitlab/15-gitlab-pv-local.yaml
+kubectl create -f gitlab/kubectl/gitlab/16-gitlab-pvc-local.yaml
+----
+
+*Delete* the gitlab PV and PVC for *LOCAL FS*.
+
+[source,bash]
+----
+kubectl delete -f gitlab/kubectl/gitlab/16-gitlab-pvc-local.yaml
+kubectl delete -f gitlab/kubectl/gitlab/15-gitlab-pv-local.yaml
+----
+
+==== Local - Gluster Mount
+
+Local Persistence storage with glusterfs mount.
+
+WARNING: Requires local storage class be created.
+
+*Deploy* gitlab PV and PVC for *LOCAL GLUSTER FS*.
+
+[source,bash]
+----
+kubectl create -f gitlab/kubectl/gitlab/15-gitlab-pv-local-gluster-mount.yaml
+kubectl create -f gitlab/kubectl/gitlab/16-gitlab-pvc-local.yaml
+----
+
+*Delete* gitlab PV and PVC for *LOCAL GLUSTER FS*.
+
+[source,bash]
+----
+kubectl delete -f gitlab/kubectl/gitlab/16-gitlab-pvc-local.yaml
+kubectl delete -f gitlab/kubectl/gitlab/15-gitlab-pv-local-gluster-mount.yaml
+----
+
+==== HostPath
+
+Host Path.
+
+WARNING: Requires local storage class be created.
+
+*Deploy* the gitlab PV and PVC for *LOCAL FS*.
+
+[source,bash]
+----
+kubectl create -f gitlab/kubectl/gitlab/16-gitlab-pvc-hostPath.yaml
+----
+
+*Delete* the gitlab PV and PVC for *LOCAL FS*.
+
+[source,bash]
+----
+kubectl delete -f gitlab/kubectl/gitlab/16-gitlab-pvc-hostPath.yaml
+----
+
+=== GitLab Application
+
+The configmap and ingress services are different from the development and production environments.
+
+==== Development 
+
+Deploy
+
+[source,bash]
+----
+kubectl create -f gitlab/kubectl/gitlab/04-gitlab-configmap-dev.yaml
+kubectl create -f gitlab/kubectl/gitlab/40-gitlab-ingress-dev.yaml
+----
+
+Delete
+
+[source,bash]
+----
+kubectl delete -f gitlab/kubectl/gitlab/40-gitlab-ingress-dev.yaml
+kubectl delete -f gitlab/kubectl/gitlab/04-gitlab-configmap-dev.yaml
+----
+
+==== Production
+
+Deploy.
+
+[source,bash]
+----
+kubectl create -f gitlab/kubectl/gitlab/04-gitlab-configmap-prod.yaml
+kubectl create -f gitlab/kubectl/gitlab/40-gitlab-ingress-prod.yaml
+----
+
+WARNING: The `ingress` dependes on the host IP.
+
+Delete.
+
+[source,bash]
+----
+kubectl delete -f gitlab/kubectl/gitlab/40-gitlab-ingress-prod.yaml
+kubectl delete -f gitlab/kubectl/gitlab/04-gitlab-configmap-prod.yaml
+----
+
+==== Common
+
+*Deploy* the gitlab infrastructure.
+
+[source,bash]
+----
+kubectl create -f gitlab/kubectl/gitlab/01-gitlab-rbac.yaml
+kubectl create -f gitlab/kubectl/gitlab/20-gitlab-deployment.yaml
+kubectl create -f gitlab/kubectl/gitlab/30-gitlab-service.yaml
+----
+
+*Delete* the gitlab infrastructure.
+
+[source,bash]
+----
+kubectl delete -f gitlab/kubectl/gitlab/30-gitlab-service.yaml
+kubectl delete -f gitlab/kubectl/gitlab/20-gitlab-deployment.yaml
+kubectl delete -f gitlab/kubectl/gitlab/01-gitlab-rbac.yaml
+----
+
+=== ssh
+
+TBD
+
+References: 
+
+* https://github.com/kubernetes/ingress-nginx/issues/1823
+* https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/exposing-tcp-udp-services.md
+
+== GitLab - k8s Integration
+
+== Uninstall
+
+== pgAdmin - PostgreSQL Tools
+
+[source,bash]
+----
+kubectl delete -f gitlab/kubectl/pgadmin/40-pgadmin-ingress.yaml 
+kubectl delete -f gitlab/kubectl/pgadmin/30-pgadmin-service.yaml 
+kubectl delete -f gitlab/kubectl/pgadmin/20-pgadmin-deployment.yaml 
+kubectl delete -f gitlab/kubectl/pgadmin/10-pgadmin-configmap.yaml 
+kubectl delete -f gitlab/kubectl/pgadmin/05-pgadmin-secret.yaml
+----
+
+=== PostgreSQL
+
+Delete the postgreSQL database.
+
+.Apply the yaml files for deleting the gitlab postgreSQL infrastructure
+[source,bash]
+----
+kubectl delete -f gitlab/kubectl/postgresql/40-postgres-service.yaml
+kubectl delete -f gitlab/kubectl/postgresql/30-postgres-statefulset.yaml
+kubectl delete -f gitlab/kubectl/postgresql/10-postgres-configmap.yaml
+kubectl delete -f gitlab/kubectl/postgresql/05-postgres-secret.yaml
+----
+

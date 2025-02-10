@@ -1,0 +1,46 @@
+---
+- name: "Uninstall GitLab"
+  hosts: "localhost"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+    - name: "Validate app_namespace"
+      assert:
+        that:
+          - "app_namespace is defined and (trikora_helm_project_dir | length > 0)"
+        fail_msg: "app_namespace must be defined"
+        success_msg: "Deploying into {{ app_namespace }} namespace"
+
+    - name: "Validate trikora_helm_project_dir"
+      assert:
+        that:
+          - "trikora_helm_project_dir is defined and (trikora_helm_project_dir | length > 0)"
+        fail_msg: "trikora_helm_project_dir must be defined"
+        success_msg: "Using Trikora Helm from {{ trikora_helm_project_dir }}"
+
+
+  tasks:
+
+    - name: "Uninstall Gitlab using Helm"
+      kubernetes.core.helm:
+        name: gitlab
+        chart_ref: "{{ trikora_helm_project_dir }}/charts/gitlab"
+        release_namespace: "{{ app_namespace }}"
+        state: absent
+
+    - name: "Free the GLPI PV so they become available"
+      ansible.builtin.shell: |
+        kubectl patch pv {{ app_namespace }}-{{ item }}-pv -p '{"spec":{"claimRef": null}}'
+      loop:
+        - gitlab-var-opt-local
+        - gitlab-var-log-local
+        - gitlab-etc-local
+
+    - name: "Patch the GLPI PV so they will be bound to the correct PVC"
+      ansible.builtin.shell: |
+        kubectl patch pv {{ app_namespace }}-{{ item }}-pv -p '{"spec":{"claimRef": {"name": "{{ item }}", "namespace": "{{ app_namespace }}"}}}'
+      loop:
+        - gitlab-var-opt-local
+        - gitlab-var-log-local
+        - gitlab-etc-local
+...

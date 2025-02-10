@@ -1,0 +1,110 @@
+---
+- name: "Backup GitLab installation"
+  hosts: "localhost"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+    - name: "Check variables"
+      ansible.builtin.assert:
+        that:
+          - "k8s_ns is defined"
+          - "backup_root_folder is defined"
+
+  tasks:
+    - name: "Get pods"
+      kubernetes.core.k8s_info:
+        kind: "Pod"
+        namespace: "{{ k8s_ns }}"
+        validate_certs: false
+      register: pod_list
+
+    - name: "Build custom Pod information list"
+      ansible.builtin.set_fact:
+        pod_card_list: "{{ pod_list.resources | json_query(jmesquery) }}"
+      vars:
+        jmesquery: "[*].{MetadataName: metadata.name, MetadataNamespace: metadata.namespace, MetadataOwnerKind: metadata.ownerReferences[0].kind}"
+
+    - name: "Print pod card list"
+      ansible.builtin.debug:
+        msg: "pod_card_list: {{ pod_card_list }}"
+        verbosity: 2
+
+    - name: "Print pod list 2"
+      ansible.builtin.debug:
+        msg: "select pod (filter: {{ item }}): {{ pod_card_list | to_json | from_json | community.general.json_query(item) }}"
+        verbosity: 2
+      with_items:
+        - "[?contains(MetadataName,'gitlab-') && MetadataOwnerKind=='ReplicaSet']"
+
+    - name: "Fetch GLPI Pod name"
+      ansible.builtin.set_fact:
+        gitlab_pod_name: "{{ pod_card_list | to_json | from_json | community.general.json_query(jmesquery) | first }}"
+      vars:
+        jmesquery: "[?contains(MetadataName,'gitlab-') && MetadataOwnerKind=='ReplicaSet'].MetadataName"
+
+    - name: "Print pod card list"
+      ansible.builtin.debug:
+        msg: "gitlab_pod_name: {{ gitlab_pod_name }}"
+        verbosity: 2
+
+    - name: "Backup GitLab"
+      kubernetes.core.k8s_exec:
+        namespace: "{{ k8s_ns }}"
+        pod: "{{ gitlab_pod_name }}"
+        command: "gitlab-backup create"
+      register: gitlab_backup_res
+      when: skip_gitlab_backup is undefined or not (skip_gitlab_backup | bool)
+
+    - name: "Print pod card list"
+      ansible.builtin.debug:
+        msg: "gitlab_backup_res: {{ gitlab_backup_res }}"
+        verbosity: 2
+
+    - name: "Get backup file"
+      kubernetes.core.k8s_exec:
+        namespace: "{{ k8s_ns }}"
+        pod: "{{ gitlab_pod_name }}"
+        command: "ls -t /var/opt/gitlab/backups"
+      register: gitlab_backup_list_res
+
+    - name: "Print pod card list"
+      ansible.builtin.debug:
+        msg: 
+          - "gitlab_backup_list_res: {{ gitlab_backup_list_res.stdout }}"
+        verbosity: 2
+
+    - name: "Get the file name from the backup "
+      ansible.builtin.set_fact: 
+        bk_file_name: "{{ (gitlab_backup_list_res.stdout | split)[0] }}"
+
+    - name: "Set secrets backup file name"
+      ansible.builtin.set_fact: 
+        secrets_bk_file_name: "{{ bk_file_name | replace('.tar','_gitlab-secrets.json') }}"
+
+    - name: "Print backup file name"
+      ansible.builtin.debug:
+        msg: 
+          - "bk_file_name: {{ bk_file_name }}"
+          - "secrets_bk_file_name: {{ secrets_bk_file_name }}"
+
+    - name: "Copy the backup file from the kubernetes pod"
+      kubernetes.core.k8s_cp:
+        namespace: "{{ k8s_ns }}"
+        pod: "{{ gitlab_pod_name }}"
+        # container: some-container
+        remote_path: "/var/opt/gitlab/backups/{{ bk_file_name }}"
+        local_path: "{{ backup_root_folder }}/{{ k8s_ns }}/{{ bk_file_name }}"
+        no_preserve: True
+        state: from_pod
+
+    - name: "Copy the secrets file to the kubernetes pod"
+      kubernetes.core.k8s_cp:
+        namespace: "{{ k8s_ns }}"
+        pod: "{{ gitlab_pod_name }}"
+        # container: some-container
+        remote_path: /etc/gitlab/gitlab-secrets.json
+        local_path: "{{ backup_root_folder }}/{{ k8s_ns }}/{{ secrets_bk_file_name }}"
+        no_preserve: True
+        state: from_pod
+
+...

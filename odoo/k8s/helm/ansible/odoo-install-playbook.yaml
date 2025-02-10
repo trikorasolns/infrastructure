@@ -1,0 +1,32 @@
+---
+- name: "Install"
+  hosts: "{{ k8s_host | default('localhost') }}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+    - name: "Validate variables"
+      assert:
+        that:
+          # - "pv_root_folder is defined"
+          - "app_name is defined"
+          - "app_namespace is defined"
+        fail_msg: "Missing required parameters"
+
+  tasks:
+    - name: "Template Odoo deployment files"
+      ansible.builtin.template:
+        src: "helm-odoo-odoo-values.yaml.j2"
+        dest: "/tmp/helm-odoo-odoo-values.yaml"
+        mode: '0600'
+
+    - name: "Deploy Odoo with Helm"
+      kubernetes.core.helm:
+        name: odoo
+        chart_ref: "{{ trikora_helm_project_dir }}/charts/odoo"
+        release_namespace: "{{ app_namespace }}"
+        wait: true
+        replace: true
+        values_files:
+          - /tmp/helm-odoo-odoo-values.yaml
+      register: odoo_helm_res 
+...

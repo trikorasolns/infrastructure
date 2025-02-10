@@ -1,0 +1,67 @@
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+  name: {{ app_name }}-postgres
+  namespace: {{ app_name }}
+  labels:
+    app.kubernetes.io/name: postgres
+    app.kubernetes.io/instance: postgres-{{ app_name }}
+{% if app_version is defined %}
+    app.kubernetes.io/version: "{{ app_version }}"
+{% endif %}
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: postgres
+spec:
+  serviceName: "postgres"
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: postgres
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: postgres
+    spec:
+      containers:
+        - name: postgres
+          # image: postgres:10.15
+          # image: postgres:11.10
+          image: postgres:12.5
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 5432
+              name: postgredb
+          # command:
+          # - /bin/chown
+          # - -R
+          # - "1000"
+          # - /var/lib/postgresql/data
+          # securityContext:
+          #   runAsUser: 0
+          envFrom:
+            - configMapRef:
+                name: {{ app_name }}-postgres-config
+            - secretRef:
+                name: pgsql-root-password
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgredb
+      volumes:
+        - name: postgredb
+          persistentVolumeClaim:
+            claimName: {{ app_name }}-postgres-pvc
+      # volumeClaimTemplates:
+      #   - metadata:
+      #       name: postgredb
+      #     spec: 
+      #       accessModes: [ "ReadWriteOnce" ]
+      #       storageClassName: {{ app_name }}-managed-nfs-storage
+      #       resources:
+      #         requests:
+      #           storage: 10Gi
+      #             - name: postgredb
+      securityContext:
+        seLinuxOptions:
+          role: system_r
+          type: container_t
+          user: system_u

@@ -28,6 +28,18 @@ $ BACKUP_ROOT_FOLDER=/z/_backup
 
 == Backup
 
+=== With Ansible
+
+[source,bash]
+----
+ansible-playbook gitlab/k8s/ansible/gitlab-backup-playbook.yaml -e k8s_ns=gitlab -e backup_root_folder=${BACKUP_ROOT_FOLDER}
+----
+
+Yo can skip the GITLAB backup execution and only copy the latest backup files 
+ by using the `skip_gitlab_backup` variable. Add `-e skip_gitlab_backup=true`.
+
+=== Manually
+
 Identify the gitlab pod and set the `GITLAB_POD` variable with the name of the pod.
 
 [source,bash]
@@ -126,6 +138,18 @@ kubectl -n gitlab exec -it ${GITLAB_POD} -- rm -f /var/opt/gitlab/backups/${GITL
 ----
 
 == Restore
+
+== Using Ansible Playbook
+
+[source,bash]
+----
+ansible-playbook gitlab/k8s/ansible/gitlab-restore-playbook.yaml \
+  -e "@gitlab/k8s/ansible/defaults/main.yaml" \
+  -e gitlab_bk_file=${BK_FILE} \
+  -e gitlab_secrets_file=${SECRETS_FILE}
+----
+
+== Manually
 
 Copy the backup file to the backups folder. This can be done in 2 ways, copying the file to the persistent storage or to the container itself.
 

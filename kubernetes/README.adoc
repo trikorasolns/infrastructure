@@ -1,0 +1,39 @@
+= Kubernetes
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: This document describes the implementation of different applications.
+:source-highlighter: highlight.js
+
+== Storate Classes
+
+=== Local
+Create.
+
+[source,bash]
+----
+$ kubectl apply -f kubernetes/storageclass/05-storageclass-local.yaml
+----
+
+Delete.
+
+[source,bash]
+----
+$ kubectl delete -f misc/k8s/05-storageclass-local.yaml
+----
+
+=== iscsi
+
+[source,bash]
+----
+kubectl apply -f kubernetes/storageclass/05-storageclass-manual-iscsi.yaml
+----
+
+== Misc
+
+Disconnect PV from it's claim.
+
+[source,bash]
+----
+kubectl patch pv gitea-gitea-data-pv -p '{"spec":{"claimRef": null}}'
+----

@@ -1,0 +1,9 @@
+persistence:
+  dbPassword: {{ db_password }}
+  dbName: {{ db_name }}
+  dbUser: {{ db_user }}
+{% if storage_class is defined %}
+  storageClassName: "{{ storage_class }}"
+{% endif %}
+image:
+  tag: {{ db_image_tag | default('13') }}

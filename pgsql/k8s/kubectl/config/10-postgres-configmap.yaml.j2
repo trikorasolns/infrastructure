@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ app_name }}-postgres-config
+  namespace: {{ app_name }}
+  labels:
+    app.kubernetes.io/name: postgres
+    app.kubernetes.io/instance: postgres-{{ app_name }}
+{% if app_version is defined %}
+    app.kubernetes.io/version: "{{ app_version }}"
+{% endif %}
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: postgres
+data:
+  POSTGRES_DB: {{ app_name }}
+  POSTGRES_USER: {{ app_name }}

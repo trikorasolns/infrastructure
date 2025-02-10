@@ -1,0 +1,41 @@
+---
+controller: 
+  externalAttacher:
+    enabled: true
+    resources:
+      limits:
+        cpu: 50m
+        memory: 50Mi
+      requests:
+        cpu: 50m
+        memory: 50Mi
+  externalProvisioner:
+    enabled: false
+  externalResizer:
+    enabled: false
+  externalSnapshotter:
+    enabled: false
+  driver:
+    image: ghcr.io/democratic-csi/democratic-csi:latest
+    resources:
+      limits:
+        cpu: 200m
+        memory: 200Mi
+      requests:
+        cpu: 200m
+        memory: 200Mi
+node:
+  driver:
+    image: ghcr.io/democratic-csi/democratic-csi:latest
+    resources:
+      limits:
+        cpu: 200m
+        memory: 128Mi
+      requests:
+        cpu: 200m
+        memory: 128Mi
+csiDriver:
+  name: "org.democratic-csi.node-manual"
+driver:
+  config:
+    driver: node-manual

@@ -1,12 +1,18 @@
 ---
-- name: "Template PV configuration"
-  ansible.builtin.template:
-    src: "pv.yaml.j2"
-    dest: "/tmp/{{ pv_local_app_name }}_{{ pv_local_pv_name }}_pv.yaml"
+# - name: "Template PV configuration"
+#   ansible.builtin.template:
+#     src: "pv.yaml.j2"
+#     dest: "/tmp/{{ pv_local_app_name }}_{{ pv_local_pv_name }}_pv.yaml"
+
+# - name: "Remove PV configuration"
+#   kubernetes.core.k8s:
+#     src: "/tmp/{{ pv_local_app_name }}_{{ pv_local_pv_name }}_pv.yaml"
+#     state: absent
 
 - name: "Remove PV configuration"
   kubernetes.core.k8s:
-    src: "/tmp/{{ pv_local_app_name }}_{{ pv_local_pv_name }}_pv.yaml"
+    kind: PersistentVolume
+    name: "{{ pv_local_app_name }}-{{ pv_local_pv_name }}-pv"
     state: absent
 
 - name: "Print delete folder"

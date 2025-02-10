@@ -1,0 +1,22 @@
+
+== coredns pod doesn't start
+
+*Problem*
+[source,]
+----
+failed to find plugin "bridge" in path [/opt/cni/bin]
+----
+
+*Symptom*
+
+*Cause*
+
+*Solution*
+
+Download the CNI plugins.
+
+[source,bash]
+----
+curl -LO https://github.com/containernetworking/plugins/releases/download/v1.6.2/cni-plugins-linux-amd64-v1.6.2.tgz
+----
+

@@ -1,0 +1,51 @@
+---
+- name: "Install Gitea using Helm Chart"
+  hosts: "localhost"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+    - name: "Validate variables"
+      assert:
+        that:
+          # - "pv_root_folder is defined"
+          - "app_name is defined"
+          - "app_version is defined"
+          - "app_namespace is defined"
+        fail_msg: "Missing required parameters"
+
+    - name: "Print installation information"
+      ansible.builtin.debug:
+        msg:
+          - "app_name: {{ app_name }}"
+          - "app_version: {{ app_version }}"
+          - "trikora_helm_project_dir: {{ trikora_helm_project_dir }}"
+
+  tasks:
+    - name: "Set the helm values file name"
+      ansible.builtin.set_fact:
+        target_values_file: "/tmp/helm-gitea-gitea-values.yaml"
+
+    - name: "Template Gitea deployment files"
+      ansible.builtin.template:
+        src: "helm-gitea-values.yaml.j2"
+        dest: "{{ target_values_file }}"
+        mode: '0600'
+
+    - name: "Deploy Gitea with Helm"
+      kubernetes.core.helm:
+        name: gitea
+        chart_ref: "{{ trikora_helm_project_dir }}/charts/gitea"
+        release_namespace: "{{ app_namespace }}"
+        state: present
+        wait: true
+        replace: true
+        values_files:
+          - "{{ target_values_file }}"
+      register: gitea_helm_res
+
+    - name: "Print output"
+      ansible.builtin.debug:
+        msg: 
+          - "gitea_helm_res: {{ gitea_helm_res }}"
+
+...

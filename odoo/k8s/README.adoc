@@ -5,19 +5,43 @@
 :toc:       left
 :toc-title: Table of Contents
 :icons:     font
-:description: Odoo on a Kubernetes cluster
+:description: Odoo on a Kubernetes cluster.
 :source-highlighter: highlight.js
 
 == Introduction
 
 [.lead]
-This document describes having Odoo deployed on a Kubernetes cluster.
+Odoo on a Kubernetes cluster.
+
+This document describes ths Odoo deployement and maintenance tasks on a 
+ Kubernetes cluster.
+
+== Considerations
+
+[NOTE]
+====
+Values for the application version are set on the `odoo-XX.yaml` file located 
+ at the link:ansible/defaults[ansible/defaults] folder. When executing the
+ Ansible playbooks always add the `yaml` file according to the version being 
+ deloyed. _e.g._ `-e "@odoo/k8s/ansible/defaults/odoo-18.yaml"`.
+====
+
+[WARNING]
+====
+This project assumes that the kubernetes host contains a host variable setting 
+ the local folder for the `hostPath` PV folders.
+
+ The variable structure is the following:
+
+[source,yaml]
+----
+k8s:
+  pv_root_folder: 
+----
+====
+
 
 == Installation Guide
-
-Preparation
-
-* link:install-preparation.adoc[Prepare for the installation]
 
 Installation
 

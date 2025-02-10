@@ -1,0 +1,125 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: gitlab-var-opt-nfs-nas-pv
+  labels:
+    app.kubernetes.io/name: gitlab
+    app.kubernetes.io/instance: gitlab-gitlab
+    app.kubernetes.io/version: "13.7.1"
+    app.kubernetes.io/component: scm
+    app.kubernetes.io/part-of: gitlab
+spec:
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    namespace: gitlab
+    name: gitlab-var-opt-nfs-nas-pvc
+  capacity:
+    storage: 20Gi
+  persistentVolumeReclaimPolicy: Retain
+  # storageClassName: manual
+  storageClassName: nfs
+  mountOptions:
+    - hard
+    - nfsvers=4
+    # - nfsvers=4.1
+  # volumeMode: Filesystem
+  # hostPath:
+  #   path: "/mnt/data"
+  nfs:
+    path: /mnt/data/k8s-nfs/${VM_NAME}/gitlab/gitlab-var-opt
+    server: nas.localdomain
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: gitlab-etc-nfs-nas-pv
+  labels:
+    # type: local
+    app.kubernetes.io/name: gitlab
+    app.kubernetes.io/instance: gitlab-gitlab
+    app.kubernetes.io/version: "13.7.1"
+    app.kubernetes.io/component: scm
+    app.kubernetes.io/part-of: gitlab
+spec:
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    namespace: gitlab
+    name: gitlab-etc-nfs-nas-pvc
+  capacity:
+    storage: 5Gi
+  persistentVolumeReclaimPolicy: Retain
+  # storageClassName: manual
+  storageClassName: nfs
+  mountOptions:
+    - hard
+    - nfsvers=4
+    # - nfsvers=4.1
+  # volumeMode: Filesystem
+  # hostPath:
+  #   path: "/mnt/data"
+  nfs:
+    path: /mnt/data/k8s-nfs/${VM_NAME}/gitlab/gitlab-etc
+    server: nas.localdomain
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: gitlab-var-log-nfs-nas-pv
+  labels:
+    # type: local
+    app.kubernetes.io/name: gitlab
+    app.kubernetes.io/instance: gitlab-gitlab
+    app.kubernetes.io/version: "13.7.1"
+    app.kubernetes.io/component: scm
+    app.kubernetes.io/part-of: gitlab
+spec:
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    namespace: gitlab
+    name: gitlab-var-log-nfs-nas-pvc
+  capacity:
+    storage: 5Gi
+  persistentVolumeReclaimPolicy: Retain
+  # storageClassName: manual
+  storageClassName: nfs
+  mountOptions:
+    - hard
+    - nfsvers=4
+    # - nfsvers=4.1
+  # volumeMode: Filesystem
+  # hostPath:
+  #   path: "/mnt/data"
+  nfs:
+    path: /mnt/data/k8s-nfs/${VM_NAME}/gitlab/gitlab-var-log
+    server: nas.localdomain
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: gitlab-var-opt-local-pv
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 20Gi
+  hostPath:
+    path: /data/k8s-local-pv/gitlab/gitlab-var-opt
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: manual
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: gitlab-var-log-local-pv
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 5Gi
+  hostPath:
+    path: /data/k8s-local-pv/gitlab/gitlab-var-log
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: manual

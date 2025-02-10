@@ -1,0 +1,43 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: iscsi-storage
+parameters:
+    fsType: ext4
+    # The following options affect the LUN representing the volume. These options are passed directly to the Synology API.
+    # The following options are known.
+    lunTemplate: |
+      type: BLUN       # Btrfs thin provisioning
+      type: BLUN_THICK # Btrfs thick provisioning
+      type: THIN       # Ext4 thin provisioning
+      type: ADV        # Ext4 thin provisioning with legacy advanced feature set
+      type: FILE       # Ext4 thick provisioning
+      description: Some Description
+      
+      # Only for thick provisioned volumes. Known values:
+      # 0: Buffered Writes
+      # 3: Direct Write
+      direct_io_pattern: 0
+      
+      # Device Attributes. See below for more info
+      dev_attribs:
+      - dev_attrib: emulate_tpws
+        enable: 1
+      - ...
+
+    # The following options affect the iSCSI target. These options will be passed directly to the Synology API.
+    # The following options are known.
+    targetTemplate: |
+      has_header_checksum: false
+      has_data_checksum: false
+      
+      # Note that this option requires a compatible filesystem. Use 0 for unlimited sessions.
+      max_sessions: 0
+      multi_sessions: true
+      max_recv_seg_bytes: 262144
+      max_send_seg_bytes: 262144
+
+      # Use this to disable authentication. To configure authentication see below
+      auth_type: 0
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer

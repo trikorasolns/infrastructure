@@ -19,7 +19,7 @@ All commands assume the shell is connected to the correct k8s instance.
 $ export KUBECONFIG=~/.kube/my-config-file
 ----
 
-== Preparation 
+== System requirements 
 
 Install python requirements.
 
@@ -29,7 +29,7 @@ $ pip install -r glpi/k8s/ansible/requirements.txt
 ----
 
 
-== Installation with Ansible
+=== Required information
 
 Required variables.
 
@@ -155,6 +155,169 @@ glpi_version: "10.0.9"
 k8s_host: myhost
 trikora_helm_project_dir: /tmp/trikora-helm-charts
 ----
+
+== Prepare
+
+Create the namespace.
+
+[source,bash]
+----
+ansible-playbook kubernetes/ansible/host_path/app-prepare-playbook.yaml \
+  -e "@glpi/k8s/ansible/defaults/main.yaml"
+----
+
+Create HostPath PVs and their supporting folders.
+
+The persistence information is provided in the 
+ link:ansible/default/main.yaml[] file.
+
+[source,bash]
+----
+ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-prepare-playbook.yaml -K \
+  -e "@glpi/k8s/ansible/defaults/main.yaml"
+----
+
+== Install
+
+
+=== MariaDB
+
+Install MariaDB. The PV have already been provisioned in the preparation 
+ steps.
+
+This will deploy a MariaDB database on the application namespace.
+
+[source,bash]
+----
+ansible-playbook mariadb/k8s/helm/ansible/mariadb-install-playbook.yaml \
+  -e "@glpi/k8s/ansible/defaults/main.yaml" \
+  -e trikora_helm_project_dir=${TRIKORA_HELM} \
+  -e db_password=${DB_PASSWORD}
+----
+
+If you want to Restore a previous GLPI backup check the 
+ link:./backupNrestore.adoc[Backup & Restore] guide at this point as some 
+ tasks need to be executed before starting the application.
+
+=== GLPI
+
+Deploy the `glpi` application using the `trikorasolns/glpi` helm chart.
+
+[source,bash]
+----
+ansible-playbook glpi/k8s/helm/ansible/glpi-install-playbook.yaml \
+  -e "@glpi/k8s/ansible/defaults/main.yaml" \
+  -e "@_local_config/network.yaml" \
+  -e trikora_helm_project_dir=${TRIKORA_HELM} \
+  -e db_password=${DB_PASSWORD}
+----
+
+If deploying the application to restore an existing backup consider adding 
+ the `GLPICRYPT` environment variable so the `glpycrypt.key` file is restored 
+ instead of GLPI having a new one generated.
+
+[source,bash]
+----
+ansible-playbook glpi/k8s/helm/ansible/glpi-install-playbook.yaml \
+  -e "@glpi/k8s/ansible/defaults/main.yaml" \
+  -e "@_local_config/network.yaml" \
+  -e trikora_helm_project_dir=${TRIKORA_HELM} \
+  -e db_password=${DB_PASSWORD} \
+  -e glpicrypt_targz_file="${GLPICRYPT_TARGZ_FILE}"
+----
+
+=== Grafana
+
+[source,bash]
+----
+ansible-playbook glpi/k8s/helm/ansible/grafana-install-playbook.yaml \
+  -e "@glpi/k8s/ansible/defaults/main.yaml" \
+  -e "@_local_config/network.yaml" \
+  -e trikora_helm_project_dir=${TRIKORA_HELM}
+----
+
+== Uninstall
+
+Use the following playbook command to uninstall the helm chart. 
+
+This playbook will perform the following tasks:
+
+* Execute the Helm uninstall that will remove the GLPI deployment and related
+ resources
+* Clean the GLPI PV refs so their state becomes _Available_. Otherwise the 
+ state would be _Released_.
+* Reset the PV _Claim Ref_ to the original PVC so when re-installing the PVC 
+ won't be attached to the wrong PV.
+
+[source,bash]
+----
+ansible-playbook glpi/k8s/helm/ansible/glpi-uninstall-playbook.yaml \
+  -e "@glpi/k8s/ansible/defaults/main.yaml"
+----
+
+[WARNING]
+====
+Decide what to do with the _hostPath_ folders on the kubernetes server.
+
+ATTOW their contents can be recreate using the following bash command when 
+ located under the root folder for the GLPI files.
+
+[source,bash]
+----
+sudo rm -Rf glpi-files/ glpi-log/ glpi-marketplace/ glpi-plugins/ ; mkdir -p glpi-config glpi-files/{'_cron','_dumps','_graphs','_lock','_pictures','_plugins','_rss','_sessions','_tmp','_uploads','_cache/templates'} glpi-log glpi-marketplace glpi-plugins ; chmod 777 -R glpi-files/ glpi-log/ glpi-marketplace/ glpi-plugins/ ; sudo chown 33:33 -R glpi-files/ glpi-log/ glpi-marketplace/ glpi-plugins/
+----
+====
+
+Delete the GLPI namespace.
+
+[source,bash]
+----
+kubectl delete ns glpi
+----
+
+Cleanup the PVs.
+
+[source,bash]
+----
+ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-cleanup-playbook.yaml -K \
+  -e "@glpi/k8s/ansible/defaults/main.yaml"
+----
+
+Don't forget to check and eventually patch the _Released_ PVs.
+
+[source,bash]
+----
+kubectl get pv
+----
+
+[source,bash]
+----
+NAME                             CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS
+glpi-glpi-etc-local-pv       5Gi        RWO            Retain           Released
+glpi-glpi-var-log-local-pv   5Gi        RWO            Retain           Released
+glpi-glpi-var-opt-local-pv   20Gi       RWO            Retain           Released
+----
+
+Or completely remove everything.
+
+[NOTE]
+====
+The persistence information is provided in the 
+ link:ansible/default/main.yaml[] file.
+====
+
+[source,bash]
+----
+ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-cleanup-playbook.yaml -K \
+  -e "@glpi/k8s/ansible/defaults/main.yaml"
+----
+
+
+
+
+
+
+== Manual Install
 
 === Prepare the k8s host
 
