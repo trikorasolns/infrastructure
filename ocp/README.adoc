@@ -1,15 +1,38 @@
-= OpenShift Container Platform
+= OCP UPI Installation on Proxmox
 Antonio C. <sp38af (at) trikorasolutions (dot) com>
 :revdate: {docdate}
 :icons: font
 :toc: left
 :toclevels: 3
 :toc-title: Table of Contents
-:description: AWX
+:description: OCP UPI Installation on Proxmox
 
 == Introduction
 
 [.lead]
-This document describes the OCP installation process using UPI.
+This document describes the OCP installation process using UPI. It automates 
+ the instructions found at https://blog.rossbrigoli.com/2020/11/running-openshift-at-home-part-44.html.
 
-TBD
+=== Services host
+
+[source,bash]
+----
+ansible-playbook ocp/upi/ansible/ocp-services-02-config-playbook.yaml -K -e @ocp/upi/ansible/defaults/main.yaml
+----
+
+[source,bash]
+----
+OCP_CLI_INSTALL_DIR=/tmp<1>
+RH_CLUSTER_PULL_SECRET=<2>
+SSH_PUB_KEY_FILE=<3>
+----
+<1>
+<2> Get a Red Hat pull secret by logging in to https://cloud.redhat.com. 
+ Navigate to _Cluster Manager > Create Cluster > Red Hat Openshift Container Platform > Run on Baremetal > User-Provisioned Infrastructure_
+ and press _Copy pull secret_.
+<3>
+
+[source,bash]
+----
+ansible-playbook ocp/upi/ansible/ocp-services-03-setup-playbook.yaml -e @ocp/upi/ansible/defaults/main.yaml -e ocp_cli_install_dir=${OCP_CLI_INSTALL_DIR} -e pull_secret=${RH_CLUSTER_PULL_SECRET} -e ssh_pub_key_file=${SSH_PUB_KEY_FILE}
+----

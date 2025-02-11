@@ -1,0 +1,21 @@
+required_packages:
+- firewalld
+- haproxy
+- httpd
+
+required_services:
+- haproxy
+- httpd
+- firewalld
+
+firewalld_services:
+- https
+- http
+
+firewalld_ports:
+- 8080/tcp
+- 6443/tcp
+- 22623/tcp
+
+ocp_install_root_dir: "~/openshift"
+ocp_install_dir: "install_dir"

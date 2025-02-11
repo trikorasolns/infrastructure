@@ -1,0 +1,65 @@
+---
+- name: "Setup the OCP cluster"
+  hosts: "ocp_services"
+  gather_facts: true
+
+  pre_tasks:
+  - name: "Validate required variables"
+    ansible.builtin.assert:
+      that:
+      - "ssh_pub_key_file is defined"
+      - "pull_secret is defined"
+      - "ocp_cli_install_dir is defined"
+      - "ocp_install_root_dir is defined"
+      - "ocp_install_dir is defined"
+
+  tasks:
+  - name: "Create openshift install root directory"
+    ansible.builtin.file:
+      path: "{{ ocp_install_root_dir }}"
+      state: directory
+      mode: '0755'
+
+  - name: "Delete openshift install directory"
+    ansible.builtin.file:
+      path: "{{ ocp_install_root_dir }}/{{ ocp_install_dir }}"
+      state: absent
+    failed_when: false
+
+  - name: "Create openshift install directory"
+    ansible.builtin.file:
+      path: "{{ ocp_install_root_dir }}/{{ ocp_install_dir }}"
+      state: directory
+      mode: '0755'
+
+  - name: "Get SSH pub key contents"
+    ansible.builtin.set_fact:
+      ssh_pub_key: "{{ lookup('ansible.builtin.file', ssh_pub_key_file) }}"
+
+  - name: "Debug"
+    ansible.builtin.debug:
+      msg:
+        - "ssh_pub_key: {{ ssh_pub_key }}"
+
+  - name: "Template install-config.yaml file"
+    ansible.builtin.template:
+      src: "install-config.yaml.j2"
+      dest: "{{ ocp_install_root_dir }}/{{ ocp_install_dir }}/install-config.yaml"
+      mode: '600'
+
+  - name: "Copy openshift cli binaries"
+    ansible.builtin.copy:
+      src: "{{ ocp_cli_install_dir }}/{{ item }}"
+      dest: "{{ ocp_install_root_dir }}/{{ item }}"
+      mode: '0755'
+    loop:
+    - openshift-install
+    - oc
+    - kubectl
+
+  - name: "Generate manifests for cluster"
+    ansible.builtin.shell: |
+      ./openshift-install create manifests --dir={{ ocp_install_dir }}/
+    args:
+      chdir: "{{ ocp_install_root_dir }}"
+...
