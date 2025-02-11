@@ -49,6 +49,9 @@ frontend okd4_k8s_api_fe
 backend okd4_k8s_api_be
     balance source
     mode tcp
+{% for item in groups['ocp_bootstrap'] %}
+    server      {{ item }} {{ hostvars[item].ansible_host }}:6443 check
+{% endfor %}
 {% for item in groups['ocp_control_plane'] %}
     server      {{ item }} {{ hostvars[item].ansible_host }}:6443 check
 {% endfor %}
@@ -62,6 +65,9 @@ frontend okd4_machine_config_server_fe
 backend okd4_machine_config_server_be
     balance source
     mode tcp
+{% for item in groups['ocp_bootstrap'] %}
+    server      {{ item }} {{ hostvars[item].ansible_host }}:22623 check
+{% endfor %}
 {% for item in groups['ocp_control_plane'] %}
     server      {{ item }} {{ hostvars[item].ansible_host }}:22623 check
 {% endfor %}

@@ -1,5 +1,5 @@
 ---
-- name: "Setup the OCP cluster"
+- name: "Generate OCP Cluster installation
   hosts: "ocp_services"
   gather_facts: true
 
@@ -62,4 +62,17 @@
       ./openshift-install create manifests --dir={{ ocp_install_dir }}/
     args:
       chdir: "{{ ocp_install_root_dir }}"
+
+  - name: "Fix"
+    ansible.builtin.lineinfile:
+        path: "{{ ocp_install_root_dir }}/{{ ocp_install_dir }}/manifests/cluster-scheduler-02-config.yml"
+        search_string: "mastersSchedulable: true"
+        line: "mastersSchedulable: false"
+
+  - name: "Generate ignition files"
+    ansible.builtin.shell: |
+      ./openshift-install create ignition-configs --dir={{ ocp_install_dir }}/
+    args:
+      chdir: "{{ ocp_install_root_dir }}"
+    
 ...
