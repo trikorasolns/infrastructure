@@ -1,5 +1,5 @@
 ---
-- name: "Generate OCP Cluster installation
+- name: "Generate OCP Cluster installation"
   hosts: "ocp_services"
   gather_facts: true
 

@@ -1,0 +1,12 @@
+---
+- name: "Installing RHCOS by using an ISO image"
+  hosts: "ocp_services"
+  gather_facts: true
+
+  tasks:
+  - name: "Obtain the correct version of your RHCOS images"
+    ansible.builtin.shell: |
+        ./openshift-install coreos print-stream-json | grep '\.x86_65\.iso[^.]'
+    register: coreos_stream
+
+...

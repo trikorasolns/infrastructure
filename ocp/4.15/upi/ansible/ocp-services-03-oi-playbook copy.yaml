@@ -1,0 +1,79 @@
+---
+- name: "Openshift Install"
+  hosts: "ocp_services"
+  gather_facts: true
+
+  pre_tasks:
+  - name: "Validate required variables"
+    ansible.builtin.assert:
+      that:
+      - "ssh_pub_key_file is defined and ssh_pub_key_file | length > 0"
+      - "pull_secret is defined and pull_secret | length > 0"
+      - "ocp_install_root_dir is defined and ocp_install_root_dir | length > 0"
+      - "ocp_install_dir is defined and ocp_install_dir | length > 0"
+
+  - name: "Set variables"
+    ansible.builtin.set_fact:
+      openshift_client_root_url: "https://mirror.openshift.com/pub/openshift-v4/{{ ocp_release_arch }}/clients/ocp/{{ ocp_version }}"
+
+
+  tasks:
+
+  - name: "Delete openshift install directory"
+    ansible.builtin.file:
+      path: "{{ ansible_env.HOME }}/{{ ocp_install_root_dir }}/{{ ocp_install_dir }}"
+      state: absent
+    failed_when: false
+
+  - name: "Create openshift install directory"
+    ansible.builtin.file:
+      path: "{{ ansible_env.HOME }}/{{ ocp_install_root_dir }}/{{ ocp_install_dir }}"
+      state: directory
+      mode: '0755'
+
+  - name: "Get SSH pub key contents"
+    ansible.builtin.set_fact:
+      ssh_pub_key: "{{ lookup('ansible.builtin.file', ssh_pub_key_file) }}"
+
+  - name: "Debug"
+    ansible.builtin.debug:
+      msg:
+        - "ssh_pub_key: {{ ssh_pub_key }}"
+
+  - name: "Template install-config.yaml file"
+    ansible.builtin.template:
+      src: "install-config.yaml.j2"
+      dest: "{{ ansible_env.HOME }}/{{ ocp_install_root_dir }}/{{ ocp_install_dir }}/install-config.yaml"
+      mode: '600'
+
+  - name: "Generate manifests for cluster"
+    ansible.builtin.shell: |
+      ./openshift-install create manifests --dir={{ ocp_install_dir }}/
+    args:
+      chdir: "{{ ansible_env.HOME }}/{{ ocp_install_root_dir }}"
+
+  # https://docs.openshift.com/container-platform/4.15/installing/installing_bare_metal/installing-bare-metal.html#installation-three-node-cluster_installing-bare-metal
+  # When you create the Kubernetes manifest files in the following procedure, ensure that the mastersSchedulable parameter in the <installation_directory>/manifests/cluster-scheduler-02-config.yml file is set to true. This enables your application workloads to run on the control plane nodes.
+  - name: "Enable application workloads to run on the control plane nodes"
+    ansible.builtin.lineinfile:
+        path: "{{ ansible_env.HOME }}/{{ ocp_install_root_dir }}/{{ ocp_install_dir }}/manifests/cluster-scheduler-02-config.yml"
+        search_string: "  mastersSchedulable: true"
+        line: "  mastersSchedulable: false"
+
+  - name: "Generate ignition files"
+    ansible.builtin.shell: |
+      ./openshift-install create ignition-configs --dir={{ ocp_install_dir }}/
+    args:
+      chdir: "{{ ansible_env.HOME }}/{{ ocp_install_root_dir }}"
+
+  - name: "Obtain the SHA512 digest for each of your Ignition config files"
+    ansible.builtin.shell: |
+      sha512sum {{ ocp_install_dir }}/{{ item }} > {{ ocp_install_dir }}/{{ item }}.sig
+    args:
+      chdir: "{{ ansible_env.HOME }}/{{ ocp_install_root_dir }}"
+    loop:
+      - bootstrap.ign
+      - maste.ign
+      - worker.ign
+    
+...

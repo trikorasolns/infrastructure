@@ -29,11 +29,25 @@ SSH_PUB_KEY_FILE=<3>
 
 [source,bash]
 ----
-ansible-playbook ocp/upi/ansible/ocp-services-02-gen-playbook.yaml -e @ocp/upi/ansible/defaults/main.yaml -e ocp_cli_install_dir=${OCP_CLI_INSTALL_DIR} -e pull_secret=${RH_CLUSTER_PULL_SECRET} -e ssh_pub_key_file=${SSH_PUB_KEY_FILE}
+ansible-playbook ocp/4.15/upi/ansible/ocp-services-02-gen-playbook.yaml \
+  -e @ocp/4.15/upi/ansible/defaults/main.yaml
+----
+
+Use `openshift-install` to create the Kubernetes manifests and Ignition 
+ configuration files for the cluster.
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi/ansible/ocp-services-03-oi-playbook.yaml \
+  -e @ocp/4.15/upi/ansible/defaults/main.yaml \
+  -e @_local_config/network.yaml \
+  -e pull_secret=${RH_CLUSTER_PULL_SECRET} \
+  -e ssh_pub_key_file=${SSH_PUB_KEY_FILE}
 ----
 
 [source,bash]
 ----
-ansible-playbook ocp/upi/ansible/ocp-services-03-config-playbook.yaml -e @ocp/upi/ansible/defaults/main.yaml -K
+ansible-playbook ocp/4.15/upi/ansible/ocp-services-10-config-playbook.yaml -K \
+  -e @ocp/4.15/upi/ansible/defaults/main.yaml
 ----
 
