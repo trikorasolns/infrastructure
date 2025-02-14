@@ -37,14 +37,15 @@ OCP_SERVICES_HOST=192.168.0.10<3>
 ----
 <1> RedHat Openshift cloud pull secret.
  Get a Red Hat pull secret by logging in to https://cloud.redhat.com/. 
- Navigate to _Cluster Manager > Create Cluster_ Unde the cluster type tab 
- select _Local_ and press the _Copy pull secret_.
+ On the Hybrid Cloud console _Services_ menu navigate to _Platform > RedHat OpenShift_. 
+ On the _OpenShift Overview_ navigate to _Cluster List_ and press _Create Cluster_. 
+ Under the cluster type tab select _Local_ and press the _Copy pull secret_.
 <2> SSH public key used to access the cluster hosts
 <3> IP Address for the 
 
 == Install
 
-Generate OCP Cluster installation.
+Generate OCP Cluster installation and download the OCP binaries.
 
 [source,bash]
 ----
