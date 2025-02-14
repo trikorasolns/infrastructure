@@ -1,0 +1,29 @@
+---
+- name: "Installing RHCOS by using an ISO image"
+  hosts: "ocp_services"
+  gather_facts: true
+
+  tasks:
+  - name: "Obtain the correct version of your RHCOS images"
+    ansible.builtin.shell: |
+        ./openshift-install coreos print-stream-json | grep '\.x86_64\.iso[^.]'
+    register: coreos_stream
+    args:
+      chdir: "{{ ansible_env.HOME }}/{{ ocp_install_root_dir }}"
+
+  - name: "RHCOS image to download"
+    ansible.builtin.debug:
+      var: coreos_stream.stdout
+    register: coreos_stream
+
+  - name: "Print coreos-installer command for bootstrap"
+    ansible.builtin.debug:
+      msg: "sudo coreos-installer install /dev/sda --ignition-url http://{{ hostvars['ocp4-services'].ansible_host }}:8080/ocp4/bootstrap.ign --insecure-ignition"
+    register: coreos_stream
+
+  - name: "Print coreos-installer command for master"
+    ansible.builtin.debug:
+      msg: "sudo coreos-installer install /dev/sda --ignition-url http://{{ hostvars['ocp4-services'].ansible_host }}:8080/ocp4/master.ign --insecure-ignition"
+    register: coreos_stream
+
+...

@@ -14,6 +14,7 @@ This document describes the OCP installation process using UPI.
 
 References:
 
+* link:https://docs.openshift.com/container-platform/4.15/installing/installing_bare_metal/installing-bare-metal.html[]
 * link:https://docs.openshift.com/container-platform/4.12/installing/installing_with_agent_based_installer/[]
 * link:https://docs.openshift.com/container-platform/4.12/installing/installing_with_agent_based_installer/preparing-to-install-with-agent-based-installer.html[]
 * link:https://access.redhat.com/documentation/en-us/assisted_installer_for_openshift_container_platform[]

@@ -1,7 +1,9 @@
 required_packages:
+# tag::required_packages[]
 - firewalld
 - haproxy
 - httpd
+# end::required_packages[]
 
 required_services:
 - haproxy
@@ -21,3 +23,4 @@ ocp_install_root_dir: "openshift"
 ocp_install_dir: "install_dir"
 ocp_version: 4.15.17
 ocp_release_arch: amd64
+ocp_cluster_name: ocp

@@ -1,0 +1,12 @@
+---
+- name: "Fix Control Planes"
+  hosts: "ocp_control_plane"
+  gather_facts: true
+
+  tasks:
+  - name: "Apply the "
+    ansible.builtin.copy:
+      src: "10-containerd-net.conflist"
+      dest: "/etc/kubernetes/cni/net.d/10-containerd-net.conflist"
+      mode: '0644'
+...

@@ -13,19 +13,38 @@ Antonio C. <sp38af (at) trikorasolutions (dot) com>
 This document describes the OCP installation process using UPI. It automates 
  the instructions found at https://blog.rossbrigoli.com/2020/11/running-openshift-at-home-part-44.html.
 
-=== Services host
+== Prepare Hosts
+
+* Create 1 VM for Control Plane
+* Create 3 VM for Control Plane
+* Create 3 VM for Compute Nodes
+* Create 1 VM for OCP Services
+
+Assign the VMs fixed IP addresses.
+
+=== Start
+
+
+== Collect information
+
+Set environment variables used in the installation.
 
 [source,bash]
 ----
-OCP_CLI_INSTALL_DIR=/tmp<1>
-RH_CLUSTER_PULL_SECRET=<2>
-SSH_PUB_KEY_FILE=<3>
+RH_CLUSTER_PULL_SECRET='{"auths":{"cloud.openshift.com":...'<1>
+SSH_PUB_KEY_FILE=~/.ssh/id_rsa_somefile.pub<2>
+OCP_SERVICES_HOST=192.168.0.10<3>
 ----
-<1>
-<2> Get a Red Hat pull secret by logging in to https://cloud.redhat.com. 
- Navigate to _Cluster Manager > Create Cluster > Red Hat Openshift Container Platform > Run on Baremetal > User-Provisioned Infrastructure_
- and press _Copy pull secret_.
-<3>
+<1> RedHat Openshift cloud pull secret.
+ Get a Red Hat pull secret by logging in to https://cloud.redhat.com/. 
+ Navigate to _Cluster Manager > Create Cluster_ Unde the cluster type tab 
+ select _Local_ and press the _Copy pull secret_.
+<2> SSH public key used to access the cluster hosts
+<3> IP Address for the 
+
+== Install
+
+Generate OCP Cluster installation.
 
 [source,bash]
 ----
@@ -33,8 +52,8 @@ ansible-playbook ocp/4.15/upi/ansible/ocp-services-02-gen-playbook.yaml \
   -e @ocp/4.15/upi/ansible/defaults/main.yaml
 ----
 
-Use `openshift-install` to create the Kubernetes manifests and Ignition 
- configuration files for the cluster.
+Generate the _OpenShift Install_ folder and use `openshift-install` to create 
+ the Kubernetes manifests and Ignition configuration files for the cluster.
 
 [source,bash]
 ----
@@ -45,9 +64,127 @@ ansible-playbook ocp/4.15/upi/ansible/ocp-services-03-oi-playbook.yaml \
   -e ssh_pub_key_file=${SSH_PUB_KEY_FILE}
 ----
 
+Configure the OCP Services host. This playbook will:
+
+* Install several packages
+[source,yaml]
+----
+include::upi/ansible/defaults/main.yaml[tag=required_packages]
+----
+* Enable and start services
+* Open firewall ports
+* Perform configuration on the host
+* Copy OCP installation files to the http server
+
 [source,bash]
 ----
 ansible-playbook ocp/4.15/upi/ansible/ocp-services-10-config-playbook.yaml -K \
   -e @ocp/4.15/upi/ansible/defaults/main.yaml
 ----
 
+Configure HA Proxy.
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi/ansible/ocp-services-15-haproxy-playbook.yaml -K \
+  -e @ocp/4.15/upi/ansible/defaults/main.yaml
+----
+
+== Deploy Bootstrap and Control Planes
+
+Extract the installation sources and scripts from the `openshift-install`.
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi/ansible/ocp-services-20-oi-rhcos.yaml \
+  -e @ocp/4.15/upi/ansible/defaults/main.yaml
+----
+
+Download the specified image, upload it to the Proxmox server and setup the CDROM on the Bootstrap and Control Plane VMs.
+
+Start the VM for Bootstrap and Control Plane.
+
+Execute the `coreos-installer` command obtained on the previous Ansible 
+ playbook.
+
+Restart the VMS.
+
+Once the VMs are started patch the CNIO configuration on the Control Plane 
+ VMS.
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi/ansible/ocp-services-30-fix-cp.yaml \
+  -e @ocp/4.15/upi/ansible/defaults/main.yaml
+----
+
+Follow the installation from the bootstrap node console.
+
+[source,bash]
+----
+journalctl -b -f -u release-image.service -u bootkube.service
+----
+
+Follow the logs on the Control Plane.
+
+
+== Troubleshooting
+
+=== No CNI configuration file in /etc/kubernetes/cni/net.d/. Has your network provider started? 
+
+*Problem*
+
+Control plane nodes stay at `NotReady` state.
+
+*Symptom*
+
+On the journal the following error shows.
+
+[source,]
+----
+openshift Network plugin returns error: No CNI configuration file in /etc/kubernetes/cni/net.d/
+----
+
+*Cause*
+
+There's no configured CNI.
+
+*Solution*
+
+[source,bash]
+----
+sudo bash -c 'cat << EOF | tee /etc/kubernetes/cni/net.d/10-containerd-net.conflist
+{
+ "cniVersion": "1.0.0",
+ "name": "containerd-net",
+ "plugins": [
+   {
+     "type": "bridge",
+     "bridge": "cni0",
+     "isGateway": true,
+     "ipMasq": true,
+     "promiscMode": true,
+     "ipam": {
+       "type": "host-local",
+       "ranges": [
+         [{
+           "subnet": "10.128.0.0/14"
+         }]
+       ],
+       "routes": [
+         { "dst": "0.0.0.0/0" },
+         { "dst": "::/0" }
+       ]
+     }
+   },
+   {
+     "type": "portmap",
+     "capabilities": {"portMappings": true},
+     "externalSetMarkChain": "KUBE-MARK-MASQ"
+   }
+ ]
+}
+EOF'
+
+sudo systemctl restart crio; sudo systemctl restart kubelet; sudo systemctl status crio
+----

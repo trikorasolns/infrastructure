@@ -57,8 +57,8 @@
   - name: "Enable application workloads to run on the control plane nodes"
     ansible.builtin.lineinfile:
         path: "{{ ansible_env.HOME }}/{{ ocp_install_root_dir }}/{{ ocp_install_dir }}/manifests/cluster-scheduler-02-config.yml"
-        search_string: "  mastersSchedulable: true"
-        line: "  mastersSchedulable: false"
+        search_string: "  mastersSchedulable: false"
+        line: "  mastersSchedulable: true"
 
   - name: "Generate ignition files"
     ansible.builtin.shell: |
@@ -73,7 +73,7 @@
       chdir: "{{ ansible_env.HOME }}/{{ ocp_install_root_dir }}"
     loop:
       - bootstrap.ign
-      - maste.ign
+      - master.ign
       - worker.ign
     
 ...

@@ -1,0 +1,91 @@
+---
+- name: "Configure HAProxy"
+  hosts: "ocp_services"
+  gather_facts: true
+
+  tasks:
+  # - name: "Install required packages"
+  #   ansible.builtin.package:
+  #     name: "{{ required_packages }}"
+  #     state: present
+  #   become: true
+  #   when: skip_install is undefined or not (skip_install | bool)
+
+  # - name: Replace a localhost entry searching for a literal string to avoid escaping
+  #   ansible.builtin.lineinfile:
+  #     path: "/etc/httpd/conf/httpd.conf"
+  #     search_string: "Listen 80"
+  #     line: "Listen 8080"
+  #   become: true
+
+  - name: Set haproxy_connect_any flag on
+    ansible.posix.seboolean:
+      name: haproxy_connect_any
+      state: true
+      persistent: true
+    become: true
+
+  - name: Set flags
+    ansible.posix.seboolean:
+      name: httpd_can_network_connect
+      state: true
+      persistent: true
+    become: true
+
+  - name: "Set semanage ports"
+    ansible.builtin.shell: |
+        semanage port -a -t http_port_t -p tcp 6443
+        semanage port -a -t http_port_t -p tcp 22623
+        semanage port -a -t http_port_t -p tcp 1936
+    become: true
+
+#   - name: "Generate a unique private key (KEY)"
+#     ansible.builtin.shell: |
+#         openssl genrsa -out {{ ocp_cluster_name }}.{{ local_domain }}.key 2048
+#     # become: true
+#     args:
+#       chdir: "{{ ansible_env.HOME }}/{{ ocp_install_root_dir }}"
+
+#   - name: "Generate a Certificate Signing Request (CSR)"
+#     ansible.builtin.shell: |
+#       openssl req -new -key {{ ocp_cluster_name }}.{{ local_domain }}.key -out {{ ocp_cluster_name }}.{{ local_domain }}.csr
+#     # become: true
+#     args:
+#       chdir: "{{ ansible_env.HOME }}/{{ ocp_install_root_dir }}"
+
+#   - name: "Create a Self-Signed Certificate (CRT)"
+#     ansible.builtin.shell: |
+#         openssl x509 -req -days 365 -in {{ ocp_cluster_name }}.{{ local_domain }}.csr -signkey {{ ocp_cluster_name }}.{{ local_domain }}.key -out {{ ocp_cluster_name }}.{{ local_domain }}.crt
+#     args:
+#       chdir: "{{ ansible_env.HOME }}/{{ ocp_install_root_dir }}"
+
+#   - name: "Append KEY and CRT to pem file"
+#     ansible.builtin.shell: |
+#         bash -c 'cat {{ ocp_cluster_name }}.{{ local_domain }}.key {{ ocp_cluster_name }}.{{ local_domain }}.crt >> /etc/pki/ca-trust/source/anchors/{{ ocp_cluster_name }}.{{ local_domain }}.pem'
+#     become: true
+#     args:
+#       chdir: "{{ ansible_env.HOME }}/{{ ocp_install_root_dir }}"
+
+# # # Specify PEM in haproxy config
+# # sudo vim /etc/haproxy/haproxy.cfg
+# # listen haproxy
+# #   bind 0.0.0.0:443 ssl crt /etc/ssl/private/mydomain.pem
+#   - name: "Append KEY and CRT to pem file"
+#     ansible.builtin.shell: update-ca-trust
+#     become: true
+
+  - name: "Template haproxy configuration file"
+    ansible.builtin.template:
+      src: "haproxy.cfg.j2"
+      dest: "/etc/haproxy/haproxy.cfg"
+      backup: true
+    become: true
+
+  - name: "Enable and start the required services"
+    ansible.builtin.service:
+      name: haproxy
+      enabled: yes
+      state: restarted
+    become: true
+
+...
