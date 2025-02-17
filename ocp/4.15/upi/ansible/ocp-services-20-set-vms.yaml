@@ -1,0 +1,132 @@
+---
+- name: "Read installation info from openshift installation"
+  hosts: "ocp_services"
+  gather_facts: true
+
+  tasks:
+    - name: "Obtain the correct version of your RHCOS images"
+      ansible.builtin.shell: |
+          ./openshift-install coreos print-stream-json
+      register: coreos_stream_res
+      args:
+        chdir: "{{ ansible_env.HOME }}/{{ ocp_install_root_dir }}"
+
+    - name: "RHCOS output"
+      ansible.builtin.debug:
+        var: coreos_stream_res.stdout
+        verbosity: 2
+
+    - name: "Set fact for coreos information"
+      ansible.builtin.set_fact:
+        coreos_stream_json: "{{ coreos_stream_res.stdout | from_json  }}"
+
+    - name: "Set fact for the image location"
+      ansible.builtin.set_fact:
+        coreos_image_location: "{{ coreos_stream_json.architectures.x86_64.artifacts.metal.formats.iso.disk.location  }}"
+
+    - name: "RHCOS image to use"
+      ansible.builtin.debug:
+        msg: 
+        - "CoreOS ISO disk location: {{ coreos_image_location }}"
+
+  post_tasks:
+
+    - name: "Set CoreOS Image Location under localhost"
+      ansible.builtin.set_fact:
+        global_coreos_image_location: "{{ coreos_image_location }}"
+      delegate_to: localhost
+      delegate_facts: True
+
+    # - name: "Copy URL to localhost tmp"
+    #   ansible.builtin.copy:
+    #     dest: "/tmp/coreos_image_location.txt"
+    #     content: "{{ coreos_image_location }}"
+    #   delegate_to: localhost
+
+- name: "Setup Proxmox VMs"
+  hosts: "proxmox_nodes"
+  gather_facts: true
+
+  pre_tasks:
+    - name: "Read URL from localhost tmp"
+      ansible.builtin.set_fact:
+        # coreos_image_location: "{{ lookup('ansible.builtin.file', '/tmp/coreos_image_location.txt')"
+        coreos_image_location: "{{ hostvars['localhost']['global_coreos_image_location'] }}"
+        coreos_image_filename: "{{ hostvars['localhost']['global_coreos_image_location'] | basename}}"
+      delegate_to: localhost
+
+
+    - name: "RHCOS image to use"
+      ansible.builtin.debug:
+        msg: 
+        - "CoreOS ISO disk location (coreos_image_location): {{ coreos_image_location }}"
+        - "CoreOS ISO disk file name: {{ coreos_image_filename }}"
+  tasks:
+  
+    - name: "Download the ISO"
+      ansible.builtin.shell: |
+        curl -O {{ coreos_image_location }}
+      args:
+        chdir: "/var/lib/vz/template/iso"
+      when: skip_download is undefined or not (skip_download | bool)
+
+    - name: "Stop the bootstrap VM on it's node"
+      ansible.builtin.shell: |
+        qm stop {{ hostvars[item].pve.vmid }}
+      loop: "{{ groups['ocp_bootstrap'] }}"
+      when: groups['ocp_bootstrap'] is defined and ansible_hostname == hostvars[item].pve.owner
+
+    - name: "Stop the control plane VMs on it's node"
+      ansible.builtin.shell: |
+        qm stop {{ hostvars[item].pve.vmid }}
+      loop: "{{ groups['ocp_control_plane'] }}"
+      when: groups['ocp_control_plane'] is defined and ansible_hostname == hostvars[item].pve.owner
+
+    - name: "Stop the compute node VMs on it's node"
+      ansible.builtin.shell: |
+        qm stop {{ hostvars[item].pve.vmid }}
+      loop: "{{ groups['ocp_compute_node'] }}"
+      when: groups['ocp_compute_node'] is defined and ansible_hostname == hostvars[item].pve.owner
+
+    - name: "Set values for the Bootstrap VM"
+      ansible.builtin.shell: |
+        qm set {{ hostvars[item].pve.vmid }} --cdrom local:iso/{{ coreos_image_filename }}
+        qm set {{ hostvars[item].pve.vmid }} --boot 'order=ide2;scsi0;net0'
+        #qm set {{ hostvars[item].pve.vmid }} -serial0 socket
+      loop: "{{ groups['ocp_bootstrap'] }}"
+      when: groups['ocp_bootstrap'] is defined and ansible_hostname == hostvars[item].pve.owner
+
+    - name: "Set values for for the Control Plane VMs"
+      ansible.builtin.shell: |
+        qm set {{ hostvars[item].pve.vmid }} --cdrom local:iso/{{ coreos_image_filename }}
+        qm set {{ hostvars[item].pve.vmid }} --boot 'order=ide2;scsi0;net0'
+        qm set {{ hostvars[item].pve.vmid }} -serial0 socket
+      loop: "{{ groups['ocp_control_plane'] }}"
+      when: groups['ocp_control_plane'] is defined and ansible_hostname == hostvars[item].pve.owner
+
+    - name: "Set values for the Compute Node VMs"
+      ansible.builtin.shell: |
+        qm set {{ hostvars[item].pve.vmid }} --cdrom local:iso/{{ coreos_image_filename }}
+        qm set {{ hostvars[item].pve.vmid }} --boot 'order=ide2;scsi0;net0'
+        qm set {{ hostvars[item].pve.vmid }} -serial0 socket
+      loop: "{{ groups['ocp_compute_node'] }}"
+      when: groups['ocp_compute_node'] is defined and ansible_hostname == hostvars[item].pve.owner
+
+    - name: "Start the bootstrap VM"
+      ansible.builtin.shell: |
+        qm start {{ hostvars[item].pve.vmid }}
+      loop: "{{ groups['ocp_bootstrap'] }}"
+      when: groups['ocp_bootstrap'] is defined and ansible_hostname == hostvars[item].pve.owner
+
+    - name: "Start the Control Plane VMs"
+      ansible.builtin.shell: |
+        qm start {{ hostvars[item].pve.vmid }}
+      loop: "{{ groups['ocp_control_plane'] }}"
+      when: groups['ocp_control_plane'] is defined and ansible_hostname == hostvars[item].pve.owner
+
+    # - name: "Start the Compute Node VMs - NOT FOR NOW"
+    #   ansible.builtin.shell: |
+    #     qm start {{ hostvars[item].pve.vmid }} --cdrom local:iso/{{ coreos_image_filename }}
+    #   loop: "{{ groups['ocp_compute_node'] }}"
+    #   when: groups['ocp_compute_node'] is defined and ansible_hostname == hostvars[item].pve.owner
+...

@@ -1,0 +1,29 @@
+---
+- name: "Fetch kubeadmin account from installation"
+  hosts: "ocp_services"
+  gather_facts: true
+
+  tasks:
+  - name: "Read Openshift Install State"
+    ansible.builtin.slurp:
+      src: "{{ ansible_env.HOME }}/{{ ocp_install_root_dir }}/{{ ocp_install_dir }}/.openshift_install_state.json"
+    register: ocp_cluster_install_state_slurp
+    # ansible.builtin.set_fact: 
+    #   ocp_install_state: "{{ lookup('ansible.builtin.file', ansible_env.HOME + '/' + ocp_install_root_dir + '/' + ocp_install_dir + '/.openshift_install_state.json') | to_json }}"
+
+  - name: "Debug"
+    ansible.builtin.debug:
+      msg:
+        - "ocp_cluster_install_state_slurp: {{ ocp_cluster_install_state_slurp }}"
+      verbosity: 2
+
+  - name: "Transform metadata"
+    ansible.builtin.set_fact:
+      openshift_install_state: "{{ ocp_cluster_install_state_slurp.content | b64decode | from_json }}"
+
+  - name: "Print cluster details"
+    ansible.builtin.debug:
+      msg: 
+      - "ocp_cluster_id: {{ openshift_install_state['*installconfig.ClusterID'].InfraID }}"
+      - "Kubeadmin password: {{ openshift_install_state['*password.KubeadminPassword'].Password }}"
+...

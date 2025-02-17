@@ -34,6 +34,11 @@
       chdir: "{{ ansible_env.HOME }}/{{ ocp_install_root_dir }}"
     register: image_name_res
 
+  - name: "Print image name"
+    ansible.builtin.debug:
+      msg:
+        - "image_name_res: {{ image_name_res.stdout }}"
+
   - name: "Download the ocp installer and client"
     ansible.builtin.get_url:
       url: "{{ openshift_client_root_url }}/{{ item }}"
@@ -41,6 +46,7 @@
     loop:
       - openshift-install-linux.tar.gz
       - openshift-client-linux.tar.gz
+    when: skip_download is undefined or not (skip_download | bool)
 
   - name: "Extract the ocp installer and client"
     ansible.builtin.unarchive:
@@ -50,10 +56,12 @@
     loop:
       - openshift-install-linux.tar.gz
       - openshift-client-linux.tar.gz
+    when: skip_download is undefined or not (skip_download | bool)
 
   - name: "Print image name"
     ansible.builtin.debug:
       msg:
+        - "Installation folder: {{ ansible_env.HOME }}/{{ ocp_install_root_dir }}/"
         - "image_name_res: {{ image_name_res.stdout }}"
 
 ...

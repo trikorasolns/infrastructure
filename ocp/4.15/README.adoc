@@ -15,12 +15,209 @@ This document describes the OCP installation process using UPI. It automates
 
 == Prepare Hosts
 
-* Create 1 VM for Control Plane
-* Create 3 VM for Control Plane
-* Create 3 VM for Compute Nodes
-* Create 1 VM for OCP Services
+Create 8 VM:
+* 1 VM for the installation bootstrap
+* 1 VM for OCP Services
+* 3 VM for Control Plane (master)
+* 2 VM for Compute Nodes (worker)
 
-Assign the VMs fixed IP addresses.
+
+[%header, cols="40%m,10%m,25%m,25%m"]
+|===
+
+| Role | vCPU | RAM | Storage
+| bootstrap | 4 | 16 GB | 120 GB
+| control-plane | 4 | 16 GB | 120 GB
+| compute | 4 | 16 GB | 120 GB
+| services | 4 | 4 GB | 100 GB
+
+|===
+
+=== Create the bootstrap VM on Proxmox using the CLI
+
+[source,bash]
+----
+VMID=109
+qm create ${VMID} \
+  --description "ocp4-bootstrap" \
+  --name "ocp4-bootstrap" \
+  --tags 'ocp4;tmp'
+
+qm set ${VMID} --sockets 1 --cores 4 --cpu 'x86-64-v2-AES'
+qm set ${VMID} --memory 16384
+qm set ${VMID} --ostype l26
+qm set ${VMID} --scsihw virtio-scsi-single
+qm set ${VMID} --cdrom none
+----
+
+==== Set the Storage
+
+===== Local
+
+Create a VM Drive on the nodes `local-lvm``.
+
+[source,bash]
+----
+qm set ${VMID} --scsi0 local-lvm:120
+----
+
+===== iSCSI
+
+To use a iSCSI storage first check for the currently identified volumes.
+
+[source,bash]
+----
+pvesm list <iscsi_storage_name>
+----
+
+The output will be something like this.
+
+[source,]
+----
+Volid                                                    Format  Type              Size VMID
+<iscsi_storage_name>:0.0.0.scsi-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0 raw     images    128849018880
+<iscsi_storage_name>:0.0.1.scsi-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx1 raw     images    128849018880
+<iscsi_storage_name>:0.0.2.scsi-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx2 raw     images    128849018880
+<iscsi_storage_name>:0.0.3.scsi-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx3 raw     images    128849018880
+<iscsi_storage_name>:0.0.4.scsi-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx4 raw     images    128849018880
+<iscsi_storage_name>:0.0.5.scsi-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx5 raw     images    107374182400
+----
+
+Select which volume to attach and execute the following command.
+
+[source,bash]
+----
+qm set ${VMID} --scsi0 nas05-pvec1:0.0.5.scsi-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx5
+----
+
+[source,]
+----
+update VM 109: -scsi0 nas05-pvec1:0.0.5.scsi-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx5
+----
+
+==== Attach the network
+
+[source,bash]
+----
+qm set ${VMID} --net0 virtio,firewall=1,bridge=vmbr0
+----
+
+Specify the MAC address using the `macaddr=XX:XX:XX:XX:XX:XX` option.
+
+==== Set the boot order
+
+[source,bash]
+----
+qm set ${VMID} --boot 'order=scsi0;ide2;net0'
+----
+
+=== Assign fixed IPs
+
+Assign the VMs fixed IP addresses as they will be used by the HA Proxy and internally.
+
+Build Ansible inventory
+
+.09-pve.yaml
+[source,yaml]
+----
+# proxmox
+proxmox:
+  children:
+    pve:
+      hosts:
+        ocp4-services:
+          description: ocp4-services
+          ansible_host: 
+          ansible_user: 
+          ansible_ssh_private_key_file: 
+          my_mac:
+          my_ipv4: 
+          pve:
+            owner: pve01
+            vmid: 100
+        ocp4-bootstrap:
+          description: ocp4-bootstrap
+          ansible_host: 
+          ansible_user: 
+          ansible_ssh_private_key_file: 
+          my_mac: 
+          my_ipv4: 
+          pve:
+            owner: pve01
+            vmid: 101
+        ocp4-cp-1:
+          description: ocp4-control-plane-1
+          ansible_host: 
+          ansible_user: 
+          ansible_ssh_private_key_file: 
+          my_mac: 
+          my_ipv4: 
+          pve:
+            owner: pve01
+            vmid: 102
+        ocp4-cp-2:
+          description: ocp4-control-plane-2
+          ansible_host: 
+          ansible_user: 
+          ansible_ssh_private_key_file: 
+          my_mac: 
+          my_ipv4: 
+          pve:
+            owner: pve02
+            vmid: 103
+        ocp4-cp-3:
+          description: ocp4-control-plane-3
+          ansible_host: 
+          ansible_user: 
+          ansible_ssh_private_key_file: 
+          my_mac: 
+          my_ipv4: 
+          pve:
+            owner: pve03
+            vmid: 104
+        ocp4-co-1:
+          description: ocp4-compute-node-1
+          ansible_host: 
+          ansible_user: 
+          ansible_ssh_private_key_file: 
+          my_mac: 
+          my_ipv4: 
+          pve:
+            owner: pve02
+            vmid: 105
+        ocp4-co-2:
+          description: ocp4-compute-node-2
+          ansible_host: 
+          ansible_user: 
+          ansible_ssh_private_key_file: 
+          my_mac: 
+          my_ipv4: 
+          pve:
+            owner: pve03
+            vmid: 106
+----
+
+.15-openshift.yaml
+[source,yaml]
+----
+ocp:
+  children:
+    ocp_bootstrap:
+      hosts:
+        ocp4-bootstrap:
+    ocp_control_plane:
+      hosts:
+        ocp4-cp-1:
+        ocp4-cp-2:
+        ocp4-cp-3:
+    ocp_compute_node:
+      hosts:
+        ocp4-co-1:
+        ocp4-co-2:
+    ocp_services:
+      hosts:
+        ocp4-services:
+----
 
 === Start
 
@@ -36,16 +233,21 @@ SSH_PUB_KEY_FILE=~/.ssh/id_rsa_somefile.pub<2>
 OCP_SERVICES_HOST=192.168.0.10<3>
 ----
 <1> RedHat Openshift cloud pull secret.
- Get a Red Hat pull secret by logging in to https://cloud.redhat.com/. 
- On the Hybrid Cloud console _Services_ menu navigate to _Platform > RedHat OpenShift_. 
- On the _OpenShift Overview_ navigate to _Cluster List_ and press _Create Cluster_. 
+ Get a Red Hat pull secret by going to https://cloud.redhat.com/.
+ Select the Console link and login to the link:https://console.redhat.com/[Hybrid Cloud console].
+ Open the _Services_ dropdown and navigate to _Platform > RedHat OpenShift_. 
+ On the _OpenShift > Overview_ page navigate to _Cluster List_, using the left menu, and press _Create Cluster_. 
  Under the cluster type tab select _Local_ and press the _Copy pull secret_.
 <2> SSH public key used to access the cluster hosts
-<3> IP Address for the 
+<3> IP Address for the  
 
 == Install
 
-Generate OCP Cluster installation and download the OCP binaries.
+[.lead]
+Generate OCP Cluster installation folder and download the OCP binaries.
+
+This will generate an `openshift` folder under the ansible connection 
+ users home folder.
 
 [source,bash]
 ----
@@ -88,27 +290,66 @@ Configure HA Proxy.
 [source,bash]
 ----
 ansible-playbook ocp/4.15/upi/ansible/ocp-services-15-haproxy-playbook.yaml -K \
-  -e @ocp/4.15/upi/ansible/defaults/main.yaml
+  -e @ocp/4.15/upi/ansible/defaults/main.yaml \
+  -e @_local_config/network.yaml
 ----
 
 == Deploy Bootstrap and Control Planes
 
-Extract the installation sources and scripts from the `openshift-install`.
+Prepare the VMs for installation. This playbook will:
+* Upload the ISO identified on the _CoreOS ISO disk location_ into the Proxmox server and setup the CDROM on the Bootstrap and Control Plane VMs.
+* Stop the VMs if they're running.
+* Set the correct boot order. This is required if the VMs are being reused.
+* Set the ISO as the VM CDROM media.
+* Start the VM for Bootstrap and Control Plane.
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi/ansible/ocp-services-20-oi-rhcos.yaml \
+ansible-playbook ocp/4.15/upi/ansible/ocp-services-20-set-vms.yaml \
+  -e @ocp/4.15/upi/ansible/defaults/main.yaml \
+  -e skip_download=true <1>
+----
+<1> Optional variable to skip downloading the ISO if it is already downloaded.
+
+Extract the installation sources and scripts from the `openshift-install`, as 
+ well as the `coreos-installer` command to be executed.
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi/ansible/ocp-services-25-oi-rhcos.yaml \
   -e @ocp/4.15/upi/ansible/defaults/main.yaml
 ----
-
-Download the specified image, upload it to the Proxmox server and setup the CDROM on the Bootstrap and Control Plane VMs.
-
-Start the VM for Bootstrap and Control Plane.
 
 Execute the `coreos-installer` command obtained on the previous Ansible 
  playbook.
 
-Restart the VMS.
+[NOTE]
+====
+Instead of executing the `coreos-installer` from the VM console this can be 
+ done from the node bash. Since each VM already includes the `serial0` linked 
+ to _socket_, edit the boot command and add 
+ `console=tty0 console=ttyS0,115200` at the end.
+
+After this, SSH to the Proxmox Node that owns that VM and execute the 
+ following command to enter the VM console.
+
+[source,bash]
+----
+qm terminal <VMID>
+----
+
+Execute the `coreos-installer` command.
+
+Exit the terminal with `CTRL+O`.
+====
+
+Stop the VMs, reset the boot and CD ROM configuration and start the VMS.
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi/ansible/ocp-services-28-vm-start.yaml \
+  -e @ocp/4.15/upi/ansible/defaults/main.yaml
+----
 
 Once the VMs are started patch the CNIO configuration on the Control Plane 
  VMS.
@@ -127,6 +368,27 @@ journalctl -b -f -u release-image.service -u bootkube.service
 ----
 
 Follow the logs on the Control Plane.
+
+Get the authentication.
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi/ansible/ocp-services-50-get-ocp-auth-playbook.yaml \
+  -e @ocp/4.15/upi/ansible/defaults/main.yaml
+----
+
+== Remove the Bootstrap
+
+Once the installation is finished remove the Bootstrap VM.
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi/ansible/ocp-services-35-remove-bootstrap-haproxy-playbook.yaml -K \
+  -e @ocp/4.15/upi/ansible/defaults/main.yaml
+----
+
+== Add Compute Nodes
+
 
 
 == Troubleshooting
