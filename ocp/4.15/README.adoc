@@ -13,7 +13,7 @@ Antonio C. <sp38af (at) trikorasolutions (dot) com>
 This document describes the OCP installation process using UPI. It automates 
  the instructions found at https://blog.rossbrigoli.com/2020/11/running-openshift-at-home-part-44.html.
 
-== Prepare Hosts
+== Prepare Hosts (VMs)
 
 Create 8 VM:
 * 1 VM for the installation bootstrap
@@ -230,16 +230,14 @@ Set environment variables used in the installation.
 ----
 RH_CLUSTER_PULL_SECRET='{"auths":{"cloud.openshift.com":...'<1>
 SSH_PUB_KEY_FILE=~/.ssh/id_rsa_somefile.pub<2>
-OCP_SERVICES_HOST=192.168.0.10<3>
 ----
 <1> RedHat Openshift cloud pull secret.
  Get a Red Hat pull secret by going to https://cloud.redhat.com/.
- Select the Console link and login to the link:https://console.redhat.com/[Hybrid Cloud console].
- Open the _Services_ dropdown and navigate to _Platform > RedHat OpenShift_. 
+ Select the _Access the Console_ link and login to the link:https://console.redhat.com/[Hybrid Cloud console].
+ Open the _Services_ dropdown and navigate to _Platform > Red Hat OpenShift_. 
  On the _OpenShift > Overview_ page navigate to _Cluster List_, using the left menu, and press _Create Cluster_. 
  Under the cluster type tab select _Local_ and press the _Copy pull secret_.
 <2> SSH public key used to access the cluster hosts
-<3> IP Address for the  
 
 == Install
 
@@ -251,25 +249,29 @@ This will generate an `openshift` folder under the ansible connection
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi/ansible/ocp-services-02-gen-playbook.yaml \
+ansible-playbook ocp/4.15/upi/ansible/02-ocp-services-oi-binaries.yaml \
   -e @ocp/4.15/upi/ansible/defaults/main.yaml
 ----
 
-Generate the _OpenShift Install_ folder and use `openshift-install` to create 
- the Kubernetes manifests and Ignition configuration files for the cluster.
+Generate the _OpenShift Install_ installation folder and generate the 
+ Kubernetes manifests and Ignition configuration files for the cluster. This is done using the `openshift-install` CLI.
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi/ansible/ocp-services-03-oi-playbook.yaml \
+ansible-playbook ocp/4.15/upi/ansible/03-ocp-services-oi-playbook.yaml \
   -e @ocp/4.15/upi/ansible/defaults/main.yaml \
   -e @_local_config/network.yaml \
   -e pull_secret=${RH_CLUSTER_PULL_SECRET} \
   -e ssh_pub_key_file=${SSH_PUB_KEY_FILE}
 ----
 
+[.lead]
 Configure the OCP Services host. This playbook will:
 
 * Install several packages
+* Enable services for HTTP and HAProxy
+* Perform several configurations on the host
+
 [source,yaml]
 ----
 include::upi/ansible/defaults/main.yaml[tag=required_packages]
@@ -281,7 +283,7 @@ include::upi/ansible/defaults/main.yaml[tag=required_packages]
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi/ansible/ocp-services-10-config-playbook.yaml -K \
+ansible-playbook ocp/4.15/upi/ansible/10-ocp-services-config-playbook.yaml -K \
   -e @ocp/4.15/upi/ansible/defaults/main.yaml
 ----
 
@@ -289,7 +291,7 @@ Configure HA Proxy.
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi/ansible/ocp-services-15-haproxy-playbook.yaml -K \
+ansible-playbook ocp/4.15/upi/ansible/15-ocp-services-haproxy-playbook.yaml -K \
   -e @ocp/4.15/upi/ansible/defaults/main.yaml \
   -e @_local_config/network.yaml
 ----
@@ -305,7 +307,7 @@ Prepare the VMs for installation. This playbook will:
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi/ansible/ocp-services-20-set-vms.yaml \
+ansible-playbook ocp/4.15/upi/ansible/20-proxmox-prepare-coreos-install.yaml \
   -e @ocp/4.15/upi/ansible/defaults/main.yaml \
   -e skip_download=true <1>
 ----
@@ -316,7 +318,7 @@ Extract the installation sources and scripts from the `openshift-install`, as
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi/ansible/ocp-services-25-oi-rhcos.yaml \
+ansible-playbook ocp/4.15/upi/ansible/25-ocp-services-show-rhcos-info.yaml \
   -e @ocp/4.15/upi/ansible/defaults/main.yaml
 ----
 
@@ -347,7 +349,7 @@ Stop the VMs, reset the boot and CD ROM configuration and start the VMS.
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi/ansible/ocp-services-28-vm-start.yaml \
+ansible-playbook ocp/4.15/upi/ansible/28-proxmox-vm-start.yaml \
   -e @ocp/4.15/upi/ansible/defaults/main.yaml
 ----
 
@@ -356,8 +358,43 @@ Once the VMs are started patch the CNIO configuration on the Control Plane
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi/ansible/ocp-services-30-fix-cp.yaml \
+ansible-playbook ocp/4.15/upi/ansible/30-vm-fix-cnio.yaml \
   -e @ocp/4.15/upi/ansible/defaults/main.yaml
+----
+
+Wait for the 3 Control Plane nodes to be created. From the openshift root folder on 
+ the _ocp_services_ host execute the following command.
+
+[source,bash]
+----
+./oc --kubeconfig ~/openshift/install_dir/auth/kubeconfig get nodes
+----
+
+The result we're looking for is something like this.
+
+[source,]
+----
+NAME                   STATUS   ROLES                         AGE   VERSION
+ocp4-control-plane-1   Ready    control-plane,master,worker   26m   v1.28.10+a2c84a5
+ocp4-control-plane-2   Ready    control-plane,master,worker   25m   v1.28.10+a2c84a5
+ocp4-control-plane-3   Ready    control-plane,master,worker   27m   v1.28.10+a2c84a5
+----
+
+Remove the taints on the nodes so the control-plane nodes can execute 
+ application loads and finish the cluster deployment.
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi/ansible/31-ocp-services-remove-cp-taints.yaml \
+  -e @ocp/4.15/upi/ansible/defaults/main.yaml
+----
+
+Wait for the bootstrap operation to finish. From the openshift root folder on 
+ the _ocp_services_ host execute the following command.
+
+[source,bash]
+----
+./openshift-install --dir install_dir/ wait-for bootstrap-complete --log-level=debug
 ----
 
 Follow the installation from the bootstrap node console.
@@ -377,13 +414,14 @@ ansible-playbook ocp/4.15/upi/ansible/ocp-services-50-get-ocp-auth-playbook.yaml
   -e @ocp/4.15/upi/ansible/defaults/main.yaml
 ----
 
+
 == Remove the Bootstrap
 
 Once the installation is finished remove the Bootstrap VM.
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi/ansible/ocp-services-35-remove-bootstrap-haproxy-playbook.yaml -K \
+ansible-playbook ocp/4.15/upi/ansible/35-ocp-services-remove-bootstrap-haproxy-playbook.yaml -K \
   -e @ocp/4.15/upi/ansible/defaults/main.yaml
 ----
 

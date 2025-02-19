@@ -1,0 +1,14 @@
+---
+- name: "Fix Control Planes"
+  hosts: "ocp_services"
+  gather_facts: true
+
+  tasks:
+  - name: "Apply the patch config for CNI"
+    ansible.builtin.shell: |
+      ./oc adm --kubeconfig install_dir/auth/kubeconfig taint nodes {{ hostvars[item].description }} node-role.kubernetes.io/master:NoSchedule-
+    args:
+      chdir: "{{ ansible_env.HOME }}/{{ ocp_install_root_dir }}"
+    loop: "{{ groups['ocp_control_plane'] }}"
+
+...

@@ -24,3 +24,4 @@ ocp_install_dir: "install_dir"
 ocp_version: 4.15.17
 ocp_release_arch: amd64
 ocp_cluster_name: ocp
+use_compute_nodes: false

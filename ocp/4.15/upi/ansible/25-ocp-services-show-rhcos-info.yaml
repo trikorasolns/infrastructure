@@ -1,5 +1,5 @@
 ---
-- name: "Installing RHCOS by using an ISO image"
+- name: "Show info required to install RHCOS by using it's ISO image"
   hosts: "ocp_services"
   gather_facts: true
 
@@ -41,5 +41,6 @@
   - name: "coreos-installer command for Compute (worker) nodes"
     ansible.builtin.debug:
       msg: "sudo coreos-installer install /dev/sda --ignition-url http://{{ hostvars['ocp4-services'].ansible_host }}:8080/ocp4/worker.ign --insecure-ignition"
+    when: use_compute_nodes
 
 ...

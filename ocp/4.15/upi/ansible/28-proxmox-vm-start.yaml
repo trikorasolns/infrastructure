@@ -20,7 +20,7 @@
       ansible.builtin.shell: |
         qm stop {{ hostvars[item].pve.vmid }}
       loop: "{{ groups['ocp_compute_node'] }}"
-      when: groups['ocp_compute_node'] is defined and ansible_hostname == hostvars[item].pve.owner
+      when: use_compute_nodes and groups['ocp_compute_node'] is defined and ansible_hostname == hostvars[item].pve.owner
 
     - name: "Set values for the Bootstrap VM"
       ansible.builtin.shell: |
@@ -55,9 +55,9 @@
       loop: "{{ groups['ocp_control_plane'] }}"
       when: groups['ocp_control_plane'] is defined and ansible_hostname == hostvars[item].pve.owner
 
-    # - name: "Start the Compute Node VMs - NOT FOR NOW"
-    #   ansible.builtin.shell: |
-    #     qm start {{ hostvars[item].pve.vmid }} --cdrom local:iso/{{ coreos_image_filename }}
-    #   loop: "{{ groups['ocp_compute_node'] }}"
-    #   when: groups['ocp_compute_node'] is defined and ansible_hostname == hostvars[item].pve.owner
+    - name: "Start the Compute Node VMs - NOT FOR NOW"
+      ansible.builtin.shell: |
+        qm start {{ hostvars[item].pve.vmid }} --cdrom local:iso/{{ coreos_image_filename }}
+      loop: "{{ groups['ocp_compute_node'] }}"
+      when: use_compute_nodes and groups['ocp_compute_node'] is defined and ansible_hostname == hostvars[item].pve.owner
 ...
