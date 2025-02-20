@@ -79,6 +79,8 @@
       src: "haproxy.cfg.j2"
       dest: "/etc/haproxy/haproxy.cfg"
       backup: true
+    vars:
+      use_bootstrap: true
     become: true
 
   - name: "Enable and start the required services"

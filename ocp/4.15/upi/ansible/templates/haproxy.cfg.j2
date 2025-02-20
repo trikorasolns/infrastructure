@@ -50,9 +50,11 @@ frontend ocp4_k8s_api_fe
 backend ocp4_k8s_api_be
     balance source
     mode tcp
+{% if use_bootstrap is defined and use_bootstrap %}
 {% for item in groups['ocp_bootstrap'] %}
     server      {{ item }} {{ hostvars[item].ansible_host }}:6443 check
 {% endfor %}
+{% endif %}
 {% for item in groups['ocp_control_plane'] %}
     server      {{ item }} {{ hostvars[item].ansible_host }}:6443 check
 {% endfor %}
@@ -66,9 +68,11 @@ frontend ocp4_machine_config_server_fe
 backend ocp4_machine_config_server_be
     balance source
     mode tcp
+{% if use_bootstrap is defined and use_bootstrap %}
 {% for item in groups['ocp_bootstrap'] %}
     server      {{ item }} {{ hostvars[item].ansible_host }}:22623 check
 {% endfor %}
+{% endif %}
 {% for item in groups['ocp_control_plane'] %}
     server      {{ item }} {{ hostvars[item].ansible_host }}:22623 check
 {% endfor %}
@@ -82,9 +86,11 @@ frontend ocp4_http_ingress_traffic_fe
 backend ocp4_http_ingress_traffic_be
     balance source
     mode tcp
+{% if use_compute_nodes %}
 {% for item in groups['ocp_compute_node'] %}
     server      {{ item }} {{ hostvars[item].ansible_host }}:80 check
 {% endfor %}
+{% endif %}
 {% for item in groups['ocp_control_plane'] %}
     server      {{ item }} {{ hostvars[item].ansible_host }}:80 check
 {% endfor %}
@@ -99,9 +105,11 @@ frontend ocp4_https_ingress_traffic_fe
 backend ocp4_https_ingress_traffic_be
     balance source
     mode tcp
+{% if use_compute_nodes %}
 {% for item in groups['ocp_compute_node'] %}
     server      {{ item }} {{ hostvars[item].ansible_host }}:443 check
 {% endfor %}
+{% endif %}
 {% for item in groups['ocp_control_plane'] %}
     server      {{ item }} {{ hostvars[item].ansible_host }}:443 check
 {% endfor %}

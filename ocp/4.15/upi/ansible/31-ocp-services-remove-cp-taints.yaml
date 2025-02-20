@@ -4,7 +4,7 @@
   gather_facts: true
 
   tasks:
-  - name: "Apply the patch config for CNI"
+  - name: "Remove node-role.kubernetes.io/master:NoSchedule"
     ansible.builtin.shell: |
       ./oc adm --kubeconfig install_dir/auth/kubeconfig taint nodes {{ hostvars[item].description }} node-role.kubernetes.io/master:NoSchedule-
     args:

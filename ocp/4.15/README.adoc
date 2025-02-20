@@ -353,18 +353,6 @@ ansible-playbook ocp/4.15/upi/ansible/28-proxmox-vm-start.yaml \
   -e @ocp/4.15/upi/ansible/defaults/main.yaml
 ----
 
-Once the VMs are started patch the CNIO configuration on the Control Plane 
- VMS.
-
-[source,bash]
-----
-ansible-playbook ocp/4.15/upi/ansible/30-vm-fix-cnio.yaml \
-  -e @ocp/4.15/upi/ansible/defaults/main.yaml
-----
-
-Wait for the 3 Control Plane nodes to be created. From the openshift root folder on 
- the _ocp_services_ host execute the following command.
-
 [source,bash]
 ----
 ./oc --kubeconfig ~/openshift/install_dir/auth/kubeconfig get nodes
@@ -397,6 +385,13 @@ Wait for the bootstrap operation to finish. From the openshift root folder on
 ./openshift-install --dir install_dir/ wait-for bootstrap-complete --log-level=debug
 ----
 
+Check for what's missing for the cluster to be stable.
+
+[source,bash]
+----
+./oc --kubeconfig install_dir/auth/kubeconfig  adm wait-for-stable-cluster --minimum-stable-period=5s
+----
+
 Follow the installation from the bootstrap node console.
 
 [source,bash]
@@ -413,6 +408,7 @@ Get the authentication.
 ansible-playbook ocp/4.15/upi/ansible/ocp-services-50-get-ocp-auth-playbook.yaml \
   -e @ocp/4.15/upi/ansible/defaults/main.yaml
 ----
+
 
 
 == Remove the Bootstrap

@@ -24,21 +24,21 @@
 
     - name: "Set values for the Bootstrap VM"
       ansible.builtin.shell: |
-        qm set {{ hostvars[item].pve.vmid }} --cdrom 
+        qm set {{ hostvars[item].pve.vmid }} --cdrom none
         qm set {{ hostvars[item].pve.vmid }} --boot 'order=scsi0;ide2;net0'
       loop: "{{ groups['ocp_bootstrap'] }}"
       when: groups['ocp_bootstrap'] is defined and ansible_hostname == hostvars[item].pve.owner
 
     - name: "Set values for for the Control Plane VMs"
       ansible.builtin.shell: |
-        qm set {{ hostvars[item].pve.vmid }} --cdrom 
+        qm set {{ hostvars[item].pve.vmid }} --cdrom none
         qm set {{ hostvars[item].pve.vmid }} --boot 'order=scsi0;ide2;net0'
       loop: "{{ groups['ocp_control_plane'] }}"
       when: groups['ocp_control_plane'] is defined and ansible_hostname == hostvars[item].pve.owner
 
     - name: "Set values for the Compute Node VMs"
       ansible.builtin.shell: |
-        qm set {{ hostvars[item].pve.vmid }} --cdrom 
+        qm set {{ hostvars[item].pve.vmid }} --cdrom none
         qm set {{ hostvars[item].pve.vmid }} --boot 'order=scsi0;ide2;net0'
       loop: "{{ groups['ocp_compute_node'] }}"
       when: groups['ocp_compute_node'] is defined and ansible_hostname == hostvars[item].pve.owner
