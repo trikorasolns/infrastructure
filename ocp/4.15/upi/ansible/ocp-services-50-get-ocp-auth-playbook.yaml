@@ -3,13 +3,18 @@
   hosts: "ocp_services"
   gather_facts: true
 
+  pre_tasks:
+  - name: "Define variables"
+    ansible.builtin.include_tasks:
+      file: tasks/set_ocp_install_dir.yaml
+      
   tasks:
   - name: "Read Openshift Install State"
     ansible.builtin.slurp:
-      src: "{{ ansible_env.HOME }}/{{ ocp_install_root_dir }}/{{ ocp_install_dir }}/.openshift_install_state.json"
+      src: "{{ openshift_cluster_install_dir }}/.openshift_install_state.json"
     register: ocp_cluster_install_state_slurp
     # ansible.builtin.set_fact: 
-    #   ocp_install_state: "{{ lookup('ansible.builtin.file', ansible_env.HOME + '/' + ocp_install_root_dir + '/' + ocp_install_dir + '/.openshift_install_state.json') | to_json }}"
+    #   ocp_install_state: "{{ lookup('ansible.builtin.file', ansible_env.HOME + '/' + ocp_install_root_dir + '/' + ocp_cluster_name + '/.openshift_install_state.json') | to_json }}"
 
   - name: "Debug"
     ansible.builtin.debug:

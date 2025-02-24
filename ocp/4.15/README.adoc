@@ -33,6 +33,10 @@ Create 8 VM:
 
 |===
 
+=== Assign fixed IPs
+
+Assign the VMs fixed IP addresses as they will be used by the HA Proxy and internally.
+
 === Create the bootstrap VM on Proxmox using the CLI
 
 [source,bash]
@@ -84,20 +88,10 @@ Volid                                                    Format  Type           
 ----
 
 Select which volume to attach and execute the following command.
+=== Assign fixed IPs
 
-[source,bash]
-----
-qm set ${VMID} --scsi0 nas05-pvec1:0.0.5.scsi-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx5
-----
+Assign the VMs fixed IP addresses as they will be used by the HA Proxy and internally.
 
-[source,]
-----
-update VM 109: -scsi0 nas05-pvec1:0.0.5.scsi-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx5
-----
-
-==== Attach the network
-
-[source,bash]
 ----
 qm set ${VMID} --net0 virtio,firewall=1,bridge=vmbr0
 ----
@@ -111,9 +105,7 @@ Specify the MAC address using the `macaddr=XX:XX:XX:XX:XX:XX` option.
 qm set ${VMID} --boot 'order=scsi0;ide2;net0'
 ----
 
-=== Assign fixed IPs
-
-Assign the VMs fixed IP addresses as they will be used by the HA Proxy and internally.
+=== Ansible
 
 Build Ansible inventory
 
@@ -123,7 +115,7 @@ Build Ansible inventory
 # proxmox
 proxmox:
   children:
-    pve:
+    proxmox_vms:
       hosts:
         ocp4-services:
           description: ocp4-services
@@ -219,6 +211,14 @@ ocp:
         ocp4-services:
 ----
 
+Execute the playbook that creates the VMs.
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi/ansible/01-proxmox-vms.yaml \
+  -e @ocp/4.15/upi/ansible/defaults/main.yaml
+----
+
 === Start
 
 
@@ -305,6 +305,13 @@ Prepare the VMs for installation. This playbook will:
 * Set the ISO as the VM CDROM media.
 * Start the VM for Bootstrap and Control Plane.
 
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi/ansible/20-proxmox-execute-coreos-install.yaml \
+  -e @ocp/4.15/upi/ansible/defaults/main.yaml
+----
+
 [source,bash]
 ----
 ansible-playbook ocp/4.15/upi/ansible/20-proxmox-prepare-coreos-install.yaml \
@@ -345,7 +352,8 @@ Execute the `coreos-installer` command.
 Exit the terminal with `CTRL+O`.
 ====
 
-Stop the VMs, reset the boot and CD ROM configuration and start the VMS.
+The VMs are setup so it's time to start the OpenShift cluster deployment.
+ Stop the VMs, reset the boot and CD ROM configuration and start the VMS.
 
 [source,bash]
 ----
@@ -353,9 +361,16 @@ ansible-playbook ocp/4.15/upi/ansible/28-proxmox-vm-start.yaml \
   -e @ocp/4.15/upi/ansible/defaults/main.yaml
 ----
 
+=== Followup on the deployment
+
+[.lead]
+Check when the nodes are created
+
+SSH to the services VM and go to the OCP installation root dir.
+
 [source,bash]
 ----
-./oc --kubeconfig ~/openshift/install_dir/auth/kubeconfig get nodes
+./oc --kubeconfig ~/openshift/ocp/auth/kubeconfig get nodes -w
 ----
 
 The result we're looking for is something like this.
@@ -366,15 +381,6 @@ NAME                   STATUS   ROLES                         AGE   VERSION
 ocp4-control-plane-1   Ready    control-plane,master,worker   26m   v1.28.10+a2c84a5
 ocp4-control-plane-2   Ready    control-plane,master,worker   25m   v1.28.10+a2c84a5
 ocp4-control-plane-3   Ready    control-plane,master,worker   27m   v1.28.10+a2c84a5
-----
-
-Remove the taints on the nodes so the control-plane nodes can execute 
- application loads and finish the cluster deployment.
-
-[source,bash]
-----
-ansible-playbook ocp/4.15/upi/ansible/31-ocp-services-remove-cp-taints.yaml \
-  -e @ocp/4.15/upi/ansible/defaults/main.yaml
 ----
 
 Wait for the bootstrap operation to finish. From the openshift root folder on 
@@ -426,6 +432,17 @@ ansible-playbook ocp/4.15/upi/ansible/35-ocp-services-remove-bootstrap-haproxy-p
 
 
 == Troubleshooting
+
+=== Remove the taints on the nodes so the control-plane nodes can execute  application loads
+
+Remove the taints on the nodes so the control-plane nodes can execute 
+ application loads and finish the cluster deployment.
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi/ansible/31-ocp-services-remove-cp-taints.yaml \
+  -e @ocp/4.15/upi/ansible/defaults/main.yaml
+----
 
 === No CNI configuration file in /etc/kubernetes/cni/net.d/. Has your network provider started? 
 

@@ -11,7 +11,7 @@
       - "pull_secret is defined"
       - "ocp_cli_install_dir is defined"
       - "ocp_install_root_dir is defined"
-      - "ocp_install_dir is defined"
+      - "ocp_cluster_name is defined"
 
   tasks:
   - name: "Create openshift install root directory"
@@ -22,13 +22,13 @@
 
   - name: "Delete openshift install directory"
     ansible.builtin.file:
-      path: "{{ ocp_install_root_dir }}/{{ ocp_install_dir }}"
+      path: "{{ ocp_install_root_dir }}/{{ ocp_cluster_name }}"
       state: absent
     failed_when: false
 
   - name: "Create openshift install directory"
     ansible.builtin.file:
-      path: "{{ ocp_install_root_dir }}/{{ ocp_install_dir }}"
+      path: "{{ ocp_install_root_dir }}/{{ ocp_cluster_name }}"
       state: directory
       mode: '0755'
 
@@ -44,7 +44,7 @@
   - name: "Template install-config.yaml file"
     ansible.builtin.template:
       src: "install-config.yaml.j2"
-      dest: "{{ ocp_install_root_dir }}/{{ ocp_install_dir }}/install-config.yaml"
+      dest: "{{ ocp_install_root_dir }}/{{ ocp_cluster_name }}/install-config.yaml"
       mode: '600'
 
   - name: "Copy openshift cli binaries"
@@ -59,19 +59,19 @@
 
   - name: "Generate manifests for cluster"
     ansible.builtin.shell: |
-      ./openshift-install create manifests --dir={{ ocp_install_dir }}/
+      ./openshift-install create manifests --dir={{ ocp_cluster_name }}/
     args:
       chdir: "{{ ocp_install_root_dir }}"
 
   - name: "Fix"
     ansible.builtin.lineinfile:
-        path: "{{ ocp_install_root_dir }}/{{ ocp_install_dir }}/manifests/cluster-scheduler-02-config.yml"
+        path: "{{ ocp_install_root_dir }}/{{ ocp_cluster_name }}/manifests/cluster-scheduler-02-config.yml"
         search_string: "mastersSchedulable: true"
         line: "mastersSchedulable: false"
 
   - name: "Generate ignition files"
     ansible.builtin.shell: |
-      ./openshift-install create ignition-configs --dir={{ ocp_install_dir }}/
+      ./openshift-install create ignition-configs --dir={{ ocp_cluster_name }}/
     args:
       chdir: "{{ ocp_install_root_dir }}"
     

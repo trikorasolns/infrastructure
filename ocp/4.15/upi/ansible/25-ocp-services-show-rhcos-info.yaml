@@ -3,13 +3,18 @@
   hosts: "ocp_services"
   gather_facts: true
 
+  pre_tasks:
+  - name: "Define variables"
+    ansible.builtin.include_tasks:
+      file: tasks/set_ocp_install_dir.yaml
+      
   tasks:
   - name: "Obtain the correct version of your RHCOS images"
     ansible.builtin.shell: |
         ./openshift-install coreos print-stream-json
     register: coreos_stream_res
     args:
-      chdir: "{{ ansible_env.HOME }}/{{ ocp_install_root_dir }}"
+      chdir: "{{ openshift_install_dir }}"
 
   - name: "RHCOS output"
     ansible.builtin.debug:

@@ -4,40 +4,99 @@
   gather_facts: true
 
   tasks:
-    - name: "Create Bootstrap VM"
-      ansible.builtin.shell: |
-        qm create {{ hostvars[item].pve.vmid }} --description "{{ hostvars[item].description }}" --name "{{ hostvars[item].vm_name }}" --tags 'ocp4;tmp'
-        qm set {{ hostvars[item].pve.vmid }} --sockets 1 --cores {{ hostvars[item].hw.vcpu }} --cpu 'x86-64-v2-AES'
-        qm set {{ hostvars[item].pve.vmid }} --memory {{ hostvars[item].hw.ram }}
-        qm set {{ hostvars[item].pve.vmid }} --ostype l26
-        qm set {{ hostvars[item].pve.vmid }} --scsihw virtio-scsi-single
-        qm set {{ hostvars[item].pve.vmid }} --cdrom none
-        qm set {{ hostvars[item].pve.vmid }} --net0 virtio,firewall=1,bridge=vmbr0{% if hostvars[item].my_mac is defined %}macaddr={{ hostvars[item].my_mac }}{% endif %}
-      loop: "{{ groups['ocp_bootstrap'] }}"
-      when: groups['ocp_bootstrap'] is defined and ansible_hostname == hostvars[item].pve.owner
+  - name: "Build VM list"
+    ansible.builtin.set_fact:
+      vm_host_list: "{{ (groups['ocp_bootstrap'] | default([])) + (groups['ocp_control_plane'] | default([])) }}"
+      # vm_host_list: "{{ (groups['ocp_bootstrap'] | default([])) + (groups['ocp_control_plane'] | default([])) + (groups['ocp_compute_node'] | default([])) }}"
 
-    - name: "Create Control Plane VMs"
-      ansible.builtin.shell: |
-        qm create {{ hostvars[item].pve.vmid }} --description "{{ hostvars[item].description }}" --name "{{ hostvars[item].vm_name }}" --tags 'ocp4;cop-cp'
-        qm set {{ hostvars[item].pve.vmid }} --sockets 1 --cores {{ hostvars[item].hw.vcpu }} --cpu 'x86-64-v2-AES'
-        qm set {{ hostvars[item].pve.vmid }} --memory {{ hostvars[item].hw.ram }}
-        qm set {{ hostvars[item].pve.vmid }} --ostype l26
-        qm set {{ hostvars[item].pve.vmid }} --scsihw virtio-scsi-single
-        qm set {{ hostvars[item].pve.vmid }} --cdrom none
-        qm set {{ hostvars[item].pve.vmid }} --net0 virtio,firewall=1,bridge=vmbr0{% if hostvars[item].my_mac is defined %}macaddr={{ hostvars[item].my_mac }}{% endif %}
-      loop: "{{ groups['ocp_control_plane'] }}"
-      when: groups['ocp_control_plane'] is defined and ansible_hostname == hostvars[item].pve.owner
+  - name: "Configure Bootstrap VM"
+    ansible.builtin.include_tasks:
+      file: tasks/proxmox_vm_configure.yaml
+    vars:
+      vm_name: "{{ item }}"
+    loop: "{{ vm_host_list }}"
+    when: ansible_hostname == hostvars[item].pve.owner
 
-    - name: "Create Compute Node VMs"
-      ansible.builtin.shell: |
-        qm create {{ hostvars[item].pve.vmid }} --description "{{ hostvars[item].description }}" --name "{{ hostvars[item].vm_name }}" --tags 'ocp4;ocp-compute'
-        qm set {{ hostvars[item].pve.vmid }} --sockets 1 --cores {{ hostvars[item].hw.vcpu }} --cpu 'x86-64-v2-AES'
-        qm set {{ hostvars[item].pve.vmid }} --memory {{ hostvars[item].hw.ram }}
-        qm set {{ hostvars[item].pve.vmid }} --ostype l26
-        qm set {{ hostvars[item].pve.vmid }} --scsihw virtio-scsi-single
-        qm set {{ hostvars[item].pve.vmid }} --cdrom none
-        qm set {{ hostvars[item].pve.vmid }} --net0 virtio,firewall=1,bridge=vmbr0{% if hostvars[item].my_mac is defined %}macaddr={{ hostvars[item].my_mac }}{% endif %}
-      loop: "{{ groups['ocp_compute_node'] }}"
-      when: groups['ocp_compute_node'] is defined and ansible_hostname == hostvars[item].pve.owner
+  # - name: "Configure Bootstrap VM"
+  #   ansible.builtin.include_tasks:
+  #     file: tasks/proxmox_vm_configure.yaml
+  #   vars:
+  #     vm_name: "{{ item }}"
+  #   loop: "{{ groups['ocp_bootstrap'] }}"
+  #   when: groups['ocp_bootstrap'] is defined and ansible_hostname == hostvars[item].pve.owner
+
+  # - name: "Define variables"
+  #   ansible.builtin.include_tasks:
+  #     file: tasks/proxmox_vm_configure.yaml
+  #   vars:
+  #     vm_name: "{{ item }}"
+  #   loop: "{{ groups['ocp_control_plane'] }}"
+  #   when: groups['ocp_control_plane'] is defined and ansible_hostname == hostvars[item].pve.owner
+
+  # - name: "Define variables"
+  #   ansible.builtin.include_tasks:
+  #     file: tasks/proxmox_vm_configure.yaml
+  #   vars:
+  #     vm_name: "{{ item }}"
+  #   loop: "{{ groups['ocp_compute_node'] }}"
+  #   when: groups['ocp_compute_node'] is defined and ansible_hostname == hostvars[item].pve.owner
+
+    # - name: "Create Bootstrap VM"
+    #   ansible.builtin.shell: |
+    #     qm create {{ hostvars[item].pve.vmid }} {% if hostvars[item].description is defined %}--description "{{ hostvars[item].description }}"{% endif %} --name "{{ hostvars[item].vm_name }}" --tags 'ocp4;tmp'
+    #   loop: "{{ groups['ocp_bootstrap'] }}"
+    #   when: groups['ocp_bootstrap'] is defined and ansible_hostname == hostvars[item].pve.owner
+    #   failed_when: false
+
+    # - name: "Configure Bootstrap VM"
+    #   ansible.builtin.shell: |
+    #     qm set {{ hostvars[item].pve.vmid }} --sockets 1 --cores {{ hostvars[item].hw.vcpu }} --cpu 'x86-64-v2-AES'
+    #     qm set {{ hostvars[item].pve.vmid }} --memory {{ hostvars[item].hw.ram }}
+    #     qm set {{ hostvars[item].pve.vmid }} --ostype l26
+    #     qm set {{ hostvars[item].pve.vmid }} --scsihw virtio-scsi-single
+    #     qm set {{ hostvars[item].pve.vmid }} --cdrom none
+    #     qm set {{ hostvars[item].pve.vmid }} --net0 virtio,firewall=1,bridge=vmbr0,{% if hostvars[item].my_mac is defined %}macaddr={{ hostvars[item].my_mac }}{% endif %}
+    #     #qm set {{ hostvars[item].pve.vmid }} --scsi0 local-lvm:vm-{{ hostvars[item].pve.vmid }}-disk-0,size={{ hostvars[item].hw.storage }}
+    #     qm set {{ hostvars[item].pve.vmid }} --scsi0 local-lvm:{{ hostvars[item].hw.storage }}
+    #   loop: "{{ groups['ocp_bootstrap'] }}"
+    #   when: groups['ocp_bootstrap'] is defined and ansible_hostname == hostvars[item].pve.owner
+
+    # - name: "Create Control Plane VMs"
+    #   ansible.builtin.shell: |
+    #     qm create {{ hostvars[item].pve.vmid }} {% if hostvars[item].description is defined %}--description "{{ hostvars[item].description }}"{% endif %} --name "{{ hostvars[item].vm_name }}" --tags 'ocp4;ocp-cp'
+    #   loop: "{{ groups['ocp_control_plane'] }}"
+    #   when: groups['ocp_control_plane'] is defined and ansible_hostname == hostvars[item].pve.owner
+    #   failed_when: false
+
+    # - name: "Configure Control Plane VMs"
+    #   ansible.builtin.shell: |
+    #     qm set {{ hostvars[item].pve.vmid }} --sockets 1 --cores {{ hostvars[item].hw.vcpu }} --cpu 'x86-64-v2-AES'
+    #     qm set {{ hostvars[item].pve.vmid }} --memory {{ hostvars[item].hw.ram }}
+    #     qm set {{ hostvars[item].pve.vmid }} --ostype l26
+    #     qm set {{ hostvars[item].pve.vmid }} --scsihw virtio-scsi-single
+    #     qm set {{ hostvars[item].pve.vmid }} --cdrom none
+    #     qm set {{ hostvars[item].pve.vmid }} --net0 virtio,firewall=1,bridge=vmbr0,{% if hostvars[item].my_mac is defined %}macaddr={{ hostvars[item].my_mac }}{% endif %}
+    #     qm set {{ hostvars[item].pve.vmid }} --scsi0 local-lvm:{{ hostvars[item].hw.storage }}
+    #   loop: "{{ groups['ocp_control_plane'] }}"
+    #   when: groups['ocp_control_plane'] is defined and ansible_hostname == hostvars[item].pve.owner
+
+    # - name: "Create Compute Node VMs"
+    #   ansible.builtin.shell: |
+    #     qm create {{ hostvars[item].pve.vmid }} {% if hostvars[item].description is defined %}--description "{{ hostvars[item].description }}"{% endif %} --name "{{ hostvars[item].vm_name }}" --tags 'ocp4;ocp-compute'
+    #   loop: "{{ groups['ocp_compute_node'] }}"
+    #   when: groups['ocp_compute_node'] is defined and ansible_hostname == hostvars[item].pve.owner
+    #   failed_when: false
+
+    # - name: "ConfigureCompute Node VMs"
+    #   ansible.builtin.shell: |
+    #     qm set {{ hostvars[item].pve.vmid }} --sockets 1 --cores {{ hostvars[item].hw.vcpu }} --cpu 'x86-64-v2-AES'
+    #     qm set {{ hostvars[item].pve.vmid }} --memory {{ hostvars[item].hw.ram }}
+    #     qm set {{ hostvars[item].pve.vmid }} --ostype l26
+    #     qm set {{ hostvars[item].pve.vmid }} --scsihw virtio-scsi-single
+    #     qm set {{ hostvars[item].pve.vmid }} --cdrom none
+    #     qm set {{ hostvars[item].pve.vmid }} --net0 virtio,firewall=1,bridge=vmbr0,{% if hostvars[item].my_mac is defined %}macaddr={{ hostvars[item].my_mac }}{% endif %}
+    #     qm set {{ hostvars[item].pve.vmid }} --scsi0 local-lvm:{{ hostvars[item].hw.storage }}
+    #   loop: "{{ groups['ocp_compute_node'] }}"
+    #   when: groups['ocp_compute_node'] is defined and ansible_hostname == hostvars[item].pve.owner
 
 ...

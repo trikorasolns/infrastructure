@@ -3,6 +3,11 @@
   hosts: "ocp_services"
   gather_facts: true
 
+  pre_tasks:
+  - name: "Define variables"
+    ansible.builtin.include_tasks:
+      file: tasks/set_ocp_install_dir.yaml
+      
   tasks:
   - name: "Remove bootstrap"
     ansible.builtin.lineinfile:

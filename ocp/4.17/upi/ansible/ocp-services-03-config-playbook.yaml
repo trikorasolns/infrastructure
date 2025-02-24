@@ -93,7 +93,7 @@
 
   - name: "Copy installation"
     ansible.builtin.copy:
-      src: "{{ ocp_install_root_dir }}/{{ ocp_install_dir }}"
+      src: "{{ ocp_install_root_dir }}/{{ ocp_cluster_name }}"
       dest: "/var/www/html/okd4/"
       remote_src: true
       owner: apache
