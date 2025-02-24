@@ -1,5 +1,5 @@
 ---
-- name: "Setup Proxmox VMs"
+- name: "Setup Proxmox VMs to deploy OCP"
   hosts: "proxmox_nodes"
   gather_facts: true
 
@@ -65,14 +65,41 @@
     #   loop: "{{ groups['ocp_compute_node'] }}"
     #   when: groups['ocp_compute_node'] is defined and ansible_hostname == hostvars[item].pve.owner
 
-    - name: "Start all VM on it's node"
+    - name: "Start Bootstrap VM on it's node"
       ansible.builtin.include_tasks:
         file: tasks/proxmox_vm_start.yaml
       vars:
         vm_name: "{{ item }}"
         state: "Started"
-      loop: "{{ vm_host_list }}"
+      loop: "{{ groups['ocp_bootstrap'] }}"
       when: ansible_hostname == hostvars[item].pve.owner
+      
+    - name: "Wait for the Bootstrap host port API Server (port 6443) to be available"
+      ansible.builtin.wait_for:
+        host: "{{ hostvars[item].ansible_host }}"
+        port: 6443
+        delay: 10
+        state: drained
+      loop: "{{ groups['ocp_bootstrap'] }}"
+      when: ansible_hostname == hostvars[item].pve.owner
+
+    - name: "Start the Control Plane VMs on their nodes"
+      ansible.builtin.include_tasks:
+        file: tasks/proxmox_vm_start.yaml
+      vars:
+        vm_name: "{{ item }}"
+        state: "Started"
+      loop: "{{ groups['ocp_control_plane'] }}"
+      when: groups['ocp_control_plane'] is defined and ansible_hostname == hostvars[item].pve.owner
+      
+    - name: "Start the Compute Node VMs on their nodes"
+      ansible.builtin.include_tasks:
+        file: tasks/proxmox_vm_start.yaml
+      vars:
+        vm_name: "{{ item }}"
+        state: "Started"
+      loop: "{{ groups['ocp_compute_node'] }}"
+      when: use_compute_nodes and groups['ocp_compute_node'] is defined and ansible_hostname == hostvars[item].pve.owner
       
     # - name: "Start the bootstrap VM"
     #   ansible.builtin.shell: |

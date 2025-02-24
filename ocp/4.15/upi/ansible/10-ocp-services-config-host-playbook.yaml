@@ -23,18 +23,6 @@
       line: "Listen 8080"
     become: true
 
-  # - name: Set haproxy_connect_any flag on
-  #   ansible.posix.seboolean:
-  #     name: haproxy_connect_any
-  #     state: true
-  #     persistent: true
-  #   become: true
-
-  # setsebool -P haproxy_connect_any 1
-  # setsebool -P httpd_can_network_connect on
-  # setsebool -P httpd_graceful_shutdown on
-  # setsebool -P httpd_can_network_relay on
-  # setsebool -P nis_enabled on
   - name: Set flags
     ansible.posix.seboolean:
       name: "{{ item.name }}"
@@ -42,26 +30,10 @@
       persistent: true
     become: true
     loop:
-      # - {name: "haproxy_connect_any", value: true}
       - {name: "httpd_can_network_connect", value: true}
       - {name: "httpd_graceful_shutdown", value: true}
       - {name: "httpd_can_network_relay", value: true}
       - {name: "nis_enabled", value: true}
-
-  # - name: "Set semanage ports"
-  #   ansible.builtin.shell: |
-  #       semanage port -a -t http_port_t -p tcp 6443
-  #       semanage port -a -t http_port_t -p tcp 22623
-  #       semanage port -a -t http_port_t -p tcp 1936
-  #   become: true
-
-
-  # - name: "Template haproxy configuration file"
-  #   ansible.builtin.template:
-  #     src: "haproxy.cfg.j2"
-  #     dest: "/etc/haproxy/haproxy.cfg"
-  #     backup: true
-  #   become: true
 
   - name: "Enable and start the required services"
     ansible.builtin.service:

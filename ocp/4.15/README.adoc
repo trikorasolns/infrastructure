@@ -357,7 +357,7 @@ The VMs are setup so it's time to start the OpenShift cluster deployment.
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi/ansible/28-proxmox-vm-start.yaml \
+ansible-playbook ocp/4.15/upi/ansible/28-proxmox-vm-start-deployment.yaml \
   -e @ocp/4.15/upi/ansible/defaults/main.yaml
 ----
 

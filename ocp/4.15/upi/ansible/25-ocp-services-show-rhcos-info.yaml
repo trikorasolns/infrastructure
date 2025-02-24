@@ -35,6 +35,10 @@
       # - "coreos_stream_json.architectures.x86_64.artifacts.metal.formats: {{ coreos_stream_json.architectures.x86_64.artifacts.metal.formats }}"
       - "CoreOS ISO disk location: {{ coreos_stream_json.architectures.x86_64.artifacts.metal.formats.iso.disk.location }}"
 
+  - name: "coreos-installer command for any host"
+    ansible.builtin.debug:
+      msg: "sudo mount /dev/sr0 /mnt ; /mnt/ignition/coreos_i.sh"
+
   - name: "coreos-installer command for bootstrap"
     ansible.builtin.debug:
       msg: "sudo coreos-installer install /dev/sda --ignition-url http://{{ hostvars['ocp4-services'].ansible_host }}:8080/ocp4/bootstrap.ign --insecure-ignition"
