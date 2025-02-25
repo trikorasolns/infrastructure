@@ -244,25 +244,14 @@ SSH_PUB_KEY_FILE=~/.ssh/id_rsa_somefile.pub<2>
 [.lead]
 Generate OCP Cluster installation folder and download the OCP binaries.
 
-This will generate an `openshift` folder under the ansible connection 
- users home folder.
+This will generate a directory with name defined on the `ocp_install_root_dir`
+ variable. This directory will be placed under the `ansible_user` home 
+ directory if the `ocp_install_root_dir_under_user_home` variable is true.
 
 [source,bash]
 ----
 ansible-playbook ocp/4.15/upi/ansible/02-ocp-services-oi-binaries.yaml \
   -e @ocp/4.15/upi/ansible/defaults/main.yaml
-----
-
-Generate the _OpenShift Install_ installation folder and generate the 
- Kubernetes manifests and Ignition configuration files for the cluster. This is done using the `openshift-install` CLI.
-
-[source,bash]
-----
-ansible-playbook ocp/4.15/upi/ansible/03-ocp-services-oi-playbook.yaml \
-  -e @ocp/4.15/upi/ansible/defaults/main.yaml \
-  -e @_local_config/network.yaml \
-  -e pull_secret=${RH_CLUSTER_PULL_SECRET} \
-  -e ssh_pub_key_file=${SSH_PUB_KEY_FILE}
 ----
 
 [.lead]
@@ -289,11 +278,32 @@ ansible-playbook ocp/4.15/upi/ansible/10-ocp-services-config-playbook.yaml -K \
 
 Configure HA Proxy.
 
+This playbook will make several configurations to the server required for
+ _HAProxy_ to work correctly and also apply the `haproxy.cfg.j2` template to 
+ generate the _HAProxy_ configuration file.
+
 [source,bash]
 ----
 ansible-playbook ocp/4.15/upi/ansible/15-ocp-services-haproxy-playbook.yaml -K \
   -e @ocp/4.15/upi/ansible/defaults/main.yaml \
   -e @_local_config/network.yaml
+----
+
+[.lead]
+Generate the _OpenShift Cluster_ installation directory and generate the 
+ Kubernetes manifests and Ignition configuration files for the cluster.
+ Copy the Ignition configuration files to the httpd www folder so they can be 
+ fetched by the CoreOS installer.
+ 
+This is done using the `openshift-install` CLI.
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi/ansible/18-ocp-services-oi-playbook.yaml -K \
+  -e @ocp/4.15/upi/ansible/defaults/main.yaml \
+  -e @_local_config/network.yaml \
+  -e pull_secret=${RH_CLUSTER_PULL_SECRET} \
+  -e ssh_pub_key_file=${SSH_PUB_KEY_FILE}
 ----
 
 == Deploy Bootstrap and Control Planes
@@ -304,13 +314,6 @@ Prepare the VMs for installation. This playbook will:
 * Set the correct boot order. This is required if the VMs are being reused.
 * Set the ISO as the VM CDROM media.
 * Start the VM for Bootstrap and Control Plane.
-
-
-[source,bash]
-----
-ansible-playbook ocp/4.15/upi/ansible/20-proxmox-execute-coreos-install.yaml \
-  -e @ocp/4.15/upi/ansible/defaults/main.yaml
-----
 
 [source,bash]
 ----
@@ -411,7 +414,7 @@ Get the authentication.
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi/ansible/ocp-services-50-get-ocp-auth-playbook.yaml \
+ansible-playbook ocp/4.15/upi/ansible/50-ocp-services-get-ocp-auth-playbook.yaml \
   -e @ocp/4.15/upi/ansible/defaults/main.yaml
 ----
 
@@ -429,6 +432,24 @@ ansible-playbook ocp/4.15/upi/ansible/35-ocp-services-remove-bootstrap-haproxy-p
 
 == Add Compute Nodes
 
+
+== Cleanup
+
+[.lead]
+Cleanup installation folder.
+
+[WARNING]
+====
+The Openshift installation folder is required to maintain the cluster.
+====
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi/ansible/99-ocp-services-ocp-clean-playbook.yaml \
+  -e @ocp/4.15/upi/ansible/defaults/main.yaml \
+  -e remove_binaries_dir=true <1>
+----
+<1> Also remove the folder containing the OpenShift binaries
 
 
 == Troubleshooting

@@ -18,24 +18,6 @@
       loop: "{{ vm_host_list }}"
       when: ansible_hostname == hostvars[item].pve.owner
 
-    # - name: "Stop the bootstrap VM on it's node"
-    #   ansible.builtin.shell: |
-    #     qm stop {{ hostvars[item].pve.vmid }}
-    #   loop: "{{ groups['ocp_bootstrap'] }}"
-    #   when: groups['ocp_bootstrap'] is defined and ansible_hostname == hostvars[item].pve.owner
-
-    # - name: "Stop the control plane VMs on it's node"
-    #   ansible.builtin.shell: |
-    #     qm stop {{ hostvars[item].pve.vmid }}
-    #   loop: "{{ groups['ocp_control_plane'] }}"
-    #   when: groups['ocp_control_plane'] is defined and ansible_hostname == hostvars[item].pve.owner
-
-    # - name: "Stop the compute node VMs on it's node"
-    #   ansible.builtin.shell: |
-    #     qm stop {{ hostvars[item].pve.vmid }}
-    #   loop: "{{ groups['ocp_compute_node'] }}"
-    #   when: use_compute_nodes and groups['ocp_compute_node'] is defined and ansible_hostname == hostvars[item].pve.owner
-
     - name: "Set values for the VMs"
       ansible.builtin.shell: |
         qm set {{ hostvars[item].pve.vmid }} -ide2 none,media=cdrom
@@ -43,27 +25,6 @@
         qm set {{ hostvars[item].pve.vmid }} --boot 'order=scsi0;ide2;net0'
       loop: "{{ vm_host_list }}"
       when: ansible_hostname == hostvars[item].pve.owner
-
-    # - name: "Set values for the Bootstrap VM"
-    #   ansible.builtin.shell: |
-    #     qm set {{ hostvars[item].pve.vmid }} --cdrom none
-    #     qm set {{ hostvars[item].pve.vmid }} --boot 'order=scsi0;ide2;net0'
-    #   loop: "{{ groups['ocp_bootstrap'] }}"
-    #   when: groups['ocp_bootstrap'] is defined and ansible_hostname == hostvars[item].pve.owner
-
-    # - name: "Set values for for the Control Plane VMs"
-    #   ansible.builtin.shell: |
-    #     qm set {{ hostvars[item].pve.vmid }} --cdrom none
-    #     qm set {{ hostvars[item].pve.vmid }} --boot 'order=scsi0;ide2;net0'
-    #   loop: "{{ groups['ocp_control_plane'] }}"
-    #   when: groups['ocp_control_plane'] is defined and ansible_hostname == hostvars[item].pve.owner
-
-    # - name: "Set values for the Compute Node VMs"
-    #   ansible.builtin.shell: |
-    #     qm set {{ hostvars[item].pve.vmid }} --cdrom none
-    #     qm set {{ hostvars[item].pve.vmid }} --boot 'order=scsi0;ide2;net0'
-    #   loop: "{{ groups['ocp_compute_node'] }}"
-    #   when: groups['ocp_compute_node'] is defined and ansible_hostname == hostvars[item].pve.owner
 
     - name: "Start Bootstrap VM on it's node"
       ansible.builtin.include_tasks:
@@ -78,7 +39,7 @@
       ansible.builtin.wait_for:
         host: "{{ hostvars[item].ansible_host }}"
         port: 6443
-        delay: 10
+        delay: 30
         state: drained
       loop: "{{ groups['ocp_bootstrap'] }}"
       when: ansible_hostname == hostvars[item].pve.owner
