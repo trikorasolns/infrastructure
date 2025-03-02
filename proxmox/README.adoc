@@ -1,0 +1,14 @@
+= Proxmox
+:author:    A. Costa
+:email:     <ac (at) trikorasolutions (dot) com>
+// :Date:      20210222
+:Revision:  1
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: Proxmox
+:source-highlighter: highlight.js
+
+== References
+
+* https://docs.fedoraproject.org/en-US/fedora-server/virtualization/vm-install-diskimg-proxmox/
