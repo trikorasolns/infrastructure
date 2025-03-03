@@ -1,0 +1,67 @@
+= Ceph Storage on Kubernetes
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: Ceph Storage on Kubernetes
+:source-highlighter: highlight.js
+
+== Intruduction
+
+[.lead]
+This section describes deploying Ceph storage on Kubernetes.
+
+The following instructions and scripts were generated with information 
+ obtained from 
+ link:https://computingforgeeks.com/ceph-persistent-storage-for-kubernetes-with-cephfs/[computingforgeeks - Ceph Persistent Storage for Kubernetes with Cephfs]
+ tutorial.
+
+== Configure
+
+Define environment variables.
+
+[source,bash]
+----
+CEPH_ADM_KEY=<1>
+PROXMOX_HOST=<2>
+----
+<1> Ceph Admin Key obtained with `ceph auth get-key client.admin` using root.
+<2> Ansible inventory hostname for a proxmox host.
+
+[sourec,bash]
+----
+ansible-playbook kubernetes/storage/ceph/ansible/05-setup-cephfs.yaml \
+  -e @kubernetes/storage/ceph/ansible/defaults/main.yaml \
+  -e ceph_admin_key=${CEPH_ADM_KEY}
+----
+
+[sourec,bash]
+----
+ansible-playbook kubernetes/storage/ceph/ansible/10-proxmox-create-cephfs-pool.yaml \
+  -e @kubernetes/storage/ceph/ansible/defaults/main.yaml \
+  -e proxmox_host=${PROXMOX_HOST}
+----
+
+Set the `ceph_monitors` variable with the list of Ceph Monitor information, 
+ e.g. `10.10.10.11:6789,10.10.10.12:6789,10.10.10.13:6789`. It can be provided 
+ to the following playbook as part of the `_local_config/network.yaml` file.
+
+[sourec,bash]
+----
+ansible-playbook kubernetes/storage/ceph/ansible/20-setup-cephfs.yaml \
+  -e @kubernetes/storage/ceph/ansible/defaults/main.yaml \
+  -e @_local_config/network.yaml
+----
+
+== Uninstall
+
+[sourec,bash]
+----
+ansible-playbook kubernetes/storage/ceph/ansible/99-uninstall.yaml \
+  -e @kubernetes/storage/ceph/ansible/defaults/main.yaml
+----
+
+== References
+
+* https://docs.ceph.com/en/latest/rbd/rbd-kubernetes/
+* https://computingforgeeks.com/ceph-persistent-storage-for-kubernetes-with-cephfs/
+* https://www.digitalocean.com/community/tutorials/how-to-set-up-a-ceph-cluster-within-kubernetes-using-rook
