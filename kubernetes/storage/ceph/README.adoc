@@ -10,11 +10,16 @@
 [.lead]
 This section describes deploying Ceph storage on Kubernetes.
 
-The following instructions and scripts were generated with information 
- obtained from 
- link:https://computingforgeeks.com/ceph-persistent-storage-for-kubernetes-with-cephfs/[computingforgeeks - Ceph Persistent Storage for Kubernetes with Cephfs] 
- and link:https://computingforgeeks.com/persistent-storage-for-kubernetes-with-ceph-rbd/[computingforgeeks - Persistent Storage for Kubernetes with Ceph RBD]
- tutorials.
+== Create Ceph Pool
+
+Create Ceph pool for Kubernetes & client key
+
+[sourec,bash]
+----
+ansible-playbook kubernetes/storage/ceph/ansible/60-proxmox-create-cephfs-pool.yaml \
+  -e @kubernetes/storage/ceph/ansible/defaults/main.yaml \
+  -e proxmox_host=${PROXMOX_HOST}
+----
 
 == Collect information
 
@@ -28,24 +33,41 @@ PROXMOX_HOST=<2>
 <1> Ceph Admin Key obtained with `ceph auth get-key client.admin` using root.
 <2> Ansible inventory hostname for a proxmox host.
 
-== Configure Ceph RBD
+== Using Ceph
 
-TBD
-
-== Configure Ceph OSD
+Add the https://ceph.github.io/csi-charts helm repository.
 
 [sourec,bash]
 ----
-ansible-playbook kubernetes/storage/ceph/ansible/55-setup-cephfs.yaml \
+helm repo add ceph-csi https://ceph.github.io/csi-charts
+----
+
+[sourec,bash]
+----
+ansible-playbook kubernetes/storage/ceph/ansible/05-setup-ceph-csi-cephfs.yaml \
   -e @kubernetes/storage/ceph/ansible/defaults/main.yaml \
   -e ceph_admin_key=${CEPH_ADM_KEY}
 ----
 
 [sourec,bash]
 ----
-ansible-playbook kubernetes/storage/ceph/ansible/60-proxmox-create-cephfs-pool.yaml \
+ansible-playbook kubernetes/storage/ceph/ansible/09-remove-ceph-csi-cephfs.yaml \
+  -e @kubernetes/storage/ceph/ansible/defaults/main.yaml
+----
+
+== Configure Ceph OSD
+
+The following instructions and scripts were generated with information 
+ obtained from 
+ link:https://computingforgeeks.com/ceph-persistent-storage-for-kubernetes-with-cephfs/[computingforgeeks - Ceph Persistent Storage for Kubernetes with Cephfs] 
+ and link:https://computingforgeeks.com/persistent-storage-for-kubernetes-with-ceph-rbd/[computingforgeeks - Persistent Storage for Kubernetes with Ceph RBD]
+ tutorials.
+
+[sourec,bash]
+----
+ansible-playbook kubernetes/storage/ceph/ansible/55-setup-cephfs.yaml \
   -e @kubernetes/storage/ceph/ansible/defaults/main.yaml \
-  -e proxmox_host=${PROXMOX_HOST}
+  -e ceph_admin_key=${CEPH_ADM_KEY}
 ----
 
 Set the `ceph_monitors` variable with the list of Ceph Monitor information, 
@@ -59,6 +81,12 @@ ansible-playbook kubernetes/storage/ceph/ansible/65-setup-cephfs.yaml \
   -e @_local_config/network.yaml
 ----
 
+[sourec,bash]
+----
+ansible-playbook kubernetes/storage/ceph/ansible/90-test-cephfs.yaml \
+  -e @kubernetes/storage/ceph/ansible/defaults/main.yaml
+----
+
 == Uninstall
 
 [sourec,bash]
@@ -66,6 +94,11 @@ ansible-playbook kubernetes/storage/ceph/ansible/65-setup-cephfs.yaml \
 ansible-playbook kubernetes/storage/ceph/ansible/99-uninstall.yaml \
   -e @kubernetes/storage/ceph/ansible/defaults/main.yaml
 ----
+
+== Configure Ceph RBD
+
+TBD
+
 
 == References
 

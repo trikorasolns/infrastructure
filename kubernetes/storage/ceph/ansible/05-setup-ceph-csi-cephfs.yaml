@@ -1,0 +1,65 @@
+---
+- name: "Setup ceph/csi-cephfs"
+  hosts: "{{ k8s_host | default('localhost') }}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  tasks:
+  # - name: "Check if PVC information"
+  #   ansible.builtin.debug:
+  #     msg: 
+  #     # - "{{ groups }}"
+  #     # - "{{ groups['k8s_cluster_k8s'] }} "
+  #     - "{{ hostvars[groups['k8s_cluster_k8s'][0]] }} "
+  #     - "{{ hostvars[groups['k8s_cluster_k8s'][0]]['ceph_monitor_group'] }}"
+  #     - "{{ groups[hostvars[groups['k8s_cluster_k8s'][0]]['ceph_monitor_group']] }} "
+  #     - "{{ hostvars['pve05']['ceph_monitor_host'] }}"
+  #     - "clusterID: {{ hostvars[groups['k8s_cluster_k8s'][0]]['ceph_cluster'] }}"
+  #     - "clusterID: {{ hostvars[groups[hostvars[groups['k8s_cluster_k8s'][0]]['ceph_cluster']][0]]['ceph_cluster_id'] }}"
+  #     - "pool: {{ hostvars[groups['k8s_cluster_k8s'][0]]['ceph_pool_name'] }}"
+
+  - name: Create a k8s namespace
+    kubernetes.core.k8s:
+      name: "{{ ceph_ns }}"
+      api_version: v1
+      kind: Namespace
+      state: present
+
+  # InvalidArgument desc = missing ID field 'adminID' in secrets
+  # stringData:
+  # userID: {{ .Values.secret.userID }}
+  # userKey: {{ .Values.secret.userKey }}
+  - name: "Create k8s secret with Ceph Admin key"
+    ansible.builtin.shell: |
+      kubectl create secret generic csi-cephfs-secret \
+        --from-literal=userID='{{ ceph_admin_id }}' \
+        --from-literal=userKey='{{ ceph_admin_key }}' \
+        --namespace={{ ceph_ns }}
+    register: secret_create_res
+    failed_when: secret_create_res.rc != 0 and 'already exists' not in secret_create_res.stderr
+
+  - name: "Template ceph/csi-cephfs values file"
+    ansible.builtin.template:
+      src: "helm-ceph-csi-cephfs.yaml.j2"
+      dest: "/tmp/helm-ceph-csi-cephfs.yaml"
+
+  - name: "Deploy latest version of ceph-csi/ceph-csi-cephfs chart"
+    kubernetes.core.helm:
+      name: ceph-csi-cephfs
+      chart_ref: ceph-csi/ceph-csi-cephfs
+      release_namespace: "{{ ceph_ns }}"
+      create_namespace: true
+      values_files:
+      - "/tmp/helm-ceph-csi-cephfs.yaml"
+
+  - name: "Gather information of the status of the Chart"
+    kubernetes.core.helm_info:
+      name: ceph-csi-cephfs
+      release_namespace: "{{ ceph_ns }}"
+
+    register: ceph_csi_cephfs_status
+
+  - name: "Check if PVC information"
+    ansible.builtin.debug:
+      var: ceph_csi_cephfs_status
+
+...
