@@ -215,8 +215,8 @@ Execute the playbook that creates the VMs.
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi/ansible/01-proxmox-vms.yaml \
-  -e @ocp/4.15/upi/ansible/defaults/main.yaml
+ansible-playbook ocp/4.15/install_upi/ansible/01-proxmox-vms.yaml \
+  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml
 ----
 
 === Start
@@ -250,8 +250,8 @@ This will generate a directory with name defined on the `ocp_install_root_dir`
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi/ansible/02-ocp-services-oi-binaries.yaml \
-  -e @ocp/4.15/upi/ansible/defaults/main.yaml
+ansible-playbook ocp/4.15/install_upi/ansible/02-ocp-services-oi-binaries.yaml \
+  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml
 ----
 
 [.lead]
@@ -272,8 +272,8 @@ include::upi/ansible/defaults/main.yaml[tag=required_packages]
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi/ansible/10-ocp-services-config-playbook.yaml -K \
-  -e @ocp/4.15/upi/ansible/defaults/main.yaml
+ansible-playbook ocp/4.15/install_upi/ansible/10-ocp-services-config-playbook.yaml -K \
+  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml
 ----
 
 Configure HA Proxy.
@@ -284,8 +284,8 @@ This playbook will make several configurations to the server required for
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi/ansible/15-ocp-services-haproxy-playbook.yaml -K \
-  -e @ocp/4.15/upi/ansible/defaults/main.yaml \
+ansible-playbook ocp/4.15/install_upi/ansible/15-ocp-services-haproxy-playbook.yaml -K \
+  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml \
   -e @_local_config/network.yaml
 ----
 
@@ -299,8 +299,8 @@ This is done using the `openshift-install` CLI.
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi/ansible/18-ocp-services-oi-playbook.yaml -K \
-  -e @ocp/4.15/upi/ansible/defaults/main.yaml \
+ansible-playbook ocp/4.15/install_upi/ansible/18-ocp-services-oi-playbook.yaml -K \
+  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml \
   -e @_local_config/network.yaml \
   -e pull_secret=${RH_CLUSTER_PULL_SECRET} \
   -e ssh_pub_key_file=${SSH_PUB_KEY_FILE}
@@ -317,8 +317,8 @@ Prepare the VMs for installation. This playbook will:
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi/ansible/20-proxmox-prepare-coreos-install.yaml \
-  -e @ocp/4.15/upi/ansible/defaults/main.yaml \
+ansible-playbook ocp/4.15/install_upi/ansible/20-proxmox-prepare-coreos-install.yaml \
+  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml \
   -e skip_download=true <1>
 ----
 <1> Optional variable to skip downloading the ISO if it is already downloaded.
@@ -328,8 +328,8 @@ Extract the installation sources and scripts from the `openshift-install`, as
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi/ansible/25-ocp-services-show-rhcos-info.yaml \
-  -e @ocp/4.15/upi/ansible/defaults/main.yaml
+ansible-playbook ocp/4.15/install_upi/ansible/25-ocp-services-show-rhcos-info.yaml \
+  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml
 ----
 
 Execute the `coreos-installer` command obtained on the previous Ansible 
@@ -360,8 +360,8 @@ The VMs are setup so it's time to start the OpenShift cluster deployment.
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi/ansible/28-proxmox-vm-start-deployment.yaml \
-  -e @ocp/4.15/upi/ansible/defaults/main.yaml
+ansible-playbook ocp/4.15/install_upi/ansible/28-proxmox-vm-start-deployment.yaml \
+  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml
 ----
 
 === Followup on the deployment
@@ -414,20 +414,33 @@ Get the authentication.
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi/ansible/50-ocp-services-get-ocp-auth-playbook.yaml \
-  -e @ocp/4.15/upi/ansible/defaults/main.yaml
+ansible-playbook ocp/4.15/install_upi/ansible/50-ocp-services-get-ocp-auth-playbook.yaml \
+  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml
 ----
-
-
 
 == Remove the Bootstrap
 
 Once the installation is finished remove the Bootstrap VM.
 
+The `wait-for bootstrap-complete` command will finish with the following 
+ message.
+
+[source,]
+----
+INFO It is now safe to remove the bootstrap resources 
+DEBUG Time elapsed per stage:                      
+DEBUG Bootstrap Complete: 12m30s                   
+DEBUG                API: 1m12s                    
+INFO Time elapsed: 12m30s       
+----
+
+Remove the bootstrap host from the installation. This will stop the bootstrap 
+ VM and remove it from the _HA Proxy_.
+
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi/ansible/35-ocp-services-remove-bootstrap-haproxy-playbook.yaml -K \
-  -e @ocp/4.15/upi/ansible/defaults/main.yaml
+ansible-playbook ocp/4.15/install_upi/ansible/35-ocp-services-remove-bootstrap-haproxy-playbook.yaml -K \
+  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml
 ----
 
 == Add Compute Nodes
@@ -445,8 +458,8 @@ The Openshift installation folder is required to maintain the cluster.
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi/ansible/99-ocp-services-ocp-clean-playbook.yaml \
-  -e @ocp/4.15/upi/ansible/defaults/main.yaml \
+ansible-playbook ocp/4.15/install_upi/ansible/99-ocp-services-ocp-clean-playbook.yaml \
+  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml \
   -e remove_binaries_dir=true <1>
 ----
 <1> Also remove the folder containing the OpenShift binaries
@@ -461,8 +474,8 @@ Remove the taints on the nodes so the control-plane nodes can execute
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi/ansible/31-ocp-services-remove-cp-taints.yaml \
-  -e @ocp/4.15/upi/ansible/defaults/main.yaml
+ansible-playbook ocp/4.15/install_upi/ansible/31-ocp-services-remove-cp-taints.yaml \
+  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml
 ----
 
 === No CNI configuration file in /etc/kubernetes/cni/net.d/. Has your network provider started? 
