@@ -31,10 +31,9 @@ helm repo add ceph-csi https://ceph.github.io/csi-charts
 helm repo update
 ----
 
-
 == Create Ceph Pool
 
-Create Ceph pool for Kubernetes & client key
+Create Ceph pool, failesyste and subvolume for Kubernetes & client key
 
 [sourec,bash]
 ----
@@ -90,6 +89,7 @@ kubernetes:
         ceph_monitor_group: ceph_01_mon
         ceph_pool_name: cephfs_data
         ceph_fs: cephfs
+        ceph_fs_subvolume: csi
 ----
 
 == Collect information
@@ -170,6 +170,9 @@ TBD
 
 == References
 
+* Ceph CSI:
+** https://github.com/ceph/ceph-csi
+** https://github.com/ceph/csi-charts
 * https://docs.ceph.com/en/latest/rbd/rbd-kubernetes/
 * https://computingforgeeks.com/ceph-persistent-storage-for-kubernetes-with-cephfs/
 * https://www.digitalocean.com/community/tutorials/how-to-set-up-a-ceph-cluster-within-kubernetes-using-rook

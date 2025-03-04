@@ -11,10 +11,6 @@
       kind: Namespace
       state: present
 
-  # InvalidArgument desc = missing ID field 'adminID' in secrets
-  # stringData:
-  # userID: {{ .Values.secret.userID }}
-  # userKey: {{ .Values.secret.userKey }}
   - name: "Create k8s secret with Ceph Admin key"
     ansible.builtin.shell: |
       kubectl create secret generic csi-cephfs-secret \
@@ -42,11 +38,86 @@
     kubernetes.core.helm_info:
       name: ceph-csi-cephfs
       release_namespace: "{{ ceph_ns }}"
-
     register: ceph_csi_cephfs_status
+    until: "ceph_csi_cephfs_status.status.status == 'deployed'"
+    retries: 12
+    delay: 5
 
-  - name: "Check if PVC information"
+  - name: "Print full Helm Chart deployment information"
     ansible.builtin.debug:
       var: ceph_csi_cephfs_status
+      verbosity: 2
 
+  - name: "Print Helm Chart deployment status"
+    ansible.builtin.debug:
+      msg: 
+      - "helm deployment status: {{ ceph_csi_cephfs_status.status.status }}"
+
+  - name: "Download test PVC definition (csi-cephfs-pvc)"
+    ansible.builtin.get_url:
+      url: https://raw.githubusercontent.com/ceph/ceph-csi/refs/heads/devel/examples/cephfs/pvc.yaml
+      dest: /tmp/test_ceph_pvc.yaml
+      mode: '0664'
+
+  - name: "Create test PVC (csi-cephfs-pvc)"
+    kubernetes.core.k8s:
+      state: present
+      namespace: "{{ ceph_ns }}"
+      src: /tmp/test_ceph_pvc.yaml
+
+  - name: "Get test PVC information (csi-cephfs-pvc) and wait to be Bound"
+    kubernetes.core.k8s_info:
+      api_version: v1
+      kind: pvc
+      name: csi-cephfs-pvc
+      namespace: "{{ ceph_ns }}"
+    register: csi_cephfs_pvc_status
+    until: "csi_cephfs_pvc_status.resources[0].status.phase == 'Bound'"
+    retries: 40
+    delay: 3
+
+  - name: "Print PVC information"
+    ansible.builtin.debug:
+      var: csi_cephfs_pvc_status.resources[0].status
+
+  - name: "Download demo POD definition (csi-cephfs-demo-pod)"
+    ansible.builtin.get_url:
+      url: https://raw.githubusercontent.com/ceph/ceph-csi/refs/heads/devel/examples/cephfs/pod.yaml
+      dest: /tmp/test_ceph_pod.yaml
+      mode: '0664'
+
+  - name: "Create demo POD (csi-cephfs-demo-pod)"
+    kubernetes.core.k8s:
+      state: present
+      namespace: "{{ ceph_ns }}"
+      src: /tmp/test_ceph_pod.yaml
+
+  - name: "Get demo POD information (csi-cephfs-demo-pod) and wait to be Deployed"
+    kubernetes.core.k8s_info:
+      api_version: v1
+      kind: Pod
+      name: csi-cephfs-demo-pod
+      namespace: "{{ ceph_ns }}"
+    register: csi_cephfs_demo_pod_status
+    until: "csi_cephfs_demo_pod_status.resources[0].status.phase == 'Running'"
+    retries: 24
+    delay: 5
+
+  - name: "Print PVC information"
+    ansible.builtin.debug:
+      var: csi_cephfs_demo_pod_status.resources[0].status
+
+  - name: "Delete demo POD (csi-cephfs-demo-pod)"
+    kubernetes.core.k8s:
+      state: absent
+      namespace: "{{ ceph_ns }}"
+      kind: Pod
+      name: csi-cephfs-demo-pod
+
+  - name: "Delete test PVC (csi-cephfs-pvc)"
+    kubernetes.core.k8s:
+      state: absent
+      namespace: "{{ ceph_ns }}"
+      kind: pvc
+      name: csi-cephfs-pvc
 ...

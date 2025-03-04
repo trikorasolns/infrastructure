@@ -20,7 +20,6 @@ serviceAccounts:
     # The name of the ServiceAccount to use.
     # If not set and create is true, a name is generated using the fullname
     name:
-{% raw %}
 # Configuration for the CSI to connect to the cluster
 # Ref: https://github.com/ceph/ceph-csi/blob/devel/examples/README.md
 # Example:
@@ -31,9 +30,10 @@ serviceAccounts:
 #       - "<MONValue2>"
 #     cephFS:
 #       subvolumeGroup: "csi"
+{% raw %}
 #       netNamespaceFilePath: "{{ .kubeletDir }}/plugins/{{ .driverName }}/net"
-#       radosNamespace: "csi"
 {% endraw %}
+#       radosNamespace: "csi"
 csiConfig:
   - clusterID: "{{ hostvars[groups[hostvars[groups['k8s_cluster_k8s'][0]]['ceph_cluster']][0]]['ceph_cluster_id'] }}"
     monitors:
@@ -173,7 +173,7 @@ nodeplugin:
 provisioner:
   name: provisioner
   #replicaCount: 3
-  replicaCount: {{ ceph_csi_cephfs_provisioner_replicacount }}
+  replicaCount: {{ groups['k8s_control_plane'] | length }}
   strategy:
     # RollingUpdate strategy replaces old pods with new ones gradually,
     # without incurring downtime.
@@ -319,12 +319,13 @@ selinuxMount: true
 storageClass:
   # Specifies whether the Storage class should be created
   create: true
-  name: csi-cephfs-sc
+  name: {{ ceph_storage_class }}
   # Annotations for the storage class
   # Example:
   # annotations:
   #   storageclass.kubernetes.io/is-default-class: "true"
-  annotations: {}
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
 
   # String representing a Ceph cluster to provision storage from.
   # Should be unique across all Ceph clusters in use for provisioning,

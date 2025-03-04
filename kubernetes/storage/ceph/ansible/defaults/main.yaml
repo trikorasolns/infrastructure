@@ -3,3 +3,4 @@ ceph_ns: ceph-csi-cephfs
 ceph_csi_cephfs_provisioner_replicacount: 1
 ceph_admin_id: admin
 ceph_filesystem: cephfs
+ceph_storage_class: csi-cephfs-sc # from https://github.com/ceph/ceph-csi/blob/devel/examples/cephfs/storageclass.yaml

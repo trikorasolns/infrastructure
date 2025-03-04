@@ -29,5 +29,10 @@
 
   # - name: "Confirm the FS has been created"
   # TODO
+  
+  - name: "Create subvolume group"
+    ansible.builtin.shell: |
+      ceph fs subvolumegroup create {{ ceph_filesystem }} csi      
+    register: cepht_fs_confirm
 ...
 
