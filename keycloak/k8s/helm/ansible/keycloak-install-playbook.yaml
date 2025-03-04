@@ -16,11 +16,6 @@
           - "app_version must be defined with the KEYCLOAK version"
           - "trikora_helm_project_dir must be defined with the location for the trikorasolns/helm project"
 
-    # - name: Set facts from k8s host
-    #   ansible.builtin.set_fact:
-    #     k8s:
-    #       pv_root_folder: "{{ hostvars[k8s_host]['k8s']['pv_root_folder'] }}"
-
   tasks:
   - name: "Create k8s namespace for Keycloak"
     kubernetes.core.k8s:
@@ -32,8 +27,6 @@
 - name: "Deploy PostgreSQL"
   ansible.builtin.import_playbook: pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml
 
-
----
 - name: "Install KEYCLOAK"
   hosts: "localhost"
   gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
