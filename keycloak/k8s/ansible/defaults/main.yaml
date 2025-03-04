@@ -4,6 +4,7 @@ app_version: "26.1.3"
 
 db_name: keycloak
 db_user: keycloak
+db_type: postgresql
 # storage_class: local-storage
 
 volumes:
@@ -13,4 +14,4 @@ volumes:
     owner_group: 26
     component: database
 
-db_image_tag: 14
+db_image_tag: 17

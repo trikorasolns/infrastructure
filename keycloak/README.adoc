@@ -10,3 +10,4 @@
 
 == Kubernetes
 
+link:k8s[Keycloak on Kubernetes]

@@ -25,22 +25,29 @@
       state: present
 
 - name: "Deploy PostgreSQL"
-  ansible.builtin.import_playbook: pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml
+  ansible.builtin.import_playbook: ../../../../pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml
 
 - name: "Install KEYCLOAK"
   hosts: "localhost"
   gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
 
   tasks:
+
+    - name: "Template Keycloak Helm values file"
+      ansible.builtin.template:
+        src: "helm-keycloak-values.yaml.j2"
+        dest: "/tmp/helm-keycloak-values.yaml"
+        mode: '0644'
+
     - name: "Deploy Keycloak with Helm"
       kubernetes.core.helm:
         name: "{{ app_name }}"
         chart_ref: "{{ trikora_helm_project_dir }}/charts/keycloak"
         release_namespace: "{{ app_namespace }}"
         wait: true
-        # replace: true
+        replace: true
         values_files:
-          - /tmp/helm-keycloak-keycloak-values.yaml
+          - "/tmp/helm-keycloak-values.yaml"
       register: keycloak_helm_res 
 
     - name: "Print Helm chart result"

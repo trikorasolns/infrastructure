@@ -14,50 +14,26 @@
 
   tasks:
 
-    - name: "Uninstall GLPI with Helm"
+    - name: "Uninstall Keycloak chart"
       kubernetes.core.helm:
-        name: glpi
+        name: "{{ app_name }}"
         release_namespace: "{{ app_namespace }}"
         state: absent
         wait: true
       register: glpi_helm_res 
 
-    # - name: "Uninstall GLPI with Helm"
-    #   ansible.builtin.shell: |
-    #     helm uninstall --namespace glpi glpi
-    #   args:
-    #     chdir: "{{ trikora_helm_project_dir }}"
-    #   register: glpi_helm_res
+    - name: "Uninstall PostgreSQL chart"
+      kubernetes.core.helm:
+        name: "postgresql"
+        release_namespace: "{{ app_namespace }}"
+        state: absent
+        wait: true
+      register: glpi_helm_res
 
-    - name: "Print GLPI uninstall result"
-      ansible.builtin.debug:
-        msg:
-          - "glpi_helm_res: {{ glpi_helm_res }}"
-
-    - name: "Free the GLPI PV so they become available"
-      ansible.builtin.shell: |
-        kubectl patch pv {{ app_namespace }}-{{ item }}-pv -p '{"spec":{"claimRef": null}}'
-      # kubernetes.core.k8s:
-      #   kind: PV
-      #   name: "{{ app_namespace }}-{{ item }}-pv"
-      #   definition:
-      #     spec:
-      #       claimRef: null
-      loop:
-        - glpi-config
-        - glpi-files
-        - glpi-log
-        - glpi-marketplace
-        - glpi-plugins
-
-    - name: "Patch the GLPI PV so they will be bound to the correct PVC"
-      ansible.builtin.shell: |
-        kubectl patch pv {{ app_namespace }}-{{ item }}-pv -p '{"spec":{"claimRef": {"name": "{{ item }}", "namespace": "{{ app_namespace }}"}}}'
-      loop:
-        - glpi-config
-        - glpi-files
-        - glpi-log
-        - glpi-marketplace
-        - glpi-plugins
-
+    - name: "Remove keycloak namespace"
+      kubernetes.core.k8s:
+        name: "{{ app_namespace }}"
+        api_version: v1
+        kind: Namespace
+        state: absent
 ...

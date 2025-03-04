@@ -50,6 +50,16 @@ Install the Ansible requirements.
 ansible-galaxy collection install -r requirements.yml
 ----
 
+== Infrastructure
+
+* link:./kubernetes[Kubernetes]
+* link:./ocp[OpenShift Container Platform]
+* link:./proxmox[Proxmox]
+
+== Applications
+
+* link:./keycloak[Keycloak]
+
 == Other considerations
 
 Check the link:./_local_config/README.adoc[`_local_config`] information.
