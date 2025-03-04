@@ -7,21 +7,33 @@
 
 == Requirements
 
-* Install Python 3 and PIP
-  * `sudo dnf install python python-pip`
+[.lead]
+Requirements to use this project.
+
+* Install Python 3
+* Install Python PIP
+* Install _Helm_
+
+
+Install Python 3 and PIP...
+
+[source,bash]
+----
+sudo dnf install python python-pip
+----
 
 Create a Python Virtual Environment.
 
 [source,bash]
 ----
-python3.11 -m venv /z/_tmp/venv_python_311
+python3.11 -m venv /z/venv_python_311
 ----
 
 Enter the Python Virtual Environment.
 
 [source,bash]
 ----
-source /z/_tmp/venv_python311/bin/activate
+source /z/venv_python311/bin/activate
 ----
 
 Install the Python requirements.
@@ -38,28 +50,7 @@ Install the Ansible requirements.
 ansible-galaxy collection install -r requirements.yml
 ----
 
-== Generic resources
+== Other considerations
 
-:leveloffset: +1
+Check the link:./_local_config/README.adoc[`_local_config`] information.
 
-include::awx/README.adoc[]
-
-:leveloffset: -1
-
-=== Storate Classes
-
-==== Local Storate Class
-
-Create.
-
-[source,bash]
-----
-$ kubectl apply -f misc/k8s/05-storageclass-local.yaml
-----
-
-Delete.
-
-[source,bash]
-----
-$ kubectl delete -f misc/k8s/05-storageclass-local.yaml
-----

@@ -338,7 +338,7 @@ storageClass:
   # pool: <cephfs-data-pool>
   # For eg:
   # pool: "replicapool"
-  pool: "{{ hostvars[groups['k8s_cluster_k8s'][0]]['ceph_pool_name'] }}"
+  # pool: "{{ hostvars[groups['k8s_cluster_k8s'][0]]['ceph_pool_name'] }}"
   # (optional) Comma separated string of Ceph-fuse mount options.
   # For eg:
   # fuseMountOptions: debug

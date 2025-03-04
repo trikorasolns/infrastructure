@@ -1,0 +1,23 @@
+= Ceph on Proxmox
+:author:    A. Costa
+:email:     <ac (at) trikorasolutions (dot) com>
+// :Date:      20210222
+:Revision:  1
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: Ceph on Proxmox
+:source-highlighter: highlight.js
+
+
+== Add Monitor
+
+[source,bash]
+----
+pveceph createmon --mon-address <ip_address><1>
+----
+<1> The IP Address is required when the host contains multiple NIC.
+
+== References
+
+* https://docs.fedoraproject.org/en-US/fedora-server/virtualization/vm-install-diskimg-proxmox/
