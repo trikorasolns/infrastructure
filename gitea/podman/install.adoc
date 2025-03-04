@@ -1,6 +1,6 @@
 = Gitea Podman Install Guide
 :author:    Antonio C.
-:email:     <sp38af (at) trikorasolutions (dot) com>
+:email:     <ac (at) trikorasolutions (dot) com>
 :toc: left
 :toc-leves: 3
 :icons: font

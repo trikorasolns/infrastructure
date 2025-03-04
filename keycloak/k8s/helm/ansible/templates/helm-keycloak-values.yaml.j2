@@ -1,0 +1,16 @@
+image:
+  tag: "{{ app_version }}"
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations: {}
+  hosts:
+    - host: "{{ app_name }}.{{ local_domain }}"
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            serviceName: http
+            servicePort: 8080
+

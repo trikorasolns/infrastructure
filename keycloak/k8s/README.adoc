@@ -1,4 +1,4 @@
-= GLPI for Kubernetes
+= Keycloak for Kubernetes
 :Author:    Antonio Costa
 :Email:     <ac (at) trikorasolutions (dot) com>
 :Date:      20210205
@@ -14,14 +14,6 @@
 
 include::install-helm.adoc[]
 
-include::backupNrestore.adoc[]
-
-include::upgrade.adoc[]
-
-include::phpmyadmin.adoc[]
-
-include::grafana.adoc[]
-
-include::install-kubectl.adoc[]
+include::troubleshooting.adoc[]
 
 :leveloffset: -1

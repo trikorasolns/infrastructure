@@ -1,4 +1,4 @@
-= GLPI Deploy Guide (Helm)
+= Keycloak Deploy Guide (Helm)
 :author:    Antonio C.
 :email:     <ac (at) trikorasolutions (dot) com>
 :Date:      2022/05/02
@@ -17,15 +17,6 @@ All commands assume the shell is connected to the correct k8s instance.
 [source,bash]
 ----
 $ export KUBECONFIG=~/.kube/my-config-file
-----
-
-== System requirements 
-
-Install python requirements.
-
-[source,bash]
-----
-$ pip install -r glpi/k8s/ansible/requirements.txt
 ----
 
 
@@ -145,11 +136,10 @@ Create a yaml file with the values for each of the required variables.
 .Sample data values file
 [source,yaml]
 ----
-app_namespace: glpi
-db_name: glpi
-db_user: glpi
-db_password: glpi
-db_root_password: glpi
+app_namespace: keycloak
+db_name: keycloak
+db_user: keycloak
+db_password: keycloak
 glpi_url: glpi.localdomain
 glpi_version: "10.0.9"
 k8s_host: myhost
@@ -163,7 +153,7 @@ Create the namespace.
 [source,bash]
 ----
 ansible-playbook kubernetes/ansible/host_path/app-prepare-playbook.yaml \
-  -e "@glpi/k8s/ansible/defaults/main.yaml"
+  -e "@keycloak/k8s/ansible/defaults/main.yaml"
 ----
 
 Create HostPath PVs and their supporting folders.
