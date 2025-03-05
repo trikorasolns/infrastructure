@@ -8,12 +8,21 @@
 
 == Helm Chart
 
+[source,bash]
+----
+ansible-playbook kubernetes/ingress/metallb/ansible/metallb-install-playbook.yaml \
+  -e @kubernetes/ingress/metallb/ansible/defaults/main.yaml
+----
+
+If this a single node control-plane/worker, remove the label
+`node.kubernetes.io/exclude-from-external-load-balancers`.
+
 === Add the MetalLB Helm Repository
 
 .Add helm repository
 [source,bash]
 ----
-$ helm repo add metallb https://metallb.github.io/metallb
+helm repo add metallb https://metallb.github.io/metallb
 ----
 
 === Deploy MetalLB
@@ -47,7 +56,7 @@ Create `metallb-system` namespace.
 kubectl create namespace gitlab
 ----
 
-Label `metallb-system`` namespace.
+Label `metallb-system` namespace.
 
 [source,bash]
 ----
@@ -59,7 +68,7 @@ kubectl label namespaces metallb-system pod-security.kubernetes.io/warn=privileg
 .Deploy MetalLB helm chart
 [source,bash]
 ----
-$ helm install  metallb metallb/metallb \ 
+helm install  metallb metallb/metallb \ 
   --namespace metallb-system --create-namespace
 ----
 
