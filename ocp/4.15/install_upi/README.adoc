@@ -263,7 +263,7 @@ Configure the OCP Services host. This playbook will:
 
 [source,yaml]
 ----
-include::upi/ansible/defaults/main.yaml[tag=required_packages]
+include::ansible/defaults/main.yaml[tag=required_packages]
 ----
 * Enable and start services
 * Open firewall ports
@@ -416,6 +416,13 @@ Get the authentication.
 ----
 ansible-playbook ocp/4.15/install_upi/ansible/50-ocp-services-get-ocp-auth-playbook.yaml \
   -e @ocp/4.15/install_upi/ansible/defaults/main.yaml
+----
+
+=== Copy the kubernetes config file
+
+[source,bash]
+----
+scp -i ssh_key_file <user>@<ocp_services_ip>:openshift/ocp/auth/kubeconfig ${HOME}/.kube/ocp-config
 ----
 
 == Remove the Bootstrap
