@@ -216,7 +216,8 @@ Execute the playbook that creates the VMs.
 [source,bash]
 ----
 ansible-playbook ocp/4.15/install_upi/ansible/01-proxmox-vms.yaml \
-  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml
+  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml \
+  -e '{"selected_groups": ["ocp_control_plane","ocp_bootstrap"]}'
 ----
 
 === Start
@@ -442,14 +443,54 @@ INFO Time elapsed: 12m30s
 Remove the bootstrap host from the installation. This will stop the bootstrap 
  VM and remove it from the _HA Proxy_.
 
+[WARNING]
+====
+Add `-K`, or `--ask-become-pass` if your host required password for sudo.
+====
+
 [source,bash]
 ----
-ansible-playbook ocp/4.15/install_upi/ansible/35-ocp-services-remove-bootstrap-haproxy-playbook.yaml -K \
+ansible-playbook ocp/4.15/install_upi/ansible/35-ocp-services-remove-bootstrap-haproxy-playbook.yaml \
   -e @ocp/4.15/install_upi/ansible/defaults/main.yaml
 ----
 
 == Add Compute Nodes
 
+Generate compute node VMS.
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/install_upi/ansible/01-proxmox-vms.yaml \
+  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml \
+  -e '{"selected_groups": ["ocp_compute_node"]}'
+----
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/install_upi/ansible/20-proxmox-prepare-coreos-install.yaml \
+  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml \
+  -e '{"selected_groups": ["ocp_compute_node"]}' \
+  -e skip_download=true
+----
+
+Extract the installation sources and scripts from the `openshift-install`, as 
+ well as the `coreos-installer` command to be executed.
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/install_upi/ansible/25-ocp-services-show-rhcos-info.yaml \
+  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml
+----
+
+The VMs are setup so it's time to start the OpenShift cluster deployment.
+ Stop the VMs, reset the boot and CD ROM configuration and start the VMS.
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/install_upi/ansible/28-proxmox-vm-start-deployment.yaml \
+  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml \
+  -e '{"selected_groups": ["ocp_compute_node"]}'
+----
 
 == Cleanup
 

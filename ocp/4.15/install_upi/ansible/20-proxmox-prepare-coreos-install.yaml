@@ -85,11 +85,27 @@
       - "CoreOS ISO disk location (coreos_image_location): {{ coreos_image_location }}"
       - "CoreOS ISO disk file name: {{ coreos_image_filename }}"
 
+  - name: "Affected groups"
+    ansible.builtin.set_fact:
+      selected_groups: ['ocp_bootstrap','ocp_control_plane']
+    when: selected_groups is undefined or selected_groups | length == 0
+
   tasks:
+    # - name: "Build VM list"
+    #   ansible.builtin.set_fact:
+    #     # vm_host_list: "{{ (groups['ocp_bootstrap'] | default([])) + (groups['ocp_control_plane'] | default([])) + (groups['ocp_compute_node'] | default([])) }}"
+    #     vm_host_list: "{{ (groups['ocp_bootstrap'] | default([])) + (groups['ocp_control_plane'] | default([])) }}"
+
     - name: "Build VM list"
       ansible.builtin.set_fact:
-        # vm_host_list: "{{ (groups['ocp_bootstrap'] | default([])) + (groups['ocp_control_plane'] | default([])) + (groups['ocp_compute_node'] | default([])) }}"
-        vm_host_list: "{{ (groups['ocp_bootstrap'] | default([])) + (groups['ocp_control_plane'] | default([])) }}"
+        vm_host_list: "{{ (vm_host_list | default([]) ) + (groups[item] | default([])) }}"
+      loop: "{{ selected_groups }}"
+
+
+    - name: "Print VMs"
+      ansible.builtin.debug:
+        var: vm_host_list
+      run_once: true
 
     - name: "Download the ISO"
       ansible.builtin.shell: |
