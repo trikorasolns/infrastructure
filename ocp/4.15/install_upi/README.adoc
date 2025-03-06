@@ -465,6 +465,8 @@ ansible-playbook ocp/4.15/install_upi/ansible/01-proxmox-vms.yaml \
   -e '{"selected_groups": ["ocp_compute_node"]}'
 ----
 
+Start the `compute-node` VMs to execute the ignition installation.
+
 [source,bash]
 ----
 ansible-playbook ocp/4.15/install_upi/ansible/20-proxmox-prepare-coreos-install.yaml \
@@ -482,7 +484,8 @@ ansible-playbook ocp/4.15/install_upi/ansible/25-ocp-services-show-rhcos-info.ya
   -e @ocp/4.15/install_upi/ansible/defaults/main.yaml
 ----
 
-The VMs are setup so it's time to start the OpenShift cluster deployment.
+Once all the VMs show the `Install complete` message the VMs are setup. It's 
+ now time to start the deployment of the OpenShift compute nodes.
  Stop the VMs, reset the boot and CD ROM configuration and start the VMS.
 
 [source,bash]
@@ -490,6 +493,32 @@ The VMs are setup so it's time to start the OpenShift cluster deployment.
 ansible-playbook ocp/4.15/install_upi/ansible/28-proxmox-vm-start-deployment.yaml \
   -e @ocp/4.15/install_upi/ansible/defaults/main.yaml \
   -e '{"selected_groups": ["ocp_compute_node"]}'
+----
+
+Wait for the installation to finish.
+
+Source: https://docs.openshift.com/container-platform/4.15/installing/installing_platform_agnostic/installing-platform-agnostic.html
+
+Review the pending CSRs and ensure that you see the client requests with the 
+ Pending or Approved status for each machine added to the cluster.
+
+[source,bash]
+----
+oc get csr
+----
+
+Approve each of the CSR
+
+[source,bash]
+----
+oc adm certificate approve <csr_name> 
+----
+
+To approve all pending CSRs, run the following command:
+
+[source,bash]
+----
+oc get csr -o go-template='{{range .items}}{{if not .status}}{{.metadata.name}}{{"\n"}}{{end}}{{end}}' | xargs --no-run-if-empty oc adm certificate approve
 ----
 
 == Cleanup
