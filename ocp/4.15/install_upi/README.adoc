@@ -270,9 +270,14 @@ include::ansible/defaults/main.yaml[tag=required_packages]
 * Perform configuration on the host
 * Copy OCP installation files to the http server
 
+[WARNING]
+====
+Add `-K`, or `--ask-become-pass` if your host required password for sudo.
+====
+
 [source,bash]
 ----
-ansible-playbook ocp/4.15/install_upi/ansible/10-ocp-services-config-playbook.yaml -K \
+ansible-playbook ocp/4.15/install_upi/ansible/10-ocp-services-config-host-playbook.yaml \
   -e @ocp/4.15/install_upi/ansible/defaults/main.yaml
 ----
 
@@ -282,9 +287,14 @@ This playbook will make several configurations to the server required for
  _HAProxy_ to work correctly and also apply the `haproxy.cfg.j2` template to 
  generate the _HAProxy_ configuration file.
 
+[WARNING]
+====
+Add `-K`, or `--ask-become-pass` if your host required password for sudo.
+====
+
 [source,bash]
 ----
-ansible-playbook ocp/4.15/install_upi/ansible/15-ocp-services-haproxy-playbook.yaml -K \
+ansible-playbook ocp/4.15/install_upi/ansible/15-ocp-services-haproxy-playbook.yaml \
   -e @ocp/4.15/install_upi/ansible/defaults/main.yaml \
   -e @_local_config/network.yaml
 ----
@@ -297,9 +307,14 @@ Generate the _OpenShift Cluster_ installation directory and generate the
  
 This is done using the `openshift-install` CLI.
 
+[WARNING]
+====
+Add `-K`, or `--ask-become-pass` if your host required password for sudo.
+====
+
 [source,bash]
 ----
-ansible-playbook ocp/4.15/install_upi/ansible/18-ocp-services-oi-playbook.yaml -K \
+ansible-playbook ocp/4.15/install_upi/ansible/18-ocp-services-oi-playbook.yaml \
   -e @ocp/4.15/install_upi/ansible/defaults/main.yaml \
   -e @_local_config/network.yaml \
   -e pull_secret=${RH_CLUSTER_PULL_SECRET} \
@@ -308,11 +323,14 @@ ansible-playbook ocp/4.15/install_upi/ansible/18-ocp-services-oi-playbook.yaml -
 
 == Deploy Bootstrap and Control Planes
 
-Prepare the VMs for installation. This playbook will:
-* Upload the ISO identified on the _CoreOS ISO disk location_ into the Proxmox server and setup the CDROM on the Bootstrap and Control Plane VMs.
+Prepare the VMs for installation.
+
+This playbook will perform the following tasks for each of the Proxmox hosts containing VMS:
+* ~Upload the ISO identified on the _CoreOS ISO disk location_ into the Proxmox server and setup the CDROM on the Bootstrap and Control Plane VMs.~
+* Generate a fake Ignition ISO with a bash script for ease of installation
 * Stop the VMs if they're running.
 * Set the correct boot order. This is required if the VMs are being reused.
-* Set the ISO as the VM CDROM media.
+* Set the ISO as the Fake ignition ISO VM CDROM media.
 * Start the VM for Bootstrap and Control Plane.
 
 [source,bash]
@@ -335,26 +353,6 @@ ansible-playbook ocp/4.15/install_upi/ansible/25-ocp-services-show-rhcos-info.ya
 Execute the `coreos-installer` command obtained on the previous Ansible 
  playbook.
 
-[NOTE]
-====
-Instead of executing the `coreos-installer` from the VM console this can be 
- done from the node bash. Since each VM already includes the `serial0` linked 
- to _socket_, edit the boot command and add 
- `console=tty0 console=ttyS0,115200` at the end.
-
-After this, SSH to the Proxmox Node that owns that VM and execute the 
- following command to enter the VM console.
-
-[source,bash]
-----
-qm terminal <VMID>
-----
-
-Execute the `coreos-installer` command.
-
-Exit the terminal with `CTRL+O`.
-====
-
 The VMs are setup so it's time to start the OpenShift cluster deployment.
  Stop the VMs, reset the boot and CD ROM configuration and start the VMS.
 
@@ -373,7 +371,7 @@ SSH to the services VM and go to the OCP installation root dir.
 
 [source,bash]
 ----
-./oc --kubeconfig ~/openshift/ocp/auth/kubeconfig get nodes -w
+./oc --kubeconfig ocp/auth/kubeconfig get nodes -w
 ----
 
 The result we're looking for is something like this.
@@ -391,14 +389,14 @@ Wait for the bootstrap operation to finish. From the openshift root folder on
 
 [source,bash]
 ----
-./openshift-install --dir install_dir/ wait-for bootstrap-complete --log-level=debug
+./openshift-install --dir ocp/ wait-for bootstrap-complete --log-level=debug
 ----
 
 Check for what's missing for the cluster to be stable.
 
 [source,bash]
 ----
-./oc --kubeconfig install_dir/auth/kubeconfig  adm wait-for-stable-cluster --minimum-stable-period=5s
+./oc --kubeconfig ocp/auth/kubeconfig  adm wait-for-stable-cluster --minimum-stable-period=5s
 ----
 
 Follow the installation from the bootstrap node console.
