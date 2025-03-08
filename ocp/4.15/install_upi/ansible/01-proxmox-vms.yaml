@@ -21,7 +21,7 @@
 
   - name: "Configure VM"
     ansible.builtin.include_tasks:
-      file: tasks/proxmox_vm_configure.yaml
+      file: tasks/vm_configure.yaml
     vars:
       vm_name: "{{ item }}"
     loop: "{{ vm_host_list }}"
