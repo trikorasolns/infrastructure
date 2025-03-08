@@ -1,6 +1,6 @@
 = Odoo on KPodman
 :author:    Antonio C.
-:email:     <sp38af (at) trikorasolutions (dot) com>
+:email:     <ac (at) trikorasolutions (dot) com>
 :Revision:  1
 :toc:       left
 :toc-title: Table of Contents

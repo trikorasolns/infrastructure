@@ -1,0 +1,57 @@
+= OCP UPI Installation on Proxmox
+Antonio C. <sp38af (at) trikorasolutions (dot) com>
+:revdate: {docdate}
+:icons: font
+:toc: left
+:toclevels: 3
+:toc-title: Table of Contents
+:description: OCP UPI Installation on Proxmox
+
+== Introduction
+
+[.lead]
+This document describes the OCP installation process using UPI. It automates 
+ the instructions found at https://blog.rossbrigoli.com/2020/11/running-openshift-at-home-part-44.html.
+
+References:
+
+* https://docs.openshift.com/container-platform/4.15/installing/installing_bare_metal/installing-bare-metal.html#installing-bare-metal
+
+=== Services host
+
+[source,bash]
+----
+OCP_CLI_INSTALL_DIR=/tmp<1>
+RH_CLUSTER_PULL_SECRET=<2>
+SSH_PUB_KEY_FILE=<3>
+----
+<1>
+<2> Get a Red Hat pull secret by logging in to https://cloud.redhat.com. 
+ Navigate to _Cluster Manager > Create Cluster > Red Hat Openshift Container Platform > Run on Baremetal > User-Provisioned Infrastructure_
+ and press _Copy pull secret_.
+<3>
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi/ansible/ocp-services-02-gen-playbook.yaml \
+  -e @ocp/4.15/upi/ansible/defaults/main.yaml
+----
+
+Use `openshift-install` to create the Kubernetes manifests and Ignition 
+ configuration files for the cluster.
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi/ansible/ocp-services-03-oi-playbook.yaml \
+  -e @ocp/4.15/upi/ansible/defaults/main.yaml \
+  -e @_local_config/network.yaml \
+  -e pull_secret=${RH_CLUSTER_PULL_SECRET} \
+  -e ssh_pub_key_file=${SSH_PUB_KEY_FILE}
+----
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi/ansible/ocp-services-10-config-playbook.yaml -K \
+  -e @ocp/4.15/upi/ansible/defaults/main.yaml
+----
+

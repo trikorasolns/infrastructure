@@ -1,0 +1,47 @@
+---
+- name: "Install Metal Load Balancer"
+  hosts: "localhost"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+
+    - name: "Validate variables"
+      assert:
+        that:
+          - "app_namespace is defined and (app_namespace | length > 0)"
+          - "app_name is defined and (app_name | length > 0)"
+        fail_msg: 
+          - "app_namespace must be defined with the kubernetes namespace"
+          - "app_name must be defined with the application name"
+
+  tasks:
+  - name: "Add metallb helm repository"
+    ansible.builtin.shell: |
+      helm repo add metallb https://metallb.github.io/metallb
+
+  - name: "Deploy MetalLB with Helm"
+    kubernetes.core.helm:
+      name: "{{ app_name }}"
+      chart_ref: "metallb/metallb"
+      release_namespace: "{{ app_namespace }}"
+      wait: true
+      state: absent
+    register: metallb_helm_res 
+
+  - name: "Delete MetalLB k8s namespace"
+    kubernetes.core.k8s:
+      name: "{{ app_namespace }}"
+      api_version: v1
+      kind: Namespace
+      state: absent
+
+  - name: "Template IP Address Pools"
+    ansible.builtin.template:
+      src: helm-IPAddressPool-resources-values.yaml.j2
+      dest: /tmp/helm-IPAddressPool-resources-values.yaml
+
+  - name: "Apply IP Address Pools"
+    kubernetes.core.k8s:
+      src: /tmp/helm-IPAddressPool-resources-values.yaml
+      state: absent
+...

@@ -1,0 +1,61 @@
+---
+- name: "Uninstall kubernetes modules"
+  hosts: "{{ k8s_host | default('k8s_control_plane') }}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  # Define default values for variables that are common between roles
+  vars:
+    client_tool: kubectl
+    container_role_folder: 'container'
+    k8s_role_folder: "container/k8s/k8s-{{ k8s_version.split('.')[0] }}.{{ k8s_version.split('.')[1] }}"
+
+  pre_tasks:
+    - name: "Validate cri"
+      ansible.builtin.assert:
+        that:
+          - "cri == 'containerd' or cri == 'cri-o' or cri == 'docker'"
+        fail_msg: "'cri' must be one of containerd, cri-o or docker"
+        success_msg: "'cri' is {{ cri }}"
+
+    - name: "Validate cni"
+      ansible.builtin.assert:
+        that:
+          - "cni == 'calico' or cni == 'flannel'"
+        fail_msg: "'cni' must be defined and one of calico, flannel"
+        success_msg: "'cni' is {{ cni }}"
+
+  tasks:
+    # - name: "Execute k8s_dashboard uninstall role"
+    #   import_role:
+    #     name: '{{ k8s_role_folder }}/k8s_dashboard'
+    #   vars:
+    #     - remove: true
+    #   when: "skip_dashboard is undefined or not (skip_dashboard | bool)"
+
+    - name: "Execute k8s_cluster uninstall role"
+      ansible.builtin.import_role:
+        name: '{{ k8s_role_folder }}/k8s_cluster'
+      vars:
+        state: absent
+
+    - name: "Execute docker uninstall role"
+      ansible.builtin.import_role:
+        name: '{{ container_role_folder }}/docker'
+      vars:
+        state: 'absent'
+      when: "cri == 'docker'"
+
+    - name: "Execute containerd uninstall role"
+      ansible.builtin.import_role:
+        name: '{{ container_role_folder }}/containerd'
+      vars:
+        state: 'absent'
+      when: "cri == 'containerd'"
+
+    - name: "Execute cri-o installation role"
+      ansible.builtin.import_role:
+        name: '{{ container_role_folder }}/cri-o'
+      vars:
+        state: absent
+      when: "cri == 'cri-o'"
+...

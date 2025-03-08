@@ -1,2 +1,6 @@
 kubernetes
 jmespath
+ansible
+openshift
+pyyaml
+firewall

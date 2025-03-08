@@ -1,0 +1,30 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for vm_state
+- name: "Check the state variables"
+  ansible.builtin.assert:
+    that:
+      - vm_state_state in ('Started','Shutdown','Stopped')
+      - vm_state_vmid is defined and vm_state_vmid | length > 0
+    fail_msg:
+      - "vm_state_state must be one of 'Started', 'Shutdown' or 'Stopped'"
+      - "vm_state_vmid must be defined"
+    
+- name: "Start VM"
+  ansible.builtin.shell: |
+    qm start {{ vm_state_vmid }}
+  when: vm_state_state == 'Started'
+  register: vm_state_result
+
+- name: "Shutdown VM"
+  ansible.builtin.shell: |
+    qm shutdown {{ vm_state_vmid }}
+  when: vm_state_state == 'Shutdown'
+  register: vm_state_result
+
+- name: "Stop VM"
+  ansible.builtin.shell: |
+    qm stop {{ vm_state_vmid }}
+  when: vm_state_state == 'Stopped'
+  register: vm_state_result
+...

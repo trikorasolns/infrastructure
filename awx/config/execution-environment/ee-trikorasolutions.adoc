@@ -1,5 +1,5 @@
 = Trikora Solutions default AWX Execution Environment
-Antonio C. <sp38af (at) trikorasolutions (dot) com>
+Antonio C. <ac (at) trikorasolutions (dot) com>
 :icons: font
 :revdate: {docdate}
 :stem: latexmath

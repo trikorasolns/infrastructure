@@ -1,0 +1,3 @@
+cri: containerd
+cni: flannel
+k8s_version: 1.29.14

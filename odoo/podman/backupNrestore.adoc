@@ -1,5 +1,5 @@
 = Backup and Restore Guide
-Antonio C. <sp38af (at) trikorasolutions (dot) com>
+Antonio C. <ac (at) trikorasolutions (dot) com>
 :toc: left
 :revdate: {docdate}
 :images: font

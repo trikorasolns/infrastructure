@@ -1,0 +1,19 @@
+= Keycloak for Kubernetes
+:Author:    Antonio Costa
+:Email:     <ac (at) trikorasolutions (dot) com>
+:Date:      20210205
+:revdate: {docdate}
+:table-caption: Table
+:toc: left
+:toc-title: Table of Contents
+:icons: font
+:description: GLPI on a kubernetes cluster documentation.
+:source-highlighter: highlight.js
+
+:leveloffset: +1
+
+include::install-helm.adoc[]
+
+include::troubleshooting.adoc[]
+
+:leveloffset: -1

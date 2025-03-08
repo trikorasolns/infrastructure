@@ -1,0 +1,2 @@
+app_name: metallb
+app_namespace: metallb-system

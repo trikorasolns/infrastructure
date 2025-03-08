@@ -1,6 +1,6 @@
 = Gitlab Upgrade Guide (Podman)
 :author:    Antonio C.
-:email:     <sp38af (at) trikorasolutions (dot) com>
+:email:     <ac (at) trikorasolutions (dot) com>
 :revdate: {docdate}
 :toc:       left
 :toc-title: Table of Contents
