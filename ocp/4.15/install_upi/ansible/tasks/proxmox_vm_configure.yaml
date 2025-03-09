@@ -8,7 +8,7 @@
   ansible.builtin.shell: |
     {{ vm_name }}
   loop:
-  - qm set {{ hostvars[vm_name].pve.vmid }} --sockets 1 --cores {{ hostvars[vm_name].hw.vcpu }} --cpu 'x86-64-v2-AES'
+  - qm set {{ hostvars[vm_name].pve.vmid }} --sockets 1 --cores {{ hostvars[vm_name].hw.vcpu }} --cpu 'x86-64-v3'
   - qm set {{ hostvars[vm_name].pve.vmid }} --memory {{ hostvars[vm_name].hw.ram }}
   - qm set {{ hostvars[vm_name].pve.vmid }} --ostype l26
   - qm set {{ hostvars[vm_name].pve.vmid }} --cdrom none
