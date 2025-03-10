@@ -14,10 +14,15 @@
     ansible.builtin.set_fact:
       vm_host_list: "{{ (vm_host_list | default([]) ) + (groups[item] | default([])) }}"
     loop: "{{ selected_groups }}"
+    when: vm_host_list is undefined
 
   - name: "Print VMs"
     ansible.builtin.debug:
       var: vm_host_list
+    run_once: true
+
+  - name: "Pause until the previous change is confirmed"
+    ansible.builtin.pause:
 
   - name: "Configure VM"
     ansible.builtin.include_tasks:

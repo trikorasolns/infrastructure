@@ -462,8 +462,13 @@ Generate compute node VMS.
 ----
 ansible-playbook ocp/4.15/install_upi/ansible/01-proxmox-vms.yaml \
   -e @ocp/4.15/install_upi/ansible/defaults/main.yaml \
-  -e '{"selected_groups": ["ocp_compute_node"]}'
+  -e '{"selected_groups": ["ocp_compute_node"]}'<1>
+  -e '{"vm_host_list": ["ocp4-co-3"]}'<2>
 ----
+<1> Deploy all hosts on the `ocp_compute_node` group. Use the 
+ `selected_groups` option to deploy all _Compute Node_ hosts.
+<2> Used to select a specific compute node, for instances when adding a new 
+ compute node to the cluster.
 
 Start the `compute-node` VMs to execute the ignition installation.
 
@@ -471,7 +476,8 @@ Start the `compute-node` VMs to execute the ignition installation.
 ----
 ansible-playbook ocp/4.15/install_upi/ansible/20-proxmox-prepare-coreos-install.yaml \
   -e @ocp/4.15/install_upi/ansible/defaults/main.yaml \
-  -e '{"selected_groups": ["ocp_compute_node"]}' \
+  -e '{"selected_groups": ["ocp_compute_node"]}'
+  -e '{"vm_host_list": ["ocp4-co-3"]}'
   -e skip_download=true
 ----
 
@@ -493,6 +499,7 @@ Once all the VMs show the `Install complete` message the VMs are setup. It's
 ansible-playbook ocp/4.15/install_upi/ansible/28-proxmox-vm-start-deployment.yaml \
   -e @ocp/4.15/install_upi/ansible/defaults/main.yaml \
   -e '{"selected_groups": ["ocp_compute_node"]}'
+  -e '{"vm_host_list": ["ocp4-co-3"]}'
 ----
 
 Wait for the installation to finish.
