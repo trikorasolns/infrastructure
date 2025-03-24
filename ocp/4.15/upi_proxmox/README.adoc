@@ -215,8 +215,8 @@ Execute the playbook that creates the VMs.
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/install_upi/ansible/01-proxmox-vms.yaml \
-  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml \
+ansible-playbook ocp/4.15/upi_proxmox/ansible/01-proxmox-vms.yaml \
+  -e @ocp/4.15/upi_proxmox/ansible/defaults/main.yaml \
   -e '{"selected_groups": ["ocp_control_plane","ocp_bootstrap"]}'
 ----
 
@@ -251,8 +251,9 @@ This will generate a directory with name defined on the `ocp_install_root_dir`
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/install_upi/ansible/02-ocp-services-oi-binaries.yaml \
-  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml
+ansible-playbook ocp/4.15/upi_proxmox/ansible/02-ocp-services-oi-binaries.yaml \
+  -e bootstrap_host=ocp_services
+  -e @ocp/4.15/upi_proxmox/ansible/defaults/main.yaml \
 ----
 
 [.lead]
@@ -278,8 +279,8 @@ Add `-K`, or `--ask-become-pass` if your host required password for sudo.
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/install_upi/ansible/10-ocp-services-config-host-playbook.yaml \
-  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml
+ansible-playbook ocp/4.15/upi_proxmox/ansible/10-ocp-services-config-host-playbook.yaml \
+  -e @ocp/4.15/upi_proxmox/ansible/defaults/main.yaml
 ----
 
 Configure HA Proxy.
@@ -295,8 +296,8 @@ Add `-K`, or `--ask-become-pass` if your host required password for sudo.
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/install_upi/ansible/15-ocp-services-haproxy-playbook.yaml \
-  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml \
+ansible-playbook ocp/4.15/upi_proxmox/ansible/15-ocp-services-haproxy-playbook.yaml \
+  -e @ocp/4.15/upi_proxmox/ansible/defaults/main.yaml \
   -e @_local_config/network.yaml
 ----
 
@@ -315,8 +316,8 @@ Add `-K`, or `--ask-become-pass` if your host required password for sudo.
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/install_upi/ansible/18-ocp-services-oi-playbook.yaml \
-  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml \
+ansible-playbook ocp/4.15/upi_proxmox/ansible/18-ocp-services-oi-playbook.yaml \
+  -e @ocp/4.15/upi_proxmox/ansible/defaults/main.yaml \
   -e @_local_config/network.yaml \
   -e pull_secret=${RH_CLUSTER_PULL_SECRET} \
   -e ssh_pub_key_file=${SSH_PUB_KEY_FILE}
@@ -336,8 +337,8 @@ This playbook will perform the following tasks for each of the Proxmox hosts con
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/install_upi/ansible/20-proxmox-prepare-coreos-install.yaml \
-  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml \
+ansible-playbook ocp/4.15/upi_proxmox/ansible/20-proxmox-prepare-coreos-install.yaml \
+  -e @ocp/4.15/upi_proxmox/ansible/defaults/main.yaml \
   -e skip_download=true <1>
 ----
 <1> Optional variable to skip downloading the ISO if it is already downloaded.
@@ -347,8 +348,8 @@ Extract the installation sources and scripts from the `openshift-install`, as
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/install_upi/ansible/25-ocp-services-show-rhcos-info.yaml \
-  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml
+ansible-playbook ocp/4.15/upi_proxmox/ansible/25-ocp-services-show-rhcos-info.yaml \
+  -e @ocp/4.15/upi_proxmox/ansible/defaults/main.yaml
 ----
 
 Execute the `coreos-installer` command obtained on the previous Ansible 
@@ -359,8 +360,8 @@ The VMs are setup so it's time to start the OpenShift cluster deployment.
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/install_upi/ansible/28-proxmox-vm-start-deployment.yaml \
-  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml
+ansible-playbook ocp/4.15/upi_proxmox/ansible/28-proxmox-vm-start-deployment.yaml \
+  -e @ocp/4.15/upi_proxmox/ansible/defaults/main.yaml
 ----
 
 === Followup on the deployment
@@ -413,8 +414,8 @@ Get the authentication.
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/install_upi/ansible/50-ocp-services-get-ocp-auth-playbook.yaml \
-  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml
+ansible-playbook ocp/4.15/upi_proxmox/ansible/50-ocp-services-get-ocp-auth-playbook.yaml \
+  -e @ocp/4.15/upi_proxmox/ansible/defaults/main.yaml
 ----
 
 === Copy the kubernetes config file
@@ -450,8 +451,8 @@ Add `-K`, or `--ask-become-pass` if your host required password for sudo.
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/install_upi/ansible/35-ocp-services-remove-bootstrap-haproxy-playbook.yaml \
-  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml
+ansible-playbook ocp/4.15/upi_proxmox/ansible/35-ocp-services-remove-bootstrap-haproxy-playbook.yaml \
+  -e @ocp/4.15/upi_proxmox/ansible/defaults/main.yaml
 ----
 
 == Add Compute Nodes
@@ -460,8 +461,8 @@ Generate compute node VMS.
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/install_upi/ansible/01-proxmox-vms.yaml \
-  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml \
+ansible-playbook ocp/4.15/upi_proxmox/ansible/01-proxmox-vms.yaml \
+  -e @ocp/4.15/upi_proxmox/ansible/defaults/main.yaml \
   -e '{"selected_groups": ["ocp_compute_node"]}'<1>
   -e '{"vm_host_list": ["ocp4-co-3"]}'<2>
 ----
@@ -474,8 +475,8 @@ Start the `compute-node` VMs to execute the ignition installation.
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/install_upi/ansible/20-proxmox-prepare-coreos-install.yaml \
-  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml \
+ansible-playbook ocp/4.15/upi_proxmox/ansible/20-proxmox-prepare-coreos-install.yaml \
+  -e @ocp/4.15/upi_proxmox/ansible/defaults/main.yaml \
   -e '{"selected_groups": ["ocp_compute_node"]}'
   -e '{"vm_host_list": ["ocp4-co-3"]}'
   -e skip_download=true
@@ -486,8 +487,8 @@ Extract the installation sources and scripts from the `openshift-install`, as
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/install_upi/ansible/25-ocp-services-show-rhcos-info.yaml \
-  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml
+ansible-playbook ocp/4.15/upi_proxmox/ansible/25-ocp-services-show-rhcos-info.yaml \
+  -e @ocp/4.15/upi_proxmox/ansible/defaults/main.yaml
 ----
 
 Once all the VMs show the `Install complete` message the VMs are setup. It's 
@@ -496,8 +497,8 @@ Once all the VMs show the `Install complete` message the VMs are setup. It's
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/install_upi/ansible/28-proxmox-vm-start-deployment.yaml \
-  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml \
+ansible-playbook ocp/4.15/upi_proxmox/ansible/28-proxmox-vm-start-deployment.yaml \
+  -e @ocp/4.15/upi_proxmox/ansible/defaults/main.yaml \
   -e '{"selected_groups": ["ocp_compute_node"]}'
   -e '{"vm_host_list": ["ocp4-co-3"]}'
 ----
@@ -540,8 +541,8 @@ The Openshift installation folder is required to maintain the cluster.
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/install_upi/ansible/99-ocp-services-ocp-clean-playbook.yaml \
-  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml \
+ansible-playbook ocp/4.15/upi_proxmox/ansible/99-ocp-services-ocp-clean-playbook.yaml \
+  -e @ocp/4.15/upi_proxmox/ansible/defaults/main.yaml \
   -e remove_binaries_dir=true <1>
 ----
 <1> Also remove the folder containing the OpenShift binaries
@@ -556,8 +557,8 @@ Remove the taints on the nodes so the control-plane nodes can execute
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/install_upi/ansible/31-ocp-services-remove-cp-taints.yaml \
-  -e @ocp/4.15/install_upi/ansible/defaults/main.yaml
+ansible-playbook ocp/4.15/upi_proxmox/ansible/31-ocp-services-remove-cp-taints.yaml \
+  -e @ocp/4.15/upi_proxmox/ansible/defaults/main.yaml
 ----
 
 === No CNI configuration file in /etc/kubernetes/cni/net.d/. Has your network provider started? 

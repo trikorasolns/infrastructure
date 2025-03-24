@@ -31,17 +31,6 @@ helm repo add ceph-csi https://ceph.github.io/csi-charts
 helm repo update
 ----
 
-== Create Ceph Pool
-
-Create Ceph pool, failesyste and subvolume for Kubernetes & client key
-
-[sourec,bash]
-----
-ansible-playbook kubernetes/storage/ceph/ansible/60-proxmox-create-cephfs-pool.yaml \
-  -e @kubernetes/storage/ceph/ansible/defaults/main.yaml \
-  -e proxmox_host=${PROXMOX_HOST}
-----
-
 == Ansible Inventory
 
 .05-storage.yaml
@@ -82,7 +71,7 @@ kubernetes:
             k8s_role: control-plane
             hw:
               ram: 16384 # In MiB
-              vcpu: 4
+              vcpu: 4  
               storage: 150 # In GiB
       vars:
         ceph_cluster: ceph_01
@@ -90,6 +79,26 @@ kubernetes:
         ceph_pool_name: cephfs_data
         ceph_fs: cephfs
         ceph_fs_subvolume: csi
+----
+
+
+== Ceph Rados Block Device (RBD)
+
+References:
+
+* https://docs.ceph.com/en/latest/rbd/rbd-kubernetes/
+
+
+== Ceph CephFS
+
+
+Create Ceph pool, failesystem and subvolume for Kubernetes & client key.
+
+[sourec,bash]
+----
+ansible-playbook kubernetes/storage/ceph/ansible/60-proxmox-create-cephfs-pool.yaml \
+  -e @kubernetes/storage/ceph/ansible/defaults/main.yaml \
+  -e proxmox_host=${PROXMOX_HOST}
 ----
 
 == Collect information

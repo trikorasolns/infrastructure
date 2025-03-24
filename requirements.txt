@@ -4,3 +4,6 @@ ansible
 openshift
 pyyaml
 firewall
+python-openstackclient
+openstacksdk
+netaddr

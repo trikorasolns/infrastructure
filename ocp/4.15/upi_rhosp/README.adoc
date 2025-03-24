@@ -1,0 +1,42 @@
+= OCP on UPI RHOSP
+Antonio C. <ac (at) trikorasolutions (dot) com>
+:revdate: {docdate}
+:icons: font
+:toc: left
+:toclevels: 3
+:toc-title: Table of Contents
+:description: OCP UPI Installation on Proxmox
+
+== Introduction
+
+[.lead]
+This document describes the installation process for deploying OCP on a UOI 
+ RHOSP platform.
+
+== References
+
+* https://docs.redhat.com/en/documentation/openshift_container_platform/4.11/html/installing/installing-on-openstack
+* https://docs.redhat.com/en/documentation/openshift_container_platform/4.11/html/installing/installing-on-openstack#cluster-entitlements_installing-openstack-user
+* https://github.com/openshift/installer/tree/release-4.15/upi/openstack
+
+== Prepare
+
+Check the generic 
+ link:../README.adoc#collect-information[Collect Information] 
+ section.
+
+
+== Install
+
+[.lead]
+Generate OCP Cluster installation folder and download the OCP binaries.
+
+This will generate a directory with name defined on the `ocp_install_root_dir`
+ variable. This directory will be placed under the `ansible_user` home 
+ directory if the `ocp_install_root_dir_under_user_home` variable is true.
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi_rhosp/ansible/02-ocp-services-oi-binaries.yaml \
+  -e @ocp/4.15/ansible/defaults/main.yaml
+----

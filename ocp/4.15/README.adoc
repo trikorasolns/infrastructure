@@ -1,4 +1,4 @@
-= OCP UPI Installation on Proxmox
+= OCP 4.15.x Installation
 Antonio C. <sp38af (at) trikorasolutions (dot) com>
 :revdate: {docdate}
 :icons: font
@@ -7,51 +7,44 @@ Antonio C. <sp38af (at) trikorasolutions (dot) com>
 :toc-title: Table of Contents
 :description: OCP UPI Installation on Proxmox
 
+== Acronyms
+
+OCP::
+RedHat OpenShift Container Platform
+
+RHOSP::
+RedHat Open Stack Platform
+
+UPI::
+User-provisioned infrastructure
+
 == Introduction
 
 [.lead]
-This document describes the OCP installation process using UPI. It automates 
- the instructions found at https://blog.rossbrigoli.com/2020/11/running-openshift-at-home-part-44.html.
+The different sections linked by this document describe the installation 
+ process for OCP 4.15.x on different platforms.
 
-References:
+[#collect-information]
+== Collect information
 
-* https://docs.openshift.com/container-platform/4.15/installing/installing_bare_metal/installing-bare-metal.html#installing-bare-metal
-
-=== Services host
-
-[source,bash]
-----
-OCP_CLI_INSTALL_DIR=/tmp<1>
-RH_CLUSTER_PULL_SECRET=<2>
-SSH_PUB_KEY_FILE=<3>
-----
-<1>
-<2> Get a Red Hat pull secret by logging in to https://cloud.redhat.com. 
- Navigate to _Cluster Manager > Create Cluster > Red Hat Openshift Container Platform > Run on Baremetal > User-Provisioned Infrastructure_
- and press _Copy pull secret_.
-<3>
+Collect all the information required for the deployment.
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi/ansible/ocp-services-02-gen-playbook.yaml \
-  -e @ocp/4.15/upi/ansible/defaults/main.yaml
+RH_CLUSTER_PULL_SECRET='{"auths":{"cloud.openshift.com":...'<1>
+SSH_PUB_KEY_FILE=~/.ssh/id_rsa_somefile.pub<2>
 ----
+<1> RedHat Openshift cloud pull secret.
+ Get a Red Hat pull secret by going to https://cloud.redhat.com/.
+ Select the _Access the Console_ link and login to the link:https://console.redhat.com/[Hybrid Cloud console].
+ Open the _Services_ dropdown and navigate to _Platform > Red Hat OpenShift_. 
+ On the _OpenShift > Overview_ page navigate to _Cluster List_, using the left menu, and press _Create Cluster_. 
+ Under the cluster type tab select _Local_ and press the _Copy pull secret_.
+<2> SSH public key used to access the cluster hosts
 
-Use `openshift-install` to create the Kubernetes manifests and Ignition 
- configuration files for the cluster.
+== Select platform
 
-[source,bash]
-----
-ansible-playbook ocp/4.15/upi/ansible/ocp-services-03-oi-playbook.yaml \
-  -e @ocp/4.15/upi/ansible/defaults/main.yaml \
-  -e @_local_config/network.yaml \
-  -e pull_secret=${RH_CLUSTER_PULL_SECRET} \
-  -e ssh_pub_key_file=${SSH_PUB_KEY_FILE}
-----
+The following platforms are available:
 
-[source,bash]
-----
-ansible-playbook ocp/4.15/upi/ansible/ocp-services-10-config-playbook.yaml -K \
-  -e @ocp/4.15/upi/ansible/defaults/main.yaml
-----
-
+* link:upi_proxmox//[OCP UPI Installation on Proxmox]
+* link:upi_rhosp/[OCP Installation on UPI RHOSP]
