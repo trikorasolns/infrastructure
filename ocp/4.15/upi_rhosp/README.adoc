@@ -53,10 +53,16 @@ ansible-playbook ocp/4.15/ansible/18-ocp-services-oi-playbook.yaml \
   -e ocp_cluster_name=${OCP_CLUSTER_NAME}
 ----
 
-OPENSTACK_NETWORK="private"
+Import openshift image to openstack.
+
+OCP_CLUSTER_NAME="ovhcpococp"
+OPENSTACK_NETWORK="openshift"
 OPENSTACK_KEYPAIR="poc_openshift_trikorasolns"
 OPENSTACK_FLAVOR="b3-8"
 INSTANCE_NAME="ocp_poc_trikora"
+
+openstack  --os-region-name GRA11 image create --container-format=bare --disk-format=qcow2 --file /z/_dw/rhcos-415.92.202407091355-0-openstack.x86_64.qcow2 rhcos-${OCP_CLUSTER_NAME}
+
 openstack server create             \
   --os-region-name GRA11            \
   --key-name="${OPENSTACK_KEYPAIR}" \
@@ -74,4 +80,4 @@ openstack --os-region-name GRA11 image list
 * https://docs.redhat.com/en/documentation/openshift_container_platform/4.11/html/installing/installing-on-openstack#cluster-entitlements_installing-openstack-user
 * https://github.com/openshift/installer/tree/release-4.15/upi/openstack
 * https://docs.fedoraproject.org/en-US/fedora-coreos/provisioning-openstack/
-
+* https://github.com/openshift/installer/blob/main/docs/user/openstack/install_upi.md

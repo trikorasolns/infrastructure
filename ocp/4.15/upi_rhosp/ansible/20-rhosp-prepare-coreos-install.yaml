@@ -27,7 +27,7 @@
 
     - name: "Set fact for the image location"
       ansible.builtin.set_fact:
-        coreos_image_location: "{{ coreos_stream_json.architectures.x86_64.artifacts.metal.formats.iso.disk.location  }}"
+        coreos_image_location: "{{ coreos_stream_json.architectures.x86_64.artifacts.openstack.formats.qcow2.gz.disk.location  }}"
 
     - name: "RHCOS image to use"
       ansible.builtin.debug:
