@@ -304,10 +304,20 @@ ansible-playbook ocp/4.15/upi_proxmox/ansible/15-ocp-services-haproxy-playbook.y
 [.lead]
 Generate the _OpenShift Cluster_ installation directory and generate the 
  Kubernetes manifests and Ignition configuration files for the cluster.
- Copy the Ignition configuration files to the httpd www folder so they can be 
- fetched by the CoreOS installer.
  
 This is done using the `openshift-install` CLI.
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/ansible/18-ocp-services-oi-playbook.yaml \
+  -e @ocp/4.15/upi_proxmox/ansible/defaults/main.yaml \
+  -e @_local_config/network.yaml \
+  -e pull_secret=${RH_CLUSTER_PULL_SECRET} \
+  -e ssh_pub_key_file=${SSH_PUB_KEY_FILE}
+----
+
+Copy the Ignition configuration files to the httpd www folder so they can be 
+ fetched by the CoreOS installer.
 
 [WARNING]
 ====
@@ -316,12 +326,11 @@ Add `-K`, or `--ask-become-pass` if your host required password for sudo.
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi_proxmox/ansible/18-ocp-services-oi-playbook.yaml \
+ansible-playbook ocp/4.15/upi_proxmox/ansible/19-ocp-services-ign-www-playbook.yaml \
   -e @ocp/4.15/upi_proxmox/ansible/defaults/main.yaml \
-  -e @_local_config/network.yaml \
-  -e pull_secret=${RH_CLUSTER_PULL_SECRET} \
-  -e ssh_pub_key_file=${SSH_PUB_KEY_FILE}
+  -e @_local_config/network.yaml
 ----
+
 
 == Deploy Bootstrap and Control Planes
 
