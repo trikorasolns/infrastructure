@@ -13,12 +13,6 @@ Antonio C. <ac (at) trikorasolutions (dot) com>
 This document describes the installation process for deploying OCP on a UOI 
  RHOSP platform.
 
-== References
-
-* https://docs.redhat.com/en/documentation/openshift_container_platform/4.11/html/installing/installing-on-openstack
-* https://docs.redhat.com/en/documentation/openshift_container_platform/4.11/html/installing/installing-on-openstack#cluster-entitlements_installing-openstack-user
-* https://github.com/openshift/installer/tree/release-4.15/upi/openstack
-
 == Prepare
 
 Check the generic 
@@ -63,12 +57,21 @@ OPENSTACK_NETWORK="private"
 OPENSTACK_KEYPAIR="poc_openshift_trikorasolns"
 OPENSTACK_FLAVOR="b3-8"
 INSTANCE_NAME="ocp_poc_trikora"
-openstack server create                \
-     --key-name="${OPENSTACK_KEYPAIR}" \
-     --network=$OPENSTACK_NETWORK      \
-     --flavor=$OPENSTACK_FLAVOR        \
-     --image="${IMAGE}"                \
-     --user-data ./example.ign         \
-     "${INSTANCE_NAME}"
+openstack server create             \
+  --os-region-name GRA11            \
+  --key-name="${OPENSTACK_KEYPAIR}" \
+  --network=$OPENSTACK_NETWORK      \
+  --flavor=$OPENSTACK_FLAVOR        \
+  --image="${IMAGE}"                \
+  --user-data ./_local_config/ovhcpococp/bootstrap.ign \
+  "${INSTANCE_NAME}"
 
 openstack --os-region-name GRA11 image list
+
+== References
+
+* https://docs.redhat.com/en/documentation/openshift_container_platform/4.11/html/installing/installing-on-openstack
+* https://docs.redhat.com/en/documentation/openshift_container_platform/4.11/html/installing/installing-on-openstack#cluster-entitlements_installing-openstack-user
+* https://github.com/openshift/installer/tree/release-4.15/upi/openstack
+* https://docs.fedoraproject.org/en-US/fedora-coreos/provisioning-openstack/
+
