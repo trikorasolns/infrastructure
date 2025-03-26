@@ -1,0 +1,478 @@
+---
+- name: "Check required variables"
+  hosts: "localhost"
+  gather_facts: true
+
+  tasks:
+  - name: "Check required variables"
+    ansible.builtin.assert:
+      that:
+        - ocp_cluster_name is defined and (ocp_cluster_name | length > 0)
+      fail_msg:
+        - "The name of the OCP cluster must be defined in the 'ocp_cluster_name' variable."
+
+
+- name: "Read installation info from openshift installation"
+  hosts: "ocp_services"
+  gather_facts: true
+
+  pre_tasks:
+  - name: "Define variables"
+    ansible.builtin.include_tasks:
+      file: ../../ansible/tasks/set_ocp_install_dir.yaml
+
+  tasks:
+    - name: "Obtain the correct version of your RHCOS images"
+      ansible.builtin.shell: |
+          ./openshift-install coreos print-stream-json
+      register: coreos_stream_res
+      args:
+        chdir: "{{ openshift_install_dir }}"
+
+    - name: "RHCOS output"
+      ansible.builtin.debug:
+        var: coreos_stream_res.stdout
+        verbosity: 2
+
+    - name: "Set fact for coreos information"
+      ansible.builtin.set_fact:
+        coreos_stream_json: "{{ coreos_stream_res.stdout | from_json  }}"
+
+    - name: "Set fact for the image location"
+      ansible.builtin.set_fact:
+        coreos_image_location: "{{ coreos_stream_json['architectures']['x86_64']['artifacts']['openstack']['formats']['qcow2.gz']['disk']['location']  }}"
+
+    - name: "RHCOS image to use"
+      ansible.builtin.debug:
+        msg: 
+        - "CoreOS ISO disk location: {{ coreos_image_location }}"
+
+    - name: "Read metadata file"
+      ansible.builtin.slurp:
+        src: "{{ openshift_cluster_install_dir }}/metadata.json"
+      register: metadata_json_slurp
+
+    - name: "Parse metadata information"
+      ansible.builtin.set_fact:
+        metadata_json: "{{ metadata_json_slurp.content | b64decode }}"
+
+    - name: "Fetch bootstrap Ignition file"
+      ansible.builtin.fetch:
+        src: "{{ openshift_cluster_install_dir }}/bootstrap.ign"
+        dest: "/tmp/bootstrap-{{ metadata_json.infraID }}.ign"
+      register: bootstrap_ign_slurp
+
+    - name: "Read bootstrap Ignition file signature"
+      ansible.builtin.slurp:
+        src: "{{ openshift_cluster_install_dir }}/bootstrap.ign.sig"
+      register: bootstrap_sig_slurp
+
+    - name: "Read master Ignition file signature"
+      ansible.builtin.slurp:
+        src: "{{ openshift_cluster_install_dir }}/master.ign.sig"
+      register: master_sig_slurp
+
+    - name: "Read worker Ignition file signature"
+      ansible.builtin.slurp:
+        src: "{{ openshift_cluster_install_dir }}/worker.ign.sig"
+      register: worker_sig_slurp
+
+  post_tasks:
+
+    - name: "Set CoreOS Image Location under localhost"
+      ansible.builtin.set_fact:
+        global_coreos_image_location: "{{ coreos_image_location }}"
+      delegate_to: localhost
+      delegate_facts: True
+
+    - name: "Set CoreOS Image Location under localhost"
+      ansible.builtin.set_fact:
+        global_bootstrap_hash: "{{ bootstrap_sig_slurp.content | b64decode }}"
+        global_master_hash: "{{ master_sig_slurp.content | b64decode }}"
+        global_worker_hash: "{{ worker_sig_slurp.content | b64decode }}"
+        global_metadata_json: "{{ metadata_json }}"
+      delegate_to: localhost
+      delegate_facts: True
+
+- name: "Setup OpenStack Environment"
+  hosts: "localhost"
+  gather_facts: true
+
+  pre_tasks:
+  - name: "Fetch Global variables"
+    ansible.builtin.set_fact:
+      coreos_image_location: "{{ hostvars['localhost']['global_coreos_image_location'] }}"
+      coreos_image_filename: "{{ hostvars['localhost']['global_coreos_image_location'] | basename}}"
+      bootstrap_hash: "{{ hostvars['localhost']['global_bootstrap_hash'] }}"
+      master_hash: "{{ hostvars['localhost']['global_master_hash']}}"
+      worker_hash: "{{ hostvars['localhost']['global_worker_hash'] }}"
+      metadata_json: "{{ hostvars['localhost']['global_metadata_json'] }}"
+    delegate_to: localhost
+
+  - name: "RHCOS image to use"
+    ansible.builtin.debug:
+      msg: 
+      - "CoreOS ISO disk location (coreos_image_location): {{ coreos_image_location }}"
+      - "CoreOS ISO disk file name: {{ coreos_image_filename }}"
+
+  - name: "Set metadata infra ID"
+    ansible.builtin.set_fact:
+      ocp_infra_id: "{{ metadata_json.infraID }}"
+
+  tasks:
+
+  - name: "Check if cluster image exists"
+    openstack.cloud.image_info:
+      image: "rhcos-{{ ocp_cluster_name }}"
+      # region_name: "{{ openstack_region }}"
+    register: openstack_image_coreos_res
+
+  - name: "RHCOS output"
+    ansible.builtin.debug:
+      var: openstack_image_coreos_res
+
+  - name: "Upload RHCOS image (TODO)"
+    openstack.cloud.image:
+      image: "rhcos-{{ ocp_cluster_name }}"
+      container_format: bare
+      disk_format: qcow2
+      state: present
+      filename: "{{ coreos_image_location }}"
+      # kernel: cirros-vmlinuz
+      # ramdisk: cirros-initrd
+      tags:
+        - rhcos
+        - "{{ ocp_cluster_name }}"
+        - openshift
+      properties:
+        cpu_arch: x86_64
+        distro: rhcos
+    register: openstack_image_coreos_upload_res
+    when: openstack_image_coreos_res.failed or (openstack_image_force_upload is defined and openstack_image_force_upload | bool)
+
+  - name: "Check if API floating IP already exist for the project"
+    openstack.cloud.floating_ip_info:
+      description: "ocp-{{ ocp_cluster_name }}-api"
+    register: fip_api_info
+
+  - name: "Check if Ingress floating IP already exist for the project"
+    openstack.cloud.floating_ip_info:
+      description: "ocp-{{ ocp_cluster_name }}-ingress"
+    register: fip_ingress_info
+
+  - name: "Check if Bootstrap floating IP already exist for the project"
+    openstack.cloud.floating_ip_info:
+      description: "ocp-{{ ocp_cluster_name }}-bootstrap"
+    register: fip_bootstrap_info
+
+  - name: "OpenStack Floating IP info"
+    ansible.builtin.debug:
+      msg:
+        - "fip_api_info ({{ fip_api_info.floating_ips | length }}): {{ fip_api_info }}"
+        - "fip_ingress_info ({{ fip_ingress_info.floating_ips | length }}): {{ fip_ingress_info }}"
+        - "fip_bootstrap_info ({{ fip_bootstrap_info.floating_ips | length }}): {{ fip_bootstrap_info }}"
+
+  - name: "Create API floating IP if it doesn't exist"
+    # openstack.cloud.floating_ip:
+    #   description: "ocp-{{ ocp_cluster_name }}-api"
+    #   state: present
+    ansible.builtin.shell: |
+      openstack floating ip create --description "ocp-{{ ocp_cluster_name }}-api" {{ openstack_ext_network | default('Ext-Net') }}
+    when: fip_api_info.floating_ips | length == 0
+    register: fip_api_create
+
+  - name: "Create Ingress floating IP if it doesn't exist"
+    # openstack.cloud.floating_ip:
+    #   description: "ocp-{{ ocp_cluster_name }}-ingress"
+    #   state: present
+    ansible.builtin.shell: |
+      openstack floating ip create --description "ocp-{{ ocp_cluster_name }}-ingress" {{ openstack_ext_network | default('Ext-Net') }}
+    when: fip_ingress_info.floating_ips | length == 0
+    register: fip_ingress_create
+
+  - name: "Create Bootstrap floating IP if it doesn't exist"
+    # openstack.cloud.floating_ip:
+    #   description: "ocp-{{ ocp_cluster_name }}-bootstrap"
+    #   state: present
+    ansible.builtin.shell: |
+      openstack floating ip create --description "ocp-{{ ocp_cluster_name }}-bootstrap" {{ openstack_ext_network | default('Ext-Net') }}
+    when: fip_bootstrap_info.floating_ips | length == 0
+    register: fip_bootstrap_create
+
+  - name: "OpenStack API Floating IP creation info"
+    ansible.builtin.debug:
+      var: fip_api_create
+    when: fip_api_create is defined
+
+  - name: "OpenStack Ingress Floating IP creation info"
+    ansible.builtin.debug:
+      var: fip_ingress_create
+    when: fip_ingress_create is defined
+
+  - name: "OpenStack Bootstrap Floating IP creation info"
+    ansible.builtin.debug:
+      var: fip_bootstrap_create
+    when: fip_bootstrap_create is defined
+
+  - name: "Set the external IPs for API and APPS"
+    ansible.builtin.set_fact:
+      openstack_fip_api_address: "{% if fip_api_create.skipped is defined and fip_api_create.skipped | bool %}{{ fip_api_info.floating_ips[0].floating_ip_address }}{% else %}{{ fip_api_create.stdout }}{% endif %}"
+      openstack_fip_apps_address: "{% if fip_ingress_create.skipped is defined and fip_ingress_create.skipped | bool %}{{ fip_ingress_info.floating_ips[0].floating_ip_address }}{% else %}{{ fip_ingress_create.stdout }}{% endif %}"
+
+  - name: "Set names for DNS queries"
+    ansible.builtin.set_fact:
+      api_dns_name: "api.{{ ocp_cluster_name }}.{{ local_domain}}"
+      apps_dns_name: "console.apps.{{ ocp_cluster_name }}.{{ local_domain}}"
+
+  - name: "Fetch DNS for API and APPS"
+    ansible.builtin.set_fact:
+      dnslookup_api: "{{ query('community.dns.lookup', api_dns_name) }}"
+      dnslookup_apps: "{{ query('community.dns.lookup', apps_dns_name) }}"
+
+  - name: Look up A (IPv4) records for example.org
+    ansible.builtin.debug:
+      msg: 
+      - "dnslookup_api: {{ dnslookup_api }}"
+      - "dnslookup_apps: {{ dnslookup_api }}"
+      - "dnslookup_apps: {{ query('community.dns.lookup', 'www.trikorasolutions.com') }}"
+
+  # - name: "TODO: Create DNS records for API and APPS"
+  #   ansible.builtin.debug:
+  #     msg: 
+  #     - "TO BE AUTOMATED!!!"
+  #     - "Create these two records in your DNS zone:"
+  #     - 
+  #     - "api.{{ ocp_cluster_name }}.{{ local_domain }}.    A {{ openstack_fip_api_address }}"
+  #     - "*.apps.{{ ocp_cluster_name }}.{{ local_domain }}. A {{ openstack_fip_apps_address }}"
+
+  - name: "WARNING: No DNS addresses found for API and/or APPS, create them manually"
+    ansible.builtin.debug:
+      msg: 
+      - "TO BE AUTOMATED!!!"
+      - "Create these two records in your DNS zone:"
+      - ""
+      - "api.{{ ocp_cluster_name }}.{{ local_domain }}.    A {{ openstack_fip_api_address }}"
+      - "*.apps.{{ ocp_cluster_name }}.{{ local_domain }}. A {{ openstack_fip_apps_address }}"
+    when: (dnslookup_api | length == 0) or (dnslookup_apps | length == 0)
+
+  - name: "WARNING: Mismatch DNS addresses for API, fix it manually"
+    ansible.builtin.debug:
+      msg: 
+      - "TO BE AUTOMATED!!!"
+      - "api.{{ ocp_cluster_name }}.{{ local_domain }} should be {{ openstack_fip_api_address }} but is {{ dnslookup_api[0] }}"
+      - ""
+      - "These two records should exist in your DNS zone:"
+      - ""
+      - "api.{{ ocp_cluster_name }}.{{ local_domain }}.    A {{ openstack_fip_api_address }}"
+      - "*.apps.{{ ocp_cluster_name }}.{{ local_domain }}. A {{ openstack_fip_apps_address }}"
+    when: (dnslookup_api | length > 0 and dnslookup_api[0] != openstack_fip_api_address)
+
+  - name: "WARNING: Mismatch DNS addresses for APPS, fix it manually"
+    ansible.builtin.debug:
+      msg: 
+      - "TO BE AUTOMATED!!!"
+      - "*.apps.{{ ocp_cluster_name }}.{{ local_domain }} should be {{ openstack_fip_apps_address }} but is {{ dnslookup_apps[0] }}"
+      - 
+      - "These two records should exist in your DNS zone:"
+      - 
+      - "api.{{ ocp_cluster_name }}.{{ local_domain }}.    A {{ openstack_fip_api_address }}"
+      - "*.apps.{{ ocp_cluster_name }}.{{ local_domain }}. A {{ openstack_fip_apps_address }}"
+    when: (dnslookup_apps | length > 0 and dnslookup_apps[0] != openstack_fip_apps_address)
+
+  # - name: "Wait for DNS propagation"
+  #   ansible.builtin.debug:
+  #     msg: "Wait for DNS propagation..."
+  #   until: (lookup('community.general.dig', api_dns_name) == openstack_fip_api_address) and (lookup('community.general.dig', apps_dns_name) == openstack_fip_apps_address)
+  #   retries: 30
+  #   delay: 10
+  #   when: skip_dns is undefined or not (skip_dns | bool)
+  #   # reg: wait_for_dns_propagation_res
+
+  # - name: "WARNING: Mismatch DNS addresses for APPS, fix it manually"
+  #   ansible.builtin.debug:
+  #     var: wait_for_dns_propagation_res
+
+  # - name: "MANUAL STEP: Pause until the DNS records for API and APPS are created."
+  #   ansible.builtin.pause:
+  #   when: (dnslookup_api | length == 0) or (dnslookup_apps | length == 0) or (dnslookup_api[0] != openstack_fip_api_address) or (dnslookup_apps[0] != openstack_fip_apps_address)
+
+  - name: "Check if the Boostrap Ignition image exists"
+    openstack.cloud.image_info:
+      image: "bootstrap-ign-{{ ocp_infra_id }}"
+    register: openstack_image_bootstrap_ign_res
+
+  - name: "Upload the Boostrap Ignition to Glance"
+    openstack.cloud.image:
+      image: "bootstrap-ign-{{ ocp_infra_id }}"
+      container_format: bare
+      disk_format: raw
+      state: present
+      filename: "/tmp/bootstrap-{{ metadata_json.infraID }}.ign"
+      tags:
+        - rhcos
+        - "{{ ocp_infra_id }}"
+        - openshift
+    register: openstack_image_bootstrap_ign_upload_res
+    when: openstack_image_bootstrap_ign_res.failed
+
+  - name: "Check if the Boostrap Ignition image exists"
+    openstack.cloud.image_info:
+      image: "bootstrap-ign-{{ ocp_infra_id }}"
+    register: openstack_image_bootstrap_ign_res
+    failed_when: openstack_image_bootstrap_ign_res.failed
+
+  - name: "Fetch Glance token"
+    ansible.builtin.shell: |
+      openstack token issue -c id -f value
+    register: glance_token_res
+
+  - name: "Set Glance token"
+    ansible.builtin.set_fact: |
+      glance_token: "{{ glance_token_res.stdout }}"
+
+  - name: "Fetch Bootstrap URL"
+    ansible.builtin.shell: |
+      $(openstack catalog show glance -f json | jq -r '.endpoints[] | select(.interface=="public").url')$(openstack image show -f value -c file bootstrap-ign-{{ ocp_infra_id }})
+    register: bootstrap_url_res
+
+  - name: "Set Glance token"
+    ansible.builtin.set_fact: |
+      bootstrap_url: "{{ bootstrap_url_res.stdout }}"
+
+  - name: "Wait for DNS propagation"
+    ansible.builtin.debug:
+      msg: "Wait for DNS propagation..."
+    until: (lookup('community.general.dig', api_dns_name) == openstack_fip_api_address) and (lookup('community.general.dig', apps_dns_name) == openstack_fip_apps_address)
+    retries: 30
+    delay: 10
+    when: skip_dns is undefined or not (skip_dns | bool)
+
+# Network
+## Security Groups
+## Update Network, Subnet, Router and ports
+
+# Bootstrap
+  - name: "Template bootstrap ignition"
+  
+  - name: 'Create the bootstrap server port'
+    openstack.cloud.port:
+      name: "{{ os_port_bootstrap }}"
+      network: "{{ os_network }}"
+      security_groups:
+      - "{{ os_sg_master }}"
+      allowed_address_pairs:
+      - ip_address: "{{ os_apiVIP }}"
+    # when: os_subnet6_range is not defined
+
+  # - name: 'Create the bootstrap dualstack server port'
+  #   openstack.cloud.port:
+  #     name: "{{ os_port_bootstrap }}"
+  #     network: "{{ os_network }}"
+  #     security_groups:
+  #     - "{{ os_sg_master }}"
+  #     allowed_address_pairs:
+  #     - ip_address: "{{ os_apiVIP }}"
+  #     - ip_address: "{{ os_apiVIP6 }}"
+  #   when: os_subnet6_range is defined
+
+  - name: 'Set bootstrap port tag'
+    ansible.builtin.shell: |
+      openstack port set --tag {{ cluster_id_tag }} {{ os_port_bootstrap }}
+
+  - name: 'Set bootstrap auto_ip to false'
+    ansible.builtin.set_fact:
+      bootstrap_auto_ip: false
+    when: os_bootstrap_fip is not defined
+
+  - name: 'Create the bootstrap server'
+    openstack.cloud.server:
+      name: "{{ os_bootstrap_server_name }}"
+      image: "{{ os_image_rhcos }}"
+      flavor: "{{ os_flavor_master }}"
+      userdata: "{{ lookup('file', os_bootstrap_ignition) | string }}"
+      floating_ips: "{{ os_bootstrap_fip | default(omit) }}"
+      auto_ip: "{{ bootstrap_auto_ip | default(omit) }}"
+      nics:
+      - port-name: "{{ os_port_bootstrap }}"
+      meta: "{{ cluster_id_tag }}"
+
+# Control Plane
+  - name: 'Create the Control Plane ports'
+    openstack.cloud.port:
+      name: "{{ item.1 }}-{{ item.0 }}"
+      network: "{{ os_network }}"
+      security_groups:
+      - "{{ os_sg_master }}"
+      allowed_address_pairs:
+      - ip_address: "{{ os_apiVIP }}"
+      - ip_address: "{{ os_ingressVIP }}"
+    with_indexed_items: "{{ [os_port_master] * os_cp_nodes_number }}"
+    register: ports
+    # when: os_subnet6_range is not defined
+
+  # - name: 'Create the dualstack Control Plane ports'
+  #   openstack.cloud.port:
+  #     name: "{{ item.1 }}-{{ item.0 }}"
+  #     network: "{{ os_network }}"
+  #     security_groups:
+  #     - "{{ os_sg_master }}"
+  #     allowed_address_pairs:
+  #     - ip_address: "{{ os_apiVIP }}"
+  #     - ip_address: "{{ os_apiVIP6 }}"
+  #     - ip_address: "{{ os_ingressVIP }}"
+  #     - ip_address: "{{ os_ingressVIP6 }}"
+  #   with_indexed_items: "{{ [os_port_master] * os_cp_nodes_number }}"
+  #   register: ports
+  #   when: os_subnet6_range is defined
+
+  # - name: 'Set Control Plane ports tag'
+  #   ansible.builtin.command:
+  #     cmd: "openstack port set --tag {{ cluster_id_tag }} {{ item.1 }}-{{ item.0 }}"
+  #   with_indexed_items: "{{ [os_port_master] * os_cp_nodes_number }}"
+
+  # - name: 'List the Server groups'
+  #   ansible.builtin.command:
+  #     # os-compute-api-version 2.15 or higher is required for the 'soft-anti-affinity' policy
+  #     cmd: "openstack --os-compute-api-version=2.15 server group list -f json -c ID -c Name"
+  #   register: server_group_list
+
+  # - name: 'Parse the Server group ID from existing'
+  #   ansible.builtin.set_fact:
+  #     server_group_id: "{{ (server_group_list.stdout | from_json | json_query(list_query) | first).ID }}"
+  #   vars:
+  #     list_query: "[?Name=='{{ os_cp_server_group_name }}']"
+  #   when:
+  #   - "os_cp_server_group_name|string in server_group_list.stdout"
+
+  # - name: 'Create the Control Plane server group'
+  #   ansible.builtin.command: |
+  #     # os-compute-api-version 2.15 or higher is required for the 'soft-anti-affinity' policy
+  #     openstack --os-compute-api-version=2.15 server group create -f json -c id --policy=soft-anti-affinity {{ os_cp_server_group_name }}
+  #   register: server_group_created
+  #   when:
+  #   - server_group_id is not defined
+
+  # - name: 'Parse the Server group ID from creation'
+  #   ansible.builtin.set_fact:
+  #     server_group_id: "{{ (server_group_created.stdout | from_json).id }}"
+  #   when:
+  #   - server_group_id is not defined
+
+  # - name: 'Create the Control Plane servers'
+  #   openstack.cloud.server:
+  #     name: "{{ item.1 }}-{{ item.0 }}"
+  #     image: "{{ os_image_rhcos }}"
+  #     flavor: "{{ os_flavor_master }}"
+  #     auto_ip: no
+  #     # The ignition filename will be concatenated with the Control Plane node
+  #     # name and its 0-indexed serial number.
+  #     # In this case, the first node will look for this filename:
+  #     #    "{{ infraID }}-master-0-ignition.json"
+  #     userdata: "{{ lookup('file', [item.1, item.0, 'ignition.json'] | join('-')) | string }}"
+  #     nics:
+  #     - port-name: "{{ os_port_master }}-{{ item.0 }}"
+  #     scheduler_hints:
+  #       group: "{{ server_group_id }}"
+  #     meta: "{{ cluster_id_tag }}"
+  #   with_indexed_items: "{{ [os_cp_server_name] * os_cp_nodes_number }}"
+...

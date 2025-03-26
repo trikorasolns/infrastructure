@@ -15,10 +15,37 @@ This document describes the installation process for deploying OCP on a UOI
 
 == Prepare
 
+After link:../README.adoc#collect-information[starting the Python venv] log 
+ into OpenStack. This can be done using a `openrc.sh` script.
+
+[NOTE]
+====
+On this example our `openrc.sh` file is located under the `_local_config` 
+ folder that is excluded from git.
+====
+
+[source,bash]
+----
+source ./_local_config/openrc.sh
+----
+
 Check the generic 
  link:../README.adoc#collect-information[Collect Information] 
  section.
 
+Set extra variables for OpenStack.
+
+[source,bash]
+----
+OCP_CLUSTER_NAME="ovhcpococp"<1>
+OPENSTACK_NETWORK="openshift"<2>
+OPENSTACK_KEYPAIR="${OCP_CLUSTER_NAME}"<3>
+OPENSTACK_REGION_NAME="GRA11"<4>
+----
+<1> Name of the OCP cluster.
+<2> Name of the OpenStack network to be used by the cluster.
+<3> Name of the SSH key pair
+<4> Name of the OpenStack region
 
 == Install
 
@@ -36,7 +63,6 @@ ansible-playbook ocp/4.15/ansible/02-ocp-services-oi-binaries.yaml \
   -e ocp_cluster_name=ocponrhosp
 ----
 
-
 [.lead]
 Generate the _OpenShift Cluster_ installation directory and generate the 
  Kubernetes manifests and Ignition configuration files for the cluster.
@@ -45,34 +71,53 @@ This is done using the `openshift-install` CLI.
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/ansible/18-ocp-services-oi-playbook.yaml \
+ansible-playbook ocp/4.15/upi_rhosp/ansible/18-ocp-services-oi-playbook.yaml \
   -e @ocp/4.15/ansible/defaults/main.yaml \
   -e @_local_config/network.yaml \
   -e pull_secret=${RH_CLUSTER_PULL_SECRET} \
   -e ssh_pub_key_file=${SSH_PUB_KEY_FILE} \
+  -e ocp_cluster_name=${OCP_CLUSTER_NAME} \
+  -e openstack_network=${OPENSTACK_NETWORK}
+----
+
+Generate the OpenStack infrastructure.
+
+* Import the OpenShift image to OpenStack
+* Create API and Ingress Floating IP Addresses
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi_rhosp/ansible/20-rhosp-prepare.yaml \
+  -e @ocp/4.15/ansible/defaults/main.yaml \
+  -e @_local_config/network.yaml \
   -e ocp_cluster_name=${OCP_CLUSTER_NAME}
 ----
 
 Import openshift image to openstack.
-
-OCP_CLUSTER_NAME="ovhcpococp"
-OPENSTACK_NETWORK="openshift"
-OPENSTACK_KEYPAIR="poc_openshift_trikorasolns"
-OPENSTACK_FLAVOR="b3-8"
-INSTANCE_NAME="ocp_poc_trikora"
 
 openstack  --os-region-name GRA11 image create --container-format=bare --disk-format=qcow2 --file /z/_dw/rhcos-415.92.202407091355-0-openstack.x86_64.qcow2 rhcos-${OCP_CLUSTER_NAME}
 
 openstack server create             \
   --os-region-name GRA11            \
   --key-name="${OPENSTACK_KEYPAIR}" \
-  --network=$OPENSTACK_NETWORK      \
-  --flavor=$OPENSTACK_FLAVOR        \
+  --network=${OPENSTACK_NETWORK}    \
+  --flavor=b3-16                    \
   --image="${IMAGE}"                \
   --user-data ./_local_config/ovhcpococp/bootstrap.ign \
-  "${INSTANCE_NAME}"
+  ovhcpococp_bootstrap
 
 openstack --os-region-name GRA11 image list
+
+== Cleanup
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi_rhosp/ansible/20-rhosp-cleanup.yaml \
+  -e @ocp/4.15/ansible/defaults/main.yaml \
+  -e @_local_config/network.yaml \
+  -e ocp_cluster_name=${OCP_CLUSTER_NAME} \
+  -e openstack_region=${OPENSTACK_REGION_NAME}
+----
 
 == References
 

@@ -7,3 +7,4 @@ firewall
 python-openstackclient
 openstacksdk
 netaddr
+dnspython

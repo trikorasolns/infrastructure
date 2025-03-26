@@ -20,6 +20,11 @@
     ansible.builtin.include_tasks:
       file: tasks/set_ocp_install_dir.yaml
 
+  - name: "Debug network_cidr"
+    ansible.builtin.debug:
+      var: network_cidr
+    # when: network_cidr is defined
+
   tasks:
 
   - name: "Delete OCP cluster install directory"
