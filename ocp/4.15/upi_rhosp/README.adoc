@@ -38,14 +38,35 @@ Set extra variables for OpenStack.
 [source,bash]
 ----
 OCP_CLUSTER_NAME="ovhcpococp"<1>
-OPENSTACK_NETWORK="openshift"<2>
-OPENSTACK_KEYPAIR="${OCP_CLUSTER_NAME}"<3>
-OPENSTACK_REGION_NAME="GRA11"<4>
 ----
 <1> Name of the OCP cluster.
+
+Create a yaml file with the cluster properties. For the sake of the example 
+ this file will be located at 
+ `_local_config/${OCP_CLUSTER_NAME}/${OCP_CLUSTER_NAME}.yaml.`
+
+[source,yaml]
+----
+openstack_network: openshift<1>
+openstack_region: GRA11<2>
+ssh_pub_key_file: ~/.ssh/id_rsa_ovhc_pococp.pub<3>
+----
+<1> Name of the OpenStack region
 <2> Name of the OpenStack network to be used by the cluster.
 <3> Name of the SSH key pair
-<4> Name of the OpenStack region
+
+=== RHOSP Connection
+
+This playbook uses a connection made through a `openrc.sh` file which is 
+ located under the `_local_config` folder. To activate the connection execute 
+ the following command.
+
+[source.bash]
+----
+source ./_local_config/openrc.sh
+----
+
+The RHOSP password will be requested (`Please enter your OpenStack Password:`).
 
 == Install
 
@@ -60,7 +81,7 @@ This will generate a directory with name defined on the `ocp_install_root_dir`
 ----
 ansible-playbook ocp/4.15/ansible/02-ocp-services-oi-binaries.yaml \
   -e @ocp/4.15/ansible/defaults/main.yaml \
-  -e ocp_cluster_name=ocponrhosp
+  -e ocp_cluster_name=${OCP_CLUSTER_NAME}
 ----
 
 [.lead]
@@ -75,9 +96,7 @@ ansible-playbook ocp/4.15/upi_rhosp/ansible/18-ocp-services-oi-playbook.yaml \
   -e @ocp/4.15/ansible/defaults/main.yaml \
   -e @_local_config/network.yaml \
   -e pull_secret=${RH_CLUSTER_PULL_SECRET} \
-  -e ssh_pub_key_file=${SSH_PUB_KEY_FILE} \
-  -e ocp_cluster_name=${OCP_CLUSTER_NAME} \
-  -e openstack_network=${OPENSTACK_NETWORK}
+  -e @_local_config/${OCP_CLUSTER_NAME}/${OCP_CLUSTER_NAME}.yaml
 ----
 
 Generate the OpenStack infrastructure.
@@ -90,6 +109,7 @@ Generate the OpenStack infrastructure.
 ansible-playbook ocp/4.15/upi_rhosp/ansible/20-rhosp-prepare.yaml \
   -e @ocp/4.15/ansible/defaults/main.yaml \
   -e @_local_config/network.yaml \
+  -e @_local_config/${OCP_CLUSTER_NAME}/${OCP_CLUSTER_NAME}.yaml \
   -e ocp_cluster_name=${OCP_CLUSTER_NAME}
 ----
 
@@ -110,13 +130,26 @@ openstack --os-region-name GRA11 image list
 
 == Cleanup
 
+Remove infrastructure.
+
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi_rhosp/ansible/20-rhosp-cleanup.yaml \
+ansible-playbook ocp/4.15/upi_rhosp/ansible/98-rhosp-instance-cleanup.yaml \
   -e @ocp/4.15/ansible/defaults/main.yaml \
   -e @_local_config/network.yaml \
-  -e ocp_cluster_name=${OCP_CLUSTER_NAME} \
-  -e openstack_region=${OPENSTACK_REGION_NAME}
+  -e @_local_config/${OCP_CLUSTER_NAME}/${OCP_CLUSTER_NAME}.yaml \
+  -e ocp_cluster_name=${OCP_CLUSTER_NAME}
+----
+
+Remove installation.
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi_rhosp/ansible/99-ocp-install-cleanup copy.yaml \
+  -e @ocp/4.15/ansible/defaults/main.yaml \
+  -e @_local_config/network.yaml \
+  -e @_local_config/${OCP_CLUSTER_NAME}/${OCP_CLUSTER_NAME}.yaml \
+  -e ocp_cluster_name=${OCP_CLUSTER_NAME}
 ----
 
 == References

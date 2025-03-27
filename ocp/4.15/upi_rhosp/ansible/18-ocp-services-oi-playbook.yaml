@@ -3,12 +3,12 @@
   hosts: "localhost"
   # gather_facts: true
   # vars:
-  #   openstack_network_cidr: 'unknown'
+  #   rhosp_network_cidr: 'unknown'
 
   tasks:
   - name: Gather information about a previously created subnet by name
     openstack.cloud.subnets_info:
-      name: "{{ openstack_network }}"
+      name: "{{ rhosp_network }}"
     register: openstack_subnet_res
 
   - name: "Print CIDR"
@@ -19,12 +19,25 @@
   post_tasks:
   - name: "Print CIDR"
     ansible.builtin.set_fact:
-      openstack_network_cidr: "{{ openstack_subnet_res.subnets[0].cidr }}"
+      rhosp_network_cidr: "{{ openstack_subnet_res.subnets[0].cidr }}"
 
 - name: "Openshift Install"
   import_playbook: ../../ansible/18-ocp-services-oi-playbook.yaml
   vars: 
-    # network_cidr: "{{ openstack_network_cidr }}"
-    network_cidr: "{{ hostvars['localhost']['openstack_network_cidr'] }}"
+    # network_cidr: "{{ rhosp_network_cidr }}"
+    network_cidr: "{{ hostvars['localhost']['rhosp_network_cidr'] }}"
+
+- name: "Collect information"
+  import_playbook: _common_rhosp.yaml
+
+- name: "Print OCP information"
+  hosts: "localhost"
+
+  tasks:
+  - name: "Print OCP information"
+    ansible.builtin.debug:
+      msg:
+      - "ocp_cluster_name: {{ ocp_cluster_name }}"
+      - "ocp_infra_id: {{ ocp_infra_id }}"
 
 ...
