@@ -1,0 +1,4 @@
+
+rhosp_flavor_master: b3-16
+rhosp_flavor_worker: b3-8
+rhosp_lb_flavor: small

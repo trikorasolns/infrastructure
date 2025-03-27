@@ -3,8 +3,6 @@ ocp_install_root_dir_under_user_home: true
 ocp_release_arch: amd64
 ocp_version: 4.15.46
 
-rhosp_flavor_master: b3-16
-rhosp_flavor_worker: b3-8
 # rhsop_subnet_range: '10.0.0.0/16'
 
 use_compute_nodes: false

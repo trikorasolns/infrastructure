@@ -136,8 +136,9 @@ Remove infrastructure.
 ----
 ansible-playbook ocp/4.15/upi_rhosp/ansible/98-rhosp-instance-cleanup.yaml \
   -e @ocp/4.15/ansible/defaults/main.yaml \
-  -e @_local_config/network.yaml \
+  -e @ocp/4.15/upi_rhosp/ansible/defaults/main.yaml \
   -e @_local_config/${OCP_CLUSTER_NAME}/${OCP_CLUSTER_NAME}.yaml \
+  -e @_local_config/network.yaml \
   -e ocp_cluster_name=${OCP_CLUSTER_NAME}
 ----
 
