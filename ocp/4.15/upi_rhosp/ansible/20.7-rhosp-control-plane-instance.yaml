@@ -1,0 +1,135 @@
+---
+- name: "Collect information"
+  import_playbook: _common_rhosp.yaml
+  when: ocp_infra_id is not defined
+
+- name: "Deploy Control Plane Instance"
+  hosts: "localhost"
+  gather_facts: true
+
+  tasks:
+
+  - name: "Check if the Control Plane servers exists"
+    openstack.cloud.server_info:
+      name: "{{ rhosp_control_plane_server_prefix }}"
+    register: rhosp_controlplane_server_info
+
+  - name: "Print Control Plane server info"
+    ansible.builtin.debug:
+      var: rhosp_controlplane_server_info
+      verbosity: 2
+
+  - name: 'Create the Control Plane servers'
+    openstack.cloud.server:
+      name: "{{ rhosp_control_plane_server_prefix }}-{{ item }}"
+      image: "{{ rhosp_rhcoreos_image_name }}"
+      flavor: "{{ rhosp_flavor_master }}"
+      userdata: "{{ lookup('file', '/tmp/master-' + metadata_json.infraID + '.ign') | string }}"
+      network: "{{ rhosp_network }}"
+      # nics:
+      # - port-name: "{{ os_port_controlplane }}"
+      meta: "{{ ocp_cluster_id_tag }}"
+      # wait: false # due to TypeError: 'NoneType' object is not subscriptable
+      security_groups:
+      - default
+    when: rhosp_controlplane_server_info.servers | length < 3
+    loop: "{{ [rhosp_controlplane_server_info.servers | length +1 ,3] | flatten(1) }}"
+
+  - name: "Add members to the public load-balancer pool"
+    openstack.cloud.lb_member:
+      name: "{{ rhosp_control_plane_server_prefix }}-{{ item }}"
+      pool: "{{ rhosp_loadbalancer_pool_name }}-public"
+      state: present
+    loop: "{{ [1 ,3] | flatten(1) }}"
+
+  - name: "Add members to the private load-balancer pool"
+    openstack.cloud.lb_member:
+      name: "{{ rhosp_control_plane_server_prefix }}-{{ item }}"
+      pool: "{{ rhosp_loadbalancer_pool_name }}-private"
+      state: present
+    loop: "{{ [1 ,3] | flatten(1) }}"
+
+  - name: "Fetch server info"
+    openstack.cloud.server_info:
+      name: "{{ rhosp_control_plane_server_prefix }}"
+    register: rhosp_controlplane_server_info
+
+  # - name: 'Create the Control Plane ports'
+  #   openstack.cloud.port:
+  #     name: "{{ item.1 }}-{{ item.0 }}"
+  #     network: "{{ os_network }}"
+  #     security_groups:
+  #     - "{{ os_sg_master }}"
+  #     allowed_address_pairs:
+  #     - ip_address: "{{ os_apiVIP }}"
+  #     - ip_address: "{{ os_ingressVIP }}"
+  #   with_indexed_items: "{{ [os_port_master] * os_cp_nodes_number }}"
+  #   register: ports
+  #   # when: os_subnet6_range is not defined
+
+  # - name: 'Create the dualstack Control Plane ports'
+  #   openstack.cloud.port:
+  #     name: "{{ item.1 }}-{{ item.0 }}"
+  #     network: "{{ os_network }}"
+  #     security_groups:
+  #     - "{{ os_sg_master }}"
+  #     allowed_address_pairs:
+  #     - ip_address: "{{ os_apiVIP }}"
+  #     - ip_address: "{{ os_apiVIP6 }}"
+  #     - ip_address: "{{ os_ingressVIP }}"
+  #     - ip_address: "{{ os_ingressVIP6 }}"
+  #   with_indexed_items: "{{ [os_port_master] * os_cp_nodes_number }}"
+  #   register: ports
+  #   when: os_subnet6_range is defined
+
+  # - name: 'Set Control Plane ports tag'
+  #   ansible.builtin.command:
+  #     cmd: "openstack port set --tag {{ cluster_id_tag }} {{ item.1 }}-{{ item.0 }}"
+  #   with_indexed_items: "{{ [os_port_master] * os_cp_nodes_number }}"
+
+  # - name: 'List the Server groups'
+  #   ansible.builtin.command:
+  #     # os-compute-api-version 2.15 or higher is required for the 'soft-anti-affinity' policy
+  #     cmd: "openstack --os-compute-api-version=2.15 server group list -f json -c ID -c Name"
+  #   register: server_group_list
+
+  # - name: 'Parse the Server group ID from existing'
+  #   ansible.builtin.set_fact:
+  #     server_group_id: "{{ (server_group_list.stdout | from_json | json_query(list_query) | first).ID }}"
+  #   vars:
+  #     list_query: "[?Name=='{{ os_cp_server_group_name }}']"
+  #   when:
+  #   - "os_cp_server_group_name|string in server_group_list.stdout"
+
+  # - name: 'Create the Control Plane server group'
+  #   ansible.builtin.command: |
+  #     # os-compute-api-version 2.15 or higher is required for the 'soft-anti-affinity' policy
+  #     openstack --os-compute-api-version=2.15 server group create -f json -c id --policy=soft-anti-affinity {{ os_cp_server_group_name }}
+  #   register: server_group_created
+  #   when:
+  #   - server_group_id is not defined
+
+  # - name: 'Parse the Server group ID from creation'
+  #   ansible.builtin.set_fact:
+  #     server_group_id: "{{ (server_group_created.stdout | from_json).id }}"
+  #   when:
+  #   - server_group_id is not defined
+
+  # - name: 'Create the Control Plane servers'
+  #   openstack.cloud.server:
+  #     name: "{{ item.1 }}-{{ item.0 }}"
+  #     image: "{{ os_image_rhcos }}"
+  #     flavor: "{{ rhosp_flavor_master }}"
+  #     auto_ip: no
+  #     # The ignition filename will be concatenated with the Control Plane node
+  #     # name and its 0-indexed serial number.
+  #     # In this case, the first node will look for this filename:
+  #     #    "{{ infraID }}-master-0-ignition.json"
+  #     userdata: "{{ lookup('file', [item.1, item.0, 'ignition.json'] | join('-')) | string }}"
+  #     nics:
+  #     - port-name: "{{ os_port_master }}-{{ item.0 }}"
+  #     scheduler_hints:
+  #       group: "{{ server_group_id }}"
+  #     meta: "{{ ocp_cluster_id_tag }}"
+  #   with_indexed_items: "{{ [os_cp_server_name] * os_cp_nodes_number }}"
+...

@@ -1,0 +1,83 @@
+---
+- name: "Collect information"
+  import_playbook: _common_rhosp.yaml
+  when: ocp_infra_id is not defined
+
+- name: "Setup OpenStack Environment"
+  hosts: "localhost"
+  gather_facts: true
+
+  tasks:
+
+
+# Bootstrap Ignition Image
+  - name: "Read the bootstrap ignition file as JSON"
+    ansible.builtin.set_fact:
+      bootstrap_ignition: "{{ lookup('file','/tmp/bootstrap-{{ ocp_infra_id }}.ign') | from_json }}"
+      hostname_b64: "{{ (ocp_infra_id + '-bootstrap\n') | b64encode }}"
+      # hostname_source: "data:text/plain;charset=utf-8;base64,{{ hostname_b64 }}"
+      # bootstrap_ignition_hostname_file: { path: '/etc/hostname', 'mode': 420, 'contents': { 'source': 'data:text/plain;charset=utf-8;base64,{{ hostname_b64 }}',    },}
+
+  # - name: "Print result"
+  #   ansible.builtin.debug:
+  #     msg:
+  #     # - "bootstrap_ignition: {{ bootstrap_ignition }}"
+  #     - "hostname_b64: {{ hostname_b64 }}"
+
+  - name: "Read the bootstrap ignition file as JSON"
+    ansible.builtin.set_fact:
+      # hostname_source: "data:text/plain;charset=utf-8;base64,{{ hostname_b64 }}"
+      bootstrap_ignition_hostname_file: { path: '/etc/hostname', 'mode': 420, 'contents': { 'source': 'data:text/plain;charset=utf-8;base64,{{ hostname_b64 }}',    },}
+
+  - name: "Print result"
+    ansible.builtin.debug:
+      msg:
+      - "bootstrap_ignition_hostname_file: {{ bootstrap_ignition_hostname_file }}"
+  #     - "hostname_source: {{ hostname_b64 | b64decode }}"
+
+  - name: "Print result"
+    ansible.builtin.debug:
+      msg:
+      - "bootstrap_ignition.storage.files: {{ bootstrap_ignition.storage.files | to_nice_json }}"
+
+  - name: "Add the bootstrap hostname"
+    ansible.builtin.set_fact:
+      bootstrap_ignition_files: "{{ bootstrap_ignition.storage.files + [bootstrap_ignition_hostname_file] }}"
+
+  - name: "Print result"
+    ansible.builtin.debug:
+      msg:
+      - "bootstrap_ignition_files: {{ bootstrap_ignition_files | to_nice_json }}"
+
+  - name: "Update bootstrap ignition"
+    ansible.utils.update_fact:
+      updates:
+        - path: bootstrap_ignition.storage.files
+          value: "{{ bootstrap_ignition_files }}"
+    register: updated_bootstrap_ignition
+
+  - name: "Print result"
+    ansible.builtin.debug:
+      msg:
+      - "updated_bootstrap_ignition: {{ updated_bootstrap_ignition }}"
+      # - "updated_bootstrap_ignition.ignition: {{ updated_bootstrap_ignition.ignition }}"
+
+  - name: "Generate updated bootstrap ignition"
+    ansible.builtin.copy:
+      content: "{{ updated_bootstrap_ignition }}"
+      dest: "/tmp/bootstrap-{{ ocp_infra_id }}-updated.ign"
+
+  # - name: "Print result"
+  #   ansible.builtin.debug:
+  #     var: openstack_image_bootstrap_ign_res
+
+  # - name: "Check if the Boostrap Ignition image exists"
+  #   openstack.cloud.image_info:
+  #     image: "{{ rhosp_ocp_bootstrap_ign_image_name }}"
+  #   register: openstack_image_bootstrap_ign_res
+
+  # - name: "Print result"
+  #   ansible.builtin.debug:
+  #     var: openstack_image_bootstrap_ign_res
+
+...

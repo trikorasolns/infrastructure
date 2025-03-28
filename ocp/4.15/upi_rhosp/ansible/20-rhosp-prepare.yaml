@@ -260,79 +260,111 @@
   #   ansible.builtin.pause:
   #   when: (dnslookup_api | length == 0) or (dnslookup_apps | length == 0) or (dnslookup_api[0] != openstack_fip_api_address) or (dnslookup_apps[0] != openstack_fip_apps_address)
 
-  - name: "Check if the Boostrap Ignition image exists"
-    openstack.cloud.image_info:
-      image: "{{ rhosp_ocp_bootstrap_ign_image_name }}"
-    register: openstack_image_bootstrap_ign_res
 
-  - name: "Print result"
-    ansible.builtin.debug:
-      var: openstack_image_bootstrap_ign_res
 
-  - name: "Upload the Boostrap Ignition to Glance"
-    openstack.cloud.image:
-      name: "{{ rhosp_ocp_bootstrap_ign_image_name }}"
-      filename: "/tmp/bootstrap-{{ metadata_json.infraID }}.ign"
-      container_format: bare
-      disk_format: raw
-      state: present
-      tags:
-        - rhcos
-        - "{{ ocp_infra_id }}"
-        - openshift
-        - "{{ ocp_cluster_id_tag }}"
-    register: openstack_image_bootstrap_ign_upload_res
-    when: openstack_image_bootstrap_ign_res.failed or openstack_image_bootstrap_ign_res.images | length == 0
+# Bootstrap Ignition Image
+- name: "Collect information"
+  import_playbook: _common_rhosp.yaml
 
-  - name: "Check if the Boostrap Ignition image exists"
-    openstack.cloud.image_info:
-      image: "{{ rhosp_ocp_bootstrap_ign_image_name }}"
-    register: openstack_image_bootstrap_ign_res
-    failed_when: openstack_image_bootstrap_ign_res.failed or openstack_image_bootstrap_ign_res.images | length == 0
+  # - name: "Read the bootstrap ignition file as JSON"
+  #   ansible.builtin.set_fact:
+  #     bootstrap_ignition: "{{ lookup('file','/tmp/bootstrap-{{ metadata_json.infraID }}.ign') | from_json }}"
+  #     hostname_b64: "{{ ocp_infra_id + '-bootstrap\n' | base64 }}"
+  #     bootstrap_ignition_hostname_file: { path: '/etc/hostname', 'mode': 420, 'contents': { 'source': 'data:text/plain;charset=utf-8;base64,{{ hostname_b64 }}',    },}
+    
+  # - name: "Add the bootstrap hostname"
+  #   ansible.builtin.set_fact:
+  #     bootstrap_ignition: "{{ boootstrap_ignition }}"
+  #   # ansible.utils.update_fact:
+  #   #   updates:
+  #   #     - path: boootstrap_ignition.storage.files
+  #   #       value: 10
+  #   #   : 
 
-  - name: "Print result"
-    ansible.builtin.debug:
-      var: openstack_image_bootstrap_ign_res
+  # - name: "Print result"
+  #   ansible.builtin.debug:
+  #     var: openstack_image_bootstrap_ign_res
 
-  - name: "Set Bootstrap Ignition image Glance file location"
-    ansible.builtin.set_fact:
-      rhosp_ocp_bootstrap_ign_file: "{{ openstack_image_bootstrap_ign_res.images[0].file }}"
+  # - name: "Check if the Boostrap Ignition image exists"
+  #   openstack.cloud.image_info:
+  #     image: "{{ rhosp_ocp_bootstrap_ign_image_name }}"
+  #   register: openstack_image_bootstrap_ign_res
 
-  - name: "Fetch Glance token"
-    ansible.builtin.shell: |
-      openstack token issue -c id -f value
-    register: glance_token_res
+  # - name: "Print result"
+  #   ansible.builtin.debug:
+  #     var: openstack_image_bootstrap_ign_res
 
-  - name: "Set Glance token"
-    ansible.builtin.set_fact:
-      glance_token: "{{ glance_token_res.stdout }}"
+  # - name: "Upload the Boostrap Ignition to Glance"
+  #   openstack.cloud.image:
+  #     name: "{{ rhosp_ocp_bootstrap_ign_image_name }}"
+  #     filename: "/tmp/bootstrap-{{ metadata_json.infraID }}.ign"
+  #     container_format: bare
+  #     disk_format: raw
+  #     state: present
+  #     tags:
+  #       - rhcos
+  #       - "{{ ocp_infra_id }}"
+  #       - openshift
+  #       - "{{ ocp_cluster_id_tag }}"
+  #   register: openstack_image_bootstrap_ign_upload_res
+  #   when: openstack_image_bootstrap_ign_res.failed or openstack_image_bootstrap_ign_res.images | length == 0
 
-  # - name: "Fetch Glance information"
-  #   openstack.cloud.catalog_service_info:
-  #     name: glance
+  # - name: "Check if the Boostrap Ignition image exists"
+  #   openstack.cloud.image_info:
+  #     image: "{{ rhosp_ocp_bootstrap_ign_image_name }}"
+  #   register: openstack_image_bootstrap_ign_res
+  #   failed_when: openstack_image_bootstrap_ign_res.failed or openstack_image_bootstrap_ign_res.images | length == 0
+
+  # - name: "Print result"
+  #   ansible.builtin.debug:
+  #     var: openstack_image_bootstrap_ign_res
+
+  # - name: "Set Bootstrap Ignition image Glance file location"
+  #   ansible.builtin.set_fact:
+  #     rhosp_ocp_bootstrap_ign_file: "{{ openstack_image_bootstrap_ign_res.images[0].file }}"
+
+  # - name: "Fetch Glance token"
+  #   ansible.builtin.shell: |
+  #     openstack token issue -c id -f value
+  #   register: glance_token_res
+
+  # - name: "Set Glance token"
+  #   ansible.builtin.set_fact:
+  #     glance_token: "{{ glance_token_res.stdout }}"
+
+  # # - name: "Fetch Glance information"
+  # #   openstack.cloud.catalog_service_info:
+  # #     name: glance
+  # #   register: rhosp_catalog_glance_res
+
+  # # - name: "Print glance catalog"
+  # #   ansible.builtin.debug:
+  # #     var: rhosp_catalog_glance_res
+
+  # - name: "Fetch Glance Bootstrap URL"
+  #   ansible.builtin.shell: |
+  #     #$(openstack catalog show glance -f json | jq -r '.endpoints[] | select(.interface=="public").url')$(openstack image show -f value -c file {{ rhosp_ocp_bootstrap_ign_image_name }})
+  #     openstack catalog show glance -f json | jq -r '.endpoints[] | select((.region=="{{ rhosp_region_name }}") and (.interface=="public")).url'
   #   register: rhosp_catalog_glance_res
 
-  # - name: "Print glance catalog"
+  # - name: "Set ignition file HTTPS location"
+  #   ansible.builtin.set_fact:
+  #     bootstrap_url: "{{ rhosp_catalog_glance_res.stdout }}/{{ rhosp_ocp_bootstrap_ign_file }}"
+
+  # - name: "Print bootstrap ignition file Glance URL"
   #   ansible.builtin.debug:
-  #     var: rhosp_catalog_glance_res
+  #     msg: 
+  #     - "bootstrap_url: {{ bootstrap_url }}"
+  #     - "{{ api_dns_name }}: {{ lookup('community.general.dig', api_dns_name) }}"
+  #     - "{{ api_dns_name }} ({{ openstack_fip_api_address }}): {{ lookup('community.general.dig', api_dns_name) }}"
+  #     - "{{ apps_dns_name }} ({{ openstack_fip_apps_address }}): {{ lookup('community.general.dig', apps_dns_name) }}"
+# /Bootstrap Ignition Image
 
-  - name: "Fetch Glance Bootstrap URL"
-    ansible.builtin.shell: |
-      #$(openstack catalog show glance -f json | jq -r '.endpoints[] | select(.interface=="public").url')$(openstack image show -f value -c file {{ rhosp_ocp_bootstrap_ign_image_name }})
-      openstack catalog show glance -f json | jq -r '.endpoints[] | select((.region=="{{ rhosp_region_name }}") and (.interface=="public")).url'
-    register: rhosp_catalog_glance_res
+- name: "DNS"
+  hosts: "localhost"
+  gather_facts: true
 
-  - name: "Set ignition file HTTPS location"
-    ansible.builtin.set_fact:
-      bootstrap_url: "{{ rhosp_catalog_glance_res.stdout }}/{{ rhosp_ocp_bootstrap_ign_file }}"
-
-  - name: "Print bootstrap ignition file Glance URL"
-    ansible.builtin.debug:
-      msg: 
-      - "bootstrap_url: {{ bootstrap_url }}"
-      - "{{ api_dns_name }}: {{ lookup('community.general.dig', api_dns_name) }}"
-      - "{{ api_dns_name }} ({{ openstack_fip_api_address }}): {{ lookup('community.general.dig', api_dns_name) }}"
-      - "{{ apps_dns_name }} ({{ openstack_fip_apps_address }}): {{ lookup('community.general.dig', apps_dns_name) }}"
+  tasks:
 
   - name: "Wait for DNS propagation"
     ansible.builtin.debug:
@@ -354,187 +386,115 @@
 ## Update Network, Subnet, Router and ports
 
 # Bootstrap
-  - name: "Template bootstrap ignition"
-    ansible.builtin.template:
-      src: bootstrap-ignition.json.j2
-      dest: "/tmp/bootstrap-{{ metadata_json.infraID }}-shim.ign"
+- name: "Deploy Bootrap instances"
+  import_playbook: 20.6-rhosp-bootstrap-instance.yaml
 
-  # - name: 'Create the bootstrap server port'
-  #   openstack.cloud.port:
-  #     name: "{{ metadata_json.infraID }}-bootstrap-port"
-  #     network: "{{ rhosp_network }}"
-  #     security_groups:
-  #     - "{{ infraID }}-master"
-      # allowed_address_pairs:
-      # - ip_address: "{{ os_apiVIP }}"
+  # - name: "Template bootstrap ignition Shim"
+  #   ansible.builtin.template:
+  #     src: bootstrap-ignition-shim.json.j2
+  #     dest: "/tmp/bootstrap-{{ metadata_json.infraID }}-shim.ign"
 
-  # - name: 'Set bootstrap port tag'
-  #   ansible.builtin.shell: |
-  #     openstack port set --tag {{ cluster_id_tag }} {{ metadata_json.infraID }}-bootstrap-port
-  #   register: bootstrap_port_tag_res
+  # # - name: 'Create the bootstrap server port'
+  # #   openstack.cloud.port:
+  # #     name: "{{ metadata_json.infraID }}-bootstrap-port"
+  # #     network: "{{ rhosp_network }}"
+  # #     security_groups:
+  # #     - "{{ infraID }}-master"
+  #     # allowed_address_pairs:
+  #     # - ip_address: "{{ os_apiVIP }}"
 
-  # - name: "Print bootstrap port tag result"
+  # # - name: 'Set bootstrap port tag'
+  # #   ansible.builtin.shell: |
+  # #     openstack port set --tag {{ cluster_id_tag }} {{ metadata_json.infraID }}-bootstrap-port
+  # #   register: bootstrap_port_tag_res
+
+  # # - name: "Print bootstrap port tag result"
+  # #   ansible.builtin.debug:
+  # #     msg: 
+
+  # - name: 'Set bootstrap auto_ip to false'
+  #   ansible.builtin.set_fact:
+  #     bootstrap_auto_ip: false
+  #   when: openstack_fip_bootstrap_address is not defined
+
+  # - name: 'Check if the bootstrap server exists'
+  #   openstack.cloud.server_info:
+  #     name: "{{ rhosp_bootstrap_server_name }}"
+  #   register: rhosp_bootstrap_server_info
+
+  # - name: "Print bootstrap server info"
   #   ansible.builtin.debug:
-  #     msg: 
+  #     var: rhosp_bootstrap_server_info
+  #     verbosity: 2
 
-  - name: 'Set bootstrap auto_ip to false'
-    ansible.builtin.set_fact:
-      bootstrap_auto_ip: false
-    when: openstack_fip_bootstrap_address is not defined
+  # - name: 'Create the bootstrap server'
+  #   openstack.cloud.server:
+  #     name: "{{ rhosp_bootstrap_server_name }}"
+  #     image: "{{ rhosp_rhcoreos_image_name }}"
+  #     flavor: "{{ rhosp_flavor_master }}"
+  #     userdata: "{{ lookup('file', '/tmp/bootstrap-' + metadata_json.infraID + '-shim.ign') | string }}"
+  #     network: "{{ rhosp_network }}"
+  #     floating_ips: "{{ openstack_fip_bootstrap_address | default(omit) }}"
+  #     auto_ip: "{{ bootstrap_auto_ip | default(omit) }}"
+  #     # nics:
+  #     # - port-name: "{{ os_port_bootstrap }}"
+  #     meta: "{{ ocp_cluster_id_tag }}"
+  #     # wait: false # due to TypeError: 'NoneType' object is not subscriptable
+  #   when: rhosp_bootstrap_server_info.servers | length == 0
 
-  - name: 'Check if the bootstrap server exists'
-    openstack.cloud.server_info:
-      name: "{{ rhosp_bootstrap_server_name }}"
-    register: rhosp_bootstrap_server_info
-
-  - name: "Print bootstrap server info"
-    ansible.builtin.debug:
-      var: rhosp_bootstrap_server_info
-      verbosity: 2
-
-  - name: 'Create the bootstrap server'
-    openstack.cloud.server:
-      name: "{{ rhosp_bootstrap_server_name }}"
-      image: "{{ rhosp_rhcoreos_image_name }}"
-      flavor: "{{ rhosp_flavor_master }}"
-      userdata: "{{ lookup('file', '/tmp/bootstrap-' + metadata_json.infraID + '-shim.ign') | string }}"
-      network: "{{ rhosp_network }}"
-      floating_ips: "{{ openstack_fip_bootstrap_address | default(omit) }}"
-      auto_ip: "{{ bootstrap_auto_ip | default(omit) }}"
-      # nics:
-      # - port-name: "{{ os_port_bootstrap }}"
-      meta: "{{ ocp_cluster_id_tag }}"
-      # wait: false # due to TypeError: 'NoneType' object is not subscriptable
-    when: rhosp_bootstrap_server_info.servers | length == 0
-
-  - name: "Delete Bootstrap Ignition image"
-    openstack.cloud.image:
-      name: "{{ rhosp_ocp_bootstrap_ign_image_name }}"
-      state: absent
+  # - name: "Delete Bootstrap Ignition image"
+  #   openstack.cloud.image:
+  #     name: "{{ rhosp_ocp_bootstrap_ign_image_name }}"
+  #     state: absent
 
 # Control Plane
 
-  - name: "Check if the Control Plane servers exists"
-    openstack.cloud.server_info:
-      name: "{{ rhosp_control_plane_server_prefix }}"
-    register: rhosp_controlplane_server_info
+- name: "Deploy Control Plane Instances"
+  import_playbook: 20.7-rhosp-control-plane-instance.yaml
 
-  - name: "Print Control Plane server info"
-    ansible.builtin.debug:
-      var: rhosp_controlplane_server_info
-      verbosity: 2
+  # - name: "Check if the Control Plane servers exists"
+  #   openstack.cloud.server_info:
+  #     name: "{{ rhosp_control_plane_server_prefix }}"
+  #   register: rhosp_controlplane_server_info
 
-  - name: 'Create the Control Plane servers'
-    openstack.cloud.server:
-      name: "{{ rhosp_control_plane_server_prefix }}-{{ item }}"
-      image: "{{ rhosp_rhcoreos_image_name }}"
-      flavor: "{{ rhosp_flavor_master }}"
-      userdata: "{{ lookup('file', '/tmp/master-' + metadata_json.infraID + '.ign') | string }}"
-      network: "{{ rhosp_network }}"
-      # nics:
-      # - port-name: "{{ os_port_controlplane }}"
-      meta: "{{ ocp_cluster_id_tag }}"
-      # wait: false # due to TypeError: 'NoneType' object is not subscriptable
-      security_groups:
-      - default
-    when: rhosp_controlplane_server_info.servers | length < 3
-    loop: "{{ [rhosp_controlplane_server_info.servers | length +1 ,3] | flatten(1) }}"
-
-  - name: "Add members to the public load-balancer pool"
-    openstack.cloud.lb_member:
-      name: "{{ rhosp_control_plane_server_prefix }}-{{ item }}"
-      pool: "{{ rhosp_loadbalancer_pool_name }}-public"
-      state: present
-    loop: "{{ [1 ,3] | flatten(1) }}"
-
-  - name: "Add members to the private load-balancer pool"
-    openstack.cloud.lb_member:
-      name: "{{ rhosp_control_plane_server_prefix }}-{{ item }}"
-      pool: "{{ rhosp_loadbalancer_pool_name }}-private"
-      state: present
-    loop: "{{ [1 ,3] | flatten(1) }}"
-
-  - name: "Fetch server info"
-    openstack.cloud.server_info:
-      name: "{{ rhosp_control_plane_server_prefix }}"
-    register: rhosp_controlplane_server_info
-
-  # - name: 'Create the Control Plane ports'
-  #   openstack.cloud.port:
-  #     name: "{{ item.1 }}-{{ item.0 }}"
-  #     network: "{{ os_network }}"
-  #     security_groups:
-  #     - "{{ os_sg_master }}"
-  #     allowed_address_pairs:
-  #     - ip_address: "{{ os_apiVIP }}"
-  #     - ip_address: "{{ os_ingressVIP }}"
-  #   with_indexed_items: "{{ [os_port_master] * os_cp_nodes_number }}"
-  #   register: ports
-  #   # when: os_subnet6_range is not defined
-
-  # - name: 'Create the dualstack Control Plane ports'
-  #   openstack.cloud.port:
-  #     name: "{{ item.1 }}-{{ item.0 }}"
-  #     network: "{{ os_network }}"
-  #     security_groups:
-  #     - "{{ os_sg_master }}"
-  #     allowed_address_pairs:
-  #     - ip_address: "{{ os_apiVIP }}"
-  #     - ip_address: "{{ os_apiVIP6 }}"
-  #     - ip_address: "{{ os_ingressVIP }}"
-  #     - ip_address: "{{ os_ingressVIP6 }}"
-  #   with_indexed_items: "{{ [os_port_master] * os_cp_nodes_number }}"
-  #   register: ports
-  #   when: os_subnet6_range is defined
-
-  # - name: 'Set Control Plane ports tag'
-  #   ansible.builtin.command:
-  #     cmd: "openstack port set --tag {{ cluster_id_tag }} {{ item.1 }}-{{ item.0 }}"
-  #   with_indexed_items: "{{ [os_port_master] * os_cp_nodes_number }}"
-
-  # - name: 'List the Server groups'
-  #   ansible.builtin.command:
-  #     # os-compute-api-version 2.15 or higher is required for the 'soft-anti-affinity' policy
-  #     cmd: "openstack --os-compute-api-version=2.15 server group list -f json -c ID -c Name"
-  #   register: server_group_list
-
-  # - name: 'Parse the Server group ID from existing'
-  #   ansible.builtin.set_fact:
-  #     server_group_id: "{{ (server_group_list.stdout | from_json | json_query(list_query) | first).ID }}"
-  #   vars:
-  #     list_query: "[?Name=='{{ os_cp_server_group_name }}']"
-  #   when:
-  #   - "os_cp_server_group_name|string in server_group_list.stdout"
-
-  # - name: 'Create the Control Plane server group'
-  #   ansible.builtin.command: |
-  #     # os-compute-api-version 2.15 or higher is required for the 'soft-anti-affinity' policy
-  #     openstack --os-compute-api-version=2.15 server group create -f json -c id --policy=soft-anti-affinity {{ os_cp_server_group_name }}
-  #   register: server_group_created
-  #   when:
-  #   - server_group_id is not defined
-
-  # - name: 'Parse the Server group ID from creation'
-  #   ansible.builtin.set_fact:
-  #     server_group_id: "{{ (server_group_created.stdout | from_json).id }}"
-  #   when:
-  #   - server_group_id is not defined
+  # - name: "Print Control Plane server info"
+  #   ansible.builtin.debug:
+  #     var: rhosp_controlplane_server_info
+  #     verbosity: 2
 
   # - name: 'Create the Control Plane servers'
   #   openstack.cloud.server:
-  #     name: "{{ item.1 }}-{{ item.0 }}"
-  #     image: "{{ os_image_rhcos }}"
+  #     name: "{{ rhosp_control_plane_server_prefix }}-{{ item }}"
+  #     image: "{{ rhosp_rhcoreos_image_name }}"
   #     flavor: "{{ rhosp_flavor_master }}"
-  #     auto_ip: no
-  #     # The ignition filename will be concatenated with the Control Plane node
-  #     # name and its 0-indexed serial number.
-  #     # In this case, the first node will look for this filename:
-  #     #    "{{ infraID }}-master-0-ignition.json"
-  #     userdata: "{{ lookup('file', [item.1, item.0, 'ignition.json'] | join('-')) | string }}"
-  #     nics:
-  #     - port-name: "{{ os_port_master }}-{{ item.0 }}"
-  #     scheduler_hints:
-  #       group: "{{ server_group_id }}"
+  #     userdata: "{{ lookup('file', '/tmp/master-' + metadata_json.infraID + '.ign') | string }}"
+  #     network: "{{ rhosp_network }}"
+  #     # nics:
+  #     # - port-name: "{{ os_port_controlplane }}"
   #     meta: "{{ ocp_cluster_id_tag }}"
-  #   with_indexed_items: "{{ [os_cp_server_name] * os_cp_nodes_number }}"
+  #     # wait: false # due to TypeError: 'NoneType' object is not subscriptable
+  #     security_groups:
+  #     - default
+  #   when: rhosp_controlplane_server_info.servers | length < 3
+  #   loop: "{{ [rhosp_controlplane_server_info.servers | length +1 ,3] | flatten(1) }}"
+
+  # - name: "Add members to the public load-balancer pool"
+  #   openstack.cloud.lb_member:
+  #     name: "{{ rhosp_control_plane_server_prefix }}-{{ item }}"
+  #     pool: "{{ rhosp_loadbalancer_pool_name }}-public"
+  #     state: present
+  #   loop: "{{ [1 ,3] | flatten(1) }}"
+
+  # - name: "Add members to the private load-balancer pool"
+  #   openstack.cloud.lb_member:
+  #     name: "{{ rhosp_control_plane_server_prefix }}-{{ item }}"
+  #     pool: "{{ rhosp_loadbalancer_pool_name }}-private"
+  #     state: present
+  #   loop: "{{ [1 ,3] | flatten(1) }}"
+
+  # - name: "Fetch server info"
+  #   openstack.cloud.server_info:
+  #     name: "{{ rhosp_control_plane_server_prefix }}"
+  #   register: rhosp_controlplane_server_info
+
 ...
