@@ -12,43 +12,45 @@
   - name: "Fetch FIP information"
     include_tasks: tasks/rhosp-fetch-fip-info.yaml
 
-  - name: "Create public Load Balancer"
-    openstack.cloud.loadbalancer:
-      name: "{{ rhosp_loadbalancer_name }}-public"
-      vip_network: "{{ rhosp_network }}"
-      floating_ip_address: "{{ openstack_fip_api_address }}"
-      delete_floating_ip: true
-      state: present
+  # - name: "Create public Load Balancer"
+  #   openstack.cloud.loadbalancer:
+  #     name: "{{ rhosp_loadbalancer_prefix }}-public"
+  #     vip_network: "{{ rhosp_network }}"
+  #     floating_ip_address: "{{ openstack_fip_api_address }}"
+  #     delete_floating_ip: true
+  #     state: present
 
-  - name: "Create private Load Balancer"
-    openstack.cloud.loadbalancer:
-      name: "{{ rhosp_loadbalancer_name }}-private"
-      vip_network: "{{ rhosp_network }}"
-      state: present
-    register: rhosp_lb_private_res
+  # - name: "Create private Load Balancer"
+  #   openstack.cloud.loadbalancer:
+  #     name: "{{ rhosp_loadbalancer_prefix }}-private"
+  #     vip_network: "{{ rhosp_network }}"
+  #     state: present
+  #   register: rhosp_lb_private_res
 
-  - name: "Create public load-balancer pool"
+  - name: "Create public load-balancer pools"
     openstack.cloud.lb_pool:
       name: "{{ item.name }}"
       lb_algorithm: "ROUND_ROBIN"
-      loadbalancer: "{{ rhosp_loadbalancer_name }}-public"
+      loadbalancer: "{{ rhosp_loadbalancer_prefix }}-public"
       protocol: "{{ item.protocol }}"
       state: present
     loop: "{{ rhosp_lb_public_ports }}"
+    failed_when: false # there is no way of knowing if the pool already exists and it fails when creating again
 
-  - name: "Create private load-balancer pool"
+  - name: "Create private load-balancer pools"
     openstack.cloud.lb_pool:
       name: "{{ item.name }}"
       lb_algorithm: "ROUND_ROBIN"
-      loadbalancer: "{{ rhosp_loadbalancer_name }}-private"
+      loadbalancer: "{{ rhosp_loadbalancer_prefix }}-private"
       protocol: "{{ item.protocol }}"
       state: present
     loop: "{{ rhosp_lb_private_ports }}"
+    failed_when: false # there is no way of knowing if the pool already exists and it fails when creating again
 
   - name: "Create public load-balancer listeners"
     openstack.cloud.lb_listener:
       name: "{{ item.name }}"
-      load_balancer: "{{ rhosp_loadbalancer_name }}-public"
+      load_balancer: "{{ rhosp_loadbalancer_prefix }}-public"
       protocol: "{{ item.protocol }}"
       protocol_port: "{{ item.port }}"
       state: present
@@ -57,7 +59,7 @@
   - name: "Create private load-balancer listener"
     openstack.cloud.lb_listener:
       name: "{{ item.name }}"
-      load_balancer: "{{ rhosp_loadbalancer_name }}-private"
+      load_balancer: "{{ rhosp_loadbalancer_prefix }}-private"
       protocol: "{{ item.protocol }}"
       protocol_port: "{{ item.port }}"
       state: present
@@ -96,7 +98,6 @@
       type: "TCP"
       # url_path: '/status'
     loop: "{{ rhosp_lb_private_ports }}"
-
 
   # Members
   - name: "Fetch Bootstrap server info"
@@ -179,13 +180,13 @@
       loop_var: rhosp_public_lb_pool_members_item
 
   - name: "Add members to private load-balancer pool"
-    include_tasks: rhosp-loadbalancer-member
+    include_tasks: tasks/rhosp-loadbalancer-member.yaml
     vars:
       rhosp_lb_member_address: "{{ rhosp_private_lb_pool_members_item.addr }}"
       rhosp_lb_member_name: "{{ rhosp_private_lb_pool_members_item.name }}"
       rhosp_lb_member_pool: "{{ rhosp_loadbalancer_pool_name }}-private"
       rhosp_lb_member_ports: "{{ rhosp_lb_private_ports }}"
-    loop: "{{ rhosp_controlplane_server_info.results + rhosp_instance_bootstrap_array }}"
+    loop: "{{ rhosp_instance_cp_array + rhosp_instance_bootstrap_array }}"
     loop_control:
       loop_var: rhosp_private_lb_pool_members_item
 

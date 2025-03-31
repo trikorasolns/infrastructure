@@ -10,7 +10,7 @@
 
   - name: "Delete Load Balancer"
     openstack.cloud.loadbalancer:
-      name: "{{ rhosp_loadbalancer_name }}"
+      name: "{{ rhosp_loadbalancer_prefix }}"
       state: absent
 
   - name: "Delete floating IPs"

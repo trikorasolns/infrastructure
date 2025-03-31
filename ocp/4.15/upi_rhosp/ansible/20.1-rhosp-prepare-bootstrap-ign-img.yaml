@@ -1,7 +1,7 @@
 ---
 - name: "Collect information"
   import_playbook: _common_rhosp.yaml
-  when: ocp_infra_id is not defined
+  when: ocp_cluster_id_tag is not defined
 
 - name: "Setup OpenStack Environment"
   hosts: "localhost"
@@ -64,9 +64,13 @@
 
   - name: "Generate updated bootstrap ignition"
     ansible.builtin.copy:
-      content: "{{ updated_bootstrap_ignition }}"
+      content: "{{ updated_bootstrap_ignition.bootstrap_ignition }}"
       dest: "/tmp/bootstrap-{{ ocp_infra_id }}-updated.ign"
 
+  - name: "Check if Bootstrap Ignition image exists"
+    openstack.cloud.image_info:
+      image: "{{ rhosp_ocp_bootstrap_ign_image_name }}"
+    register: openstack_image_bootstrap_ign_res
 
   - name: "Upload the Boostrap Ignition to Glance"
     openstack.cloud.image:
@@ -129,8 +133,5 @@
     ansible.builtin.debug:
       msg: 
       - "bootstrap_url: {{ bootstrap_url }}"
-      - "{{ api_dns_name }}: {{ lookup('community.general.dig', api_dns_name) }}"
-      - "{{ api_dns_name }} ({{ openstack_fip_api_address }}): {{ lookup('community.general.dig', api_dns_name) }}"
-      - "{{ apps_dns_name }} ({{ openstack_fip_apps_address }}): {{ lookup('community.general.dig', apps_dns_name) }}"
 
 ...

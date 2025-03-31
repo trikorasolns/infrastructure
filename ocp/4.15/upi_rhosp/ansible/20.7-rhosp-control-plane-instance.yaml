@@ -1,7 +1,7 @@
 ---
 - name: "Collect information"
   import_playbook: _common_rhosp.yaml
-  when: ocp_infra_id is not defined
+  when: ocp_cluster_id_tag is not defined
 
 - name: "Deploy Control Plane Instance"
   hosts: "localhost"
@@ -26,6 +26,7 @@
       flavor: "{{ rhosp_flavor_master }}"
       userdata: "{{ lookup('file', '/tmp/master-' + metadata_json.infraID + '.ign') | string }}"
       network: "{{ rhosp_network }}"
+      auto_floating_ip: false
       # nics:
       # - port-name: "{{ os_port_controlplane }}"
       meta: "{{ ocp_cluster_id_tag }}"
@@ -33,21 +34,21 @@
       security_groups:
       - default
     when: rhosp_controlplane_server_info.servers | length < 3
-    loop: "{{ [rhosp_controlplane_server_info.servers | length +1 ,3] | flatten(1) }}"
+    loop: "{{ range(rhosp_controlplane_server_info.servers | length +1 ,4) }}"
 
-  - name: "Add members to the public load-balancer pool"
-    openstack.cloud.lb_member:
-      name: "{{ rhosp_control_plane_server_prefix }}-{{ item }}"
-      pool: "{{ rhosp_loadbalancer_pool_name }}-public"
-      state: present
-    loop: "{{ [1 ,3] | flatten(1) }}"
+  # - name: "Add members to the public load-balancer pool"
+  #   openstack.cloud.lb_member:
+  #     name: "{{ rhosp_control_plane_server_prefix }}-{{ item }}"
+  #     pool: "{{ rhosp_loadbalancer_pool_name }}-public"
+  #     state: present
+  #   loop: "{{ range(1,4) }}"
 
-  - name: "Add members to the private load-balancer pool"
-    openstack.cloud.lb_member:
-      name: "{{ rhosp_control_plane_server_prefix }}-{{ item }}"
-      pool: "{{ rhosp_loadbalancer_pool_name }}-private"
-      state: present
-    loop: "{{ [1 ,3] | flatten(1) }}"
+  # - name: "Add members to the private load-balancer pool"
+  #   openstack.cloud.lb_member:
+  #     name: "{{ rhosp_control_plane_server_prefix }}-{{ item }}"
+  #     pool: "{{ rhosp_loadbalancer_pool_name }}-private"
+  #     state: present
+  #   loop: "{{ range(1,4) }}"
 
   - name: "Fetch server info"
     openstack.cloud.server_info:
@@ -90,11 +91,6 @@
   # - name: 'List the Server groups'
   #   ansible.builtin.command:
   #     # os-compute-api-version 2.15 oansible-playbook ocp/4.15/upi_rhosp/ansible/20.15-rhosp-load-balancer-members.yaml \
-  -e @ocp/4.15/ansible/defaults/main.yaml \
-  -e @ocp/4.15/upi_rhosp/ansible/defaults/main.yaml \
-  -e @_local_config/network.yaml \
-  -e @_local_config/${OCP_CLUSTER_NAME}/${OCP_CLUSTER_NAME}.yaml \
-  -e ocp_cluster_name=${OCP_CLUSTER_NAME}
   #     # os-compute-api-version 2.15 or higher is required for the 'soft-anti-affinity' policy
   #     openstack --os-compute-api-version=2.15 server group create -f json -c id --policy=soft-anti-affinity {{ os_cp_server_group_name }}
   #   register: server_group_created

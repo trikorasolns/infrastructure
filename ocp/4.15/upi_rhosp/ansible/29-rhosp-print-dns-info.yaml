@@ -15,7 +15,7 @@
   #   Unfortunatelly there seems to be no other way of fetching the LB information.
   - name: "Fetch private Load Balancer info"
     openstack.cloud.loadbalancer:
-      name: "{{ rhosp_loadbalancer_name }}-private"
+      name: "{{ rhosp_loadbalancer_prefix }}-private"
       vip_network: "{{ rhosp_network }}"
     register: rhosp_lb_private_res
 
@@ -90,7 +90,10 @@
       - "Create a DNS registries"
       - "A record for api-int.{{ ocp_cluster_name }}.{{ local_domain}} with IP {{ rhosp_lb_private_res.load_balancer.vip_address }}"
       - "A record for bootstrap.{{ ocp_cluster_name }}.{{ local_domain}} with IP {{ openstack_fip_bootstrap_address }}"
-
+      - "A record for each Control Plane:"
+      - "  - control-plane-1.{{ ocp_cluster_name }}.{{ local_domain}} with IP TBD"
+      - "  - control-plane-2.{{ ocp_cluster_name }}.{{ local_domain}} with IP TBD"
+      - "  - control-plane-3.{{ ocp_cluster_name }}.{{ local_domain}} with IP TBD"
 
   - name: "MANUAL STEP: Create private Load Balancer DNS records"
     ansible.builtin.pause:

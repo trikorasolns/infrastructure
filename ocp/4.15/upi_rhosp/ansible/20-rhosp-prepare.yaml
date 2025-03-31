@@ -57,66 +57,69 @@
     register: openstack_image_coreos_upload_res
     when: openstack_image_coreos_res.failed or (openstack_image_force_upload is defined and openstack_image_force_upload | bool)
 
-  - name: "Fetch API floating IP information"
-    openstack.cloud.floating_ip_info:
-      description: "{{ rhosp_fip_api_name }}"
-    register: fip_api_info
+- name: "Setup OpenStack Network"
+  import_playbook: 20.3-rhosp-prepare-network.yaml
 
-  - name: "Fetch Ingress floating IP information"
-    openstack.cloud.floating_ip_info:
-      description: "{{ rhosp_fip_ingress_name }}"
-    register: fip_ingress_info
+  # - name: "Fetch API floating IP information"
+  #   openstack.cloud.floating_ip_info:
+  #     description: "{{ rhosp_fip_api_name }}"
+  #   register: fip_api_info
 
-  - name: "Fetch Bootstrap floating IP information"
-    openstack.cloud.floating_ip_info:
-      description: "{{ rhosp_fip_bootstrap_name }}"
-    register: fip_bootstrap_info
+  # - name: "Fetch Ingress floating IP information"
+  #   openstack.cloud.floating_ip_info:
+  #     description: "{{ rhosp_fip_ingress_name }}"
+  #   register: fip_ingress_info
 
-  - name: "OpenStack Floating IP info"
-    ansible.builtin.debug:
-      msg:
-        - "fip_api_info ({{ fip_api_info.floating_ips | length }}): {{ fip_api_info }}"
-        - "fip_ingress_info ({{ fip_ingress_info.floating_ips | length }}): {{ fip_ingress_info }}"
-        - "fip_bootstrap_info ({{ fip_bootstrap_info.floating_ips | length }}): {{ fip_bootstrap_info }}"
+  # - name: "Fetch Bootstrap floating IP information"
+  #   openstack.cloud.floating_ip_info:
+  #     description: "{{ rhosp_fip_bootstrap_name }}"
+  #   register: fip_bootstrap_info
 
-  - name: "Create API floating IP if it doesn't exist"
-    ansible.builtin.shell: |
-      openstack floating ip create --description "{{ rhosp_fip_api_name }}" {{ openstack_ext_network | default('Ext-Net') }}
-    when: fip_api_info.floating_ips | length == 0
-    register: fip_api_create
+  # - name: "OpenStack Floating IP info"
+  #   ansible.builtin.debug:
+  #     msg:
+  #       - "fip_api_info ({{ fip_api_info.floating_ips | length }}): {{ fip_api_info }}"
+  #       - "fip_ingress_info ({{ fip_ingress_info.floating_ips | length }}): {{ fip_ingress_info }}"
+  #       - "fip_bootstrap_info ({{ fip_bootstrap_info.floating_ips | length }}): {{ fip_bootstrap_info }}"
 
-  - name: "Create Ingress floating IP if it doesn't exist"
-    ansible.builtin.shell: |
-      openstack floating ip create --description "{{ rhosp_fip_ingress_name }}" {{ openstack_ext_network | default('Ext-Net') }}
-    when: fip_ingress_info.floating_ips | length == 0
-    register: fip_ingress_create
+  # - name: "Create API floating IP if it doesn't exist"
+  #   ansible.builtin.shell: |
+  #     openstack floating ip create --description "{{ rhosp_fip_api_name }}" {{ openstack_ext_network | default('Ext-Net') }}
+  #   when: fip_api_info.floating_ips | length == 0
+  #   register: fip_api_create
 
-  - name: "Create Bootstrap floating IP if it doesn't exist"
-    ansible.builtin.shell: |
-      openstack floating ip create --description "{{ rhosp_fip_bootstrap_name }}" {{ openstack_ext_network | default('Ext-Net') }}
-    when: fip_bootstrap_info.floating_ips | length == 0
-    register: fip_bootstrap_create
+  # - name: "Create Ingress floating IP if it doesn't exist"
+  #   ansible.builtin.shell: |
+  #     openstack floating ip create --description "{{ rhosp_fip_ingress_name }}" {{ openstack_ext_network | default('Ext-Net') }}
+  #   when: fip_ingress_info.floating_ips | length == 0
+  #   register: fip_ingress_create
 
-  - name: "OpenStack API Floating IP creation info"
-    ansible.builtin.debug:
-      var: fip_api_create
-    when: fip_api_create is defined
+  # - name: "Create Bootstrap floating IP if it doesn't exist"
+  #   ansible.builtin.shell: |
+  #     openstack floating ip create --description "{{ rhosp_fip_bootstrap_name }}" {{ openstack_ext_network | default('Ext-Net') }}
+  #   when: fip_bootstrap_info.floating_ips | length == 0
+  #   register: fip_bootstrap_create
 
-  - name: "OpenStack Ingress Floating IP creation info"
-    ansible.builtin.debug:
-      var: fip_ingress_create
-    when: fip_ingress_create is defined
+  # - name: "OpenStack API Floating IP creation info"
+  #   ansible.builtin.debug:
+  #     var: fip_api_create
+  #   when: fip_api_create is defined
 
-  - name: "OpenStack Bootstrap Floating IP creation info"
-    ansible.builtin.debug:
-      var: fip_bootstrap_create
-    when: fip_bootstrap_create is defined
+  # - name: "OpenStack Ingress Floating IP creation info"
+  #   ansible.builtin.debug:
+  #     var: fip_ingress_create
+  #   when: fip_ingress_create is defined
 
-  - name: "Set the external IPs for API and APPS"
-    ansible.builtin.set_fact:
-      openstack_fip_api_address: "{% if fip_api_create.skipped is defined and fip_api_create.skipped | bool %}{{ fip_api_info.floating_ips[0].floating_ip_address }}{% else %}{{ fip_api_create.stdout }}{% endif %}"
-      openstack_fip_apps_address: "{% if fip_ingress_create.skipped is defined and fip_ingress_create.skipped | bool %}{{ fip_ingress_info.floating_ips[0].floating_ip_address }}{% else %}{{ fip_ingress_create.stdout }}{% endif %}"
-      openstack_fip_bootstrap_address: "{% if fip_bootstrap_create.skipped is defined and fip_bootstrap_create.skipped | bool %}{{ fip_bootstrap_info.floating_ips[0].floating_ip_address }}{% else %}{{ fip_bootstrap_create.stdout }}{% endif %}"
+  # - name: "OpenStack Bootstrap Floating IP creation info"
+  #   ansible.builtin.debug:
+  #     var: fip_bootstrap_create
+  #   when: fip_bootstrap_create is defined
+
+  # - name: "Set the external IPs for API and APPS"
+  #   ansible.builtin.set_fact:
+  #     openstack_fip_api_address: "{% if fip_api_create.skipped is defined and fip_api_create.skipped | bool %}{{ fip_api_info.floating_ips[0].floating_ip_address }}{% else %}{{ fip_api_create.stdout }}{% endif %}"
+  #     openstack_fip_apps_address: "{% if fip_ingress_create.skipped is defined and fip_ingress_create.skipped | bool %}{{ fip_ingress_info.floating_ips[0].floating_ip_address }}{% else %}{{ fip_ingress_create.stdout }}{% endif %}"
+  #     openstack_fip_bootstrap_address: "{% if fip_bootstrap_create.skipped is defined and fip_bootstrap_create.skipped | bool %}{{ fip_bootstrap_info.floating_ips[0].floating_ip_address }}{% else %}{{ fip_bootstrap_create.stdout }}{% endif %}"
 
 # # Load Balancer - 20.5-rhosp-load-balancer.yaml
 # - name: "Collect information"
@@ -124,14 +127,14 @@
 
   # - name: "Create Load Balancer"
   #   openstack.cloud.loadbalancer:
-  #     name: "{{ rhosp_loadbalancer_name }}-public"
+  #     name: "{{ rhosp_loadbalancer_prefix }}-public"
   #     vip_network: "{{ rhosp_network }}"
   #     floating_ip_address: "{{ openstack_fip_api_address }}"
   #     state: present
 
   # - name: "Create private Load Balancer"
   #   openstack.cloud.loadbalancer:
-  #     name: "{{ rhosp_loadbalancer_name }}-private"
+  #     name: "{{ rhosp_loadbalancer_prefix }}-private"
   #     vip_network: "{{ rhosp_network }}"
   #     state: present
   #   register: rhosp_lb_private_res
@@ -151,7 +154,7 @@
   # - name: "Create load-balancer listeners"
   #   openstack.cloud.lb_listener:
   #     name: "{{ item.name }}"
-  #     load_balancer: "{{ rhosp_loadbalancer_name }}-public"
+  #     load_balancer: "{{ rhosp_loadbalancer_prefix }}-public"
   #     protocol: "{{ item.protocol }}"
   #     protocol_port: "{{ item.port }}"
   #     state: present
@@ -164,7 +167,7 @@
   # - name: "Create load-balancer listeners"
   #   openstack.cloud.lb_listener:
   #     name: "{{ item.name }}"
-  #     load_balancer: "{{ rhosp_loadbalancer_name }}-private"
+  #     load_balancer: "{{ rhosp_loadbalancer_prefix }}-private"
   #     protocol: "{{ item.protocol }}"
   #     protocol_port: "{{ item.port }}"
   #     state: present
@@ -175,7 +178,7 @@
   #   openstack.cloud.lb_pool:
   #     name: "{{ rhosp_loadbalancer_pool_name }}-public"
   #     lb_algorithm: "ROUND_ROBIN"
-  #     loadbalancer: "{{ rhosp_loadbalancer_name }}-public"
+  #     loadbalancer: "{{ rhosp_loadbalancer_prefix }}-public"
   #     protocol: "TCP"
   #     state: present
 
@@ -183,7 +186,7 @@
   #   openstack.cloud.lb_pool:
   #     name: "{{ rhosp_loadbalancer_pool_name }}-private"
   #     lb_algorithm: "ROUND_ROBIN"
-  #     loadbalancer: "{{ rhosp_loadbalancer_name }}-private"
+  #     loadbalancer: "{{ rhosp_loadbalancer_prefix }}-private"
   #     protocol: "TCP"
   #     state: present
 
@@ -283,7 +286,7 @@
 
 
 # Bootstrap Ignition Image
-- name: "Collect information"
+- name: "Generate Bootstrap Ignition Image"
   import_playbook: 20.1-rhosp-prepare-bootstrap-ign-img.yaml
 
   # - name: "Read the bootstrap ignition file as JSON"
@@ -522,8 +525,8 @@
   import_playbook: 20.14-rhosp-load-balancer.yaml
 
 # Load Balancer Members - 220.15-rhosp-load-balancer-members.yaml
-- name: "Load Balancer Members"
-  import_playbook: 20.15-rhosp-load-balancer-members.yaml
+# - name: "Load Balancer Members"
+#   import_playbook: 20.15-rhosp-load-balancer-members.yaml
 
 # Print DNS information
 - name: "Print DNS information"

@@ -108,6 +108,7 @@ Generate the OpenStack infrastructure.
 ----
 ansible-playbook ocp/4.15/upi_rhosp/ansible/20-rhosp-prepare.yaml \
   -e @ocp/4.15/ansible/defaults/main.yaml \
+  -e @ocp/4.15/upi_rhosp/ansible/defaults/main.yaml \
   -e @_local_config/network.yaml \
   -e @_local_config/${OCP_CLUSTER_NAME}/${OCP_CLUSTER_NAME}.yaml \
   -e ocp_cluster_name=${OCP_CLUSTER_NAME}
@@ -136,6 +137,7 @@ ansible-playbook ocp/4.15/upi_rhosp/ansible/29-rhosp-print-dns-info.yaml   -e @o
 
 == Cleanup
 
+[.lead]
 Remove infrastructure.
 
 Remove Load Balancer.
@@ -144,6 +146,8 @@ Remove Load Balancer.
 ----
 ansible-playbook ocp/4.15/upi_rhosp/ansible/97-rhosp-lb-cleanup.yaml   -e @ocp/4.15/ansible/defaults/main.yaml   -e @_local_config/network.yaml   -e @_local_config/${OCP_CLUSTER_NAME}/${OCP_CLUSTER_NAME}.yaml   -e ocp_cluster_name=${OCP_CLUSTER_NAME}
 ----
+
+Remove instances.
 
 [source,bash]
 ----
