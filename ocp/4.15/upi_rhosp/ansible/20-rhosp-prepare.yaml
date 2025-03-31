@@ -57,17 +57,17 @@
     register: openstack_image_coreos_upload_res
     when: openstack_image_coreos_res.failed or (openstack_image_force_upload is defined and openstack_image_force_upload | bool)
 
-  - name: "Check if API floating IP already exist for the project"
+  - name: "Fetch API floating IP information"
     openstack.cloud.floating_ip_info:
       description: "{{ rhosp_fip_api_name }}"
     register: fip_api_info
 
-  - name: "Check if Ingress floating IP already exist for the project"
+  - name: "Fetch Ingress floating IP information"
     openstack.cloud.floating_ip_info:
       description: "{{ rhosp_fip_ingress_name }}"
     register: fip_ingress_info
 
-  - name: "Check if Bootstrap floating IP already exist for the project"
+  - name: "Fetch Bootstrap floating IP information"
     openstack.cloud.floating_ip_info:
       description: "{{ rhosp_fip_bootstrap_name }}"
     register: fip_bootstrap_info
@@ -118,130 +118,150 @@
       openstack_fip_apps_address: "{% if fip_ingress_create.skipped is defined and fip_ingress_create.skipped | bool %}{{ fip_ingress_info.floating_ips[0].floating_ip_address }}{% else %}{{ fip_ingress_create.stdout }}{% endif %}"
       openstack_fip_bootstrap_address: "{% if fip_bootstrap_create.skipped is defined and fip_bootstrap_create.skipped | bool %}{{ fip_bootstrap_info.floating_ips[0].floating_ip_address }}{% else %}{{ fip_bootstrap_create.stdout }}{% endif %}"
 
-  - name: "Create Load Balancer"
-    openstack.cloud.loadbalancer:
-      name: "{{ rhosp_loadbalancer_name }}-public"
-      vip_network: "{{ rhosp_network }}"
-      floating_ip_address: "{{ openstack_fip_api_address }}"
-      state: present
+# # Load Balancer - 20.5-rhosp-load-balancer.yaml
+# - name: "Collect information"
+#   import_playbook: 20.5-rhosp-load-balancer.yaml
 
-  - name: "Create private Load Balancer"
-    openstack.cloud.loadbalancer:
-      name: "{{ rhosp_loadbalancer_name }}-private"
-      vip_network: "{{ rhosp_network }}"
-      state: present
-    register: rhosp_lb_private_res
+  # - name: "Create Load Balancer"
+  #   openstack.cloud.loadbalancer:
+  #     name: "{{ rhosp_loadbalancer_name }}-public"
+  #     vip_network: "{{ rhosp_network }}"
+  #     floating_ip_address: "{{ openstack_fip_api_address }}"
+  #     state: present
 
-  - name: "Create private Load Balancer DNS records"
-    ansible.builtin.debug:
-      msg:
-      - "Create a DNS registries"
-      - "A record for api-int.{{ ocp_cluster_name }}.{{ local_domain}} with IP {{ rhosp_lb_private_res }}"
-      - "A record for bootstrap.{{ ocp_cluster_name }}.{{ local_domain}} with IP {{ openstack_fip_bootstrap_address }}"
-    register: rhosp_lb_private_res
+  # - name: "Create private Load Balancer"
+  #   openstack.cloud.loadbalancer:
+  #     name: "{{ rhosp_loadbalancer_name }}-private"
+  #     vip_network: "{{ rhosp_network }}"
+  #     state: present
+  #   register: rhosp_lb_private_res
 
-
-  - name: "MANUAL STEP: Create private Load Balancer DNS records"
-    ansible.builtin.pause:
-
-  - name: "Create load-balancer listeners"
-    openstack.cloud.lb_listener:
-      name: "{{ item.name }}"
-      load_balancer: "{{ rhosp_loadbalancer_name }}-public"
-      protocol: "{{ item.protocol }}"
-      protocol_port: "{{ item.port }}"
-      state: present
-    loop:
-    - {name: "api-server", port: 6443, protocol: "TCP"}
-    - {name: "https", port: 443, protocol: "TCP"}
-    - {name: "http", port: 80, protocol: "TCP"}
-    - {name: "stats", port: 9000, protocol: "TCP"}
-
-  - name: "Create load-balancer listeners"
-    openstack.cloud.lb_listener:
-      name: "{{ item.name }}"
-      load_balancer: "{{ rhosp_loadbalancer_name }}-private"
-      protocol: "{{ item.protocol }}"
-      protocol_port: "{{ item.port }}"
-      state: present
-    loop:
-    - {name: "bootstrap", port: 22623, protocol: "TCP"}
-
-  - name: "Create  public load-balancer pool"
-    openstack.cloud.lb_pool:
-      name: "{{ rhosp_loadbalancer_pool_name }}-public"
-      lb_algorithm: "ROUND_ROBIN"
-      loadbalancer: "{{ rhosp_loadbalancer_name }}-public"
-      protocol: "TCP"
-      state: present
-
-  - name: "Create private load-balancer pool"
-    openstack.cloud.lb_pool:
-      name: "{{ rhosp_loadbalancer_pool_name }}-private"
-      lb_algorithm: "ROUND_ROBIN"
-      loadbalancer: "{{ rhosp_loadbalancer_name }}-private"
-      protocol: "TCP"
-      state: present
-
-  - name: "Set names for DNS queries"
-    ansible.builtin.set_fact:
-      api_dns_name: "api.{{ ocp_cluster_name }}.{{ local_domain}}"
-      apps_dns_name: "console.apps.{{ ocp_cluster_name }}.{{ local_domain}}"
-
-  - name: "Fetch DNS for API and APPS"
-    ansible.builtin.set_fact:
-      dnslookup_api: "{{ query('community.dns.lookup', api_dns_name) }}"
-      dnslookup_apps: "{{ query('community.dns.lookup', apps_dns_name) }}"
-
-  - name: Look up A (IPv4) records for example.org
-    ansible.builtin.debug:
-      msg: 
-      - "dnslookup_api: {{ dnslookup_api }}"
-      - "dnslookup_apps: {{ dnslookup_api }}"
-      - "dnslookup_apps: {{ query('community.dns.lookup', 'www.trikorasolutions.com') }}"
-
-  # - name: "TODO: Create DNS records for API and APPS"
+  # - name: "Create private Load Balancer DNS records"
   #   ansible.builtin.debug:
-  #     msg: 
-  #     - "TO BE AUTOMATED!!!"
-  #     - "Create these two records in your DNS zone:"
-  #     - 
-  #     - "api.{{ ocp_subdomain }}.    A {{ openstack_fip_api_address }}"
-  #     - "*.apps.{{ ocp_subdomain }}. A {{ openstack_fip_apps_address }}"
+  #     msg:
+  #     - "Create a DNS registries"
+  #     - "A record for api-int.{{ ocp_cluster_name }}.{{ local_domain}} with IP {{ rhosp_lb_private_res }}"
+  #     - "A record for bootstrap.{{ ocp_cluster_name }}.{{ local_domain}} with IP {{ openstack_fip_bootstrap_address }}"
+  #   register: rhosp_lb_private_res
 
-  - name: "WARNING: No DNS addresses found for API and/or APPS, create them manually"
-    ansible.builtin.debug:
-      msg: 
-      - "TO BE AUTOMATED!!!"
-      - "Create these two records in your DNS zone:"
-      - ""
-      - "api.{{ ocp_subdomain }}.    A {{ openstack_fip_api_address }}"
-      - "*.apps.{{ ocp_subdomain }}. A {{ openstack_fip_apps_address }}"
-    when: (dnslookup_api | length == 0) or (dnslookup_apps | length == 0)
 
-  - name: "WARNING: Mismatch DNS addresses for API, fix it manually"
-    ansible.builtin.debug:
-      msg: 
-      - "TO BE AUTOMATED!!!"
-      - "api.{{ ocp_subdomain }} should be {{ openstack_fip_api_address }} but is {{ dnslookup_api[0] }}"
-      - ""
-      - "These two records should exist in your DNS zone:"
-      - ""
-      - "api.{{ ocp_subdomain }}.    A {{ openstack_fip_api_address }}"
-      - "*.apps.{{ ocp_subdomain }}. A {{ openstack_fip_apps_address }}"
-    when: (dnslookup_api | length > 0 and dnslookup_api[0] != openstack_fip_api_address)
+  # - name: "MANUAL STEP: Create private Load Balancer DNS records"
+  #   ansible.builtin.pause:
 
-  - name: "WARNING: Mismatch DNS addresses for APPS, fix it manually"
-    ansible.builtin.debug:
-      msg: 
-      - "TO BE AUTOMATED!!!"
-      - "*.apps.{{ ocp_subdomain }} should be {{ openstack_fip_apps_address }} but is {{ dnslookup_apps[0] }}"
-      - 
-      - "These two records should exist in your DNS zone:"
-      - 
-      - "api.{{ ocp_subdomain }}.    A {{ openstack_fip_api_address }}"
-      - "*.apps.{{ ocp_subdomain }}. A {{ openstack_fip_apps_address }}"
-    when: (dnslookup_apps | length > 0 and dnslookup_apps[0] != openstack_fip_apps_address)
+  # - name: "Create load-balancer listeners"
+  #   openstack.cloud.lb_listener:
+  #     name: "{{ item.name }}"
+  #     load_balancer: "{{ rhosp_loadbalancer_name }}-public"
+  #     protocol: "{{ item.protocol }}"
+  #     protocol_port: "{{ item.port }}"
+  #     state: present
+  #   loop:
+  #   - {name: "api-server", port: 6443, protocol: "TCP"}
+  #   - {name: "https", port: 443, protocol: "TCP"}
+  #   - {name: "http", port: 80, protocol: "TCP"}
+  #   - {name: "stats", port: 9000, protocol: "TCP"}
+
+  # - name: "Create load-balancer listeners"
+  #   openstack.cloud.lb_listener:
+  #     name: "{{ item.name }}"
+  #     load_balancer: "{{ rhosp_loadbalancer_name }}-private"
+  #     protocol: "{{ item.protocol }}"
+  #     protocol_port: "{{ item.port }}"
+  #     state: present
+  #   loop:
+  #   - {name: "bootstrap", port: 22623, protocol: "TCP"}
+
+  # - name: "Create  public load-balancer pool"
+  #   openstack.cloud.lb_pool:
+  #     name: "{{ rhosp_loadbalancer_pool_name }}-public"
+  #     lb_algorithm: "ROUND_ROBIN"
+  #     loadbalancer: "{{ rhosp_loadbalancer_name }}-public"
+  #     protocol: "TCP"
+  #     state: present
+
+  # - name: "Create private load-balancer pool"
+  #   openstack.cloud.lb_pool:
+  #     name: "{{ rhosp_loadbalancer_pool_name }}-private"
+  #     lb_algorithm: "ROUND_ROBIN"
+  #     loadbalancer: "{{ rhosp_loadbalancer_name }}-private"
+  #     protocol: "TCP"
+  #     state: present
+
+# - name: "Setup DNS"
+#   hosts: "localhost"
+#   gather_facts: true
+
+#   tasks:
+#   - name: "Set names for DNS queries"
+#     ansible.builtin.set_fact:
+#       api_dns_name: "api.{{ ocp_cluster_name }}.{{ local_domain}}"
+#       apps_dns_name: "console.apps.{{ ocp_cluster_name }}.{{ local_domain}}"
+
+#   - name: "Fetch DNS for API and APPS"
+#     ansible.builtin.set_fact:
+#       dnslookup_api: "{{ query('community.dns.lookup', api_dns_name) }}"
+#       dnslookup_apps: "{{ query('community.dns.lookup', apps_dns_name) }}"
+    
+#   - name: Look up A (IPv4) records for example.org
+#     ansible.builtin.debug:
+#       msg: 
+#       - "dnslookup_api: {{ dnslookup_api }}"
+#       - "dnslookup_apps: {{ dnslookup_api }}"
+#       - "dnslookup_apps: {{ query('community.dns.lookup', 'www.trikorasolutions.com') }}"
+
+#   # - name: "TODO: Create DNS records for API and APPS"
+#   #   ansible.builtin.debug:
+#   #     msg: 
+#   #     - "TO BE AUTOMATED!!!"
+#   #     - "Create these two records in your DNS zone:"
+#   #     - 
+#   #     - "api.{{ ocp_subdomain }}.    A {{ openstack_fip_api_address }}"
+#   #     - "*.apps.{{ ocp_subdomain }}. A {{ openstack_fip_apps_address }}"
+
+#   - name: "WARNING: No DNS addresses found for API and/or APPS, create them manually"
+#     ansible.builtin.debug:
+#       msg: 
+#       - "TO BE AUTOMATED!!!"
+#       - "Create these two records in your DNS zone:"
+#       - ""
+#       - "api.{{ ocp_subdomain }}.    A {{ openstack_fip_api_address }}"
+#       - "*.apps.{{ ocp_subdomain }}. A {{ openstack_fip_apps_address }}"
+#     when: (dnslookup_api | length == 0) or (dnslookup_apps | length == 0)
+
+#   - name: "WARNING: Mismatch DNS addresses for API, fix it manually"
+#     ansible.builtin.debug:
+#       msg: 
+#       - "TO BE AUTOMATED!!!"
+#       - "api.{{ ocp_subdomain }} should be {{ openstack_fip_api_address }} but is {{ dnslookup_api[0] }}"
+#       - ""
+#       - "These two records should exist in your DNS zone:"
+#       - ""
+#       - "api.{{ ocp_subdomain }}.    A {{ openstack_fip_api_address }}"
+#       - "*.apps.{{ ocp_subdomain }}. A {{ openstack_fip_apps_address }}"
+#     when: (dnslookup_api | length > 0 and dnslookup_api[0] != openstack_fip_api_address)
+
+#   - name: "WARNING: Mismatch DNS addresses for APPS, fix it manually"
+#     ansible.builtin.debug:
+#       msg: 
+#       - "TO BE AUTOMATED!!!"
+#       - "*.apps.{{ ocp_subdomain }} should be {{ openstack_fip_apps_address }} but is {{ dnslookup_apps[0] }}"
+#       - 
+#       - "These two records should exist in your DNS zone:"
+#       - 
+#       - "api.{{ ocp_subdomain }}.    A {{ openstack_fip_api_address }}"
+#       - "*.apps.{{ ocp_subdomain }}. A {{ openstack_fip_apps_address }}"
+#     when: (dnslookup_apps | length > 0 and dnslookup_apps[0] != openstack_fip_apps_address)
+
+#   - name: "Create private Load Balancer DNS records"
+#     ansible.builtin.debug:
+#       msg:
+#       - "Create a DNS registries"
+#       - "A record for api-int.{{ ocp_cluster_name }}.{{ local_domain}} with IP {{ rhosp_lb_private_res }}"
+#       - "A record for bootstrap.{{ ocp_cluster_name }}.{{ local_domain}} with IP {{ openstack_fip_bootstrap_address }}"
+#     register: rhosp_lb_private_res
+
+#   - name: "MANUAL STEP: Create private Load Balancer DNS records"
+#     ansible.builtin.pause:
 
   # - name: "Wait for DNS propagation"
   #   ansible.builtin.debug:
@@ -264,7 +284,7 @@
 
 # Bootstrap Ignition Image
 - name: "Collect information"
-  import_playbook: _common_rhosp.yaml
+  import_playbook: 20.1-rhosp-prepare-bootstrap-ign-img.yaml
 
   # - name: "Read the bootstrap ignition file as JSON"
   #   ansible.builtin.set_fact:
@@ -360,19 +380,19 @@
   #     - "{{ apps_dns_name }} ({{ openstack_fip_apps_address }}): {{ lookup('community.general.dig', apps_dns_name) }}"
 # /Bootstrap Ignition Image
 
-- name: "DNS"
-  hosts: "localhost"
-  gather_facts: true
+# - name: "DNS"
+#   hosts: "localhost"
+#   gather_facts: true
 
-  tasks:
+#   tasks:
 
-  - name: "Wait for DNS propagation"
-    ansible.builtin.debug:
-      msg: "Wait for DNS propagation..."
-    until: (lookup('community.general.dig', api_dns_name) == openstack_fip_api_address) and (lookup('community.general.dig', apps_dns_name) == openstack_fip_apps_address)
-    retries: 30
-    delay: 10
-    when: skip_dns is undefined or not (skip_dns | bool)
+#   - name: "Wait for DNS propagation"
+#     ansible.builtin.debug:
+#       msg: "Wait for DNS propagation..."
+#     until: (lookup('community.general.dig', api_dns_name) == openstack_fip_api_address) and (lookup('community.general.dig', apps_dns_name) == openstack_fip_apps_address)
+#     retries: 30
+#     delay: 10
+#     when: skip_dns is undefined or not (skip_dns | bool)
 
 # Network
 ## Security Groups
@@ -496,5 +516,17 @@
   #   openstack.cloud.server_info:
   #     name: "{{ rhosp_control_plane_server_prefix }}"
   #   register: rhosp_controlplane_server_info
+
+# Load Balancer - 20.14-rhosp-load-balancer.yaml
+- name: "Load Balancer"
+  import_playbook: 20.14-rhosp-load-balancer.yaml
+
+# Load Balancer Members - 220.15-rhosp-load-balancer-members.yaml
+- name: "Load Balancer Members"
+  import_playbook: 20.15-rhosp-load-balancer-members.yaml
+
+# Print DNS information
+- name: "Print DNS information"
+  import_playbook: 29-rhosp-print-dns-info.yaml
 
 ...

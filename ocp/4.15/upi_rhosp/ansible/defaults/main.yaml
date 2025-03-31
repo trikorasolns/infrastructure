@@ -2,3 +2,10 @@
 rhosp_flavor_master: b3-16
 rhosp_flavor_worker: b3-8
 rhosp_lb_flavor: small
+rhosp_lb_public_ports:
+- {name: "api", port: 6443, protocol: "TCP"}
+- {name: "https", port: 443, protocol: "TCP"}
+- {name: "http", port: 80, protocol: "TCP"}
+- {name: "stats", port: 9000, protocol: "TCP"}
+rhosp_lb_private_ports:
+- {name: "api-int", port: 22623, protocol: "TCP"}

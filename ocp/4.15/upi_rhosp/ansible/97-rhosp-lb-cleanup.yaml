@@ -1,0 +1,21 @@
+---
+- name: "Collect information"
+  import_playbook: _common_rhosp.yaml
+  when: ocp_cluster_id_tag is not defined
+
+- name: "Cleanup network infrastructure"
+  hosts: "localhost"
+  gather_facts: true
+
+  tasks:
+  - name: "Delete public Load Balancer"
+    openstack.cloud.loadbalancer:
+      name: "{{ rhosp_loadbalancer_name }}-public"
+      delete_floating_ip: false
+      state: absent
+
+  - name: "Delete private Load Balancer"
+    openstack.cloud.loadbalancer:
+      name: "{{ rhosp_loadbalancer_name }}-private"
+      state: absent
+...

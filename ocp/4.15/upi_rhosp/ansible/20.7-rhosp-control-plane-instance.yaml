@@ -89,20 +89,12 @@
 
   # - name: 'List the Server groups'
   #   ansible.builtin.command:
-  #     # os-compute-api-version 2.15 or higher is required for the 'soft-anti-affinity' policy
-  #     cmd: "openstack --os-compute-api-version=2.15 server group list -f json -c ID -c Name"
-  #   register: server_group_list
-
-  # - name: 'Parse the Server group ID from existing'
-  #   ansible.builtin.set_fact:
-  #     server_group_id: "{{ (server_group_list.stdout | from_json | json_query(list_query) | first).ID }}"
-  #   vars:
-  #     list_query: "[?Name=='{{ os_cp_server_group_name }}']"
-  #   when:
-  #   - "os_cp_server_group_name|string in server_group_list.stdout"
-
-  # - name: 'Create the Control Plane server group'
-  #   ansible.builtin.command: |
+  #     # os-compute-api-version 2.15 oansible-playbook ocp/4.15/upi_rhosp/ansible/20.15-rhosp-load-balancer-members.yaml \
+  -e @ocp/4.15/ansible/defaults/main.yaml \
+  -e @ocp/4.15/upi_rhosp/ansible/defaults/main.yaml \
+  -e @_local_config/network.yaml \
+  -e @_local_config/${OCP_CLUSTER_NAME}/${OCP_CLUSTER_NAME}.yaml \
+  -e ocp_cluster_name=${OCP_CLUSTER_NAME}
   #     # os-compute-api-version 2.15 or higher is required for the 'soft-anti-affinity' policy
   #     openstack --os-compute-api-version=2.15 server group create -f json -c id --policy=soft-anti-affinity {{ os_cp_server_group_name }}
   #   register: server_group_created

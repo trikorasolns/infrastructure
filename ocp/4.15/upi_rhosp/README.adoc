@@ -113,24 +113,37 @@ ansible-playbook ocp/4.15/upi_rhosp/ansible/20-rhosp-prepare.yaml \
   -e ocp_cluster_name=${OCP_CLUSTER_NAME}
 ----
 
-Import openshift image to openstack.
+=== Manual steps
 
-openstack  --os-region-name GRA11 image create --container-format=bare --disk-format=qcow2 --file /z/_dw/rhcos-415.92.202407091355-0-openstack.x86_64.qcow2 rhcos-${OCP_CLUSTER_NAME}
+==== Load Balancer
 
-openstack server create             \
-  --os-region-name GRA11            \
-  --key-name="${OPENSTACK_KEYPAIR}" \
-  --network=${OPENSTACK_NETWORK}    \
-  --flavor=b3-16                    \
-  --image="${IMAGE}"                \
-  --user-data ./_local_config/ovhcpococp/bootstrap.ign \
-  ovhcpococp_bootstrap
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi_rhosp/ansible/20.14-rhosp-load-balancer.yaml \
+  -e @ocp/4.15/ansible/defaults/main.yaml \
+  -e @ocp/4.15/upi_rhosp/ansible/defaults/main.yaml \
+  -e @_local_config/network.yaml \
+  -e @_local_config/${OCP_CLUSTER_NAME}/${OCP_CLUSTER_NAME}.yaml \
+  -e ocp_cluster_name=${OCP_CLUSTER_NAME}
+----
 
-openstack --os-region-name GRA11 image list
+==== Fetch DNS information
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi_rhosp/ansible/29-rhosp-print-dns-info.yaml   -e @ocp/4.15/ansible/defaults/main.yaml   -e @ocp/4.15/upi_rhosp/ansible/defaults/main.yaml   -e @_local_config/network.yaml   -e @_local_config/${OCP_CLUSTER_NAME}/${OCP_CLUSTER_NAME}.yaml   -e ocp_cluster_name=${OCP_CLUSTER_NAME}
+----
 
 == Cleanup
 
 Remove infrastructure.
+
+Remove Load Balancer.
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi_rhosp/ansible/97-rhosp-lb-cleanup.yaml   -e @ocp/4.15/ansible/defaults/main.yaml   -e @_local_config/network.yaml   -e @_local_config/${OCP_CLUSTER_NAME}/${OCP_CLUSTER_NAME}.yaml   -e ocp_cluster_name=${OCP_CLUSTER_NAME}
+----
 
 [source,bash]
 ----
