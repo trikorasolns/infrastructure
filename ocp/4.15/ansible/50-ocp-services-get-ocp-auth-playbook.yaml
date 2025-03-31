@@ -13,8 +13,6 @@
     ansible.builtin.slurp:
       src: "{{ openshift_cluster_install_dir }}/.openshift_install_state.json"
     register: ocp_cluster_install_state_slurp
-    # ansible.builtin.set_fact: 
-    #   ocp_install_state: "{{ lookup('ansible.builtin.file', ansible_env.HOME + '/' + ocp_install_root_dir + '/' + ocp_cluster_name + '/.openshift_install_state.json') | to_json }}"
 
   - name: "Debug"
     ansible.builtin.debug:

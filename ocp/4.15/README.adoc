@@ -52,3 +52,34 @@ The following platforms are available:
 
 * link:upi_proxmox//[OCP UPI Installation on Proxmox]
 * link:upi_rhosp/[OCP Installation on UPI RHOSP]
+
+== Installation Process
+
+* UPI under a Proxmox Cluster
+* UPI under RedHat OpenStack infrastrcture
+
+=== Follow up the deployment
+
+Once the deployment started it can be checked by using the following commands.
+
+Check when the nodes are created.
+
+[source,bash]
+----
+./oc --kubeconfig ocp/auth/kubeconfig get nodes -w
+----
+
+Wait for the bootstrap operation to finish. From the openshift root folder on 
+ the _ocp_services_ host execute the following command.
+
+[source,bash]
+----
+./openshift-install --dir ocp/ wait-for bootstrap-complete --log-level=debug
+----
+
+Check for what's missing for the cluster to be stable.
+
+[source,bash]
+----
+./oc --kubeconfig ocp/auth/kubeconfig  adm wait-for-stable-cluster --minimum-stable-period=5s
+----
