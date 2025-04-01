@@ -4,6 +4,7 @@ username = {{ rhosp_os_username }}
 password = {{ rhosp_os_password }}
 tenant-id = {{ rhosp_os_tenant_id }}
 region = {{ rhosp_os_region_name }}
+domain-id = {{ rhosp_os_domain_id | default('default') }}
 
 [LoadBalancer]
 subnet-id = {{ rhosp_loadbalancer_subnet }}

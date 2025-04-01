@@ -212,6 +212,11 @@ ansible-playbook ocp/4.15/upi_rhosp/ansible/50-ocp-storage.yaml \
   -e rhosp_os_password="${RHOSP_OS_PASSWORD}"
 ----
 
+* https://github.com/kubernetes/cloud-provider-openstack/blob/master/docs/cinder-csi-plugin/using-cinder-csi-plugin.md
+* https://github.com/kubernetes/cloud-provider-openstack/blob/master/docs/manila-csi-plugin/using-manila-csi-plugin.md
+* https://github.com/openshift/csi-operator/
+* https://github.com/kubernetes/cloud-provider-openstack
+
 == References
 
 * https://docs.redhat.com/en/documentation/openshift_container_platform/4.11/html/installing/installing-on-openstack
