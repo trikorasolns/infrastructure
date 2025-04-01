@@ -32,7 +32,7 @@
     loop_control:
       loop_var: rhosp_private_lb_pool_members_item
 
-    - name: "Delete Health Monitors from public Load Balancer pools"
+  - name: "Delete Health Monitors from public Load Balancer pools"
     openstack.cloud.lb_health_monitor:
       # delay: 5
       # # expected_codes: '200'
@@ -64,7 +64,7 @@
       # url_path: '/status'
     loop: "{{ rhosp_lb_private_ports }}"
 
-    - name: "Delete public load-balancer listeners"
+  - name: "Delete public load-balancer listeners"
     openstack.cloud.lb_listener:
       name: "{{ item.name }}"
       load_balancer: "{{ rhosp_loadbalancer_prefix }}-public"

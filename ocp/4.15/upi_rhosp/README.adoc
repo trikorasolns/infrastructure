@@ -170,6 +170,48 @@ ansible-playbook ocp/4.15/upi_rhosp/ansible/99-ocp-install-cleanup copy.yaml \
   -e ocp_cluster_name=${OCP_CLUSTER_NAME}
 ----
 
+== Authentication
+
+Get the authentication.
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/ansible/50-ocp-services-get-ocp-auth-playbook.yaml \
+  -e @ocp/4.15/ansible/defaults/main.yaml
+----
+
+
+=== Add compute nodes
+
+Add a compute node.
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi_rhosp/ansible/20.19-rhosp-compute-node-instance.yaml \
+  -e @_local_config/network.yaml \
+  -e @ocp/4.15/ansible/defaults/main.yaml \
+  -e @ocp/4.15/upi_rhosp/ansible/defaults/main.yaml \
+  -e @_local_config/${OCP_CLUSTER_NAME}/${OCP_CLUSTER_NAME}.yaml 
+----
+
+
+=== Storage
+
+[source,bash]
+----
+RHOSP_OS_PASSWORD=
+----
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi_rhosp/ansible/50-ocp-storage.yaml \
+  -e @_local_config/network.yaml \
+  -e @ocp/4.15/ansible/defaults/main.yaml \
+  -e @ocp/4.15/upi_rhosp/ansible/defaults/main.yaml \
+  -e @_local_config/${OCP_CLUSTER_NAME}/${OCP_CLUSTER_NAME}.yaml \
+  -e rhosp_os_password="${RHOSP_OS_PASSWORD}"
+----
+
 == References
 
 * https://docs.redhat.com/en/documentation/openshift_container_platform/4.11/html/installing/installing-on-openstack

@@ -257,16 +257,18 @@ ansible-playbook ocp/4.15/upi_proxmox/ansible/02-ocp-services-oi-binaries.yaml \
 ----
 
 [.lead]
-Configure the OCP Services host. This playbook will:
+Configure the OCP Services host. This playbook will perform the following 
+ tasks
 
 * Install several packages
-* Enable services for HTTP and HAProxy
+* Enable services for the HTTP and HAProxy
 * Perform several configurations on the host
 
 [source,yaml]
 ----
 include::ansible/defaults/main.yaml[tag=required_packages]
 ----
+
 * Enable and start services
 * Open firewall ports
 * Perform configuration on the host
@@ -555,7 +557,6 @@ ansible-playbook ocp/4.15/upi_proxmox/ansible/99-ocp-services-ocp-clean-playbook
   -e remove_binaries_dir=true <1>
 ----
 <1> Also remove the folder containing the OpenShift binaries
-
 
 == Troubleshooting
 

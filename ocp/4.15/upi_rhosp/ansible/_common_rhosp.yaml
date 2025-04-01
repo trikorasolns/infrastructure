@@ -123,6 +123,7 @@
       rhosp_fip_bootstrap_name: "ocp-{{ ocp_cluster_name }}-bootstrap"
       rhosp_bootstrap_server_name: "{{ ocp_infra_id }}-bootstrap"
       rhosp_control_plane_server_prefix: "{{ ocp_infra_id }}-controlplane"
+      rhosp_compute_node_server_prefix: "{{ ocp_infra_id }}-computenode"
       rhosp_ocp_bootstrap_ign_image_name: "bootstrap-ign-{{ ocp_infra_id }}"
       rhosp_loadbalancer_prefix: "ocp-{{ ocp_cluster_name }}" # Prefix used on the cluster load balancer names.
       # rhosp_loadbalancer_pool_name: "ocp-{{ ocp_cluster_name }}-pool"

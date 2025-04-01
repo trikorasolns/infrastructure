@@ -83,3 +83,21 @@ Check for what's missing for the cluster to be stable.
 ----
 ./oc --kubeconfig ocp/auth/kubeconfig  adm wait-for-stable-cluster --minimum-stable-period=5s
 ----
+
+== Post installation steps
+
+Get the authentication.
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/ansible/50-ocp-services-get-ocp-auth-playbook.yaml \
+  -e @ocp/4.15/ansible/defaults/main.yaml \
+  -e ocp_cluster_name=${OCP_CLUSTER_NAME}
+----
+
+=== Remove worker from Control Plane nodes
+
+[source,bash]
+----
+oc patch scheduler cluster --type merge -p '{"spec":{"mastersSchedulable":false}}'
+----
