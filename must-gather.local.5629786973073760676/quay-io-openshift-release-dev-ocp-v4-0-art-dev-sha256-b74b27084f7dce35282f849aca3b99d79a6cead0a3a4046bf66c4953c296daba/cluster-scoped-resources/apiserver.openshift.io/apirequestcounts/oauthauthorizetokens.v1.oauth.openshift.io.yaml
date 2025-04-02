@@ -1,0 +1,233 @@
+---
+apiVersion: apiserver.openshift.io/v1
+kind: APIRequestCount
+metadata:
+  creationTimestamp: "2025-03-31T21:16:02Z"
+  generation: 1
+  managedFields:
+  - apiVersion: apiserver.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec:
+        .: {}
+        f:numberOfUsersToReport: {}
+    manager: kube-apiserver
+    operation: Update
+    time: "2025-03-31T21:16:02Z"
+  - apiVersion: apiserver.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        .: {}
+        f:currentHour:
+          .: {}
+          f:byNode: {}
+          f:requestCount: {}
+        f:last24h: {}
+        f:requestCount: {}
+    manager: kube-apiserver
+    operation: Update
+    subresource: status
+    time: "2025-04-02T07:07:18Z"
+  name: oauthauthorizetokens.v1.oauth.openshift.io
+  resourceVersion: "704564"
+  uid: 84142803-c108-4550-838d-69dc6b7979e8
+spec:
+  numberOfUsersToReport: 10
+status:
+  currentHour:
+    byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  last24h:
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  - requestCount: 0
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  requestCount: 0

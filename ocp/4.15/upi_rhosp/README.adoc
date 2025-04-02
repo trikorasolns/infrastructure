@@ -177,6 +177,7 @@ Get the authentication.
 [source,bash]
 ----
 ansible-playbook ocp/4.15/ansible/50-ocp-services-get-ocp-auth-playbook.yaml \
+  -e @_local_config/${OCP_CLUSTER_NAME}/${OCP_CLUSTER_NAME}.yaml \
   -e @ocp/4.15/ansible/defaults/main.yaml
 ----
 
@@ -199,12 +200,19 @@ ansible-playbook ocp/4.15/upi_rhosp/ansible/20.19-rhosp-compute-node-instance.ya
 
 [source,bash]
 ----
-RHOSP_OS_PASSWORD=
+ =
 ----
+
+==== kubernetes/cloud-provider-openstack
+
+===== Cinder
+
+[.lead]
+RHOSP Cinder
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi_rhosp/ansible/50-ocp-storage.yaml \
+ansible-playbook ocp/4.15/upi_rhosp/ansible/50-ocp-storage-cinder.yaml \
   -e @_local_config/network.yaml \
   -e @ocp/4.15/ansible/defaults/main.yaml \
   -e @ocp/4.15/upi_rhosp/ansible/defaults/main.yaml \
@@ -212,10 +220,115 @@ ansible-playbook ocp/4.15/upi_rhosp/ansible/50-ocp-storage.yaml \
   -e rhosp_os_password="${RHOSP_OS_PASSWORD}"
 ----
 
-* https://github.com/kubernetes/cloud-provider-openstack/blob/master/docs/cinder-csi-plugin/using-cinder-csi-plugin.md
-* https://github.com/kubernetes/cloud-provider-openstack/blob/master/docs/manila-csi-plugin/using-manila-csi-plugin.md
-* https://github.com/openshift/csi-operator/
+To test the configuration execute the following configuration that will deploy 
+ an nginx pod with a volume attached to a PVC. The PVC should provision a PV
+ automatically.
+
+[source,bash]
+----
+oc apply -f ocp/4.15/upi_rhosp/ansible/files/kubernetes-cloud-provider-openstack-cinder-test.yaml
+----
+
+Check if the pod is up and running.
+
+[source,bash]
+----
+oc get pod
+----
+
+Should show something like this.
+
+[source,]
+----
+NAME    READY   STATUS    RESTARTS   AGE
+nginx   1/1     Running   0          33s
+----
+
+Check the PV.
+
+[source,bash]
+----
+oc get pv
+----
+
+[source,]
+----
+NAME         CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                          STORAGECLASS          REASON   AGE
+pvc-xxxxxx   1Gi        RWO            Delete           Bound    default/csi-pvc-cinderplugin   csi-sc-cinderplugin            16h
+----
+
+Check the PVC.
+
+[source,bash]
+----
+oc get pvc
+----
+
+[source,]
+----
+NAME                  STATUS   VOLUME    CAPACITY   ACCESS MODES   STORAGECLASS          AGE
+csi-pvc-cinderplugin  Bound    pvc-xxx   1Gi        RWO            csi-sc-cinderplugin   19h
+----
+
+Check if the volume was created.
+
+[source,bash]
+----
+openstack volume list
+----
+
+[source,]
+====
++------------+------------+----------+------+-------------+
+| ID         | Name       | Status   | Size | Attached to |
++------------+------------+----------+------+-------------+
+| xxx-xxx... | pvc-xxxxxx | reserved |    1 |             |
++------------+------------+----------+------+-------------+
+====
+
+Delete the test resources.
+
+[source,bash]
+----
+oc delete -f ocp/4.15/upi_rhosp/ansible/files/kubernetes-cloud-provider-openstack-cinder-test.yaml
+----
+
+
+===== Manila
+
+[.lead]
+RHOSP Manila
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi_rhosp/ansible/50-ocp-storage-manila.yaml \
+  -e @_local_config/network.yaml \
+  -e @ocp/4.15/ansible/defaults/main.yaml \
+  -e @ocp/4.15/upi_rhosp/ansible/defaults/main.yaml \
+  -e @_local_config/${OCP_CLUSTER_NAME}/${OCP_CLUSTER_NAME}.yaml \
+  -e rhosp_os_password="${RHOSP_OS_PASSWORD}"
+----
+
+To test the configuration execute the following configuration that will deploy 
+ an nginx pod with a volume attached to a PVC. The PVC should provision a PV
+ automatically.
+
+[source,bash]
+----
+oc apply -f ocp/4.15/upi_rhosp/ansible/files/kubernetes-cloud-provider-openstack-manila-test.yaml
+----
+
+References: 
+
 * https://github.com/kubernetes/cloud-provider-openstack
+* Cinder: https://github.com/kubernetes/cloud-provider-openstack/blob/master/docs/cinder-csi-plugin/using-cinder-csi-plugin.md
+* Manila: https://github.com/kubernetes/cloud-provider-openstack/blob/master/docs/manila-csi-plugin/using-manila-csi-plugin.md
+
+==== openshift
+
+* Manila: https://github.com/openshift/csi-driver-manila-operator
+* Cinder: https://github.com/openshift/openstack-cinder-csi-driver-operator
+* https://github.com/openshift/csi-operator/
 
 == References
 

@@ -1,0 +1,1346 @@
+---
+apiVersion: apiserver.openshift.io/v1
+kind: APIRequestCount
+metadata:
+  creationTimestamp: "2025-03-31T14:28:24Z"
+  generation: 1
+  managedFields:
+  - apiVersion: apiserver.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec:
+        .: {}
+        f:numberOfUsersToReport: {}
+    manager: kube-apiserver
+    operation: Update
+    time: "2025-03-31T14:28:24Z"
+  - apiVersion: apiserver.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        .: {}
+        f:currentHour:
+          .: {}
+          f:byNode: {}
+          f:requestCount: {}
+        f:last24h: {}
+        f:requestCount: {}
+    manager: kube-apiserver
+    operation: Update
+    subresource: status
+    time: "2025-04-02T07:46:45Z"
+  name: storageversionmigrations.v1alpha1.migration.k8s.io
+  resourceVersion: "717575"
+  uid: 52948d5e-f4d3-4273-9817-78e14ada62b0
+spec:
+  numberOfUsersToReport: 10
+status:
+  currentHour:
+    byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 284
+          verb: get
+        - requestCount: 5
+          verb: watch
+        requestCount: 289
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 6
+          verb: watch
+        requestCount: 6
+        userAgent: authentication-operator/v0.0.0
+        username: system:serviceaccount:openshift-authentication-operator:authentication-operator
+      - byVerb:
+        - requestCount: 6
+          verb: watch
+        requestCount: 6
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 5
+          verb: watch
+        requestCount: 5
+        userAgent: migrator/v0.0.0
+        username: system:serviceaccount:openshift-kube-storage-version-migrator:kube-storage-version-migrator-sa
+      nodeName: 10.13.0.150
+      requestCount: 306
+    - byUser:
+      - byVerb:
+        - requestCount: 42
+          verb: get
+        requestCount: 42
+        userAgent: cluster-version-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-version:default
+      - byVerb:
+        - requestCount: 6
+          verb: watch
+        requestCount: 6
+        userAgent: cluster-openshift-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-apiserver-operator:openshift-apiserver-operator
+      nodeName: 10.13.2.160
+      requestCount: 48
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 354
+  last24h:
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 380
+          verb: get
+        - requestCount: 8
+          verb: watch
+        requestCount: 388
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: authentication-operator/v0.0.0
+        username: system:serviceaccount:openshift-authentication-operator:authentication-operator
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: migrator/v0.0.0
+        username: system:serviceaccount:openshift-kube-storage-version-migrator:kube-storage-version-migrator-sa
+      nodeName: 10.13.0.150
+      requestCount: 412
+    - byUser:
+      - byVerb:
+        - requestCount: 54
+          verb: get
+        requestCount: 54
+        userAgent: cluster-version-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-version:default
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: cluster-openshift-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-apiserver-operator:openshift-apiserver-operator
+      nodeName: 10.13.2.160
+      requestCount: 62
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 474
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 388
+          verb: get
+        - requestCount: 8
+          verb: watch
+        requestCount: 396
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: authentication-operator/v0.0.0
+        username: system:serviceaccount:openshift-authentication-operator:authentication-operator
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: migrator/v0.0.0
+        username: system:serviceaccount:openshift-kube-storage-version-migrator:kube-storage-version-migrator-sa
+      nodeName: 10.13.0.150
+      requestCount: 419
+    - byUser:
+      - byVerb:
+        - requestCount: 57
+          verb: get
+        requestCount: 57
+        userAgent: cluster-version-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-version:default
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: cluster-openshift-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-apiserver-operator:openshift-apiserver-operator
+      nodeName: 10.13.2.160
+      requestCount: 65
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 484
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 372
+          verb: get
+        - requestCount: 8
+          verb: watch
+        requestCount: 380
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: migrator/v0.0.0
+        username: system:serviceaccount:openshift-kube-storage-version-migrator:kube-storage-version-migrator-sa
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: authentication-operator/v0.0.0
+        username: system:serviceaccount:openshift-authentication-operator:authentication-operator
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      nodeName: 10.13.0.150
+      requestCount: 404
+    - byUser:
+      - byVerb:
+        - requestCount: 54
+          verb: get
+        requestCount: 54
+        userAgent: cluster-version-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-version:default
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: cluster-openshift-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-apiserver-operator:openshift-apiserver-operator
+      nodeName: 10.13.2.160
+      requestCount: 62
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 466
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 376
+          verb: get
+        - requestCount: 9
+          verb: watch
+        requestCount: 385
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: authentication-operator/v0.0.0
+        username: system:serviceaccount:openshift-authentication-operator:authentication-operator
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: migrator/v0.0.0
+        username: system:serviceaccount:openshift-kube-storage-version-migrator:kube-storage-version-migrator-sa
+      nodeName: 10.13.0.150
+      requestCount: 409
+    - byUser:
+      - byVerb:
+        - requestCount: 54
+          verb: get
+        requestCount: 54
+        userAgent: cluster-version-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-version:default
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: cluster-openshift-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-apiserver-operator:openshift-apiserver-operator
+      nodeName: 10.13.2.160
+      requestCount: 62
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 471
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 384
+          verb: get
+        - requestCount: 8
+          verb: watch
+        requestCount: 392
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: migrator/v0.0.0
+        username: system:serviceaccount:openshift-kube-storage-version-migrator:kube-storage-version-migrator-sa
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: authentication-operator/v0.0.0
+        username: system:serviceaccount:openshift-authentication-operator:authentication-operator
+      nodeName: 10.13.0.150
+      requestCount: 415
+    - byUser:
+      - byVerb:
+        - requestCount: 54
+          verb: get
+        requestCount: 54
+        userAgent: cluster-version-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-version:default
+      - byVerb:
+        - requestCount: 9
+          verb: watch
+        requestCount: 9
+        userAgent: cluster-openshift-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-apiserver-operator:openshift-apiserver-operator
+      nodeName: 10.13.2.160
+      requestCount: 63
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 478
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 368
+          verb: get
+        - requestCount: 9
+          verb: watch
+        requestCount: 377
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: migrator/v0.0.0
+        username: system:serviceaccount:openshift-kube-storage-version-migrator:kube-storage-version-migrator-sa
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: authentication-operator/v0.0.0
+        username: system:serviceaccount:openshift-authentication-operator:authentication-operator
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      nodeName: 10.13.0.150
+      requestCount: 399
+    - byUser:
+      - byVerb:
+        - requestCount: 57
+          verb: get
+        requestCount: 57
+        userAgent: cluster-version-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-version:default
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: cluster-openshift-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-apiserver-operator:openshift-apiserver-operator
+      nodeName: 10.13.2.160
+      requestCount: 65
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 464
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 376
+          verb: get
+        - requestCount: 8
+          verb: watch
+        requestCount: 384
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 9
+          verb: watch
+        requestCount: 9
+        userAgent: migrator/v0.0.0
+        username: system:serviceaccount:openshift-kube-storage-version-migrator:kube-storage-version-migrator-sa
+      - byVerb:
+        - requestCount: 9
+          verb: watch
+        requestCount: 9
+        userAgent: authentication-operator/v0.0.0
+        username: system:serviceaccount:openshift-authentication-operator:authentication-operator
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      nodeName: 10.13.0.150
+      requestCount: 410
+    - byUser:
+      - byVerb:
+        - requestCount: 54
+          verb: get
+        requestCount: 54
+        userAgent: cluster-version-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-version:default
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: cluster-openshift-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-apiserver-operator:openshift-apiserver-operator
+      nodeName: 10.13.2.160
+      requestCount: 62
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 472
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 284
+          verb: get
+        - requestCount: 5
+          verb: watch
+        requestCount: 289
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 6
+          verb: watch
+        requestCount: 6
+        userAgent: authentication-operator/v0.0.0
+        username: system:serviceaccount:openshift-authentication-operator:authentication-operator
+      - byVerb:
+        - requestCount: 6
+          verb: watch
+        requestCount: 6
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 5
+          verb: watch
+        requestCount: 5
+        userAgent: migrator/v0.0.0
+        username: system:serviceaccount:openshift-kube-storage-version-migrator:kube-storage-version-migrator-sa
+      nodeName: 10.13.0.150
+      requestCount: 306
+    - byUser:
+      - byVerb:
+        - requestCount: 42
+          verb: get
+        requestCount: 42
+        userAgent: cluster-version-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-version:default
+      - byVerb:
+        - requestCount: 6
+          verb: watch
+        requestCount: 6
+        userAgent: cluster-openshift-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-apiserver-operator:openshift-apiserver-operator
+      nodeName: 10.13.2.160
+      requestCount: 48
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 354
+  - requestCount: 0
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 120
+          verb: get
+        - requestCount: 1
+          verb: list
+        - requestCount: 4
+          verb: watch
+        requestCount: 125
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 15
+          verb: get
+        requestCount: 15
+        userAgent: cluster-version-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-version:default
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        - requestCount: 5
+          verb: watch
+        requestCount: 6
+        userAgent: cluster-openshift-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-apiserver-operator:openshift-apiserver-operator
+      - byVerb:
+        - requestCount: 2
+          verb: watch
+        requestCount: 2
+        userAgent: migrator/v0.0.0
+        username: system:serviceaccount:openshift-kube-storage-version-migrator:kube-storage-version-migrator-sa
+      nodeName: 10.13.0.150
+      requestCount: 155
+    - byUser:
+      - byVerb:
+        - requestCount: 316
+          verb: get
+        - requestCount: 1
+          verb: list
+        - requestCount: 8
+          verb: watch
+        requestCount: 325
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 33
+          verb: get
+        requestCount: 33
+        userAgent: cluster-version-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-version:default
+      - byVerb:
+        - requestCount: 2
+          verb: list
+        - requestCount: 10
+          verb: watch
+        requestCount: 12
+        userAgent: authentication-operator/v0.0.0
+        username: system:serviceaccount:openshift-authentication-operator:authentication-operator
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        - requestCount: 6
+          verb: watch
+        requestCount: 7
+        userAgent: migrator/v0.0.0
+        username: system:serviceaccount:openshift-kube-storage-version-migrator:kube-storage-version-migrator-sa
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        - requestCount: 5
+          verb: watch
+        requestCount: 6
+        userAgent: cluster-openshift-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-apiserver-operator:openshift-apiserver-operator
+      - byVerb:
+        - requestCount: 1
+          verb: watch
+        requestCount: 1
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      nodeName: 10.13.2.160
+      requestCount: 384
+    - byUser:
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        - requestCount: 2
+          verb: watch
+        requestCount: 3
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        - requestCount: 2
+          verb: watch
+        requestCount: 3
+        userAgent: migrator/v0.0.0
+        username: system:serviceaccount:openshift-kube-storage-version-migrator:kube-storage-version-migrator-sa
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        - requestCount: 2
+          verb: watch
+        requestCount: 3
+        userAgent: cluster-openshift-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-apiserver-operator:openshift-apiserver-operator
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        - requestCount: 2
+          verb: watch
+        requestCount: 3
+        userAgent: authentication-operator/v0.0.0
+        username: system:serviceaccount:openshift-authentication-operator:authentication-operator
+      - byVerb:
+        - requestCount: 1
+          verb: watch
+        requestCount: 1
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      nodeName: 10.13.2.89
+      requestCount: 13
+    requestCount: 552
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 384
+          verb: get
+        - requestCount: 8
+          verb: watch
+        requestCount: 392
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 54
+          verb: get
+        requestCount: 54
+        userAgent: cluster-version-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-version:default
+      - byVerb:
+        - requestCount: 9
+          verb: watch
+        requestCount: 9
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: migrator/v0.0.0
+        username: system:serviceaccount:openshift-kube-storage-version-migrator:kube-storage-version-migrator-sa
+      nodeName: 10.13.0.150
+      requestCount: 463
+    - byUser:
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: cluster-openshift-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-apiserver-operator:openshift-apiserver-operator
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: authentication-operator/v0.0.0
+        username: system:serviceaccount:openshift-authentication-operator:authentication-operator
+      nodeName: 10.13.2.160
+      requestCount: 16
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 479
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 404
+          verb: get
+        - requestCount: 8
+          verb: watch
+        requestCount: 412
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 54
+          verb: get
+        requestCount: 54
+        userAgent: cluster-version-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-version:default
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: migrator/v0.0.0
+        username: system:serviceaccount:openshift-kube-storage-version-migrator:kube-storage-version-migrator-sa
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      nodeName: 10.13.0.150
+      requestCount: 481
+    - byUser:
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: cluster-openshift-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-apiserver-operator:openshift-apiserver-operator
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: authentication-operator/v0.0.0
+        username: system:serviceaccount:openshift-authentication-operator:authentication-operator
+      nodeName: 10.13.2.160
+      requestCount: 16
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 497
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 48
+          verb: get
+        requestCount: 48
+        userAgent: cluster-version-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-version:default
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        - requestCount: 8
+          verb: watch
+        requestCount: 9
+        userAgent: authentication-operator/v0.0.0
+        username: system:serviceaccount:openshift-authentication-operator:authentication-operator
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: migrator/v0.0.0
+        username: system:serviceaccount:openshift-kube-storage-version-migrator:kube-storage-version-migrator-sa
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: cluster-openshift-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-apiserver-operator:openshift-apiserver-operator
+      nodeName: 10.13.0.150
+      requestCount: 71
+    - byUser:
+      - byVerb:
+        - requestCount: 396
+          verb: get
+        - requestCount: 1
+          verb: list
+        - requestCount: 9
+          verb: watch
+        requestCount: 406
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        - requestCount: 9
+          verb: watch
+        requestCount: 10
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 1
+          verb: watch
+        requestCount: 1
+        userAgent: authentication-operator/v0.0.0
+        username: system:serviceaccount:openshift-authentication-operator:authentication-operator
+      - byVerb:
+        - requestCount: 1
+          verb: watch
+        requestCount: 1
+        userAgent: cluster-openshift-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-apiserver-operator:openshift-apiserver-operator
+      nodeName: 10.13.2.160
+      requestCount: 418
+    - byUser:
+      - byVerb:
+        - requestCount: 24
+          verb: get
+        - requestCount: 1
+          verb: watch
+        requestCount: 25
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 2
+          verb: list
+        - requestCount: 4
+          verb: watch
+        requestCount: 6
+        userAgent: migrator/v0.0.0
+        username: system:serviceaccount:openshift-kube-storage-version-migrator:kube-storage-version-migrator-sa
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        - requestCount: 2
+          verb: watch
+        requestCount: 3
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 1
+          verb: watch
+        requestCount: 1
+        userAgent: cluster-openshift-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-apiserver-operator:openshift-apiserver-operator
+      nodeName: 10.13.2.89
+      requestCount: 35
+    requestCount: 524
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 340
+          verb: get
+        - requestCount: 8
+          verb: watch
+        requestCount: 348
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        - requestCount: 11
+          verb: watch
+        requestCount: 12
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        - requestCount: 10
+          verb: watch
+        requestCount: 11
+        userAgent: authentication-operator/v0.0.0
+        username: system:serviceaccount:openshift-authentication-operator:authentication-operator
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: migrator/v0.0.0
+        username: system:serviceaccount:openshift-kube-storage-version-migrator:kube-storage-version-migrator-sa
+      nodeName: 10.13.0.150
+      requestCount: 378
+    - byUser:
+      - byVerb:
+        - requestCount: 51
+          verb: get
+        requestCount: 51
+        userAgent: cluster-version-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-version:default
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        - requestCount: 10
+          verb: watch
+        requestCount: 11
+        userAgent: cluster-openshift-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-apiserver-operator:openshift-apiserver-operator
+      nodeName: 10.13.2.160
+      requestCount: 62
+    - byUser:
+      - byVerb:
+        - requestCount: 8
+          verb: get
+        - requestCount: 1
+          verb: watch
+        requestCount: 9
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 1
+          verb: watch
+        requestCount: 1
+        userAgent: cluster-openshift-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-apiserver-operator:openshift-apiserver-operator
+      nodeName: 10.13.2.89
+      requestCount: 10
+    requestCount: 450
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 376
+          verb: get
+        - requestCount: 8
+          verb: watch
+        requestCount: 384
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: migrator/v0.0.0
+        username: system:serviceaccount:openshift-kube-storage-version-migrator:kube-storage-version-migrator-sa
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: authentication-operator/v0.0.0
+        username: system:serviceaccount:openshift-authentication-operator:authentication-operator
+      nodeName: 10.13.0.150
+      requestCount: 407
+    - byUser:
+      - byVerb:
+        - requestCount: 54
+          verb: get
+        requestCount: 54
+        userAgent: cluster-version-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-version:default
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: cluster-openshift-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-apiserver-operator:openshift-apiserver-operator
+      nodeName: 10.13.2.160
+      requestCount: 62
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 469
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 472
+          verb: get
+        - requestCount: 9
+          verb: watch
+        requestCount: 481
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 10
+          verb: watch
+        requestCount: 10
+        userAgent: migrator/v0.0.0
+        username: system:serviceaccount:openshift-kube-storage-version-migrator:kube-storage-version-migrator-sa
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: authentication-operator/v0.0.0
+        username: system:serviceaccount:openshift-authentication-operator:authentication-operator
+      nodeName: 10.13.0.150
+      requestCount: 506
+    - byUser:
+      - byVerb:
+        - requestCount: 54
+          verb: get
+        requestCount: 54
+        userAgent: cluster-version-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-version:default
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: cluster-openshift-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-apiserver-operator:openshift-apiserver-operator
+      nodeName: 10.13.2.160
+      requestCount: 61
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 567
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 420
+          verb: get
+        - requestCount: 8
+          verb: watch
+        requestCount: 428
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 9
+          verb: watch
+        requestCount: 9
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: authentication-operator/v0.0.0
+        username: system:serviceaccount:openshift-authentication-operator:authentication-operator
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: migrator/v0.0.0
+        username: system:serviceaccount:openshift-kube-storage-version-migrator:kube-storage-version-migrator-sa
+      nodeName: 10.13.0.150
+      requestCount: 453
+    - byUser:
+      - byVerb:
+        - requestCount: 55
+          verb: get
+        requestCount: 55
+        userAgent: cluster-version-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-version:default
+      - byVerb:
+        - requestCount: 9
+          verb: watch
+        requestCount: 9
+        userAgent: cluster-openshift-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-apiserver-operator:openshift-apiserver-operator
+      nodeName: 10.13.2.160
+      requestCount: 64
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 517
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 384
+          verb: get
+        - requestCount: 8
+          verb: watch
+        requestCount: 392
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 9
+          verb: watch
+        requestCount: 9
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: authentication-operator/v0.0.0
+        username: system:serviceaccount:openshift-authentication-operator:authentication-operator
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: migrator/v0.0.0
+        username: system:serviceaccount:openshift-kube-storage-version-migrator:kube-storage-version-migrator-sa
+      nodeName: 10.13.0.150
+      requestCount: 416
+    - byUser:
+      - byVerb:
+        - requestCount: 56
+          verb: get
+        requestCount: 56
+        userAgent: cluster-version-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-version:default
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: cluster-openshift-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-apiserver-operator:openshift-apiserver-operator
+      nodeName: 10.13.2.160
+      requestCount: 64
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 480
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 364
+          verb: get
+        - requestCount: 9
+          verb: watch
+        requestCount: 373
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 9
+          verb: watch
+        requestCount: 9
+        userAgent: authentication-operator/v0.0.0
+        username: system:serviceaccount:openshift-authentication-operator:authentication-operator
+      - byVerb:
+        - requestCount: 9
+          verb: watch
+        requestCount: 9
+        userAgent: migrator/v0.0.0
+        username: system:serviceaccount:openshift-kube-storage-version-migrator:kube-storage-version-migrator-sa
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      nodeName: 10.13.0.150
+      requestCount: 398
+    - byUser:
+      - byVerb:
+        - requestCount: 54
+          verb: get
+        requestCount: 54
+        userAgent: cluster-version-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-version:default
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: cluster-openshift-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-apiserver-operator:openshift-apiserver-operator
+      nodeName: 10.13.2.160
+      requestCount: 62
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 460
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 356
+          verb: get
+        - requestCount: 8
+          verb: watch
+        requestCount: 364
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: migrator/v0.0.0
+        username: system:serviceaccount:openshift-kube-storage-version-migrator:kube-storage-version-migrator-sa
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: authentication-operator/v0.0.0
+        username: system:serviceaccount:openshift-authentication-operator:authentication-operator
+      nodeName: 10.13.0.150
+      requestCount: 387
+    - byUser:
+      - byVerb:
+        - requestCount: 54
+          verb: get
+        requestCount: 54
+        userAgent: cluster-version-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-version:default
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: cluster-openshift-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-apiserver-operator:openshift-apiserver-operator
+      nodeName: 10.13.2.160
+      requestCount: 62
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 449
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 356
+          verb: get
+        - requestCount: 8
+          verb: watch
+        requestCount: 364
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: authentication-operator/v0.0.0
+        username: system:serviceaccount:openshift-authentication-operator:authentication-operator
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: migrator/v0.0.0
+        username: system:serviceaccount:openshift-kube-storage-version-migrator:kube-storage-version-migrator-sa
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      nodeName: 10.13.0.150
+      requestCount: 387
+    - byUser:
+      - byVerb:
+        - requestCount: 51
+          verb: get
+        requestCount: 51
+        userAgent: cluster-version-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-version:default
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: cluster-openshift-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-apiserver-operator:openshift-apiserver-operator
+      nodeName: 10.13.2.160
+      requestCount: 59
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 446
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 360
+          verb: get
+        - requestCount: 8
+          verb: watch
+        requestCount: 368
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 9
+          verb: watch
+        requestCount: 9
+        userAgent: authentication-operator/v0.0.0
+        username: system:serviceaccount:openshift-authentication-operator:authentication-operator
+      - byVerb:
+        - requestCount: 9
+          verb: watch
+        requestCount: 9
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: migrator/v0.0.0
+        username: system:serviceaccount:openshift-kube-storage-version-migrator:kube-storage-version-migrator-sa
+      nodeName: 10.13.0.150
+      requestCount: 394
+    - byUser:
+      - byVerb:
+        - requestCount: 57
+          verb: get
+        requestCount: 57
+        userAgent: cluster-version-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-version:default
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: cluster-openshift-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-apiserver-operator:openshift-apiserver-operator
+      nodeName: 10.13.2.160
+      requestCount: 65
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 459
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 352
+          verb: get
+        - requestCount: 8
+          verb: watch
+        requestCount: 360
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: migrator/v0.0.0
+        username: system:serviceaccount:openshift-kube-storage-version-migrator:kube-storage-version-migrator-sa
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: authentication-operator/v0.0.0
+        username: system:serviceaccount:openshift-authentication-operator:authentication-operator
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      nodeName: 10.13.0.150
+      requestCount: 383
+    - byUser:
+      - byVerb:
+        - requestCount: 54
+          verb: get
+        requestCount: 54
+        userAgent: cluster-version-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-version:default
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: cluster-openshift-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-apiserver-operator:openshift-apiserver-operator
+      nodeName: 10.13.2.160
+      requestCount: 61
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 444
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 376
+          verb: get
+        - requestCount: 7
+          verb: watch
+        requestCount: 383
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 9
+          verb: watch
+        requestCount: 9
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: authentication-operator/v0.0.0
+        username: system:serviceaccount:openshift-authentication-operator:authentication-operator
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: migrator/v0.0.0
+        username: system:serviceaccount:openshift-kube-storage-version-migrator:kube-storage-version-migrator-sa
+      nodeName: 10.13.0.150
+      requestCount: 408
+    - byUser:
+      - byVerb:
+        - requestCount: 54
+          verb: get
+        requestCount: 54
+        userAgent: cluster-version-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-version:default
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: cluster-openshift-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-apiserver-operator:openshift-apiserver-operator
+      nodeName: 10.13.2.160
+      requestCount: 62
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 470
+  requestCount: 10926

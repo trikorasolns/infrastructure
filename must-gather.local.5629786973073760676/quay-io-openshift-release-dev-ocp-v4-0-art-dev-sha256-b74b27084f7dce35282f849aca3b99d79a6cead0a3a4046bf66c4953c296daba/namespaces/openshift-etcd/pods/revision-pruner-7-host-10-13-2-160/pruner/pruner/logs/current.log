@@ -1,0 +1,14 @@
+2025-03-31T20:36:50.522013058Z I0331 20:36:50.521797       1 cmd.go:41] &{<nil> true {false} prune true map[cert-dir:0xc000a56000 max-eligible-revision:0xc000a1fd60 protected-revisions:0xc000a1fe00 resource-dir:0xc000a1fea0 static-pod-name:0xc000a1ff40 v:0xc000a1e640] [0xc000a1e640 0xc000a1fd60 0xc000a1fe00 0xc000a1fea0 0xc000a56000 0xc000a1ff40] [] map[cert-dir:0xc000a56000 help:0xc000a5f0e0 log-flush-frequency:0xc000a1e5a0 max-eligible-revision:0xc000a1fd60 protected-revisions:0xc000a1fe00 resource-dir:0xc000a1fea0 static-pod-name:0xc000a1ff40 v:0xc000a1e640 vmodule:0xc000a1e6e0] [0xc000a1fd60 0xc000a1fe00 0xc000a1fea0 0xc000a1ff40 0xc000a56000 0xc000a1e5a0 0xc000a1e640 0xc000a1e6e0 0xc000a5f0e0] [0xc000a56000 0xc000a5f0e0 0xc000a1e5a0 0xc000a1fd60 0xc000a1fe00 0xc000a1fea0 0xc000a1ff40 0xc000a1e640 0xc000a1e6e0] map[104:0xc000a5f0e0 118:0xc000a1e640] [] -1 0 0xc000a1c960 true <nil> []}
+2025-03-31T20:36:50.522013058Z I0331 20:36:50.521974       1 cmd.go:42] (*prune.PruneOptions)(0xc0006d0b40)({
+2025-03-31T20:36:50.522013058Z  MaxEligibleRevision: (int) 7,
+2025-03-31T20:36:50.522013058Z  ProtectedRevisions: ([]int) (len=5 cap=5) {
+2025-03-31T20:36:50.522013058Z   (int) 3,
+2025-03-31T20:36:50.522013058Z   (int) 4,
+2025-03-31T20:36:50.522013058Z   (int) 5,
+2025-03-31T20:36:50.522013058Z   (int) 6,
+2025-03-31T20:36:50.522013058Z   (int) 7
+2025-03-31T20:36:50.522013058Z  },
+2025-03-31T20:36:50.522013058Z  ResourceDir: (string) (len=36) "/etc/kubernetes/static-pod-resources",
+2025-03-31T20:36:50.522013058Z  CertDir: (string) (len=10) "etcd-certs",
+2025-03-31T20:36:50.522013058Z  StaticPodName: (string) (len=8) "etcd-pod"
+2025-03-31T20:36:50.522013058Z })

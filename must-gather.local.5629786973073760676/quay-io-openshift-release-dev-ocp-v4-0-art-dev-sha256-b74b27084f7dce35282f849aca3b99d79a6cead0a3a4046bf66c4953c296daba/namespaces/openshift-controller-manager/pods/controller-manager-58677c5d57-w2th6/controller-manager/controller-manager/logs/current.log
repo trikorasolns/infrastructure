@@ -1,0 +1,216 @@
+2025-04-01T12:58:17.192489181Z I0401 12:58:17.192155       1 leaderelection.go:122] The leader election gives 4 retries and allows for 30s of clock skew. The kube-apiserver downtime tolerance is 78s. Worst non-graceful lease acquisition is 2m43s. Worst graceful lease acquisition is {26s}.
+2025-04-01T12:58:17.192731539Z I0401 12:58:17.192605       1 controller_manager.go:39] Starting controllers on 0.0.0.0:8443 (4.15.0-202502170147.p0.gff69ddf.assembly.stream.el9-ff69ddf)
+2025-04-01T12:58:17.193739852Z I0401 12:58:17.193652       1 controller_manager.go:50] DeploymentConfig controller using images from "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:e37d7909d4e466da72b945269d1fa8dc3dcc45438f998c5946435c5ca5d1b55b"
+2025-04-01T12:58:17.193739852Z I0401 12:58:17.193664       1 controller_manager.go:56] Build controller using images from "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:7edc539afcc708fa0cbc5126188395885e277f71fab96edfc83acf69a61222d6"
+2025-04-01T12:58:17.194412919Z I0401 12:58:17.193773       1 leaderelection.go:250] attempting to acquire leader lease openshift-controller-manager/openshift-master-controllers...
+2025-04-01T12:58:17.194412919Z I0401 12:58:17.194053       1 standalone_apiserver.go:104] Started health checks at 0.0.0.0:8443
+2025-04-01T12:58:17.217931572Z I0401 12:58:17.217897       1 leaderelection.go:260] successfully acquired lease openshift-controller-manager/openshift-master-controllers
+2025-04-01T12:58:17.218407450Z I0401 12:58:17.218296       1 event.go:298] Event(v1.ObjectReference{Kind:"Lease", Namespace:"openshift-controller-manager", Name:"openshift-master-controllers", UID:"bb17c49a-8159-47b8-b77b-882c222c2885", APIVersion:"coordination.k8s.io/v1", ResourceVersion:"337925", FieldPath:""}): type: 'Normal' reason: 'LeaderElection' controller-manager-58677c5d57-w2th6 became leader
+2025-04-01T12:58:17.222252085Z I0401 12:58:17.221725       1 controller_manager.go:145] Starting "openshift.io/default-rolebindings"
+2025-04-01T12:58:17.230603164Z I0401 12:58:17.230579       1 controller_manager.go:155] Started "openshift.io/default-rolebindings"
+2025-04-01T12:58:17.230636294Z I0401 12:58:17.230628       1 controller_manager.go:145] Starting "openshift.io/deployer"
+2025-04-01T12:58:17.230663464Z I0401 12:58:17.230640       1 defaultrolebindings.go:149] Starting DefaultRoleBindingController
+2025-04-01T12:58:17.230663464Z I0401 12:58:17.230660       1 shared_informer.go:311] Waiting for caches to sync for DefaultRoleBindingController
+2025-04-01T12:58:17.235178876Z I0401 12:58:17.234421       1 controller_manager.go:155] Started "openshift.io/deployer"
+2025-04-01T12:58:17.235178876Z I0401 12:58:17.234438       1 controller_manager.go:145] Starting "openshift.io/deploymentconfig"
+2025-04-01T12:58:17.235178876Z I0401 12:58:17.234539       1 factory.go:73] Starting deployer controller
+2025-04-01T12:58:17.245437312Z I0401 12:58:17.245415       1 controller_manager.go:155] Started "openshift.io/deploymentconfig"
+2025-04-01T12:58:17.245469821Z I0401 12:58:17.245461       1 controller_manager.go:145] Starting "openshift.io/templateinstancefinalizer"
+2025-04-01T12:58:17.245569491Z I0401 12:58:17.245539       1 factory.go:78] Starting deploymentconfig controller
+2025-04-01T12:58:17.255760457Z I0401 12:58:17.255736       1 controller_manager.go:155] Started "openshift.io/templateinstancefinalizer"
+2025-04-01T12:58:17.255793547Z I0401 12:58:17.255785       1 controller_manager.go:145] Starting "openshift.io/unidling"
+2025-04-01T12:58:17.255833907Z I0401 12:58:17.255819       1 templateinstance_finalizer.go:189] TemplateInstanceFinalizer controller waiting for cache sync
+2025-04-01T12:58:17.264950550Z I0401 12:58:17.264908       1 controller_manager.go:155] Started "openshift.io/unidling"
+2025-04-01T12:58:17.264950550Z I0401 12:58:17.264921       1 controller_manager.go:145] Starting "openshift.io/serviceaccount"
+2025-04-01T12:58:17.264950550Z I0401 12:58:17.264926       1 serviceaccount.go:16] openshift.io/serviceaccount: no managed names specified
+2025-04-01T12:58:17.264950550Z W0401 12:58:17.264930       1 controller_manager.go:152] Skipping "openshift.io/serviceaccount"
+2025-04-01T12:58:17.264950550Z W0401 12:58:17.264934       1 controller_manager.go:142] "openshift.io/serviceaccount-pull-secrets" is disabled
+2025-04-01T12:58:17.264950550Z I0401 12:58:17.264938       1 controller_manager.go:145] Starting "openshift.io/builder-serviceaccount"
+2025-04-01T12:58:17.270141758Z I0401 12:58:17.270112       1 controller_manager.go:155] Started "openshift.io/builder-serviceaccount"
+2025-04-01T12:58:17.270141758Z I0401 12:58:17.270128       1 controller_manager.go:145] Starting "openshift.io/build-config-change"
+2025-04-01T12:58:17.270249317Z I0401 12:58:17.270231       1 serviceaccounts_controller.go:111] "Starting service account controller"
+2025-04-01T12:58:17.270249317Z I0401 12:58:17.270243       1 shared_informer.go:311] Waiting for caches to sync for service account
+2025-04-01T12:58:17.278552186Z I0401 12:58:17.278523       1 controller_manager.go:155] Started "openshift.io/build-config-change"
+2025-04-01T12:58:17.278552186Z I0401 12:58:17.278536       1 controller_manager.go:145] Starting "openshift.io/image-trigger"
+2025-04-01T12:58:17.297108620Z I0401 12:58:17.297072       1 controller_manager.go:155] Started "openshift.io/image-trigger"
+2025-04-01T12:58:17.297108620Z I0401 12:58:17.297087       1 controller_manager.go:145] Starting "openshift.io/image-signature-import"
+2025-04-01T12:58:17.297204530Z I0401 12:58:17.297189       1 image_trigger_controller.go:229] Starting trigger controller
+2025-04-01T12:58:17.306174354Z I0401 12:58:17.306136       1 controller_manager.go:155] Started "openshift.io/image-signature-import"
+2025-04-01T12:58:17.306174354Z I0401 12:58:17.306158       1 controller_manager.go:145] Starting "openshift.io/origin-namespace"
+2025-04-01T12:58:17.310637076Z I0401 12:58:17.308301       1 controller_manager.go:155] Started "openshift.io/origin-namespace"
+2025-04-01T12:58:17.310637076Z I0401 12:58:17.308313       1 controller_manager.go:145] Starting "openshift.io/deployer-serviceaccount"
+2025-04-01T12:58:17.314978080Z I0401 12:58:17.313117       1 controller_manager.go:155] Started "openshift.io/deployer-serviceaccount"
+2025-04-01T12:58:17.314978080Z I0401 12:58:17.313127       1 controller_manager.go:145] Starting "openshift.io/build"
+2025-04-01T12:58:17.314978080Z I0401 12:58:17.313232       1 serviceaccounts_controller.go:111] "Starting service account controller"
+2025-04-01T12:58:17.314978080Z I0401 12:58:17.313241       1 shared_informer.go:311] Waiting for caches to sync for service account
+2025-04-01T12:58:17.332453481Z I0401 12:58:17.332366       1 controller_manager.go:155] Started "openshift.io/build"
+2025-04-01T12:58:17.332453481Z I0401 12:58:17.332383       1 controller_manager.go:145] Starting "openshift.io/image-import"
+2025-04-01T12:58:17.340011094Z I0401 12:58:17.339972       1 imagestream_controller.go:66] Starting image stream controller
+2025-04-01T12:58:17.343503783Z I0401 12:58:17.343473       1 controller_manager.go:155] Started "openshift.io/image-import"
+2025-04-01T12:58:17.343503783Z I0401 12:58:17.343492       1 controller_manager.go:145] Starting "openshift.io/templateinstance"
+2025-04-01T12:58:17.343604262Z I0401 12:58:17.343589       1 scheduled_image_controller.go:68] Starting scheduled import controller
+2025-04-01T12:58:17.362319786Z I0401 12:58:17.361964       1 controller_manager.go:155] Started "openshift.io/templateinstance"
+2025-04-01T12:58:17.362319786Z I0401 12:58:17.361977       1 controller_manager.go:157] Started Origin Controllers
+2025-04-01T12:58:17.388864501Z W0401 12:58:17.388822       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T12:58:17.406680950Z W0401 12:58:17.406636       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T12:58:17.443638700Z I0401 12:58:17.442796       1 shared_informer.go:318] Caches are synced for DefaultRoleBindingController
+2025-04-01T12:58:17.448934168Z I0401 12:58:17.448888       1 factory.go:85] deploymentconfig controller caches are synced. Starting workers.
+2025-04-01T12:58:17.459003475Z I0401 12:58:17.457913       1 templateinstance_finalizer.go:194] Starting TemplateInstanceFinalizer controller
+2025-04-01T12:58:17.463229249Z I0401 12:58:17.462877       1 templateinstance_controller.go:297] Starting TemplateInstance controller
+2025-04-01T12:58:17.471022740Z I0401 12:58:17.470604       1 shared_informer.go:318] Caches are synced for service account
+2025-04-01T12:58:17.478941811Z I0401 12:58:17.478907       1 buildconfig_controller.go:212] Starting buildconfig controller
+2025-04-01T12:58:17.513770875Z I0401 12:58:17.513736       1 shared_informer.go:318] Caches are synced for service account
+2025-04-01T12:58:17.533333323Z I0401 12:58:17.533299       1 build_controller.go:503] Starting build controller
+2025-04-01T12:58:17.533333323Z I0401 12:58:17.533317       1 build_controller.go:505] OpenShift image registry hostname: 
+2025-04-01T12:58:17.535142871Z I0401 12:58:17.535110       1 factory.go:80] Deployer controller caches are synced. Starting workers.
+2025-04-01T13:01:08.480105358Z W0401 13:01:08.480067       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T13:04:05.795824625Z W0401 13:04:05.793784       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T13:12:41.800043413Z W0401 13:12:41.799884       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T13:21:58.807366103Z W0401 13:21:58.807293       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T13:30:07.817458335Z W0401 13:30:07.817390       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T13:40:04.830784057Z W0401 13:40:04.830661       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T13:47:11.841452669Z W0401 13:47:11.841385       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T13:52:47.850691922Z W0401 13:52:47.850634       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T14:02:34.864937694Z W0401 14:02:34.864889       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T14:09:28.877307051Z W0401 14:09:28.877127       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T14:17:22.889394840Z W0401 14:17:22.889311       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T14:22:36.898376598Z W0401 14:22:36.898301       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T14:32:15.910244788Z W0401 14:32:15.910190       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T14:38:22.922647371Z W0401 14:38:22.922567       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T14:46:52.933490440Z W0401 14:46:52.933363       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T14:53:18.948094872Z W0401 14:53:18.948019       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T15:02:14.958646645Z W0401 15:02:14.958564       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T15:07:22.970082328Z W0401 15:07:22.970020       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T15:12:53.980101895Z W0401 15:12:53.980032       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T15:21:45.985609781Z W0401 15:21:45.985554       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T15:29:48.998996540Z W0401 15:29:48.998875       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T15:36:46.006562529Z W0401 15:36:46.006486       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T15:42:45.013027369Z W0401 15:42:45.012966       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T15:52:29.028580369Z W0401 15:52:29.028522       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T15:59:22.039332680Z W0401 15:59:22.039273       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T16:09:00.045852218Z W0401 16:09:00.045773       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T16:17:34.057458440Z W0401 16:17:34.057399       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T16:25:34.065680014Z W0401 16:25:34.065618       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T16:33:55.071726518Z W0401 16:33:55.071677       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T16:42:30.083195917Z W0401 16:42:30.083123       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T16:50:43.089740345Z W0401 16:50:43.089644       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T16:56:30.101361637Z W0401 16:56:30.101304       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T17:05:54.116738673Z W0401 17:05:54.115949       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T17:11:04.125465254Z W0401 17:11:04.125409       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T17:16:08.136430872Z W0401 17:16:08.136338       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T17:21:15.142831321Z W0401 17:21:15.142764       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T17:26:39.153752213Z W0401 17:26:39.153668       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T17:31:53.159494444Z W0401 17:31:53.159448       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T17:37:54.168025554Z W0401 17:37:54.167930       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T17:47:06.174391366Z W0401 17:47:06.174306       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T17:53:05.191179236Z W0401 17:53:05.191095       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T17:58:49.197358930Z W0401 17:58:49.197309       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T18:05:46.203616310Z W0401 18:05:46.203471       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T18:14:15.213734071Z W0401 18:14:15.213298       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T18:19:21.217797314Z W0401 18:19:21.217741       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T18:26:22.224916639Z W0401 18:26:22.224841       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T18:32:08.230251520Z W0401 18:32:08.230187       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T18:39:20.241141540Z W0401 18:39:20.241095       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T18:47:55.253044493Z W0401 18:47:55.252989       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T18:55:57.269810700Z W0401 18:55:57.269696       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T19:05:31.282987901Z W0401 19:05:31.282891       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T19:13:01.290403611Z W0401 19:13:01.290274       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T19:18:56.295841536Z W0401 19:18:56.295791       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T19:25:01.305240796Z W0401 19:25:01.305115       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T19:34:27.310348185Z W0401 19:34:27.310278       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T19:43:23.320866440Z W0401 19:43:23.320801       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T19:53:09.332987757Z W0401 19:53:09.332903       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T20:00:04.343213981Z W0401 20:00:04.343130       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T20:07:49.355464897Z W0401 20:07:49.355386       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T20:13:02.362973324Z W0401 20:13:02.362871       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T20:21:42.368540707Z W0401 20:21:42.368505       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T20:28:07.380954901Z W0401 20:28:07.380889       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T20:35:26.387776954Z W0401 20:35:26.387649       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T20:41:40.395509995Z W0401 20:41:40.395450       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T20:49:39.407011569Z W0401 20:49:39.406924       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T20:57:04.411679100Z W0401 20:57:04.411572       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T21:03:42.415923856Z W0401 21:03:42.415872       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T21:11:10.429397364Z W0401 21:11:10.429334       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T21:19:50.440517567Z W0401 21:19:50.440383       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T21:28:49.445999410Z W0401 21:28:49.445923       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T21:34:00.463074276Z W0401 21:34:00.462995       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T21:40:39.471921898Z W0401 21:40:39.471850       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T21:46:57.490248989Z W0401 21:46:57.490134       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T21:53:01.497984167Z W0401 21:53:01.497938       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T21:59:06.509134591Z W0401 21:59:06.509090       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T22:07:50.516561094Z W0401 22:07:50.516501       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T22:17:28.525741033Z W0401 22:17:28.525675       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T22:27:08.536934730Z W0401 22:27:08.536878       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T22:35:35.543044094Z W0401 22:35:35.542985       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T22:41:33.551440542Z W0401 22:41:33.551371       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T22:50:50.562030837Z W0401 22:50:50.561970       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T22:59:02.573360719Z W0401 22:59:02.573316       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T23:08:00.584111123Z W0401 23:08:00.584026       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T23:13:37.591921077Z W0401 23:13:37.591850       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T23:23:27.605965571Z W0401 23:23:27.605907       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T23:28:52.614266802Z W0401 23:28:52.614190       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T23:38:32.622210321Z W0401 23:38:32.622140       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T23:46:09.632913553Z W0401 23:46:09.632842       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T23:52:50.639605116Z W0401 23:52:50.639543       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-01T23:58:05.648407464Z W0401 23:58:05.648310       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T00:03:44.655717712Z W0402 00:03:44.655662       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T00:11:05.666056713Z W0402 00:11:05.665976       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T00:17:30.678903019Z W0402 00:17:30.678868       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T00:23:48.686475845Z W0402 00:23:48.686385       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T00:30:38.693187411Z W0402 00:30:38.693119       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T00:37:35.698586708Z W0402 00:37:35.698544       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T00:44:50.705905844Z W0402 00:44:50.705841       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T00:51:56.714221740Z W0402 00:51:56.714081       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T01:01:49.722873899Z W0402 01:01:49.722822       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T01:11:23.731569087Z W0402 01:11:23.731507       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T01:18:22.738954678Z W0402 01:18:22.738881       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T01:27:27.747094116Z W0402 01:27:27.747003       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T01:34:16.754941013Z W0402 01:34:16.754869       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T01:39:21.768213591Z W0402 01:39:21.768167       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T01:45:35.772935771Z W0402 01:45:35.772864       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T01:54:41.780442397Z W0402 01:54:41.780399       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T02:04:36.791832499Z W0402 02:04:36.791769       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T02:12:26.802919378Z W0402 02:12:26.802883       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T02:22:15.813744978Z W0402 02:22:15.813653       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T02:31:41.829818986Z W0402 02:31:41.829759       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T02:37:58.841651325Z W0402 02:37:58.841608       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T02:45:07.851287104Z W0402 02:45:07.851230       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T02:51:20.862683946Z W0402 02:51:20.862625       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T03:01:13.870817301Z W0402 03:01:13.870687       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T03:07:27.884630779Z W0402 03:07:27.884562       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T03:14:26.892400690Z W0402 03:14:26.892333       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T03:19:54.901774562Z W0402 03:19:54.901686       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T03:26:08.915096167Z W0402 03:26:08.915027       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T03:34:40.923058111Z W0402 03:34:40.923000       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T03:42:47.927847271Z W0402 03:42:47.927750       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T03:52:04.941434896Z W0402 03:52:04.941376       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T03:58:39.952299724Z W0402 03:58:39.952231       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T04:03:44.960284736Z W0402 04:03:44.960212       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T04:11:23.970240100Z W0402 04:11:23.969940       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T04:19:02.979731042Z W0402 04:19:02.979676       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T04:28:17.988666996Z W0402 04:28:17.988601       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T04:37:04.997079230Z W0402 04:37:04.996986       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T04:44:47.009727202Z W0402 04:44:47.009619       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T04:54:30.017859871Z W0402 04:54:30.017815       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T05:03:25.024375121Z W0402 05:03:25.024311       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T05:11:25.035451151Z W0402 05:11:25.035362       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T05:19:52.039821394Z W0402 05:19:52.039759       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T05:25:38.045858164Z W0402 05:25:38.045798       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T05:35:32.058061479Z W0402 05:35:32.057992       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T05:41:53.068652200Z W0402 05:41:53.068581       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T05:48:37.077907764Z W0402 05:48:37.077861       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T05:57:53.088322493Z W0402 05:57:53.088279       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T06:07:49.105564793Z W0402 06:07:49.105498       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T06:16:11.117172342Z W0402 06:16:11.117098       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T06:21:52.128294361Z W0402 06:21:52.128206       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T06:27:48.142508294Z W0402 06:27:48.142440       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T06:33:26.159470726Z W0402 06:33:26.159433       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T06:41:50.165233965Z W0402 06:41:50.165204       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T06:47:53.177111541Z W0402 06:47:53.177051       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T06:55:49.189556028Z W0402 06:55:49.189493       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T07:02:49.203795970Z W0402 07:02:49.203748       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T07:10:18.214015916Z W0402 07:10:18.213952       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T07:20:13.228978915Z W0402 07:20:13.228918       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T07:26:03.234954634Z W0402 07:26:03.234892       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T07:32:00.242164330Z W0402 07:32:00.242127       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T07:41:31.255478495Z W0402 07:41:31.255300       1 warnings.go:70] apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+

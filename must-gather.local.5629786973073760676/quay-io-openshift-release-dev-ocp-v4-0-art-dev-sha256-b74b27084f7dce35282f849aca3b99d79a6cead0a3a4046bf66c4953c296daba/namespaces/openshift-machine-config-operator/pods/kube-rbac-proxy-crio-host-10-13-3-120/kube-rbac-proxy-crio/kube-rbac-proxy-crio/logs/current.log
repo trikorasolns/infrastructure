@@ -1,0 +1,14 @@
+2025-04-01T08:35:02.644413645Z Flag --logtostderr has been deprecated, will be removed in a future release, see https://github.com/kubernetes/enhancements/tree/master/keps/sig-instrumentation/2845-deprecate-klog-specific-flags-in-k8s-components
+2025-04-01T08:35:02.644497273Z I0401 08:35:02.644420       1 kube-rbac-proxy.go:578] Reading config file: /etc/kubernetes/crio-metrics-proxy.cfg
+2025-04-01T08:35:02.645686039Z I0401 08:35:02.645672       1 kube-rbac-proxy.go:285] Valid token audiences: 
+2025-04-01T08:35:02.645853656Z I0401 08:35:02.645839       1 kube-rbac-proxy.go:399] Reading certificate files
+2025-04-01T08:35:02.645897785Z I0401 08:35:02.645886       1 dynamic_cafile_content.go:157] "Starting controller" name="client-ca::/etc/kubernetes/kubelet-ca.crt"
+2025-04-01T08:35:02.646183099Z I0401 08:35:02.646167       1 kube-rbac-proxy.go:447] Starting TCP socket on :9637
+2025-04-01T08:35:02.646438084Z I0401 08:35:02.646417       1 kube-rbac-proxy.go:454] Listening securely on :9637
+2025-04-01T09:36:52.183518353Z I0401 09:36:52.182931       1 dynamic_cafile_content.go:211] "Failed to remove file watch, it may have been deleted" file="/etc/kubernetes/kubelet-ca.crt" err="can't remove non-existent inotify watch for: /etc/kubernetes/kubelet-ca.crt"
+2025-04-01T09:36:52.224165678Z I0401 09:36:52.224107       1 dynamic_cafile_content.go:211] "Failed to remove file watch, it may have been deleted" file="/etc/kubernetes/kubelet-ca.crt" err="can't remove non-existent inotify watch for: /etc/kubernetes/kubelet-ca.crt"
+2025-04-01T09:36:52.290225454Z I0401 09:36:52.290183       1 dynamic_cafile_content.go:211] "Failed to remove file watch, it may have been deleted" file="/etc/kubernetes/kubelet-ca.crt" err="can't remove non-existent inotify watch for: /etc/kubernetes/kubelet-ca.crt"
+2025-04-01T09:36:53.403652400Z I0401 09:36:53.403614       1 dynamic_cafile_content.go:211] "Failed to remove file watch, it may have been deleted" file="/etc/kubernetes/kubelet-ca.crt" err="can't remove non-existent inotify watch for: /etc/kubernetes/kubelet-ca.crt"
+2025-04-01T12:55:41.061744019Z I0401 12:55:41.061691       1 dynamic_cafile_content.go:211] "Failed to remove file watch, it may have been deleted" file="/etc/kubernetes/kubelet-ca.crt" err="can't remove non-existent inotify watch for: /etc/kubernetes/kubelet-ca.crt"
+2025-04-01T12:55:41.163776189Z I0401 12:55:41.163693       1 dynamic_cafile_content.go:211] "Failed to remove file watch, it may have been deleted" file="/etc/kubernetes/kubelet-ca.crt" err="can't remove non-existent inotify watch for: /etc/kubernetes/kubelet-ca.crt"
+2025-04-01T12:55:42.091772716Z I0401 12:55:42.091607       1 dynamic_cafile_content.go:211] "Failed to remove file watch, it may have been deleted" file="/etc/kubernetes/kubelet-ca.crt" err="can't remove non-existent inotify watch for: /etc/kubernetes/kubelet-ca.crt"

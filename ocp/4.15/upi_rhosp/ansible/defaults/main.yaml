@@ -11,17 +11,17 @@ rhosp_lb_private_ports:
 - {name: "api-int", port: 22623, protocol: "TCP"}
 - {name: "api-server", port: 6443, protocol: "TCP"}
 ocp_control_plane_count: 3
-ocp_compute_node_count: 3
+ocp_compute_node_count: 5
 
 
 rhosp_compute_node:
-  - id: 1
+  1:
     flavor: b3-8
-  - id: 2
+  2:
     flavor: b3-8
-  - id: 3
+  3:
     flavor: b3-8
-  - id: 4
+  4:
     flavor: b3-16
-  - id: 5
+  5:
     flavor: b3-16

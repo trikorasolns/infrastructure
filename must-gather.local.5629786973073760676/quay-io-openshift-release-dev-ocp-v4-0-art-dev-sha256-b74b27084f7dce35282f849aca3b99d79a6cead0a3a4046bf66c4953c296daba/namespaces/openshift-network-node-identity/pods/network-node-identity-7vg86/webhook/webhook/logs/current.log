@@ -1,0 +1,19 @@
+2025-03-31T20:21:34.093060654Z + [[ -f /env/_master ]]
+2025-03-31T20:21:34.093060654Z + ho_enable=--enable-hybrid-overlay
+2025-03-31T20:21:34.093328929Z ++ date '+%m%d %H:%M:%S.%N'
+2025-03-31T20:21:34.095121305Z + echo 'I0331 20:21:34.094755361 - network-node-identity - start webhook'
+2025-03-31T20:21:34.095136994Z I0331 20:21:34.094755361 - network-node-identity - start webhook
+2025-03-31T20:21:34.095219222Z + exec /usr/bin/ovnkube-identity --k8s-apiserver=https://api-int.ovhcpococp.trikorasolutions.net:6443 --webhook-cert-dir=/etc/webhook-cert --webhook-host=127.0.0.1 --webhook-port=9743 --enable-hybrid-overlay --enable-interconnect --disable-approver --extra-allowed-user=system:serviceaccount:openshift-ovn-kubernetes:ovn-kubernetes-control-plane --wait-for-kubernetes-api=200s --pod-admission-conditions=/var/run/ovnkube-identity-config/additional-pod-admission-cond.json --loglevel=2
+2025-03-31T20:21:34.113461371Z I0331 20:21:34.113405       1 ovnkubeidentity.go:131] Config: {kubeconfig: apiServer:https://api-int.ovhcpococp.trikorasolutions.net:6443 logLevel:2 port:9743 host:127.0.0.1 certDir:/etc/webhook-cert metricsAddress:0 leaseNamespace: enableInterconnect:true enableHybridOverlay:true disableWebhook:false disableApprover:true waitForKAPIDuration:200000000000 localKAPIPort:6443 extraAllowedUsers:{slice:[system:serviceaccount:openshift-ovn-kubernetes:ovn-kubernetes-control-plane] hasBeenSet:true} csrAcceptanceConditionFile: csrAcceptanceConditions:[] podAdmissionConditionFile:/var/run/ovnkube-identity-config/additional-pod-admission-cond.json podAdmissionConditions:[]}
+2025-03-31T20:21:34.113503521Z W0331 20:21:34.113495       1 client_config.go:618] Neither --kubeconfig nor --master was specified.  Using the inClusterConfig.  This might not work.
+2025-03-31T20:21:34.114039170Z I0331 20:21:34.114015       1 ovnkubeidentity.go:350] Waiting for caches to sync
+2025-03-31T20:21:34.215498427Z I0331 20:21:34.215458       1 certwatcher.go:161] "controller-runtime/certwatcher: Updated current TLS certificate"
+2025-03-31T20:21:34.215617344Z I0331 20:21:34.215602       1 certwatcher.go:115] "controller-runtime/certwatcher: Starting certificate watcher"
+2025-03-31T20:21:34.215717942Z I0331 20:21:34.215705       1 ovnkubeidentity.go:429] Starting the webhook server
+2025-03-31T23:00:34.739938942Z 2025/03/31 23:00:34 http: TLS handshake error from 127.0.0.1:38426: EOF
+2025-04-01T03:18:14.167889142Z 2025/04/01 03:18:14 http: TLS handshake error from 127.0.0.1:57722: EOF
+2025-04-01T04:39:03.073599386Z 2025/04/01 04:39:03 http: TLS handshake error from 127.0.0.1:38468: EOF
+2025-04-01T05:36:18.658878529Z 2025/04/01 05:36:18 http: TLS handshake error from 127.0.0.1:45008: EOF
+2025-04-01T08:34:47.489400123Z 2025/04/01 08:34:47 http: TLS handshake error from 127.0.0.1:51066: EOF
+2025-04-01T09:39:08.898225103Z 2025/04/01 09:39:08 http: TLS handshake error from 127.0.0.1:48148: EOF
+2025-04-01T09:45:00.262510071Z 2025/04/01 09:45:00 http: TLS handshake error from 127.0.0.1:49694: EOF

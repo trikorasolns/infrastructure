@@ -1,0 +1,77 @@
+---
+apiVersion: samples.operator.openshift.io/v1
+kind: Config
+metadata:
+  creationTimestamp: "2025-03-31T20:28:28Z"
+  finalizers:
+  - samples.operator.openshift.io/finalizer
+  generation: 1
+  managedFields:
+  - apiVersion: samples.operator.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:finalizers:
+          .: {}
+          v:"samples.operator.openshift.io/finalizer": {}
+      f:spec:
+        .: {}
+        f:architectures: {}
+        f:managementState: {}
+    manager: cluster-samples-operator
+    operation: Update
+    time: "2025-03-31T20:28:28Z"
+  - apiVersion: samples.operator.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        .: {}
+        f:architectures: {}
+        f:conditions: {}
+        f:managementState: {}
+        f:version: {}
+    manager: cluster-samples-operator
+    operation: Update
+    subresource: status
+    time: "2025-03-31T20:28:38Z"
+  name: cluster
+  resourceVersion: "62077"
+  uid: 830c6105-f6b0-4efa-9944-b7ac98f323bc
+spec:
+  architectures:
+  - x86_64
+  managementState: Managed
+status:
+  architectures:
+  - x86_64
+  conditions:
+  - lastTransitionTime: "2025-03-31T20:28:35Z"
+    lastUpdateTime: "2025-03-31T20:28:35Z"
+    status: "True"
+    type: SamplesExist
+  - lastTransitionTime: "2025-03-31T20:28:35Z"
+    lastUpdateTime: "2025-03-31T20:28:35Z"
+    status: "False"
+    type: ImageChangesInProgress
+  - lastTransitionTime: "2025-03-31T20:28:35Z"
+    lastUpdateTime: "2025-03-31T20:28:35Z"
+    status: "True"
+    type: ImportCredentialsExist
+  - lastTransitionTime: "2025-03-31T20:28:35Z"
+    lastUpdateTime: "2025-03-31T20:28:35Z"
+    status: "True"
+    type: ConfigurationValid
+  - lastTransitionTime: "2025-03-31T20:28:35Z"
+    lastUpdateTime: "2025-03-31T20:28:35Z"
+    status: "False"
+    type: RemovePending
+  - lastTransitionTime: "2025-03-31T20:28:35Z"
+    lastUpdateTime: "2025-03-31T20:28:35Z"
+    status: "False"
+    type: MigrationInProgress
+  - lastTransitionTime: "2025-03-31T20:28:35Z"
+    lastUpdateTime: "2025-03-31T20:28:35Z"
+    status: "False"
+    type: ImportImageErrorsExist
+  managementState: Managed
+  version: 4.15.46

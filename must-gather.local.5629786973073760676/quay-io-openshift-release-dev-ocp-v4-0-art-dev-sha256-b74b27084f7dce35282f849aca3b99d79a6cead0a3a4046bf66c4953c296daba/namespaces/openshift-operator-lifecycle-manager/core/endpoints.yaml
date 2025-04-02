@@ -1,0 +1,153 @@
+---
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    creationTimestamp: "2025-03-31T14:24:08Z"
+    labels:
+      app: catalog-operator
+    managedFields:
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:labels:
+            .: {}
+            f:app: {}
+        f:subsets: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-03-31T20:33:07Z"
+    name: catalog-operator-metrics
+    namespace: openshift-operator-lifecycle-manager
+    resourceVersion: "68237"
+    uid: 8906b3f6-611c-4a27-9907-f8abd8d999df
+  subsets:
+  - addresses:
+    - ip: 10.128.0.27
+      nodeName: host-10-13-0-150
+      targetRef:
+        kind: Pod
+        name: catalog-operator-86bcf8bd9-gkztz
+        namespace: openshift-operator-lifecycle-manager
+        uid: a933f895-ea27-4267-8c87-1ed210df6f6a
+    ports:
+    - name: https-metrics
+      port: 8443
+      protocol: TCP
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    creationTimestamp: "2025-03-31T14:24:07Z"
+    labels:
+      app: olm-operator
+    managedFields:
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:labels:
+            .: {}
+            f:app: {}
+        f:subsets: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-03-31T20:33:07Z"
+    name: olm-operator-metrics
+    namespace: openshift-operator-lifecycle-manager
+    resourceVersion: "68147"
+    uid: 592f4f9b-b3e4-4da8-9bf5-b659855215da
+  subsets:
+  - addresses:
+    - ip: 10.128.0.28
+      nodeName: host-10-13-0-150
+      targetRef:
+        kind: Pod
+        name: olm-operator-77d57749b9-7t57p
+        namespace: openshift-operator-lifecycle-manager
+        uid: 686d3172-a16c-45a0-8e25-8316b269fc6b
+    ports:
+    - name: https-metrics
+      port: 8443
+      protocol: TCP
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2025-03-31T20:41:14Z"
+    creationTimestamp: "2025-03-31T14:24:09Z"
+    managedFields:
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:endpoints.kubernetes.io/last-change-trigger-time: {}
+        f:subsets: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-03-31T20:41:14Z"
+    name: package-server-manager-metrics
+    namespace: openshift-operator-lifecycle-manager
+    resourceVersion: "73609"
+    uid: 0c0b450e-2e9c-4d55-bad1-3222fad43264
+  subsets:
+  - addresses:
+    - ip: 10.128.0.31
+      nodeName: host-10-13-0-150
+      targetRef:
+        kind: Pod
+        name: package-server-manager-5db5db5c46-vphvd
+        namespace: openshift-operator-lifecycle-manager
+        uid: 0c78b964-0156-4356-8d9c-4d74bcbd97dd
+    ports:
+    - name: metrics
+      port: 8443
+      protocol: TCP
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    creationTimestamp: "2025-03-31T20:24:36Z"
+    labels:
+      olm.managed: "true"
+    managedFields:
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:labels:
+            .: {}
+            f:olm.managed: {}
+        f:subsets: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-03-31T20:33:06Z"
+    name: packageserver-service
+    namespace: openshift-operator-lifecycle-manager
+    resourceVersion: "68047"
+    uid: 851c4c28-30a9-44f1-8d4d-9b9403a83e0e
+  subsets:
+  - addresses:
+    - ip: 10.129.0.23
+      nodeName: host-10-13-2-160
+      targetRef:
+        kind: Pod
+        name: packageserver-69dbb4fd47-hj8pq
+        namespace: openshift-operator-lifecycle-manager
+        uid: 76627897-65e4-4b0d-8d39-d09f02a8175c
+    - ip: 10.130.0.25
+      nodeName: host-10-13-2-89
+      targetRef:
+        kind: Pod
+        name: packageserver-69dbb4fd47-jvsg6
+        namespace: openshift-operator-lifecycle-manager
+        uid: 090ace09-19f5-45c6-9869-f3bebd4c8cdf
+    ports:
+    - name: "5443"
+      port: 5443
+      protocol: TCP
+kind: EndpointsList
+metadata:
+  resourceVersion: "718416"

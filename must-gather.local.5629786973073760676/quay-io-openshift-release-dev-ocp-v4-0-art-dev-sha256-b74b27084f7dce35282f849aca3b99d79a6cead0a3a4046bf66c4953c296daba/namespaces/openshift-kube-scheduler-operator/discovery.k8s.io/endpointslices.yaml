@@ -1,0 +1,70 @@
+---
+apiVersion: discovery.k8s.io/v1
+items:
+- addressType: IPv4
+  apiVersion: discovery.k8s.io/v1
+  endpoints:
+  - addresses:
+    - 10.128.0.24
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: host-10-13-0-150
+    targetRef:
+      kind: Pod
+      name: openshift-kube-scheduler-operator-578f575567-hn4hk
+      namespace: openshift-kube-scheduler-operator
+      uid: aa93dd5b-d1c0-4b58-8af5-ae44fd4cfedc
+  kind: EndpointSlice
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2025-03-31T20:40:20Z"
+    creationTimestamp: "2025-03-31T14:23:48Z"
+    generateName: metrics-
+    generation: 8
+    labels:
+      app: openshift-kube-scheduler-operator
+      endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+      kubernetes.io/service-name: metrics
+    managedFields:
+    - apiVersion: discovery.k8s.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:addressType: {}
+        f:endpoints: {}
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:endpoints.kubernetes.io/last-change-trigger-time: {}
+          f:generateName: {}
+          f:labels:
+            .: {}
+            f:app: {}
+            f:endpointslice.kubernetes.io/managed-by: {}
+            f:kubernetes.io/service-name: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"a074ef4a-2d86-460b-ba62-c9e550aa01bb"}: {}
+        f:ports: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-03-31T20:40:20Z"
+    name: metrics-tqq7p
+    namespace: openshift-kube-scheduler-operator
+    ownerReferences:
+    - apiVersion: v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Service
+      name: metrics
+      uid: a074ef4a-2d86-460b-ba62-c9e550aa01bb
+    resourceVersion: "72902"
+    uid: a6e10879-61f0-463d-be08-032d599ff520
+  ports:
+  - name: https
+    port: 8443
+    protocol: TCP
+kind: EndpointSliceList
+metadata:
+  resourceVersion: "718258"

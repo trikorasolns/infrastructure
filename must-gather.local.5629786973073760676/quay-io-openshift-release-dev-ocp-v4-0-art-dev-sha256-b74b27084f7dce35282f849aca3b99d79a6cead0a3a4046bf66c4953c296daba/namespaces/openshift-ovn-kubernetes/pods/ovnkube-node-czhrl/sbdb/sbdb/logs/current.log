@@ -1,0 +1,30 @@
+2025-04-01T08:28:43.502619989Z + [[ -f /env/_master ]]
+2025-04-01T08:28:43.502882854Z + . /ovnkube-lib/ovnkube-lib.sh
+2025-04-01T08:28:43.502954044Z ++ set -x
+2025-04-01T08:28:43.502982814Z ++ K8S_NODE=
+2025-04-01T08:28:43.503012903Z ++ [[ -n '' ]]
+2025-04-01T08:28:43.503038663Z ++ northd_pidfile=/var/run/ovn/ovn-northd.pid
+2025-04-01T08:28:43.503062062Z ++ controller_pidfile=/var/run/ovn/ovn-controller.pid
+2025-04-01T08:28:43.503084422Z ++ controller_logfile=/var/log/ovn/acl-audit-log.log
+2025-04-01T08:28:43.503106541Z ++ vswitch_dbsock=/var/run/openvswitch/db.sock
+2025-04-01T08:28:43.503131991Z ++ nbdb_pidfile=/var/run/ovn/ovnnb_db.pid
+2025-04-01T08:28:43.503154100Z ++ nbdb_sock=/var/run/ovn/ovnnb_db.sock
+2025-04-01T08:28:43.503175710Z ++ nbdb_ctl=/var/run/ovn/ovnnb_db.ctl
+2025-04-01T08:28:43.503197570Z ++ sbdb_pidfile=/var/run/ovn/ovnsb_db.pid
+2025-04-01T08:28:43.503218889Z ++ sbdb_sock=/var/run/ovn/ovnsb_db.sock
+2025-04-01T08:28:43.503240399Z ++ sbdb_ctl=/var/run/ovn/ovnsb_db.ctl
+2025-04-01T08:28:43.503906668Z + trap quit-sbdb TERM INT
+2025-04-01T08:28:43.503940287Z + start-sbdb info
+2025-04-01T08:28:43.503959977Z + local log_level=info
+2025-04-01T08:28:43.503978887Z + [[ 1 -ne 1 ]]
+2025-04-01T08:28:43.504118394Z + wait 3980
+2025-04-01T08:28:43.504253962Z + exec /usr/share/ovn/scripts/ovn-ctl --no-monitor --db-sb-sock=/var/run/ovn/ovnsb_db.sock '--ovn-sb-log=-vconsole:info -vfile:off -vPATTERN:console:%D{%Y-%m-%dT%H:%M:%S.###Z}|%05N|%c%T|%p|%m' run_sb_ovsdb
+2025-04-01T08:28:43.553031829Z /etc/ovn/ovnsb_db.db does not exist ... (warning).
+2025-04-01T08:28:43.561074085Z Creating empty database /etc/ovn/ovnsb_db.db.
+2025-04-01T08:28:43.573463018Z 2025-04-01T08:28:43.573Z|00001|vlog|INFO|opened log file /var/log/ovn/ovsdb-server-sb.log
+2025-04-01T08:28:43.576000326Z 2025-04-01T08:28:43.575Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 3.1.6-137.el9fdp
+2025-04-01T08:28:45.568084077Z 2025-04-01T08:28:45.568Z|00003|ovsdb_server|INFO|memory trimming after compaction enabled.
+2025-04-01T08:28:48.107620610Z 2025-04-01T08:28:48.107Z|00004|jsonrpc|WARN|unix#7: receive error: Connection reset by peer
+2025-04-01T08:28:48.107650959Z 2025-04-01T08:28:48.107Z|00005|reconnect|WARN|unix#7: connection dropped (Connection reset by peer)
+2025-04-01T08:28:53.576587236Z 2025-04-01T08:28:53.576Z|00006|memory|INFO|17084 kB peak resident set size after 10.0 seconds
+2025-04-01T08:28:53.577018409Z 2025-04-01T08:28:53.576Z|00007|memory|INFO|atoms:14460 cells:12620 json-caches:2 monitors:5 n-weak-refs:89 sessions:3

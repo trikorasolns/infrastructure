@@ -1,0 +1,80 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    include.release.openshift.io/ibm-cloud-managed: "true"
+    include.release.openshift.io/self-managed-high-availability: "true"
+    include.release.openshift.io/single-node-developer: "true"
+    openshift.io/description: OpenShift network node identity namespace - a controller
+      used to manage node identity components
+    openshift.io/node-selector: ""
+    openshift.io/sa.scc.mcs: s0:c23,c12
+    openshift.io/sa.scc.supplemental-groups: 1000530000/10000
+    openshift.io/sa.scc.uid-range: 1000530000/10000
+    workload.openshift.io/allowed: management
+  creationTimestamp: "2025-03-31T20:18:30Z"
+  labels:
+    kubernetes.io/metadata.name: openshift-network-node-identity
+    olm.operatorgroup.uid/728784b2-4302-4164-b9cc-f5bf2430e4e0: ""
+    openshift.io/cluster-monitoring: "true"
+    pod-security.kubernetes.io/audit: privileged
+    pod-security.kubernetes.io/enforce: privileged
+    pod-security.kubernetes.io/warn: privileged
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          f:include.release.openshift.io/ibm-cloud-managed: {}
+          f:include.release.openshift.io/self-managed-high-availability: {}
+          f:include.release.openshift.io/single-node-developer: {}
+          f:openshift.io/description: {}
+          f:openshift.io/node-selector: {}
+          f:workload.openshift.io/allowed: {}
+        f:labels:
+          f:openshift.io/cluster-monitoring: {}
+          f:pod-security.kubernetes.io/audit: {}
+          f:pod-security.kubernetes.io/enforce: {}
+          f:pod-security.kubernetes.io/warn: {}
+        f:ownerReferences:
+          k:{"uid":"f247aa7f-5271-4e41-99c9-6fc4166400fb"}: {}
+    manager: cluster-network-operator/operconfig
+    operation: Apply
+    time: "2025-03-31T20:18:30Z"
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          f:openshift.io/sa.scc.mcs: {}
+          f:openshift.io/sa.scc.supplemental-groups: {}
+          f:openshift.io/sa.scc.uid-range: {}
+    manager: cluster-policy-controller
+    operation: Update
+    time: "2025-03-31T20:18:30Z"
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:labels:
+          f:olm.operatorgroup.uid/728784b2-4302-4164-b9cc-f5bf2430e4e0: {}
+    manager: olm
+    operation: Update
+    time: "2025-03-31T20:24:26Z"
+  name: openshift-network-node-identity
+  ownerReferences:
+  - apiVersion: operator.openshift.io/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: Network
+    name: cluster
+    uid: f247aa7f-5271-4e41-99c9-6fc4166400fb
+  resourceVersion: "54529"
+  uid: 4f600a57-4d49-4960-86c8-5c8a0f16904a
+spec:
+  finalizers:
+  - kubernetes
+status:
+  phase: Active

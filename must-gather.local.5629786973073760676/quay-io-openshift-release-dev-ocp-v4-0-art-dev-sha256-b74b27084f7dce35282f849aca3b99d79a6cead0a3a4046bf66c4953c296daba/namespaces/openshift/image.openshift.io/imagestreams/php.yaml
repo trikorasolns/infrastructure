@@ -1,0 +1,317 @@
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  annotations:
+    openshift.io/display-name: PHP
+    openshift.io/image.dockerRepositoryCheck: "2025-03-31T20:28:44Z"
+    samples.operator.openshift.io/version: 4.15.46
+  creationTimestamp: "2025-03-31T20:28:34Z"
+  generation: 2
+  labels:
+    samples.operator.openshift.io/managed: "true"
+  managedFields:
+  - apiVersion: image.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:openshift.io/display-name: {}
+          f:samples.operator.openshift.io/version: {}
+        f:labels:
+          .: {}
+          f:samples.operator.openshift.io/managed: {}
+      f:spec:
+        f:tags:
+          .: {}
+          k:{"name":"7.3"}:
+            .: {}
+            f:annotations:
+              .: {}
+              f:description: {}
+              f:iconClass: {}
+              f:openshift.io/display-name: {}
+              f:openshift.io/provider-display-name: {}
+              f:sampleRepo: {}
+              f:supports: {}
+              f:tags: {}
+              f:version: {}
+            f:from: {}
+            f:generation: {}
+            f:importPolicy:
+              .: {}
+              f:importMode: {}
+            f:name: {}
+            f:referencePolicy:
+              .: {}
+              f:type: {}
+          k:{"name":"7.3-ubi7"}:
+            .: {}
+            f:annotations:
+              .: {}
+              f:description: {}
+              f:iconClass: {}
+              f:openshift.io/display-name: {}
+              f:openshift.io/provider-display-name: {}
+              f:sampleRepo: {}
+              f:supports: {}
+              f:tags: {}
+              f:version: {}
+            f:from: {}
+            f:generation: {}
+            f:importPolicy:
+              .: {}
+              f:importMode: {}
+            f:name: {}
+            f:referencePolicy:
+              .: {}
+              f:type: {}
+          k:{"name":"7.4-ubi8"}:
+            .: {}
+            f:annotations:
+              .: {}
+              f:description: {}
+              f:iconClass: {}
+              f:openshift.io/display-name: {}
+              f:openshift.io/provider-display-name: {}
+              f:sampleRepo: {}
+              f:supports: {}
+              f:tags: {}
+              f:version: {}
+            f:from: {}
+            f:generation: {}
+            f:importPolicy:
+              .: {}
+              f:importMode: {}
+            f:name: {}
+            f:referencePolicy:
+              .: {}
+              f:type: {}
+          k:{"name":"8.0-ubi8"}:
+            .: {}
+            f:annotations:
+              .: {}
+              f:description: {}
+              f:iconClass: {}
+              f:openshift.io/display-name: {}
+              f:openshift.io/provider-display-name: {}
+              f:sampleRepo: {}
+              f:supports: {}
+              f:tags: {}
+              f:version: {}
+            f:from: {}
+            f:generation: {}
+            f:importPolicy:
+              .: {}
+              f:importMode: {}
+            f:name: {}
+            f:referencePolicy:
+              .: {}
+              f:type: {}
+          k:{"name":"8.0-ubi9"}:
+            .: {}
+            f:annotations:
+              .: {}
+              f:description: {}
+              f:iconClass: {}
+              f:openshift.io/display-name: {}
+              f:openshift.io/provider-display-name: {}
+              f:sampleRepo: {}
+              f:supports: {}
+              f:tags: {}
+              f:version: {}
+            f:from: {}
+            f:generation: {}
+            f:importPolicy:
+              .: {}
+              f:importMode: {}
+            f:name: {}
+            f:referencePolicy:
+              .: {}
+              f:type: {}
+          k:{"name":"latest"}:
+            .: {}
+            f:annotations:
+              .: {}
+              f:description: {}
+              f:iconClass: {}
+              f:openshift.io/display-name: {}
+              f:openshift.io/provider-display-name: {}
+              f:sampleRepo: {}
+              f:supports: {}
+              f:tags: {}
+            f:from: {}
+            f:generation: {}
+            f:importPolicy:
+              .: {}
+              f:importMode: {}
+            f:name: {}
+            f:referencePolicy:
+              .: {}
+              f:type: {}
+    manager: cluster-samples-operator
+    operation: Update
+    time: "2025-03-31T20:28:34Z"
+  name: php
+  namespace: openshift
+  resourceVersion: "62428"
+  uid: a6e5e830-899c-4751-9fa0-67e8771c617a
+spec:
+  lookupPolicy:
+    local: false
+  tags:
+  - annotations:
+      description: Build and run PHP 7.3 applications on RHEL 7. For more information
+        about using this builder image, including OpenShift considerations, see https://github.com/sclorg/s2i-php-container/blob/master/7.3/README.md.
+      iconClass: icon-php
+      openshift.io/display-name: PHP 7.3
+      openshift.io/provider-display-name: Red Hat, Inc.
+      sampleRepo: https://github.com/sclorg/cakephp-ex.git
+      supports: php:7.3,php
+      tags: builder,php,hidden
+      version: "7.3"
+    from:
+      kind: DockerImage
+      name: registry.redhat.io/rhscl/php-73-rhel7:latest
+    generation: 2
+    importPolicy:
+      importMode: Legacy
+    name: "7.3"
+    referencePolicy:
+      type: Local
+  - annotations:
+      description: Build and run PHP 7.3 applications on UBI 7. For more information
+        about using this builder image, including OpenShift considerations, see https://github.com/sclorg/s2i-php-container/blob/master/7.3/README.md.
+      iconClass: icon-php
+      openshift.io/display-name: PHP 7.3 (UBI 7)
+      openshift.io/provider-display-name: Red Hat, Inc.
+      sampleRepo: https://github.com/sclorg/cakephp-ex.git
+      supports: php:7.3,php
+      tags: builder,php
+      version: "7.3"
+    from:
+      kind: DockerImage
+      name: registry.redhat.io/ubi7/php-73:latest
+    generation: 2
+    importPolicy:
+      importMode: Legacy
+    name: 7.3-ubi7
+    referencePolicy:
+      type: Local
+  - annotations:
+      description: Build and run PHP 7.4 applications on UBI 8. For more information
+        about using this builder image, including OpenShift considerations, see https://github.com/sclorg/s2i-php-container/blob/master/7.4/README.md.
+      iconClass: icon-php
+      openshift.io/display-name: PHP 7.4 (UBI 8)
+      openshift.io/provider-display-name: Red Hat, Inc.
+      sampleRepo: https://github.com/sclorg/cakephp-ex.git
+      supports: php:7.4,php
+      tags: builder,php
+      version: "7.4"
+    from:
+      kind: DockerImage
+      name: registry.redhat.io/ubi8/php-74:latest
+    generation: 2
+    importPolicy:
+      importMode: Legacy
+    name: 7.4-ubi8
+    referencePolicy:
+      type: Local
+  - annotations:
+      description: Build and run PHP 8.0 applications on UBI 8. For more information
+        about using this builder image, including OpenShift considerations, see https://github.com/sclorg/s2i-php-container/blob/master/8.0/README.md.
+      iconClass: icon-php
+      openshift.io/display-name: PHP 8.0 (UBI 8)
+      openshift.io/provider-display-name: Red Hat, Inc.
+      sampleRepo: https://github.com/sclorg/cakephp-ex.git
+      supports: php:8.0,php
+      tags: builder,php
+      version: "8.0"
+    from:
+      kind: DockerImage
+      name: registry.redhat.io/ubi8/php-80:latest
+    generation: 2
+    importPolicy:
+      importMode: Legacy
+    name: 8.0-ubi8
+    referencePolicy:
+      type: Local
+  - annotations:
+      description: Build and run PHP 8.0 applications on UBI 9. For more information
+        about using this builder image, including OpenShift considerations, see https://github.com/sclorg/s2i-php-container/blob/master/8.0/README.md.
+      iconClass: icon-php
+      openshift.io/display-name: PHP 8.0 (UBI 9)
+      openshift.io/provider-display-name: Red Hat, Inc.
+      sampleRepo: https://github.com/sclorg/cakephp-ex.git
+      supports: php:8.0,php
+      tags: builder,php
+      version: "8.0"
+    from:
+      kind: DockerImage
+      name: registry.redhat.io/ubi9/php-80:latest
+    generation: 2
+    importPolicy:
+      importMode: Legacy
+    name: 8.0-ubi9
+    referencePolicy:
+      type: Local
+  - annotations:
+      description: |-
+        Build and run PHP applications on UBI. For more information about using this builder image, including OpenShift considerations, see https://github.com/sclorg/s2i-php-container/blob/master/8.0/README.md.
+
+        WARNING: By selecting this tag, your application will automatically update to use the latest version of PHP available on OpenShift, including major version updates.
+      iconClass: icon-php
+      openshift.io/display-name: PHP (Latest)
+      openshift.io/provider-display-name: Red Hat, Inc.
+      sampleRepo: https://github.com/sclorg/cakephp-ex.git
+      supports: php
+      tags: builder,php
+    from:
+      kind: ImageStreamTag
+      name: 8.0-ubi8
+    generation: 1
+    importPolicy:
+      importMode: Legacy
+    name: latest
+    referencePolicy:
+      type: Local
+status:
+  dockerImageRepository: ""
+  tags:
+  - items:
+    - created: "2025-03-31T20:28:44Z"
+      dockerImageReference: registry.redhat.io/rhscl/php-73-rhel7@sha256:26c413748cc4999d4886b387b190a876516c87649858f657bcb0a3e4219b6397
+      generation: 2
+      image: sha256:26c413748cc4999d4886b387b190a876516c87649858f657bcb0a3e4219b6397
+    tag: "7.3"
+  - items:
+    - created: "2025-03-31T20:28:44Z"
+      dockerImageReference: registry.redhat.io/ubi7/php-73@sha256:26c413748cc4999d4886b387b190a876516c87649858f657bcb0a3e4219b6397
+      generation: 2
+      image: sha256:26c413748cc4999d4886b387b190a876516c87649858f657bcb0a3e4219b6397
+    tag: 7.3-ubi7
+  - items:
+    - created: "2025-03-31T20:28:44Z"
+      dockerImageReference: registry.redhat.io/ubi8/php-74@sha256:de457b14fb2cb3d84dcb7761aaaaf4251d1093e6bcd72a47024b4c6d908239e5
+      generation: 2
+      image: sha256:de457b14fb2cb3d84dcb7761aaaaf4251d1093e6bcd72a47024b4c6d908239e5
+    tag: 7.4-ubi8
+  - items:
+    - created: "2025-03-31T20:28:44Z"
+      dockerImageReference: registry.redhat.io/ubi8/php-80@sha256:0194269c95cbc1aeb509611e283fd404791a0bc79911532bd9835bb51a19aff6
+      generation: 2
+      image: sha256:0194269c95cbc1aeb509611e283fd404791a0bc79911532bd9835bb51a19aff6
+    tag: 8.0-ubi8
+  - items:
+    - created: "2025-03-31T20:28:44Z"
+      dockerImageReference: registry.redhat.io/ubi9/php-80@sha256:cced8dd131811e7bd178bd8d61d838f10405dacaff2af144603cf3c7ac05d160
+      generation: 2
+      image: sha256:cced8dd131811e7bd178bd8d61d838f10405dacaff2af144603cf3c7ac05d160
+    tag: 8.0-ubi9
+  - items:
+    - created: "2025-03-31T20:28:44Z"
+      dockerImageReference: registry.redhat.io/ubi8/php-80@sha256:0194269c95cbc1aeb509611e283fd404791a0bc79911532bd9835bb51a19aff6
+      generation: 2
+      image: sha256:0194269c95cbc1aeb509611e283fd404791a0bc79911532bd9835bb51a19aff6
+    tag: latest

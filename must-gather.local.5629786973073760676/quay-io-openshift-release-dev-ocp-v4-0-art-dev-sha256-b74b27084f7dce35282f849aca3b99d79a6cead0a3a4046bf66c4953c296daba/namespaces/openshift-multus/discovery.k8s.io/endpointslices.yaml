@@ -1,0 +1,211 @@
+---
+apiVersion: discovery.k8s.io/v1
+items:
+- addressType: IPv4
+  apiVersion: discovery.k8s.io/v1
+  endpoints:
+  - addresses:
+    - 10.128.0.74
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: host-10-13-0-150
+    targetRef:
+      kind: Pod
+      name: multus-admission-controller-7bdf9cfb97-mmgf2
+      namespace: openshift-multus
+      uid: 4e98d92d-ee36-4118-b2a3-7b7ad2e54a93
+  - addresses:
+    - 10.130.0.56
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: host-10-13-2-89
+    targetRef:
+      kind: Pod
+      name: multus-admission-controller-7bdf9cfb97-mxrgk
+      namespace: openshift-multus
+      uid: 38b9e53c-ac3f-4a86-946d-92453120b9e9
+  kind: EndpointSlice
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2025-03-31T20:33:32Z"
+    creationTimestamp: "2025-03-31T20:18:03Z"
+    generateName: multus-admission-controller-
+    generation: 19
+    labels:
+      app: multus-admission-controller
+      endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+      kubernetes.io/service-name: multus-admission-controller
+    managedFields:
+    - apiVersion: discovery.k8s.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:addressType: {}
+        f:endpoints: {}
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:endpoints.kubernetes.io/last-change-trigger-time: {}
+          f:generateName: {}
+          f:labels:
+            .: {}
+            f:app: {}
+            f:endpointslice.kubernetes.io/managed-by: {}
+            f:kubernetes.io/service-name: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"cc066e5e-22c5-4dbe-9d85-43a55f7d9bb2"}: {}
+        f:ports: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-03-31T20:33:32Z"
+    name: multus-admission-controller-qnxb7
+    namespace: openshift-multus
+    ownerReferences:
+    - apiVersion: v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Service
+      name: multus-admission-controller
+      uid: cc066e5e-22c5-4dbe-9d85-43a55f7d9bb2
+    resourceVersion: "68684"
+    uid: 6990085d-0f1f-4168-b6da-39da10044d48
+  ports:
+  - name: webhook
+    port: 6443
+    protocol: TCP
+  - name: metrics
+    port: 8443
+    protocol: TCP
+- addressType: IPv4
+  apiVersion: discovery.k8s.io/v1
+  endpoints:
+  - addresses:
+    - 10.130.0.4
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: host-10-13-2-89
+    targetRef:
+      kind: Pod
+      name: network-metrics-daemon-p9zv7
+      namespace: openshift-multus
+      uid: c226602b-0e68-44cd-823d-35e9c53517a9
+  - addresses:
+    - 10.129.0.3
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: host-10-13-2-160
+    targetRef:
+      kind: Pod
+      name: network-metrics-daemon-b9r86
+      namespace: openshift-multus
+      uid: 7f476cbd-5d10-4d24-bd66-4050f6da696f
+  - addresses:
+    - 10.128.0.4
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: host-10-13-0-150
+    targetRef:
+      kind: Pod
+      name: network-metrics-daemon-klgmr
+      namespace: openshift-multus
+      uid: 88aa1502-26c3-4536-9cbc-c80bcf55ff2b
+  - addresses:
+    - 10.131.0.4
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: host-10-13-3-78
+    targetRef:
+      kind: Pod
+      name: network-metrics-daemon-hbcjf
+      namespace: openshift-multus
+      uid: 82918b82-23d4-4b87-ab4e-c8c88ba54fa1
+  - addresses:
+    - 10.128.2.4
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: host-10-13-3-120
+    targetRef:
+      kind: Pod
+      name: network-metrics-daemon-stgrn
+      namespace: openshift-multus
+      uid: 45483e9b-f353-4f49-8c87-124ab83fd032
+  - addresses:
+    - 10.129.2.4
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: host-10-13-2-1
+    targetRef:
+      kind: Pod
+      name: network-metrics-daemon-2hq4z
+      namespace: openshift-multus
+      uid: b631a797-3f5a-40dd-b078-2939f204c162
+  kind: EndpointSlice
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2025-04-01T08:35:45Z"
+    creationTimestamp: "2025-03-31T20:18:02Z"
+    generateName: network-metrics-service-
+    generation: 13
+    labels:
+      endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+      kubernetes.io/service-name: network-metrics-service
+      service: network-metrics-service
+      service.kubernetes.io/headless: ""
+    managedFields:
+    - apiVersion: discovery.k8s.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:addressType: {}
+        f:endpoints: {}
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:endpoints.kubernetes.io/last-change-trigger-time: {}
+          f:generateName: {}
+          f:labels:
+            .: {}
+            f:endpointslice.kubernetes.io/managed-by: {}
+            f:kubernetes.io/service-name: {}
+            f:service: {}
+            f:service.kubernetes.io/headless: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"e16bb550-db8d-40dc-8a67-c2f64147eb30"}: {}
+        f:ports: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-04-01T08:35:45Z"
+    name: network-metrics-service-hncbw
+    namespace: openshift-multus
+    ownerReferences:
+    - apiVersion: v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Service
+      name: network-metrics-service
+      uid: e16bb550-db8d-40dc-8a67-c2f64147eb30
+    resourceVersion: "260066"
+    uid: 1e24725d-a5a0-4804-9e6a-e47a1a81ae7f
+  ports:
+  - name: metrics
+    port: 8443
+    protocol: TCP
+kind: EndpointSliceList
+metadata:
+  resourceVersion: "718220"

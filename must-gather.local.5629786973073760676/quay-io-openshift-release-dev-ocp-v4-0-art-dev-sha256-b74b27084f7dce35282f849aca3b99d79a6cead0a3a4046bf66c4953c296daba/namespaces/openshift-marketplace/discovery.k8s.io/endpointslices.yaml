@@ -1,0 +1,337 @@
+---
+apiVersion: discovery.k8s.io/v1
+items:
+- addressType: IPv4
+  apiVersion: discovery.k8s.io/v1
+  endpoints:
+  - addresses:
+    - 10.129.1.65
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: host-10-13-2-160
+    targetRef:
+      kind: Pod
+      name: certified-operators-wtdgl
+      namespace: openshift-marketplace
+      uid: 35c93efa-0168-4f26-aa4a-c4ae22a2ee95
+  kind: EndpointSlice
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2025-04-02T03:37:48Z"
+    creationTimestamp: "2025-03-31T20:24:25Z"
+    generateName: certified-operators-
+    generation: 24
+    labels:
+      endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+      kubernetes.io/service-name: certified-operators
+      olm.managed: "true"
+      olm.service-spec-hash: 7FOCZ3GVMQ1pwQKJahWmE09uJDRx6ab8xxcEYE
+    managedFields:
+    - apiVersion: discovery.k8s.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:addressType: {}
+        f:endpoints: {}
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:endpoints.kubernetes.io/last-change-trigger-time: {}
+          f:generateName: {}
+          f:labels:
+            .: {}
+            f:endpointslice.kubernetes.io/managed-by: {}
+            f:kubernetes.io/service-name: {}
+            f:olm.managed: {}
+            f:olm.service-spec-hash: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"7eccc13b-3e37-4726-8578-2939a1ed3b58"}: {}
+        f:ports: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-04-02T03:37:48Z"
+    name: certified-operators-l8w6f
+    namespace: openshift-marketplace
+    ownerReferences:
+    - apiVersion: v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Service
+      name: certified-operators
+      uid: 7eccc13b-3e37-4726-8578-2939a1ed3b58
+    resourceVersion: "633849"
+    uid: 59c4a4ce-0ba5-4c68-a17f-bfe6cda731bc
+  ports:
+  - name: grpc
+    port: 50051
+    protocol: TCP
+- addressType: IPv4
+  apiVersion: discovery.k8s.io/v1
+  endpoints:
+  - addresses:
+    - 10.129.1.91
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: host-10-13-2-160
+    targetRef:
+      kind: Pod
+      name: community-operators-tzcx4
+      namespace: openshift-marketplace
+      uid: 953c4081-3694-47e6-800b-e8889ebe5ccb
+  kind: EndpointSlice
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2025-04-02T05:04:13Z"
+    creationTimestamp: "2025-03-31T20:24:25Z"
+    generateName: community-operators-
+    generation: 70
+    labels:
+      endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+      kubernetes.io/service-name: community-operators
+      olm.managed: "true"
+      olm.service-spec-hash: 9y90X0LnOAvWXlE7PZKqH0sBNEP83PNwaUfqVB
+    managedFields:
+    - apiVersion: discovery.k8s.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:addressType: {}
+        f:endpoints: {}
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:endpoints.kubernetes.io/last-change-trigger-time: {}
+          f:generateName: {}
+          f:labels:
+            .: {}
+            f:endpointslice.kubernetes.io/managed-by: {}
+            f:kubernetes.io/service-name: {}
+            f:olm.managed: {}
+            f:olm.service-spec-hash: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"901861de-8f86-4275-a83b-d2bafe368dec"}: {}
+        f:ports: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-04-02T05:04:13Z"
+    name: community-operators-csk6t
+    namespace: openshift-marketplace
+    ownerReferences:
+    - apiVersion: v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Service
+      name: community-operators
+      uid: 901861de-8f86-4275-a83b-d2bafe368dec
+    resourceVersion: "662983"
+    uid: 0de859f9-172b-4db9-8db7-11d83e9bdb3c
+  ports:
+  - name: grpc
+    port: 50051
+    protocol: TCP
+- addressType: IPv4
+  apiVersion: discovery.k8s.io/v1
+  endpoints:
+  - addresses:
+    - 10.128.0.23
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: host-10-13-0-150
+    targetRef:
+      kind: Pod
+      name: marketplace-operator-ddfbd8d76-24wwf
+      namespace: openshift-marketplace
+      uid: 7c8723cf-c636-4411-aeb5-653a95a3c569
+  kind: EndpointSlice
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2025-03-31T20:40:00Z"
+    creationTimestamp: "2025-03-31T14:23:54Z"
+    generateName: marketplace-operator-metrics-
+    generation: 7
+    labels:
+      endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+      kubernetes.io/service-name: marketplace-operator-metrics
+      name: marketplace-operator
+    managedFields:
+    - apiVersion: discovery.k8s.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:addressType: {}
+        f:endpoints: {}
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:endpoints.kubernetes.io/last-change-trigger-time: {}
+          f:generateName: {}
+          f:labels:
+            .: {}
+            f:endpointslice.kubernetes.io/managed-by: {}
+            f:kubernetes.io/service-name: {}
+            f:name: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"d74cfb6c-0f08-4c32-aea6-3d82af17a2b4"}: {}
+        f:ports: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-03-31T20:40:00Z"
+    name: marketplace-operator-metrics-28dvk
+    namespace: openshift-marketplace
+    ownerReferences:
+    - apiVersion: v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Service
+      name: marketplace-operator-metrics
+      uid: d74cfb6c-0f08-4c32-aea6-3d82af17a2b4
+    resourceVersion: "72505"
+    uid: 8b737978-6273-4b06-8b48-65d9d4f46042
+  ports:
+  - name: metrics
+    port: 8383
+    protocol: TCP
+  - name: https-metrics
+    port: 8081
+    protocol: TCP
+- addressType: IPv4
+  apiVersion: discovery.k8s.io/v1
+  endpoints:
+  - addresses:
+    - 10.130.1.230
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: host-10-13-2-89
+    targetRef:
+      kind: Pod
+      name: redhat-marketplace-s7qz6
+      namespace: openshift-marketplace
+      uid: 041dd968-6518-415c-b393-32a9139b25b2
+  kind: EndpointSlice
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2025-04-01T19:01:55Z"
+    creationTimestamp: "2025-03-31T20:24:26Z"
+    generateName: redhat-marketplace-
+    generation: 9
+    labels:
+      endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+      kubernetes.io/service-name: redhat-marketplace
+      olm.managed: "true"
+      olm.service-spec-hash: aUeLNNcZzVZO2rcaZ5Kc8V3jffO0Ss4T6qX6V5
+    managedFields:
+    - apiVersion: discovery.k8s.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:addressType: {}
+        f:endpoints: {}
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:endpoints.kubernetes.io/last-change-trigger-time: {}
+          f:generateName: {}
+          f:labels:
+            .: {}
+            f:endpointslice.kubernetes.io/managed-by: {}
+            f:kubernetes.io/service-name: {}
+            f:olm.managed: {}
+            f:olm.service-spec-hash: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"6f7fa3db-7cb5-44ff-b82c-2ea4a4d1c5bd"}: {}
+        f:ports: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-04-01T19:01:55Z"
+    name: redhat-marketplace-4zn4z
+    namespace: openshift-marketplace
+    ownerReferences:
+    - apiVersion: v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Service
+      name: redhat-marketplace
+      uid: 6f7fa3db-7cb5-44ff-b82c-2ea4a4d1c5bd
+    resourceVersion: "458610"
+    uid: 9ecc39a0-1799-463e-991b-5538e752ad61
+  ports:
+  - name: grpc
+    port: 50051
+    protocol: TCP
+- addressType: IPv4
+  apiVersion: discovery.k8s.io/v1
+  endpoints:
+  - addresses:
+    - 10.129.1.71
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: host-10-13-2-160
+    targetRef:
+      kind: Pod
+      name: redhat-operators-xvnsl
+      namespace: openshift-marketplace
+      uid: 121c2660-5806-4953-8b27-c3e0ad74478c
+  kind: EndpointSlice
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2025-04-02T03:59:31Z"
+    creationTimestamp: "2025-03-31T20:24:27Z"
+    generateName: redhat-operators-
+    generation: 24
+    labels:
+      endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+      kubernetes.io/service-name: redhat-operators
+      olm.managed: "true"
+      olm.service-spec-hash: 97lhyg0LJh9cnJG1O4Cl7ghtE8qwBzbCJInGtY
+    managedFields:
+    - apiVersion: discovery.k8s.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:addressType: {}
+        f:endpoints: {}
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:endpoints.kubernetes.io/last-change-trigger-time: {}
+          f:generateName: {}
+          f:labels:
+            .: {}
+            f:endpointslice.kubernetes.io/managed-by: {}
+            f:kubernetes.io/service-name: {}
+            f:olm.managed: {}
+            f:olm.service-spec-hash: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"620aa3cb-40ee-43b3-ab08-1889166cb4e2"}: {}
+        f:ports: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-04-02T03:59:31Z"
+    name: redhat-operators-552qg
+    namespace: openshift-marketplace
+    ownerReferences:
+    - apiVersion: v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Service
+      name: redhat-operators
+      uid: 620aa3cb-40ee-43b3-ab08-1889166cb4e2
+    resourceVersion: "641088"
+    uid: 699028a1-be8d-47e0-8c4f-7dcab8dd0715
+  ports:
+  - name: grpc
+    port: 50051
+    protocol: TCP
+kind: EndpointSliceList
+metadata:
+  resourceVersion: "718278"

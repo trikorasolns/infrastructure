@@ -1,0 +1,1874 @@
+---
+apiVersion: apiserver.openshift.io/v1
+kind: APIRequestCount
+metadata:
+  creationTimestamp: "2025-03-31T14:31:17Z"
+  generation: 1
+  managedFields:
+  - apiVersion: apiserver.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec:
+        .: {}
+        f:numberOfUsersToReport: {}
+    manager: kube-apiserver
+    operation: Update
+    time: "2025-03-31T14:31:17Z"
+  - apiVersion: apiserver.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        .: {}
+        f:currentHour:
+          .: {}
+          f:byNode: {}
+          f:requestCount: {}
+        f:last24h: {}
+        f:requestCount: {}
+    manager: kube-apiserver
+    operation: Update
+    subresource: status
+    time: "2025-04-02T07:44:53Z"
+  name: machineconfigs.v1.machineconfiguration.openshift.io
+  resourceVersion: "716891"
+  uid: 230f48ba-0ef0-45eb-9c90-a3170486fe65
+spec:
+  numberOfUsersToReport: 10
+status:
+  currentHour:
+    byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 28
+          verb: get
+        - requestCount: 20
+          verb: update
+        - requestCount: 6
+          verb: watch
+        requestCount: 54
+        userAgent: machine-config-controller/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-controller
+      - byVerb:
+        - requestCount: 12
+          verb: watch
+        requestCount: 12
+        userAgent: cluster-node-tuning-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-node-tuning-operator:cluster-node-tuning-operator
+      - byVerb:
+        - requestCount: 11
+          verb: watch
+        requestCount: 11
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      - byVerb:
+        - requestCount: 11
+          verb: watch
+        requestCount: 11
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 5
+          verb: watch
+        requestCount: 5
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 5
+          verb: watch
+        requestCount: 5
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      nodeName: 10.13.0.150
+      requestCount: 98
+    - byUser:
+      - byVerb:
+        - requestCount: 66
+          verb: list
+        requestCount: 66
+        userAgent: Go-http-client/2.0
+        username: system:serviceaccount:openshift-network-operator:cluster-network-operator
+      - byVerb:
+        - requestCount: 22
+          verb: watch
+        requestCount: 22
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 5
+          verb: watch
+        requestCount: 5
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      nodeName: 10.13.2.160
+      requestCount: 93
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 191
+  last24h:
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 48
+          verb: get
+        - requestCount: 40
+          verb: update
+        - requestCount: 8
+          verb: watch
+        requestCount: 96
+        userAgent: machine-config-controller/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-controller
+      - byVerb:
+        - requestCount: 17
+          verb: watch
+        requestCount: 17
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 17
+          verb: watch
+        requestCount: 17
+        userAgent: cluster-node-tuning-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-node-tuning-operator:cluster-node-tuning-operator
+      - byVerb:
+        - requestCount: 16
+          verb: watch
+        requestCount: 16
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      nodeName: 10.13.0.150
+      requestCount: 161
+    - byUser:
+      - byVerb:
+        - requestCount: 96
+          verb: list
+        requestCount: 96
+        userAgent: Go-http-client/2.0
+        username: system:serviceaccount:openshift-network-operator:cluster-network-operator
+      - byVerb:
+        - requestCount: 30
+          verb: watch
+        requestCount: 30
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      nodeName: 10.13.2.160
+      requestCount: 134
+    - byUser:
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        requestCount: 1
+        userAgent: insights-operator/v0.0.0
+        username: system:serviceaccount:openshift-insights:gather
+      nodeName: 10.13.2.89
+      requestCount: 1
+    requestCount: 296
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 52
+          verb: get
+        - requestCount: 40
+          verb: update
+        - requestCount: 8
+          verb: watch
+        requestCount: 100
+        userAgent: machine-config-controller/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-controller
+      - byVerb:
+        - requestCount: 17
+          verb: watch
+        requestCount: 17
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      - byVerb:
+        - requestCount: 16
+          verb: watch
+        requestCount: 16
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 16
+          verb: watch
+        requestCount: 16
+        userAgent: cluster-node-tuning-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-node-tuning-operator:cluster-node-tuning-operator
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      nodeName: 10.13.0.150
+      requestCount: 164
+    - byUser:
+      - byVerb:
+        - requestCount: 96
+          verb: list
+        requestCount: 96
+        userAgent: Go-http-client/2.0
+        username: system:serviceaccount:openshift-network-operator:cluster-network-operator
+      - byVerb:
+        - requestCount: 32
+          verb: watch
+        requestCount: 32
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      nodeName: 10.13.2.160
+      requestCount: 136
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 300
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 52
+          verb: get
+        - requestCount: 40
+          verb: update
+        - requestCount: 7
+          verb: watch
+        requestCount: 99
+        userAgent: machine-config-controller/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-controller
+      - byVerb:
+        - requestCount: 16
+          verb: watch
+        requestCount: 16
+        userAgent: cluster-node-tuning-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-node-tuning-operator:cluster-node-tuning-operator
+      - byVerb:
+        - requestCount: 15
+          verb: watch
+        requestCount: 15
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      - byVerb:
+        - requestCount: 15
+          verb: watch
+        requestCount: 15
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      nodeName: 10.13.0.150
+      requestCount: 161
+    - byUser:
+      - byVerb:
+        - requestCount: 102
+          verb: list
+        requestCount: 102
+        userAgent: Go-http-client/2.0
+        username: system:serviceaccount:openshift-network-operator:cluster-network-operator
+      - byVerb:
+        - requestCount: 34
+          verb: watch
+        requestCount: 34
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        requestCount: 1
+        userAgent: insights-operator/v0.0.0
+        username: system:serviceaccount:openshift-insights:gather
+      nodeName: 10.13.2.160
+      requestCount: 145
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 306
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 48
+          verb: get
+        - requestCount: 40
+          verb: update
+        - requestCount: 9
+          verb: watch
+        requestCount: 97
+        userAgent: machine-config-controller/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-controller
+      - byVerb:
+        - requestCount: 17
+          verb: watch
+        requestCount: 17
+        userAgent: cluster-node-tuning-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-node-tuning-operator:cluster-node-tuning-operator
+      - byVerb:
+        - requestCount: 17
+          verb: watch
+        requestCount: 17
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      - byVerb:
+        - requestCount: 17
+          verb: watch
+        requestCount: 17
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 9
+          verb: watch
+        requestCount: 9
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 9
+          verb: watch
+        requestCount: 9
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      nodeName: 10.13.0.150
+      requestCount: 166
+    - byUser:
+      - byVerb:
+        - requestCount: 96
+          verb: list
+        requestCount: 96
+        userAgent: Go-http-client/2.0
+        username: system:serviceaccount:openshift-network-operator:cluster-network-operator
+      - byVerb:
+        - requestCount: 29
+          verb: watch
+        requestCount: 29
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      nodeName: 10.13.2.160
+      requestCount: 132
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 298
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 46
+          verb: get
+        - requestCount: 34
+          verb: update
+        - requestCount: 7
+          verb: watch
+        requestCount: 87
+        userAgent: machine-config-controller/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-controller
+      - byVerb:
+        - requestCount: 16
+          verb: watch
+        requestCount: 16
+        userAgent: cluster-node-tuning-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-node-tuning-operator:cluster-node-tuning-operator
+      - byVerb:
+        - requestCount: 15
+          verb: watch
+        requestCount: 15
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 15
+          verb: watch
+        requestCount: 15
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        requestCount: 1
+        userAgent: insights-operator/v0.0.0
+        username: system:serviceaccount:openshift-insights:gather
+      nodeName: 10.13.0.150
+      requestCount: 149
+    - byUser:
+      - byVerb:
+        - requestCount: 96
+          verb: list
+        requestCount: 96
+        userAgent: Go-http-client/2.0
+        username: system:serviceaccount:openshift-network-operator:cluster-network-operator
+      - byVerb:
+        - requestCount: 33
+          verb: watch
+        requestCount: 33
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 9
+          verb: watch
+        requestCount: 9
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      nodeName: 10.13.2.160
+      requestCount: 138
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 287
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 66
+          verb: get
+        - requestCount: 54
+          verb: update
+        - requestCount: 9
+          verb: watch
+        requestCount: 129
+        userAgent: machine-config-controller/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-controller
+      - byVerb:
+        - requestCount: 16
+          verb: watch
+        requestCount: 16
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 16
+          verb: watch
+        requestCount: 16
+        userAgent: cluster-node-tuning-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-node-tuning-operator:cluster-node-tuning-operator
+      - byVerb:
+        - requestCount: 15
+          verb: watch
+        requestCount: 15
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      nodeName: 10.13.0.150
+      requestCount: 192
+    - byUser:
+      - byVerb:
+        - requestCount: 96
+          verb: list
+        requestCount: 96
+        userAgent: Go-http-client/2.0
+        username: system:serviceaccount:openshift-network-operator:cluster-network-operator
+      - byVerb:
+        - requestCount: 31
+          verb: watch
+        requestCount: 31
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      nodeName: 10.13.2.160
+      requestCount: 134
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 326
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 48
+          verb: get
+        - requestCount: 40
+          verb: update
+        - requestCount: 8
+          verb: watch
+        requestCount: 96
+        userAgent: machine-config-controller/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-controller
+      - byVerb:
+        - requestCount: 16
+          verb: watch
+        requestCount: 16
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      - byVerb:
+        - requestCount: 16
+          verb: watch
+        requestCount: 16
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 15
+          verb: watch
+        requestCount: 15
+        userAgent: cluster-node-tuning-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-node-tuning-operator:cluster-node-tuning-operator
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      nodeName: 10.13.0.150
+      requestCount: 159
+    - byUser:
+      - byVerb:
+        - requestCount: 96
+          verb: list
+        requestCount: 96
+        userAgent: Go-http-client/2.0
+        username: system:serviceaccount:openshift-network-operator:cluster-network-operator
+      - byVerb:
+        - requestCount: 32
+          verb: watch
+        requestCount: 32
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      nodeName: 10.13.2.160
+      requestCount: 136
+    - byUser:
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        requestCount: 1
+        userAgent: insights-operator/v0.0.0
+        username: system:serviceaccount:openshift-insights:gather
+      nodeName: 10.13.2.89
+      requestCount: 1
+    requestCount: 296
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 28
+          verb: get
+        - requestCount: 20
+          verb: update
+        - requestCount: 6
+          verb: watch
+        requestCount: 54
+        userAgent: machine-config-controller/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-controller
+      - byVerb:
+        - requestCount: 12
+          verb: watch
+        requestCount: 12
+        userAgent: cluster-node-tuning-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-node-tuning-operator:cluster-node-tuning-operator
+      - byVerb:
+        - requestCount: 11
+          verb: watch
+        requestCount: 11
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      - byVerb:
+        - requestCount: 11
+          verb: watch
+        requestCount: 11
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 5
+          verb: watch
+        requestCount: 5
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 5
+          verb: watch
+        requestCount: 5
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      nodeName: 10.13.0.150
+      requestCount: 98
+    - byUser:
+      - byVerb:
+        - requestCount: 66
+          verb: list
+        requestCount: 66
+        userAgent: Go-http-client/2.0
+        username: system:serviceaccount:openshift-network-operator:cluster-network-operator
+      - byVerb:
+        - requestCount: 22
+          verb: watch
+        requestCount: 22
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 5
+          verb: watch
+        requestCount: 5
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      nodeName: 10.13.2.160
+      requestCount: 93
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 191
+  - requestCount: 0
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 42
+          verb: get
+        - requestCount: 1
+          verb: list
+        - requestCount: 34
+          verb: update
+        - requestCount: 8
+          verb: watch
+        requestCount: 85
+        userAgent: machine-config-controller/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-controller
+      - byVerb:
+        - requestCount: 2
+          verb: list
+        - requestCount: 23
+          verb: watch
+        requestCount: 25
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 24
+          verb: list
+        requestCount: 24
+        userAgent: Go-http-client/2.0
+        username: system:serviceaccount:openshift-network-operator:cluster-network-operator
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        - requestCount: 16
+          verb: watch
+        requestCount: 17
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      - byVerb:
+        - requestCount: 2
+          verb: list
+        - requestCount: 10
+          verb: watch
+        requestCount: 12
+        userAgent: cluster-node-tuning-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-node-tuning-operator:cluster-node-tuning-operator
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        - requestCount: 8
+          verb: watch
+        requestCount: 9
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      nodeName: 10.13.0.150
+      requestCount: 179
+    - byUser:
+      - byVerb:
+        - requestCount: 48
+          verb: list
+        requestCount: 48
+        userAgent: Go-http-client/2.0
+        username: system:serviceaccount:openshift-network-operator:cluster-network-operator
+      - byVerb:
+        - requestCount: 6
+          verb: list
+        - requestCount: 29
+          verb: watch
+        requestCount: 35
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 2
+          verb: list
+        - requestCount: 7
+          verb: watch
+        requestCount: 9
+        userAgent: cluster-node-tuning-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-node-tuning-operator:cluster-node-tuning-operator
+      - byVerb:
+        - requestCount: 2
+          verb: list
+        - requestCount: 6
+          verb: watch
+        requestCount: 8
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      - byVerb:
+        - requestCount: 1
+          verb: watch
+        requestCount: 1
+        userAgent: machine-config-controller/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-controller
+      nodeName: 10.13.2.160
+      requestCount: 101
+    - byUser:
+      - byVerb:
+        - requestCount: 3
+          verb: list
+        - requestCount: 10
+          verb: watch
+        requestCount: 13
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 2
+          verb: list
+        - requestCount: 4
+          verb: watch
+        requestCount: 6
+        userAgent: cluster-node-tuning-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-node-tuning-operator:cluster-node-tuning-operator
+      - byVerb:
+        - requestCount: 3
+          verb: watch
+        requestCount: 3
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        - requestCount: 2
+          verb: watch
+        requestCount: 3
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 1
+          verb: watch
+        requestCount: 1
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 1
+          verb: watch
+        requestCount: 1
+        userAgent: machine-config-controller/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-controller
+      nodeName: 10.13.2.89
+      requestCount: 27
+    requestCount: 307
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 52
+          verb: get
+        - requestCount: 40
+          verb: update
+        - requestCount: 8
+          verb: watch
+        requestCount: 100
+        userAgent: machine-config-controller/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-controller
+      - byVerb:
+        - requestCount: 96
+          verb: list
+        requestCount: 96
+        userAgent: Go-http-client/2.0
+        username: system:serviceaccount:openshift-network-operator:cluster-network-operator
+      - byVerb:
+        - requestCount: 16
+          verb: watch
+        requestCount: 16
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        requestCount: 1
+        userAgent: insights-operator/v0.0.0
+        username: system:serviceaccount:openshift-insights:gather
+      nodeName: 10.13.0.150
+      requestCount: 236
+    - byUser:
+      - byVerb:
+        - requestCount: 33
+          verb: watch
+        requestCount: 33
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 17
+          verb: watch
+        requestCount: 17
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      - byVerb:
+        - requestCount: 17
+          verb: watch
+        requestCount: 17
+        userAgent: cluster-node-tuning-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-node-tuning-operator:cluster-node-tuning-operator
+      nodeName: 10.13.2.160
+      requestCount: 67
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 303
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 48
+          verb: get
+        - requestCount: 40
+          verb: update
+        - requestCount: 8
+          verb: watch
+        requestCount: 96
+        userAgent: machine-config-controller/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-controller
+      - byVerb:
+        - requestCount: 90
+          verb: list
+        requestCount: 90
+        userAgent: Go-http-client/2.0
+        username: system:serviceaccount:openshift-network-operator:cluster-network-operator
+      - byVerb:
+        - requestCount: 16
+          verb: watch
+        requestCount: 16
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      nodeName: 10.13.0.150
+      requestCount: 224
+    - byUser:
+      - byVerb:
+        - requestCount: 33
+          verb: watch
+        requestCount: 33
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 17
+          verb: watch
+        requestCount: 17
+        userAgent: cluster-node-tuning-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-node-tuning-operator:cluster-node-tuning-operator
+      - byVerb:
+        - requestCount: 16
+          verb: watch
+        requestCount: 16
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      nodeName: 10.13.2.160
+      requestCount: 66
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 290
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 6
+          verb: list
+        - requestCount: 51
+          verb: watch
+        requestCount: 57
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        - requestCount: 16
+          verb: watch
+        requestCount: 17
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        requestCount: 1
+        userAgent: insights-operator/v0.0.0
+        username: system:serviceaccount:openshift-insights:gather
+      nodeName: 10.13.0.150
+      requestCount: 75
+    - byUser:
+      - byVerb:
+        - requestCount: 52
+          verb: get
+        - requestCount: 1
+          verb: list
+        - requestCount: 40
+          verb: update
+        - requestCount: 8
+          verb: watch
+        requestCount: 101
+        userAgent: machine-config-controller/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-controller
+      - byVerb:
+        - requestCount: 90
+          verb: list
+        requestCount: 90
+        userAgent: Go-http-client/2.0
+        username: system:serviceaccount:openshift-network-operator:cluster-network-operator
+      - byVerb:
+        - requestCount: 2
+          verb: list
+        - requestCount: 16
+          verb: watch
+        requestCount: 18
+        userAgent: cluster-node-tuning-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-node-tuning-operator:cluster-node-tuning-operator
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        - requestCount: 8
+          verb: watch
+        requestCount: 9
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        - requestCount: 8
+          verb: watch
+        requestCount: 9
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        - requestCount: 8
+          verb: watch
+        requestCount: 9
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      - byVerb:
+        - requestCount: 3
+          verb: watch
+        requestCount: 3
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      nodeName: 10.13.2.160
+      requestCount: 239
+    - byUser:
+      - byVerb:
+        - requestCount: 5
+          verb: list
+        - requestCount: 10
+          verb: watch
+        requestCount: 15
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      nodeName: 10.13.2.89
+      requestCount: 15
+    requestCount: 329
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 68
+          verb: get
+        - requestCount: 1
+          verb: list
+        - requestCount: 56
+          verb: update
+        - requestCount: 9
+          verb: watch
+        requestCount: 134
+        userAgent: machine-config-controller/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-controller
+      - byVerb:
+        - requestCount: 2
+          verb: list
+        - requestCount: 18
+          verb: watch
+        requestCount: 20
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      - byVerb:
+        - requestCount: 16
+          verb: watch
+        requestCount: 16
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 15
+          verb: watch
+        requestCount: 15
+        userAgent: cluster-node-tuning-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-node-tuning-operator:cluster-node-tuning-operator
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        - requestCount: 10
+          verb: watch
+        requestCount: 11
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        - requestCount: 9
+          verb: watch
+        requestCount: 10
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      nodeName: 10.13.0.150
+      requestCount: 206
+    - byUser:
+      - byVerb:
+        - requestCount: 96
+          verb: list
+        requestCount: 96
+        userAgent: Go-http-client/2.0
+        username: system:serviceaccount:openshift-network-operator:cluster-network-operator
+      - byVerb:
+        - requestCount: 4
+          verb: list
+        - requestCount: 35
+          verb: watch
+        requestCount: 39
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        - requestCount: 9
+          verb: watch
+        requestCount: 10
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      nodeName: 10.13.2.160
+      requestCount: 145
+    - byUser:
+      - byVerb:
+        - requestCount: 2
+          verb: watch
+        requestCount: 2
+        userAgent: cluster-node-tuning-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-node-tuning-operator:cluster-node-tuning-operator
+      - byVerb:
+        - requestCount: 1
+          verb: watch
+        requestCount: 1
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 1
+          verb: watch
+        requestCount: 1
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      nodeName: 10.13.2.89
+      requestCount: 4
+    requestCount: 355
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 46
+          verb: get
+        - requestCount: 34
+          verb: update
+        - requestCount: 9
+          verb: watch
+        requestCount: 89
+        userAgent: machine-config-controller/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-controller
+      - byVerb:
+        - requestCount: 16
+          verb: watch
+        requestCount: 16
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 16
+          verb: watch
+        requestCount: 16
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      - byVerb:
+        - requestCount: 16
+          verb: watch
+        requestCount: 16
+        userAgent: cluster-node-tuning-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-node-tuning-operator:cluster-node-tuning-operator
+      - byVerb:
+        - requestCount: 9
+          verb: watch
+        requestCount: 9
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      nodeName: 10.13.0.150
+      requestCount: 154
+    - byUser:
+      - byVerb:
+        - requestCount: 96
+          verb: list
+        requestCount: 96
+        userAgent: Go-http-client/2.0
+        username: system:serviceaccount:openshift-network-operator:cluster-network-operator
+      - byVerb:
+        - requestCount: 31
+          verb: watch
+        requestCount: 31
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      nodeName: 10.13.2.160
+      requestCount: 134
+    - byUser:
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        requestCount: 1
+        userAgent: insights-operator/v0.0.0
+        username: system:serviceaccount:openshift-insights:gather
+      nodeName: 10.13.2.89
+      requestCount: 1
+    requestCount: 289
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 48
+          verb: get
+        - requestCount: 40
+          verb: update
+        - requestCount: 7
+          verb: watch
+        requestCount: 95
+        userAgent: machine-config-controller/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-controller
+      - byVerb:
+        - requestCount: 17
+          verb: watch
+        requestCount: 17
+        userAgent: cluster-node-tuning-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-node-tuning-operator:cluster-node-tuning-operator
+      - byVerb:
+        - requestCount: 16
+          verb: watch
+        requestCount: 16
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 16
+          verb: watch
+        requestCount: 16
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      - byVerb:
+        - requestCount: 10
+          verb: watch
+        requestCount: 10
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      nodeName: 10.13.0.150
+      requestCount: 161
+    - byUser:
+      - byVerb:
+        - requestCount: 96
+          verb: list
+        requestCount: 96
+        userAgent: Go-http-client/2.0
+        username: system:serviceaccount:openshift-network-operator:cluster-network-operator
+      - byVerb:
+        - requestCount: 31
+          verb: watch
+        requestCount: 31
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      nodeName: 10.13.2.160
+      requestCount: 135
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 296
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 52
+          verb: get
+        - requestCount: 40
+          verb: update
+        - requestCount: 9
+          verb: watch
+        requestCount: 101
+        userAgent: machine-config-controller/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-controller
+      - byVerb:
+        - requestCount: 16
+          verb: watch
+        requestCount: 16
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 16
+          verb: watch
+        requestCount: 16
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      - byVerb:
+        - requestCount: 15
+          verb: watch
+        requestCount: 15
+        userAgent: cluster-node-tuning-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-node-tuning-operator:cluster-node-tuning-operator
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      nodeName: 10.13.0.150
+      requestCount: 163
+    - byUser:
+      - byVerb:
+        - requestCount: 96
+          verb: list
+        requestCount: 96
+        userAgent: Go-http-client/2.0
+        username: system:serviceaccount:openshift-network-operator:cluster-network-operator
+      - byVerb:
+        - requestCount: 31
+          verb: watch
+        requestCount: 31
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      nodeName: 10.13.2.160
+      requestCount: 135
+    - byUser:
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        requestCount: 1
+        userAgent: insights-operator/v0.0.0
+        username: system:serviceaccount:openshift-insights:gather
+      nodeName: 10.13.2.89
+      requestCount: 1
+    requestCount: 299
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 52
+          verb: get
+        - requestCount: 40
+          verb: update
+        - requestCount: 7
+          verb: watch
+        requestCount: 99
+        userAgent: machine-config-controller/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-controller
+      - byVerb:
+        - requestCount: 16
+          verb: watch
+        requestCount: 16
+        userAgent: cluster-node-tuning-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-node-tuning-operator:cluster-node-tuning-operator
+      - byVerb:
+        - requestCount: 15
+          verb: watch
+        requestCount: 15
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      - byVerb:
+        - requestCount: 15
+          verb: watch
+        requestCount: 15
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 9
+          verb: watch
+        requestCount: 9
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      nodeName: 10.13.0.150
+      requestCount: 162
+    - byUser:
+      - byVerb:
+        - requestCount: 96
+          verb: list
+        requestCount: 96
+        userAgent: Go-http-client/2.0
+        username: system:serviceaccount:openshift-network-operator:cluster-network-operator
+      - byVerb:
+        - requestCount: 33
+          verb: watch
+        requestCount: 33
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 9
+          verb: watch
+        requestCount: 9
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      nodeName: 10.13.2.160
+      requestCount: 138
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 300
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 42
+          verb: get
+        - requestCount: 34
+          verb: update
+        - requestCount: 7
+          verb: watch
+        requestCount: 83
+        userAgent: machine-config-controller/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-controller
+      - byVerb:
+        - requestCount: 17
+          verb: watch
+        requestCount: 17
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      - byVerb:
+        - requestCount: 17
+          verb: watch
+        requestCount: 17
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 16
+          verb: watch
+        requestCount: 16
+        userAgent: cluster-node-tuning-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-node-tuning-operator:cluster-node-tuning-operator
+      - byVerb:
+        - requestCount: 9
+          verb: watch
+        requestCount: 9
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        requestCount: 1
+        userAgent: insights-operator/v0.0.0
+        username: system:serviceaccount:openshift-insights:gather
+      nodeName: 10.13.0.150
+      requestCount: 151
+    - byUser:
+      - byVerb:
+        - requestCount: 96
+          verb: list
+        requestCount: 96
+        userAgent: Go-http-client/2.0
+        username: system:serviceaccount:openshift-network-operator:cluster-network-operator
+      - byVerb:
+        - requestCount: 32
+          verb: watch
+        requestCount: 32
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      nodeName: 10.13.2.160
+      requestCount: 136
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 287
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 52
+          verb: get
+        - requestCount: 40
+          verb: update
+        - requestCount: 9
+          verb: watch
+        requestCount: 101
+        userAgent: machine-config-controller/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-controller
+      - byVerb:
+        - requestCount: 16
+          verb: watch
+        requestCount: 16
+        userAgent: cluster-node-tuning-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-node-tuning-operator:cluster-node-tuning-operator
+      - byVerb:
+        - requestCount: 15
+          verb: watch
+        requestCount: 15
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 14
+          verb: watch
+        requestCount: 14
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      - byVerb:
+        - requestCount: 9
+          verb: watch
+        requestCount: 9
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      nodeName: 10.13.0.150
+      requestCount: 163
+    - byUser:
+      - byVerb:
+        - requestCount: 102
+          verb: list
+        requestCount: 102
+        userAgent: Go-http-client/2.0
+        username: system:serviceaccount:openshift-network-operator:cluster-network-operator
+      - byVerb:
+        - requestCount: 33
+          verb: watch
+        requestCount: 33
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 9
+          verb: watch
+        requestCount: 9
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      nodeName: 10.13.2.160
+      requestCount: 144
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 307
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 52
+          verb: get
+        - requestCount: 40
+          verb: update
+        - requestCount: 8
+          verb: watch
+        requestCount: 100
+        userAgent: machine-config-controller/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-controller
+      - byVerb:
+        - requestCount: 17
+          verb: watch
+        requestCount: 17
+        userAgent: cluster-node-tuning-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-node-tuning-operator:cluster-node-tuning-operator
+      - byVerb:
+        - requestCount: 16
+          verb: watch
+        requestCount: 16
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 16
+          verb: watch
+        requestCount: 16
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        requestCount: 1
+        userAgent: insights-operator/v0.0.0
+        username: system:serviceaccount:openshift-insights:gather
+      nodeName: 10.13.0.150
+      requestCount: 165
+    - byUser:
+      - byVerb:
+        - requestCount: 96
+          verb: list
+        requestCount: 96
+        userAgent: Go-http-client/2.0
+        username: system:serviceaccount:openshift-network-operator:cluster-network-operator
+      - byVerb:
+        - requestCount: 32
+          verb: watch
+        requestCount: 32
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      nodeName: 10.13.2.160
+      requestCount: 136
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 301
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 62
+          verb: get
+        - requestCount: 54
+          verb: update
+        - requestCount: 8
+          verb: watch
+        requestCount: 124
+        userAgent: machine-config-controller/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-controller
+      - byVerb:
+        - requestCount: 17
+          verb: watch
+        requestCount: 17
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      - byVerb:
+        - requestCount: 16
+          verb: watch
+        requestCount: 16
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 15
+          verb: watch
+        requestCount: 15
+        userAgent: cluster-node-tuning-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-node-tuning-operator:cluster-node-tuning-operator
+      - byVerb:
+        - requestCount: 9
+          verb: watch
+        requestCount: 9
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      nodeName: 10.13.0.150
+      requestCount: 188
+    - byUser:
+      - byVerb:
+        - requestCount: 96
+          verb: list
+        requestCount: 96
+        userAgent: Go-http-client/2.0
+        username: system:serviceaccount:openshift-network-operator:cluster-network-operator
+      - byVerb:
+        - requestCount: 33
+          verb: watch
+        requestCount: 33
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      nodeName: 10.13.2.160
+      requestCount: 137
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 325
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 52
+          verb: get
+        - requestCount: 40
+          verb: update
+        - requestCount: 7
+          verb: watch
+        requestCount: 99
+        userAgent: machine-config-controller/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-controller
+      - byVerb:
+        - requestCount: 16
+          verb: watch
+        requestCount: 16
+        userAgent: cluster-node-tuning-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-node-tuning-operator:cluster-node-tuning-operator
+      - byVerb:
+        - requestCount: 15
+          verb: watch
+        requestCount: 15
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 15
+          verb: watch
+        requestCount: 15
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 7
+          verb: watch
+        requestCount: 7
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        requestCount: 1
+        userAgent: insights-operator/v0.0.0
+        username: system:serviceaccount:openshift-insights:gather
+      nodeName: 10.13.0.150
+      requestCount: 161
+    - byUser:
+      - byVerb:
+        - requestCount: 96
+          verb: list
+        requestCount: 96
+        userAgent: Go-http-client/2.0
+        username: system:serviceaccount:openshift-network-operator:cluster-network-operator
+      - byVerb:
+        - requestCount: 31
+          verb: watch
+        requestCount: 31
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 9
+          verb: watch
+        requestCount: 9
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      nodeName: 10.13.2.160
+      requestCount: 136
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 297
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 46
+          verb: get
+        - requestCount: 34
+          verb: update
+        - requestCount: 7
+          verb: watch
+        requestCount: 87
+        userAgent: machine-config-controller/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-controller
+      - byVerb:
+        - requestCount: 18
+          verb: watch
+        requestCount: 18
+        userAgent: cluster-node-tuning-operator/v0.0.0
+        username: system:serviceaccount:openshift-cluster-node-tuning-operator:cluster-node-tuning-operator
+      - byVerb:
+        - requestCount: 17
+          verb: watch
+        requestCount: 17
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      - byVerb:
+        - requestCount: 16
+          verb: watch
+        requestCount: 16
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 9
+          verb: watch
+        requestCount: 9
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:kube-controller-manager
+      nodeName: 10.13.0.150
+      requestCount: 155
+    - byUser:
+      - byVerb:
+        - requestCount: 96
+          verb: list
+        requestCount: 96
+        userAgent: Go-http-client/2.0
+        username: system:serviceaccount:openshift-network-operator:cluster-network-operator
+      - byVerb:
+        - requestCount: 31
+          verb: watch
+        requestCount: 31
+        userAgent: machine-config-daemon/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-daemon
+      - byVerb:
+        - requestCount: 8
+          verb: watch
+        requestCount: 8
+        userAgent: machine-config-server/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-server
+      nodeName: 10.13.2.160
+      requestCount: 135
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 290
+  requestCount: 6875

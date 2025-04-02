@@ -1,0 +1,7 @@
+2025-04-01T12:38:54.004354224Z I0401 12:38:54.004271       1 main.go:150] "Version" version="v1.12.0"
+2025-04-01T12:38:54.004437762Z I0401 12:38:54.004429       1 main.go:151] "Running node-driver-registrar" mode=""
+2025-04-01T12:39:01.247136040Z I0401 12:39:01.247090       1 node_register.go:56] "Starting Registration Server" socketPath="/registration/cinder.csi.openstack.org-reg.sock"
+2025-04-01T12:39:01.247445436Z I0401 12:39:01.247394       1 node_register.go:66] "Registration Server started" socketPath="/registration/cinder.csi.openstack.org-reg.sock"
+2025-04-01T12:39:01.247675912Z I0401 12:39:01.247656       1 node_register.go:96] "Skipping HTTP server"
+2025-04-01T12:39:01.840409218Z I0401 12:39:01.840355       1 main.go:96] "Received GetInfo call" request="&InfoRequest{}"
+2025-04-01T12:39:03.333912449Z I0401 12:39:03.333823       1 main.go:108] "Received NotifyRegistrationStatus call" status="&RegistrationStatus{PluginRegistered:true,Error:,}"

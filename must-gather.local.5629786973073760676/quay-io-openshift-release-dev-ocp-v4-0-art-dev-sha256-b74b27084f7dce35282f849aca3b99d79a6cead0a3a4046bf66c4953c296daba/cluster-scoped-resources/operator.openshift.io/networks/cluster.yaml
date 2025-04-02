@@ -1,0 +1,123 @@
+---
+apiVersion: operator.openshift.io/v1
+kind: Network
+metadata:
+  creationTimestamp: "2025-03-31T20:17:34Z"
+  generation: 95
+  managedFields:
+  - apiVersion: operator.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec:
+        f:clusterNetwork: {}
+        f:defaultNetwork:
+          f:ovnKubernetesConfig:
+            f:egressIPConfig: {}
+            f:gatewayConfig:
+              f:ipv4: {}
+              f:ipv6: {}
+            f:genevePort: {}
+            f:mtu: {}
+            f:policyAuditConfig:
+              f:destination: {}
+              f:maxFileSize: {}
+              f:rateLimit: {}
+              f:syslogFacility: {}
+          f:type: {}
+        f:deployKubeProxy: {}
+        f:disableMultiNetwork: {}
+        f:disableNetworkDiagnostics: {}
+        f:logLevel: {}
+        f:managementState: {}
+        f:observedConfig: {}
+        f:operatorLogLevel: {}
+        f:serviceNetwork: {}
+        f:unsupportedConfigOverrides: {}
+        f:useMultiNetworkPolicy: {}
+      f:status:
+        f:readyReplicas: {}
+        f:version: {}
+    manager: cluster-network-operator/operconfig
+    operation: Apply
+    time: "2025-03-31T20:17:52Z"
+  - apiVersion: operator.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec:
+        f:clusterNetwork: {}
+        f:defaultNetwork:
+          f:type: {}
+        f:disableNetworkDiagnostics: {}
+        f:managementState: {}
+        f:observedConfig: {}
+        f:serviceNetwork: {}
+        f:unsupportedConfigOverrides: {}
+      f:status:
+        f:readyReplicas: {}
+    manager: cluster-network-operator/clusterconfig
+    operation: Apply
+    time: "2025-03-31T20:40:34Z"
+  - apiVersion: operator.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        f:conditions: {}
+        f:version: {}
+    manager: Go-http-client
+    operation: Update
+    time: "2025-04-01T08:36:22Z"
+  name: cluster
+  resourceVersion: "260248"
+  uid: f247aa7f-5271-4e41-99c9-6fc4166400fb
+spec:
+  clusterNetwork:
+  - cidr: 10.128.0.0/14
+    hostPrefix: 23
+  defaultNetwork:
+    ovnKubernetesConfig:
+      egressIPConfig: {}
+      gatewayConfig:
+        ipv4: {}
+        ipv6: {}
+        routingViaHost: false
+      genevePort: 6081
+      ipsecConfig:
+        mode: Disabled
+      mtu: 1400
+      policyAuditConfig:
+        destination: "null"
+        maxFileSize: 50
+        maxLogFiles: 5
+        rateLimit: 20
+        syslogFacility: local0
+    type: OVNKubernetes
+  deployKubeProxy: false
+  disableMultiNetwork: false
+  disableNetworkDiagnostics: false
+  logLevel: Normal
+  managementState: Managed
+  observedConfig: null
+  operatorLogLevel: Normal
+  serviceNetwork:
+  - 172.30.0.0/16
+  unsupportedConfigOverrides: null
+  useMultiNetworkPolicy: false
+status:
+  conditions:
+  - lastTransitionTime: "2025-03-31T20:17:34Z"
+    status: "False"
+    type: ManagementStateDegraded
+  - lastTransitionTime: "2025-03-31T20:18:35Z"
+    status: "False"
+    type: Degraded
+  - lastTransitionTime: "2025-03-31T20:17:34Z"
+    status: "True"
+    type: Upgradeable
+  - lastTransitionTime: "2025-04-01T08:36:22Z"
+    status: "False"
+    type: Progressing
+  - lastTransitionTime: "2025-03-31T20:21:56Z"
+    status: "True"
+    type: Available
+  readyReplicas: 0
+  version: 4.15.46

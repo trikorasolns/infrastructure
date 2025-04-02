@@ -1,0 +1,42 @@
+---
+apiVersion: storage.k8s.io/v1
+kind: CSINode
+metadata:
+  annotations:
+    storage.alpha.kubernetes.io/migrated-plugins: kubernetes.io/aws-ebs,kubernetes.io/azure-disk,kubernetes.io/azure-file,kubernetes.io/cinder,kubernetes.io/gce-pd,kubernetes.io/vsphere-volume
+  creationTimestamp: "2025-04-01T08:33:01Z"
+  managedFields:
+  - apiVersion: storage.k8s.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:storage.alpha.kubernetes.io/migrated-plugins: {}
+        f:ownerReferences:
+          .: {}
+          k:{"uid":"e781f9aa-0145-43cc-b92a-6a9e0adbb53d"}: {}
+      f:spec:
+        f:drivers:
+          k:{"name":"cinder.csi.openstack.org"}:
+            .: {}
+            f:name: {}
+            f:nodeID: {}
+            f:topologyKeys: {}
+    manager: kubelet
+    operation: Update
+    time: "2025-04-01T12:39:03Z"
+  name: host-10-13-2-1
+  ownerReferences:
+  - apiVersion: v1
+    kind: Node
+    name: host-10-13-2-1
+    uid: e781f9aa-0145-43cc-b92a-6a9e0adbb53d
+  resourceVersion: "331763"
+  uid: 931ecb54-3c6e-4bf0-ba41-6f82718cbd07
+spec:
+  drivers:
+  - name: cinder.csi.openstack.org
+    nodeID: 79a971a9-cf0f-47a0-abd3-b8a57705fca4
+    topologyKeys:
+    - topology.cinder.csi.openstack.org/zone

@@ -1,0 +1,396 @@
+2025-03-31T20:32:25.189547577Z I0331 20:32:25.189443       1 main.go:15] Go Version: go1.20.12 X:strictfipsruntime
+2025-03-31T20:32:25.189547577Z I0331 20:32:25.189518       1 main.go:16] Go OS/Arch: linux/amd64
+2025-03-31T20:32:25.189547577Z I0331 20:32:25.189521       1 main.go:17] Version: cluster-autoscaler-operator v4.15.0-202502170147.p0.g8425d88.assembly.stream.el9-dirty
+2025-03-31T20:32:25.189714473Z I0331 20:32:25.189683       1 leaderelection.go:122] The leader election gives 4 retries and allows for 30s of clock skew. The kube-apiserver downtime tolerance is 78s. Worst non-graceful lease acquisition is 2m43s. Worst graceful lease acquisition is {26s}.
+2025-03-31T20:32:35.229365846Z I0331 20:32:35.229329       1 server.go:183] controller-runtime/webhook "msg"="Registering webhook" "path"="/validate-clusterautoscalers"
+2025-03-31T20:32:35.229392425Z I0331 20:32:35.229371       1 server.go:183] controller-runtime/webhook "msg"="Registering webhook" "path"="/validate-machineautoscalers"
+2025-03-31T20:32:35.229489344Z I0331 20:32:35.229477       1 main.go:41] Starting cluster-autoscaler-operator
+2025-03-31T20:32:35.229630561Z I0331 20:32:35.229605       1 server.go:185] controller-runtime/metrics "msg"="Starting metrics server" 
+2025-03-31T20:32:35.229794278Z I0331 20:32:35.229778       1 server.go:224] controller-runtime/metrics "msg"="Serving metrics server" "bindAddress"="127.0.0.1:9191" "secure"=false
+2025-03-31T20:32:35.229829657Z I0331 20:32:35.229819       1 server.go:191] controller-runtime/webhook "msg"="Starting webhook server" 
+2025-03-31T20:32:35.230174891Z I0331 20:32:35.230154       1 certwatcher.go:161] controller-runtime/certwatcher "msg"="Updated current TLS certificate" 
+2025-03-31T20:32:35.230257659Z I0331 20:32:35.230239       1 server.go:242] controller-runtime/webhook "msg"="Serving webhook server" "host"="" "port"=8443
+2025-03-31T20:32:35.230488125Z I0331 20:32:35.230471       1 certwatcher.go:115] controller-runtime/certwatcher "msg"="Starting certificate watcher" 
+2025-03-31T20:32:35.230523684Z I0331 20:32:35.230507       1 leaderelection.go:250] attempting to acquire leader lease openshift-machine-api/cluster-autoscaler-operator-leader...
+2025-03-31T20:32:35.237335113Z I0331 20:32:35.237306       1 leaderelection.go:260] successfully acquired lease openshift-machine-api/cluster-autoscaler-operator-leader
+2025-03-31T20:32:35.237724096Z I0331 20:32:35.237707       1 controller.go:178]  "msg"="Starting EventSource" "controller"="cluster_autoscaler_controller" "source"="kind source: *v1.ClusterAutoscaler"
+2025-03-31T20:32:35.237724096Z I0331 20:32:35.237720       1 controller.go:178]  "msg"="Starting EventSource" "controller"="cluster_autoscaler_controller" "source"="kind source: *v1.Deployment"
+2025-03-31T20:32:35.237733775Z I0331 20:32:35.237729       1 controller.go:178]  "msg"="Starting EventSource" "controller"="cluster_autoscaler_controller" "source"="kind source: *v1.Service"
+2025-03-31T20:32:35.237739965Z I0331 20:32:35.237735       1 controller.go:178]  "msg"="Starting EventSource" "controller"="cluster_autoscaler_controller" "source"="kind source: *v1.ServiceMonitor"
+2025-03-31T20:32:35.237745885Z I0331 20:32:35.237741       1 controller.go:178]  "msg"="Starting EventSource" "controller"="cluster_autoscaler_controller" "source"="kind source: *v1.PrometheusRule"
+2025-03-31T20:32:35.237751785Z I0331 20:32:35.237747       1 controller.go:186]  "msg"="Starting Controller" "controller"="cluster_autoscaler_controller"
+2025-03-31T20:32:35.238271395Z I0331 20:32:35.238238       1 controller.go:178]  "msg"="Starting EventSource" "controller"="machine_autoscaler_controller" "source"="kind source: *v1beta1.MachineAutoscaler"
+2025-03-31T20:32:35.238271395Z I0331 20:32:35.238251       1 controller.go:178]  "msg"="Starting EventSource" "controller"="machine_autoscaler_controller" "source"="kind source: *unstructured.Unstructured"
+2025-03-31T20:32:35.238271395Z I0331 20:32:35.238260       1 controller.go:186]  "msg"="Starting Controller" "controller"="machine_autoscaler_controller"
+2025-03-31T20:32:35.238544410Z I0331 20:32:35.238521       1 status.go:341] Starting status reporter: cluster operator informers
+2025-03-31T20:32:35.341269129Z I0331 20:32:35.339188       1 status.go:352] Starting status reporter: worker
+2025-03-31T20:32:35.349399493Z I0331 20:32:35.346800       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:32:35.349399493Z I0331 20:32:35.346812       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:32:35.359244684Z I0331 20:32:35.359222       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:32:35.359281913Z I0331 20:32:35.359274       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:32:35.364772888Z I0331 20:32:35.364746       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:32:35.364803948Z I0331 20:32:35.364796       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:32:35.370902050Z I0331 20:32:35.370514       1 controller.go:220]  "msg"="Starting workers" "controller"="cluster_autoscaler_controller" "worker count"=1
+2025-03-31T20:32:35.372594398Z I0331 20:32:35.372579       1 controller.go:220]  "msg"="Starting workers" "controller"="machine_autoscaler_controller" "worker count"=1
+2025-03-31T20:32:35.375568381Z I0331 20:32:35.375475       1 webhookconfig.go:72] Webhook configuration status: updated
+2025-03-31T20:32:35.395700075Z I0331 20:32:35.395144       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:32:35.395700075Z I0331 20:32:35.395155       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:32:38.773834540Z I0331 20:32:38.773799       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:32:38.773889859Z I0331 20:32:38.773866       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:32:43.963844721Z I0331 20:32:43.963774       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:32:43.963844721Z I0331 20:32:43.963799       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:32:44.567376552Z I0331 20:32:44.567340       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:32:44.567376552Z I0331 20:32:44.567353       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:32:44.584408525Z I0331 20:32:44.584314       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:32:44.584408525Z I0331 20:32:44.584325       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:32:48.797773255Z I0331 20:32:48.797708       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:32:48.797773255Z I0331 20:32:48.797732       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:32:49.580004816Z I0331 20:32:49.579977       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:32:49.580047326Z I0331 20:32:49.580038       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:32:49.813740042Z I0331 20:32:49.813688       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:32:49.813740042Z I0331 20:32:49.813700       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:32:50.183312921Z I0331 20:32:50.183246       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:32:50.183312921Z I0331 20:32:50.183264       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:32:50.343046247Z I0331 20:32:50.343002       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:32:50.343046247Z I0331 20:32:50.343014       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:32:51.744764382Z I0331 20:32:51.744708       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:32:51.744764382Z I0331 20:32:51.744721       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:32:51.813026223Z I0331 20:32:51.812964       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:32:51.813026223Z I0331 20:32:51.812976       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:32:51.919354852Z I0331 20:32:51.919277       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:32:51.919470680Z I0331 20:32:51.919449       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:32:51.950907197Z I0331 20:32:51.950773       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:32:51.950986775Z I0331 20:32:51.950965       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:32:54.132385512Z I0331 20:32:54.132342       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:32:54.132385512Z I0331 20:32:54.132356       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:32:54.174180431Z I0331 20:32:54.174145       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:32:54.174180431Z I0331 20:32:54.174158       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:32:58.236773029Z I0331 20:32:58.235195       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:32:58.236773029Z I0331 20:32:58.235208       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:32:58.405931919Z I0331 20:32:58.405878       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:32:58.405931919Z I0331 20:32:58.405892       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:32:59.344128656Z I0331 20:32:59.339171       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:32:59.344128656Z I0331 20:32:59.339184       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:32:59.626346508Z I0331 20:32:59.626184       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:32:59.626346508Z I0331 20:32:59.626206       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:00.119540031Z I0331 20:33:00.118762       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:00.119540031Z I0331 20:33:00.118774       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:00.630326278Z I0331 20:33:00.630111       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:00.630326278Z I0331 20:33:00.630124       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:00.704027591Z I0331 20:33:00.703091       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:00.704027591Z I0331 20:33:00.703103       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:01.117919848Z I0331 20:33:01.117158       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:01.117919848Z I0331 20:33:01.117172       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:01.179281697Z I0331 20:33:01.179253       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:01.179324616Z I0331 20:33:01.179316       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:01.193182491Z I0331 20:33:01.193154       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:01.193229960Z I0331 20:33:01.193222       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:02.304782206Z I0331 20:33:02.303841       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:02.304782206Z I0331 20:33:02.303852       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:02.449665030Z I0331 20:33:02.449627       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:02.449805628Z I0331 20:33:02.449777       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:02.823161749Z I0331 20:33:02.823109       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:02.823161749Z I0331 20:33:02.823121       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:03.188589752Z I0331 20:33:03.187131       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:03.188589752Z I0331 20:33:03.187142       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:03.260431620Z I0331 20:33:03.260399       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:03.260474019Z I0331 20:33:03.260466       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:03.383995711Z I0331 20:33:03.383967       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:03.384042110Z I0331 20:33:03.384024       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:03.417493581Z I0331 20:33:03.417466       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:03.417539690Z I0331 20:33:03.417532       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:03.586544564Z I0331 20:33:03.586498       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:03.586585843Z I0331 20:33:03.586578       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:03.688575326Z I0331 20:33:03.685798       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:03.688575326Z I0331 20:33:03.685810       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:03.863525385Z I0331 20:33:03.863496       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:03.863573434Z I0331 20:33:03.863565       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:03.969790766Z I0331 20:33:03.967794       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:03.969790766Z I0331 20:33:03.967811       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:04.117672682Z I0331 20:33:04.117642       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:04.117711012Z I0331 20:33:04.117703       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:04.216799559Z I0331 20:33:04.209378       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:04.216799559Z I0331 20:33:04.209400       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:04.295396859Z I0331 20:33:04.295180       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:04.295396859Z I0331 20:33:04.295193       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:04.361030256Z I0331 20:33:04.359573       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:04.361030256Z I0331 20:33:04.359584       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:04.439928539Z I0331 20:33:04.439519       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:04.439928539Z I0331 20:33:04.439530       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:04.723306269Z I0331 20:33:04.723277       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:04.725372710Z I0331 20:33:04.725354       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:04.818291475Z I0331 20:33:04.818071       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:04.818291475Z I0331 20:33:04.818084       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:05.226778796Z I0331 20:33:05.226436       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:05.226778796Z I0331 20:33:05.226448       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:05.346920162Z I0331 20:33:05.346450       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:05.346920162Z I0331 20:33:05.346467       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:06.034874216Z I0331 20:33:06.034838       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:06.034935196Z I0331 20:33:06.034923       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:06.152828485Z I0331 20:33:06.152578       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:06.152828485Z I0331 20:33:06.152590       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:06.442659641Z I0331 20:33:06.441709       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:06.442659641Z I0331 20:33:06.441723       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:06.448632467Z I0331 20:33:06.448393       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:06.448632467Z I0331 20:33:06.448403       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:06.923556009Z I0331 20:33:06.923043       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:06.923556009Z I0331 20:33:06.923055       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:07.224134089Z I0331 20:33:07.224081       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:07.224134089Z I0331 20:33:07.224094       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:07.454137168Z I0331 20:33:07.454103       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:07.454180267Z I0331 20:33:07.454172       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:07.595394911Z I0331 20:33:07.591313       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:07.595394911Z I0331 20:33:07.591324       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:07.627425320Z I0331 20:33:07.627392       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:07.627471469Z I0331 20:33:07.627463       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:07.792581976Z I0331 20:33:07.792549       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:07.792627245Z I0331 20:33:07.792619       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:07.972789125Z I0331 20:33:07.972757       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:07.972838084Z I0331 20:33:07.972830       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:08.425176408Z I0331 20:33:08.425139       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:08.425223337Z I0331 20:33:08.425215       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:08.822065180Z I0331 20:33:08.821983       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:08.822065180Z I0331 20:33:08.821994       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:10.225954504Z I0331 20:33:10.225914       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:10.225954504Z I0331 20:33:10.225926       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:12.807471835Z I0331 20:33:12.807441       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:12.807524004Z I0331 20:33:12.807516       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:12.816025681Z I0331 20:33:12.816000       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:12.816025681Z I0331 20:33:12.816009       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:13.788730189Z I0331 20:33:13.788548       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:13.788730189Z I0331 20:33:13.788575       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:13.799559782Z I0331 20:33:13.799517       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:13.799733789Z I0331 20:33:13.799630       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:14.791558622Z I0331 20:33:14.791493       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:14.791558622Z I0331 20:33:14.791506       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:14.803470604Z I0331 20:33:14.803426       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:14.803544963Z I0331 20:33:14.803525       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:15.796706699Z I0331 20:33:15.796646       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:15.796706699Z I0331 20:33:15.796670       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:15.806792367Z I0331 20:33:15.806696       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:15.806792367Z I0331 20:33:15.806737       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:16.788915326Z I0331 20:33:16.788710       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:16.788915326Z I0331 20:33:16.788722       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:16.797740497Z I0331 20:33:16.797718       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:16.797794775Z I0331 20:33:16.797786       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:17.795395057Z I0331 20:33:17.795260       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:17.795395057Z I0331 20:33:17.795320       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:17.807250652Z I0331 20:33:17.807189       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:17.807250652Z I0331 20:33:17.807214       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:18.794487671Z I0331 20:33:18.794418       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:18.794487671Z I0331 20:33:18.794443       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:18.807991533Z I0331 20:33:18.807755       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:18.807991533Z I0331 20:33:18.807792       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:19.796194185Z I0331 20:33:19.796123       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:19.796194185Z I0331 20:33:19.796136       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:19.810324775Z I0331 20:33:19.810224       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:19.810324775Z I0331 20:33:19.810246       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:20.345635835Z I0331 20:33:20.345593       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:20.345635835Z I0331 20:33:20.345615       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:20.792769777Z I0331 20:33:20.792715       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:20.792855075Z I0331 20:33:20.792836       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:20.808558886Z I0331 20:33:20.808509       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:20.808558886Z I0331 20:33:20.808551       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:21.792271814Z I0331 20:33:21.792181       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:21.792271814Z I0331 20:33:21.792204       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:21.818515102Z I0331 20:33:21.817764       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:21.818515102Z I0331 20:33:21.817823       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:21.823761822Z I0331 20:33:21.823682       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:21.823761822Z I0331 20:33:21.823704       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:22.792540205Z I0331 20:33:22.792508       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:22.792595054Z I0331 20:33:22.792587       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:22.804668923Z I0331 20:33:22.804644       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:22.804716982Z I0331 20:33:22.804709       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:23.795687331Z I0331 20:33:23.795638       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:23.795687331Z I0331 20:33:23.795661       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:23.804312857Z I0331 20:33:23.804282       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:23.804349326Z I0331 20:33:23.804341       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:24.791194773Z I0331 20:33:24.791129       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:24.791194773Z I0331 20:33:24.791154       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:24.800427637Z I0331 20:33:24.799826       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:24.800427637Z I0331 20:33:24.799846       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:25.797621137Z I0331 20:33:25.797535       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:25.797621137Z I0331 20:33:25.797548       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:25.814108083Z I0331 20:33:25.814048       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:25.814108083Z I0331 20:33:25.814071       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:26.794255389Z I0331 20:33:26.794221       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:26.794297418Z I0331 20:33:26.794289       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:26.807687082Z I0331 20:33:26.807667       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:26.807720562Z I0331 20:33:26.807712       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:27.792194254Z I0331 20:33:27.791844       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:27.792194254Z I0331 20:33:27.791866       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:27.808799028Z I0331 20:33:27.808742       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:27.808799028Z I0331 20:33:27.808764       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:27.854827948Z I0331 20:33:27.854779       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:27.854985496Z I0331 20:33:27.854964       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:27.888492975Z I0331 20:33:27.888448       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:27.888570805Z I0331 20:33:27.888552       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:28.792775969Z I0331 20:33:28.792703       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:28.792775969Z I0331 20:33:28.792723       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:28.810490552Z I0331 20:33:28.810425       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:28.810490552Z I0331 20:33:28.810450       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:28.844391415Z I0331 20:33:28.844338       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:28.844391415Z I0331 20:33:28.844363       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:29.890509609Z I0331 20:33:29.890467       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:29.890613868Z I0331 20:33:29.890597       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:30.435981235Z I0331 20:33:30.435922       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:30.435981235Z I0331 20:33:30.435945       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:35.346923177Z I0331 20:33:35.346847       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:35.346981956Z I0331 20:33:35.346973       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:36.641471341Z I0331 20:33:36.641410       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:36.641559669Z I0331 20:33:36.641540       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:37.534416900Z I0331 20:33:37.534358       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:37.534416900Z I0331 20:33:37.534381       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:48.843992210Z I0331 20:33:48.843866       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:48.843992210Z I0331 20:33:48.843942       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:33:50.351337639Z I0331 20:33:50.349635       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:33:50.351337639Z I0331 20:33:50.349656       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:34:02.441395287Z I0331 20:34:02.441367       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:34:02.441441666Z I0331 20:34:02.441433       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:34:05.354062635Z I0331 20:34:05.354020       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:34:05.354133413Z I0331 20:34:05.354118       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:34:05.430081783Z I0331 20:34:05.430029       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:34:05.430081783Z I0331 20:34:05.430043       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:34:08.793161800Z I0331 20:34:08.793123       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:34:08.793161800Z I0331 20:34:08.793135       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:34:12.035123840Z I0331 20:34:12.035081       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:34:12.035123840Z I0331 20:34:12.035101       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:34:14.681100707Z I0331 20:34:14.681054       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:34:14.681100707Z I0331 20:34:14.681069       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:34:17.240356693Z I0331 20:34:17.240060       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:34:17.240356693Z I0331 20:34:17.240072       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:34:17.657748403Z I0331 20:34:17.657721       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:34:17.657802892Z I0331 20:34:17.657794       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:34:19.849662931Z I0331 20:34:19.849634       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:34:19.849702660Z I0331 20:34:19.849694       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:34:19.885061475Z I0331 20:34:19.885037       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:34:19.885109684Z I0331 20:34:19.885102       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:34:20.344447143Z I0331 20:34:20.344281       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:34:20.344447143Z I0331 20:34:20.344296       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:34:20.424306268Z I0331 20:34:20.424251       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:34:20.424385358Z I0331 20:34:20.424369       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:34:21.062224539Z I0331 20:34:21.062170       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:34:21.062287668Z I0331 20:34:21.062272       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:34:27.896753704Z I0331 20:34:27.896715       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:34:27.896793563Z I0331 20:34:27.896785       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:34:28.675797479Z I0331 20:34:28.675736       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:34:28.675797479Z I0331 20:34:28.675756       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:34:35.350849889Z I0331 20:34:35.346759       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:34:35.350849889Z I0331 20:34:35.346792       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:34:35.637038805Z I0331 20:34:35.636627       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:34:35.637038805Z I0331 20:34:35.636640       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:34:37.098542109Z I0331 20:34:37.098505       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:34:37.098542109Z I0331 20:34:37.098519       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:34:37.121593899Z I0331 20:34:37.121550       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:34:37.121593899Z I0331 20:34:37.121578       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:34:50.345364761Z I0331 20:34:50.345128       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:34:50.345364761Z I0331 20:34:50.345150       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:34:52.018623533Z I0331 20:34:52.018595       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:34:52.018681022Z I0331 20:34:52.018672       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:34:52.040732801Z I0331 20:34:52.040702       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:34:52.040774921Z I0331 20:34:52.040767       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:34:58.290727588Z I0331 20:34:58.290666       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:34:58.290727588Z I0331 20:34:58.290680       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:34:58.320681866Z I0331 20:34:58.320649       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:34:58.320681866Z I0331 20:34:58.320669       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:34:59.060951781Z I0331 20:34:59.058934       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:34:59.060951781Z I0331 20:34:59.058958       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:34:59.766737856Z I0331 20:34:59.766704       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:34:59.766833873Z I0331 20:34:59.766807       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:35:05.347940999Z I0331 20:35:05.347357       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:35:05.347940999Z I0331 20:35:05.347377       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:35:08.664389728Z I0331 20:35:08.664337       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:35:08.664389728Z I0331 20:35:08.664356       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:35:13.904859266Z I0331 20:35:13.904756       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:35:13.904859266Z I0331 20:35:13.904784       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:35:16.290685813Z I0331 20:35:16.290642       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:35:16.290685813Z I0331 20:35:16.290668       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:35:19.887109732Z I0331 20:35:19.886867       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:35:19.887109732Z I0331 20:35:19.886892       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:35:19.944548674Z I0331 20:35:19.944520       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:35:19.944601463Z I0331 20:35:19.944593       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:35:20.344732375Z I0331 20:35:20.344687       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:35:20.344732375Z I0331 20:35:20.344709       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:35:21.194191063Z I0331 20:35:21.194162       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:35:21.194235762Z I0331 20:35:21.194227       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:35:22.049288336Z I0331 20:35:22.049259       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:35:22.049333685Z I0331 20:35:22.049325       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:35:22.087239684Z I0331 20:35:22.087047       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:35:22.087239684Z I0331 20:35:22.087059       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:35:23.478135852Z I0331 20:35:23.476108       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:35:23.478135852Z I0331 20:35:23.476131       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:35:26.010813924Z I0331 20:35:26.010748       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:35:26.010813924Z I0331 20:35:26.010771       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:35:31.042492659Z I0331 20:35:31.042091       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:35:31.042492659Z I0331 20:35:31.042103       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:35:31.047548304Z I0331 20:35:31.047522       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:35:31.047593893Z I0331 20:35:31.047586       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:35:35.343955637Z I0331 20:35:35.343903       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:35:35.343955637Z I0331 20:35:35.343923       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:35:45.201805033Z I0331 20:35:45.201628       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:35:45.201805033Z I0331 20:35:45.201655       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:35:48.568504824Z I0331 20:35:48.568010       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:35:48.568504824Z I0331 20:35:48.568022       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:35:48.986602158Z I0331 20:35:48.986542       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:35:48.986602158Z I0331 20:35:48.986557       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:35:49.369753678Z I0331 20:35:49.369683       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:35:49.369790827Z I0331 20:35:49.369782       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:35:49.776430285Z I0331 20:35:49.774784       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:35:49.776430285Z I0331 20:35:49.774797       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:35:50.346112595Z I0331 20:35:50.346015       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:35:50.346112595Z I0331 20:35:50.346041       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:35:51.767925812Z I0331 20:35:51.767434       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:35:51.767925812Z I0331 20:35:51.767458       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:35:53.778936314Z I0331 20:35:53.778749       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:35:53.778936314Z I0331 20:35:53.778770       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:35:56.949615423Z I0331 20:35:56.949504       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:35:56.949615423Z I0331 20:35:56.949516       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:36:01.550323176Z I0331 20:36:01.550193       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:36:01.550323176Z I0331 20:36:01.550206       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:36:05.342918203Z I0331 20:36:05.342889       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:36:05.342962772Z I0331 20:36:05.342947       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:36:20.343519492Z I0331 20:36:20.343482       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:36:20.343577910Z I0331 20:36:20.343569       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:36:24.161927185Z I0331 20:36:24.161771       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:36:24.161927185Z I0331 20:36:24.161794       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:36:25.075160157Z I0331 20:36:25.074898       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:36:25.075160157Z I0331 20:36:25.074916       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:36:35.343733784Z I0331 20:36:35.343677       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:36:35.343733784Z I0331 20:36:35.343695       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:36:37.027515615Z I0331 20:36:37.026577       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:36:37.027515615Z I0331 20:36:37.026590       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:36:37.040954183Z I0331 20:36:37.040315       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:36:37.040954183Z I0331 20:36:37.040326       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:36:43.087150261Z I0331 20:36:43.086927       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:36:43.087195840Z I0331 20:36:43.087185       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:36:50.342820103Z I0331 20:36:50.342783       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:36:50.342865992Z I0331 20:36:50.342858       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:36:54.381246697Z I0331 20:36:54.381173       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:36:54.381246697Z I0331 20:36:54.381184       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:37:05.346445834Z I0331 20:37:05.346372       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:37:05.346445834Z I0331 20:37:05.346386       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:37:07.483401642Z I0331 20:37:07.482041       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:37:07.483401642Z I0331 20:37:07.482053       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:37:20.344732911Z I0331 20:37:20.344697       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:37:20.344732911Z I0331 20:37:20.344714       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:37:22.007186459Z I0331 20:37:22.007126       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:37:22.007186459Z I0331 20:37:22.007140       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:37:22.036518469Z I0331 20:37:22.036478       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:37:22.036518469Z I0331 20:37:22.036491       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:37:22.538899555Z I0331 20:37:22.538833       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:37:22.538953074Z I0331 20:37:22.538941       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:37:35.346790620Z I0331 20:37:35.346726       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:37:35.346790620Z I0331 20:37:35.346744       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:37:50.343783015Z I0331 20:37:50.343719       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:37:50.343783015Z I0331 20:37:50.343734       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:39:05.344692212Z E0331 20:39:05.344611       1 status.go:426] failed to get dependency machine-api status: Get "https://172.30.0.1:443/apis/config.openshift.io/v1/clusteroperators/machine-api": stream error: stream ID 191; INTERNAL_ERROR; received from peer
+2025-03-31T20:39:05.344692212Z W0331 20:39:05.344659       1 status.go:271] Operator status degraded: error checking machine-api status: Get "https://172.30.0.1:443/apis/config.openshift.io/v1/clusteroperators/machine-api": stream error: stream ID 191; INTERNAL_ERROR; received from peer
+2025-03-31T20:39:13.377769016Z E0331 20:39:13.377272       1 leaderelection.go:332] error retrieving resource lock openshift-machine-api/cluster-autoscaler-operator-leader: the server was unable to return a response in the time allotted, but may still be processing the request (get leases.coordination.k8s.io cluster-autoscaler-operator-leader)
+2025-03-31T20:40:00.376297136Z E0331 20:40:00.376210       1 leaderelection.go:332] error retrieving resource lock openshift-machine-api/cluster-autoscaler-operator-leader: Get "https://172.30.0.1:443/apis/coordination.k8s.io/v1/namespaces/openshift-machine-api/leases/cluster-autoscaler-operator-leader": context deadline exceeded
+2025-03-31T20:40:00.376297136Z I0331 20:40:00.376255       1 leaderelection.go:285] failed to renew lease openshift-machine-api/cluster-autoscaler-operator-leader: timed out waiting for the condition
+2025-03-31T20:40:05.347906198Z E0331 20:40:05.347560       1 status.go:311] status reporting failed: Get "https://172.30.0.1:443/apis/config.openshift.io/v1/clusteroperators/cluster-autoscaler": stream error: stream ID 195; INTERNAL_ERROR; received from peer
+2025-03-31T20:40:05.372967570Z I0331 20:40:05.372939       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:40:05.372967570Z I0331 20:40:05.372951       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:40:05.379590614Z I0331 20:40:05.379557       1 status.go:450] No ClusterAutoscaler. Reporting available.
+2025-03-31T20:40:05.379590614Z I0331 20:40:05.379569       1 status.go:244] Operator status available: at version 4.15.46
+2025-03-31T20:40:05.383064978Z F0331 20:40:05.383048       1 main.go:43] Failed to start operator: leader election lost

@@ -1,0 +1,146 @@
+Mar 31 15:51:12.148838 host-10-13-2-160 systemd[1]: Starting Open vSwitch Database Unit...
+Mar 31 15:51:12.220971 host-10-13-2-160 chown[1737]: /usr/bin/chown: cannot access '/run/openvswitch': No such file or directory
+Mar 31 15:51:12.389401 host-10-13-2-160 ovs-ctl[1763]: /etc/openvswitch/conf.db does not exist ... (warning).
+Mar 31 15:51:12.417210 host-10-13-2-160 ovs-ctl[1763]: Creating empty database /etc/openvswitch/conf.db.
+Mar 31 15:51:12.460104 host-10-13-2-160 ovs-ctl[1832]: 2025-03-31T15:51:12Z|00001|dns_resolve|WARN|Failed to read /etc/resolv.conf: No such file or directory
+Mar 31 15:51:12.460407 host-10-13-2-160 ovsdb-server[1832]: ovs|00001|dns_resolve|WARN|Failed to read /etc/resolv.conf: No such file or directory
+Mar 31 15:51:12.471429 host-10-13-2-160 ovs-ctl[1763]: Starting ovsdb-server.
+Mar 31 15:51:12.474499 host-10-13-2-160 ovs-vsctl[1834]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait -- init -- set Open_vSwitch . db-version=8.3.1
+Mar 31 15:51:12.527938 host-10-13-2-160 ovs-ctl[1836]: 2025-03-31T15:51:12Z|00001|dns_resolve|WARN|Failed to read /etc/resolv.conf: No such file or directory
+Mar 31 15:51:12.527846 host-10-13-2-160 ovs-vswitchd[1836]: ovs|00001|dns_resolve|WARN|Failed to read /etc/resolv.conf: No such file or directory
+Mar 31 15:51:12.570564 host-10-13-2-160 ovs-vsctl[1851]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait set Open_vSwitch . ovs-version=3.1.5 "external-ids:system-id=\"9b47b7e6-3012-4665-bf7e-cabea3c2f339\"" "external-ids:rundir=\"/var/run/openvswitch\"" "system-type=\"rhcos\"" "system-version=\"4.15\""
+Mar 31 15:51:12.575331 host-10-13-2-160 ovs-ctl[1763]: Configuring Open vSwitch system IDs.
+Mar 31 15:51:12.580774 host-10-13-2-160 ovs-ctl[1763]: Enabling remote OVSDB managers.
+Mar 31 15:51:12.581424 host-10-13-2-160 systemd[1]: Started Open vSwitch Database Unit.
+Mar 31 15:51:12.582292 host-10-13-2-160 ovs-vsctl[1857]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait add Open_vSwitch . external-ids hostname=host-10-13-2-160
+Mar 31 15:51:57.544753 host-10-13-2-89 systemd[1]: Starting Open vSwitch Database Unit...
+Mar 31 15:51:57.593063 host-10-13-2-89 chown[1720]: /usr/bin/chown: cannot access '/run/openvswitch': No such file or directory
+Mar 31 15:51:57.833043 host-10-13-2-89 ovs-ctl[1748]: /etc/openvswitch/conf.db does not exist ... (warning).
+Mar 31 15:51:57.890281 host-10-13-2-89 ovs-ctl[1748]: Creating empty database /etc/openvswitch/conf.db.
+Mar 31 15:51:57.906931 host-10-13-2-89 ovs-ctl[1828]: 2025-03-31T15:51:57Z|00001|dns_resolve|WARN|Failed to read /etc/resolv.conf: No such file or directory
+Mar 31 15:51:57.907227 host-10-13-2-89 ovsdb-server[1828]: ovs|00001|dns_resolve|WARN|Failed to read /etc/resolv.conf: No such file or directory
+Mar 31 15:51:57.925840 host-10-13-2-89 ovs-ctl[1748]: Starting ovsdb-server.
+Mar 31 15:51:57.929126 host-10-13-2-89 ovs-vsctl[1831]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait -- init -- set Open_vSwitch . db-version=8.3.1
+Mar 31 15:51:58.044467 host-10-13-2-89 ovs-ctl[1833]: 2025-03-31T15:51:58Z|00001|dns_resolve|WARN|Failed to read /etc/resolv.conf: No such file or directory
+Mar 31 15:51:58.044347 host-10-13-2-89 ovs-vswitchd[1833]: ovs|00001|dns_resolve|WARN|Failed to read /etc/resolv.conf: No such file or directory
+Mar 31 15:51:58.066551 host-10-13-2-89 ovs-vsctl[1848]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait set Open_vSwitch . ovs-version=3.1.5 "external-ids:system-id=\"7ca80c86-7922-49cf-8e97-726796512db9\"" "external-ids:rundir=\"/var/run/openvswitch\"" "system-type=\"rhcos\"" "system-version=\"4.15\""
+Mar 31 15:51:58.068397 host-10-13-2-89 ovs-ctl[1748]: Configuring Open vSwitch system IDs.
+Mar 31 15:51:58.074906 host-10-13-2-89 ovs-ctl[1748]: Enabling remote OVSDB managers.
+Mar 31 15:51:58.075935 host-10-13-2-89 systemd[1]: Started Open vSwitch Database Unit.
+Mar 31 15:51:58.078560 host-10-13-2-89 ovs-vsctl[1853]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait add Open_vSwitch . external-ids hostname=host-10-13-2-89
+Mar 31 15:54:22.602520 host-10-13-0-150 systemd[1]: Starting Open vSwitch Database Unit...
+Mar 31 15:54:22.626859 host-10-13-0-150 chown[1700]: /usr/bin/chown: cannot access '/run/openvswitch': No such file or directory
+Mar 31 15:54:22.811006 host-10-13-0-150 ovs-ctl[1734]: /etc/openvswitch/conf.db does not exist ... (warning).
+Mar 31 15:54:22.859165 host-10-13-0-150 ovs-ctl[1734]: Creating empty database /etc/openvswitch/conf.db.
+Mar 31 15:54:22.876640 host-10-13-0-150 ovs-ctl[1794]: 2025-03-31T15:54:22Z|00001|dns_resolve|WARN|Failed to read /etc/resolv.conf: No such file or directory
+Mar 31 15:54:22.876923 host-10-13-0-150 ovsdb-server[1794]: ovs|00001|dns_resolve|WARN|Failed to read /etc/resolv.conf: No such file or directory
+Mar 31 15:54:22.898187 host-10-13-0-150 ovs-ctl[1734]: Starting ovsdb-server.
+Mar 31 15:54:22.901321 host-10-13-0-150 ovs-vsctl[1800]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait -- init -- set Open_vSwitch . db-version=8.3.1
+Mar 31 15:54:23.065842 host-10-13-0-150 ovs-ctl[1802]: 2025-03-31T15:54:23Z|00001|dns_resolve|WARN|Failed to read /etc/resolv.conf: No such file or directory
+Mar 31 15:54:23.065842 host-10-13-0-150 ovs-vswitchd[1802]: ovs|00001|dns_resolve|WARN|Failed to read /etc/resolv.conf: No such file or directory
+Mar 31 15:54:23.082994 host-10-13-0-150 ovs-vsctl[1851]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait set Open_vSwitch . ovs-version=3.1.5 "external-ids:system-id=\"8025bc5c-d535-434b-a67b-4c4780376ca6\"" "external-ids:rundir=\"/var/run/openvswitch\"" "system-type=\"rhcos\"" "system-version=\"4.15\""
+Mar 31 15:54:23.085007 host-10-13-0-150 ovs-ctl[1734]: Configuring Open vSwitch system IDs.
+Mar 31 15:54:23.090016 host-10-13-0-150 ovs-ctl[1734]: Enabling remote OVSDB managers.
+Mar 31 15:54:23.090562 host-10-13-0-150 systemd[1]: Started Open vSwitch Database Unit.
+Mar 31 15:54:23.090664 host-10-13-0-150 ovs-vsctl[1857]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait add Open_vSwitch . external-ids hostname=host-10-13-0-150
+Mar 31 15:54:39.523026 host-10-13-2-89 systemd[1]: Stopping Open vSwitch Database Unit...
+Mar 31 15:54:39.564905 host-10-13-2-89 ovs-ctl[2584]: Exiting ovsdb-server (1829).
+Mar 31 15:54:39.668783 host-10-13-2-89 systemd[1]: ovsdb-server.service: Deactivated successfully.
+Mar 31 15:54:39.669144 host-10-13-2-89 systemd[1]: Stopped Open vSwitch Database Unit.
+-- Boot 138da946148b4f59aca3c6f86f5c49d5 --
+Mar 31 15:54:41.048199 host-10-13-2-160 systemd[1]: Stopping Open vSwitch Database Unit...
+Mar 31 15:54:41.092084 host-10-13-2-160 ovs-ctl[2589]: Exiting ovsdb-server (1833).
+Mar 31 15:54:41.093429 host-10-13-2-160 systemd[1]: ovsdb-server.service: Deactivated successfully.
+Mar 31 15:54:41.093824 host-10-13-2-160 systemd[1]: Stopped Open vSwitch Database Unit.
+-- Boot 762ad42d572d4db3980ab2a4323135fc --
+Mar 31 15:54:49.403135 localhost systemd[1]: Starting Open vSwitch Database Unit...
+Mar 31 15:54:49.455049 localhost chown[912]: /usr/bin/chown: cannot access '/run/openvswitch': No such file or directory
+Mar 31 15:54:49.591926 localhost ovs-ctl[924]: Starting ovsdb-server.
+Mar 31 15:54:49.595281 localhost ovs-vsctl[989]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait -- init -- set Open_vSwitch . db-version=8.3.1
+Mar 31 15:54:49.653754 localhost ovs-vsctl[1006]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait set Open_vSwitch . ovs-version=3.1.6-137.el9fdp "external-ids:system-id=\"7ca80c86-7922-49cf-8e97-726796512db9\"" "external-ids:rundir=\"/var/run/openvswitch\"" "system-type=\"rhcos\"" "system-version=\"4.15\""
+Mar 31 15:54:49.656657 localhost ovs-ctl[924]: Configuring Open vSwitch system IDs.
+Mar 31 15:54:49.662383 localhost ovs-vsctl[1012]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait add Open_vSwitch . external-ids hostname=localhost
+Mar 31 15:54:49.663382 localhost ovs-ctl[924]: Enabling remote OVSDB managers.
+Mar 31 15:54:49.665123 localhost systemd[1]: Started Open vSwitch Database Unit.
+Mar 31 15:54:51.603728 localhost systemd[1]: Starting Open vSwitch Database Unit...
+Mar 31 15:54:51.627603 localhost chown[906]: /usr/bin/chown: cannot access '/run/openvswitch': No such file or directory
+Mar 31 15:54:51.774676 localhost ovs-ctl[919]: Starting ovsdb-server.
+Mar 31 15:54:51.778391 localhost ovs-vsctl[988]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait -- init -- set Open_vSwitch . db-version=8.3.1
+Mar 31 15:54:51.846957 localhost ovs-vsctl[1003]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait set Open_vSwitch . ovs-version=3.1.6-137.el9fdp "external-ids:system-id=\"9b47b7e6-3012-4665-bf7e-cabea3c2f339\"" "external-ids:rundir=\"/var/run/openvswitch\"" "system-type=\"rhcos\"" "system-version=\"4.15\""
+Mar 31 15:54:51.849576 localhost ovs-ctl[919]: Configuring Open vSwitch system IDs.
+Mar 31 15:54:51.853997 localhost ovs-vsctl[1008]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait add Open_vSwitch . external-ids hostname=localhost
+Mar 31 15:54:51.854330 localhost ovs-ctl[919]: Enabling remote OVSDB managers.
+Mar 31 15:54:51.854973 localhost systemd[1]: Started Open vSwitch Database Unit.
+Mar 31 15:56:55.357988 host-10-13-0-150 systemd[1]: Stopping Open vSwitch Database Unit...
+Mar 31 15:56:55.396310 host-10-13-0-150 ovs-ctl[2566]: Exiting ovsdb-server (1798).
+Mar 31 15:56:55.500544 host-10-13-0-150 systemd[1]: ovsdb-server.service: Deactivated successfully.
+Mar 31 15:56:55.500893 host-10-13-0-150 systemd[1]: Stopped Open vSwitch Database Unit.
+-- Boot 9da8fa7ea7594179a0c477997019219e --
+Mar 31 15:57:05.594685 localhost systemd[1]: Starting Open vSwitch Database Unit...
+Mar 31 15:57:05.668106 localhost chown[907]: /usr/bin/chown: cannot access '/run/openvswitch': No such file or directory
+Mar 31 15:57:05.795288 localhost ovs-ctl[934]: Starting ovsdb-server.
+Mar 31 15:57:05.798661 localhost ovs-vsctl[993]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait -- init -- set Open_vSwitch . db-version=8.3.1
+Mar 31 15:57:05.852714 localhost ovs-vsctl[1004]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait set Open_vSwitch . ovs-version=3.1.6-137.el9fdp "external-ids:system-id=\"8025bc5c-d535-434b-a67b-4c4780376ca6\"" "external-ids:rundir=\"/var/run/openvswitch\"" "system-type=\"rhcos\"" "system-version=\"4.15\""
+Mar 31 15:57:05.855301 localhost ovs-ctl[934]: Configuring Open vSwitch system IDs.
+Mar 31 15:57:05.859791 localhost ovs-vsctl[1009]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait add Open_vSwitch . external-ids hostname=localhost
+Mar 31 15:57:05.860690 localhost ovs-ctl[934]: Enabling remote OVSDB managers.
+Mar 31 15:57:05.861581 localhost systemd[1]: Started Open vSwitch Database Unit.
+Mar 31 20:01:19.625504 host-10-13-2-160 systemd[1]: Stopping Open vSwitch Database Unit...
+Mar 31 20:01:19.670598 host-10-13-2-160 ovs-ctl[6641]: Exiting ovsdb-server (987).
+Mar 31 20:01:19.773916 host-10-13-2-160 systemd[1]: ovsdb-server.service: Deactivated successfully.
+Mar 31 20:01:19.774317 host-10-13-2-160 systemd[1]: Stopped Open vSwitch Database Unit.
+Mar 31 20:01:19.774729 host-10-13-2-160 systemd[1]: ovsdb-server.service: Consumed 3.052s CPU time.
+-- Boot ffb4b7ae323840d9b506a09fbdc6a05e --
+Mar 31 20:01:26.887563 host-10-13-2-160 systemd[1]: Starting Open vSwitch Database Unit...
+Mar 31 20:01:26.927227 host-10-13-2-160 chown[902]: /usr/bin/chown: cannot access '/run/openvswitch': No such file or directory
+Mar 31 20:01:27.108345 host-10-13-2-160 ovs-ctl[920]: Starting ovsdb-server.
+Mar 31 20:01:27.111390 host-10-13-2-160 ovs-vsctl[984]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait -- init -- set Open_vSwitch . db-version=8.3.1
+Mar 31 20:01:27.168663 host-10-13-2-160 ovs-vsctl[994]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait set Open_vSwitch . ovs-version=3.1.6-137.el9fdp "external-ids:system-id=\"9b47b7e6-3012-4665-bf7e-cabea3c2f339\"" "external-ids:rundir=\"/var/run/openvswitch\"" "system-type=\"rhcos\"" "system-version=\"4.15\""
+Mar 31 20:01:27.170808 host-10-13-2-160 ovs-ctl[920]: Configuring Open vSwitch system IDs.
+Mar 31 20:01:27.175677 host-10-13-2-160 ovs-vsctl[1000]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait add Open_vSwitch . external-ids hostname=host-10-13-2-160
+Mar 31 20:01:27.176387 host-10-13-2-160 ovs-ctl[920]: Enabling remote OVSDB managers.
+Mar 31 20:01:27.176967 host-10-13-2-160 systemd[1]: Started Open vSwitch Database Unit.
+Mar 31 20:07:55.272332 host-10-13-0-150 systemd[1]: Stopping Open vSwitch Database Unit...
+Mar 31 20:07:55.310997 host-10-13-0-150 ovs-ctl[6653]: Exiting ovsdb-server (989).
+Mar 31 20:07:55.414763 host-10-13-0-150 systemd[1]: ovsdb-server.service: Deactivated successfully.
+Mar 31 20:07:55.415186 host-10-13-0-150 systemd[1]: Stopped Open vSwitch Database Unit.
+Mar 31 20:07:55.415558 host-10-13-0-150 systemd[1]: ovsdb-server.service: Consumed 3.122s CPU time.
+-- Boot fd6470c57e2e49328484d9abb99803e8 --
+Mar 31 20:08:03.617453 host-10-13-0-150 systemd[1]: Starting Open vSwitch Database Unit...
+Mar 31 20:08:03.650771 host-10-13-0-150 chown[902]: /usr/bin/chown: cannot access '/run/openvswitch': No such file or directory
+Mar 31 20:08:03.796982 host-10-13-0-150 ovs-ctl[927]: Starting ovsdb-server.
+Mar 31 20:08:03.799632 host-10-13-0-150 ovs-vsctl[977]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait -- init -- set Open_vSwitch . db-version=8.3.1
+Mar 31 20:08:03.866522 host-10-13-0-150 ovs-vsctl[991]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait set Open_vSwitch . ovs-version=3.1.6-137.el9fdp "external-ids:system-id=\"8025bc5c-d535-434b-a67b-4c4780376ca6\"" "external-ids:rundir=\"/var/run/openvswitch\"" "system-type=\"rhcos\"" "system-version=\"4.15\""
+Mar 31 20:08:03.868554 host-10-13-0-150 ovs-ctl[927]: Configuring Open vSwitch system IDs.
+Mar 31 20:08:03.873179 host-10-13-0-150 ovs-ctl[927]: Enabling remote OVSDB managers.
+Mar 31 20:08:03.873803 host-10-13-0-150 systemd[1]: Started Open vSwitch Database Unit.
+Mar 31 20:08:03.874176 host-10-13-0-150 ovs-vsctl[997]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait add Open_vSwitch . external-ids hostname=host-10-13-0-150
+Mar 31 20:08:21.838316 host-10-13-2-89 systemd[1]: Stopping Open vSwitch Database Unit...
+Mar 31 20:08:21.878414 host-10-13-2-89 ovs-ctl[6722]: Exiting ovsdb-server (988).
+Mar 31 20:08:21.981334 host-10-13-2-89 systemd[1]: ovsdb-server.service: Deactivated successfully.
+Mar 31 20:08:21.981768 host-10-13-2-89 systemd[1]: Stopped Open vSwitch Database Unit.
+Mar 31 20:08:21.982138 host-10-13-2-89 systemd[1]: ovsdb-server.service: Consumed 3.167s CPU time.
+-- Boot 0de35f4510734490b5bb01af79b9d5d7 --
+Mar 31 20:08:28.961637 host-10-13-2-89 systemd[1]: Starting Open vSwitch Database Unit...
+Mar 31 20:08:28.993410 host-10-13-2-89 chown[909]: /usr/bin/chown: cannot access '/run/openvswitch': No such file or directory
+Mar 31 20:08:29.118504 host-10-13-2-89 ovs-ctl[915]: Starting ovsdb-server.
+Mar 31 20:08:29.121377 host-10-13-2-89 ovs-vsctl[982]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait -- init -- set Open_vSwitch . db-version=8.3.1
+Mar 31 20:08:29.180928 host-10-13-2-89 ovs-vsctl[997]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait set Open_vSwitch . ovs-version=3.1.6-137.el9fdp "external-ids:system-id=\"7ca80c86-7922-49cf-8e97-726796512db9\"" "external-ids:rundir=\"/var/run/openvswitch\"" "system-type=\"rhcos\"" "system-version=\"4.15\""
+Mar 31 20:08:29.182556 host-10-13-2-89 ovs-ctl[915]: Configuring Open vSwitch system IDs.
+Mar 31 20:08:29.188201 host-10-13-2-89 ovs-ctl[915]: Enabling remote OVSDB managers.
+Mar 31 20:08:29.191059 host-10-13-2-89 ovs-vsctl[1003]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait add Open_vSwitch . external-ids hostname=host-10-13-2-89
+Mar 31 20:08:29.192973 host-10-13-2-89 systemd[1]: Started Open vSwitch Database Unit.
+Mar 31 20:08:49.456451 host-10-13-2-160 systemd[1]: Stopping Open vSwitch Database Unit...
+Mar 31 20:08:49.496418 host-10-13-2-160 ovs-ctl[3090]: Exiting ovsdb-server (982).
+Mar 31 20:08:49.600609 host-10-13-2-160 systemd[1]: ovsdb-server.service: Deactivated successfully.
+Mar 31 20:08:49.601019 host-10-13-2-160 systemd[1]: Stopped Open vSwitch Database Unit.
+-- Boot 21eda58e3d56416fb5822114ac3c9851 --
+Mar 31 20:08:57.041116 host-10-13-2-160 systemd[1]: Starting Open vSwitch Database Unit...
+Mar 31 20:08:57.077989 host-10-13-2-160 chown[907]: /usr/bin/chown: cannot access '/run/openvswitch': No such file or directory
+Mar 31 20:08:57.246958 host-10-13-2-160 ovs-ctl[918]: Starting ovsdb-server.
+Mar 31 20:08:57.250165 host-10-13-2-160 ovs-vsctl[987]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait -- init -- set Open_vSwitch . db-version=8.3.1
+Mar 31 20:08:57.310585 host-10-13-2-160 ovs-vsctl[998]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait set Open_vSwitch . ovs-version=3.1.6-137.el9fdp "external-ids:system-id=\"9b47b7e6-3012-4665-bf7e-cabea3c2f339\"" "external-ids:rundir=\"/var/run/openvswitch\"" "system-type=\"rhcos\"" "system-version=\"4.15\""
+Mar 31 20:08:57.312226 host-10-13-2-160 ovs-ctl[918]: Configuring Open vSwitch system IDs.
+Mar 31 20:08:57.317537 host-10-13-2-160 ovs-ctl[918]: Enabling remote OVSDB managers.
+Mar 31 20:08:57.317753 host-10-13-2-160 ovs-vsctl[1004]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait add Open_vSwitch . external-ids hostname=host-10-13-2-160
+Mar 31 20:08:57.318395 host-10-13-2-160 systemd[1]: Started Open vSwitch Database Unit.

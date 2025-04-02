@@ -1,0 +1,72 @@
+---
+apiVersion: discovery.k8s.io/v1
+items:
+- addressType: IPv4
+  apiVersion: discovery.k8s.io/v1
+  endpoints:
+  - addresses:
+    - 10.13.0.150
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: host-10-13-0-150
+    targetRef:
+      kind: Pod
+      name: network-operator-6b7685f99f-h2jqk
+      namespace: openshift-network-operator
+      uid: 1bd9766f-2d6e-4da5-97b4-6971e356e750
+  kind: EndpointSlice
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2025-03-31T20:40:28Z"
+    creationTimestamp: "2025-03-31T14:23:56Z"
+    generateName: metrics-
+    generation: 9
+    labels:
+      endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+      kubernetes.io/service-name: metrics
+      name: network-operator
+      service.kubernetes.io/headless: ""
+    managedFields:
+    - apiVersion: discovery.k8s.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:addressType: {}
+        f:endpoints: {}
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:endpoints.kubernetes.io/last-change-trigger-time: {}
+          f:generateName: {}
+          f:labels:
+            .: {}
+            f:endpointslice.kubernetes.io/managed-by: {}
+            f:kubernetes.io/service-name: {}
+            f:name: {}
+            f:service.kubernetes.io/headless: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"5ce9bce8-0d4f-4a60-9c04-af39cbf613db"}: {}
+        f:ports: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-03-31T20:40:28Z"
+    name: metrics-bkcff
+    namespace: openshift-network-operator
+    ownerReferences:
+    - apiVersion: v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Service
+      name: metrics
+      uid: 5ce9bce8-0d4f-4a60-9c04-af39cbf613db
+    resourceVersion: "73077"
+    uid: 98381135-108b-4b92-81a4-e80cdffa9683
+  ports:
+  - name: metrics
+    port: 9104
+    protocol: TCP
+kind: EndpointSliceList
+metadata:
+  resourceVersion: "718356"

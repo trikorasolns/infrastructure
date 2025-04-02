@@ -1,0 +1,2 @@
+2025-04-01T08:28:55.638308535Z 2025-04-01T08:28:55+00:00 [cnibincopy] Successfully copied files in /usr/src/whereabouts/rhel9/bin/ to /host/opt/cni/bin/upgrade_e52bbba8-2ccd-4ccd-be01-7248d92b0288
+2025-04-01T08:28:55.645124672Z 2025-04-01T08:28:55+00:00 [cnibincopy] Successfully moved files in /host/opt/cni/bin/upgrade_e52bbba8-2ccd-4ccd-be01-7248d92b0288 to /host/opt/cni/bin/

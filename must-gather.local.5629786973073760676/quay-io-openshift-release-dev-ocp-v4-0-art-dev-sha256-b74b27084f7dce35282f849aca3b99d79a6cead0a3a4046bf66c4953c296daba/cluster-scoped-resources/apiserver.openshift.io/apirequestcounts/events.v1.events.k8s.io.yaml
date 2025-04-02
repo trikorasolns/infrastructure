@@ -1,0 +1,414 @@
+---
+apiVersion: apiserver.openshift.io/v1
+kind: APIRequestCount
+metadata:
+  creationTimestamp: "2025-03-31T20:18:51Z"
+  generation: 1
+  managedFields:
+  - apiVersion: apiserver.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec:
+        .: {}
+        f:numberOfUsersToReport: {}
+    manager: kube-apiserver
+    operation: Update
+    time: "2025-03-31T20:18:51Z"
+  - apiVersion: apiserver.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        .: {}
+        f:currentHour:
+          .: {}
+          f:byNode: {}
+          f:requestCount: {}
+        f:last24h: {}
+        f:requestCount: {}
+    manager: kube-apiserver
+    operation: Update
+    subresource: status
+    time: "2025-04-02T07:45:45Z"
+  name: events.v1.events.k8s.io
+  resourceVersion: "717262"
+  uid: 41cc94b4-8dff-4721-9705-13325c07926a
+spec:
+  numberOfUsersToReport: 10
+status:
+  currentHour:
+    byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 19
+          verb: create
+        requestCount: 19
+        userAgent: kube-scheduler/v1.28.15+ff493be
+        username: system:kube-scheduler
+      nodeName: 10.13.0.150
+      requestCount: 19
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 19
+  last24h:
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 26
+          verb: create
+        requestCount: 26
+        userAgent: kube-scheduler/v1.28.15+ff493be
+        username: system:kube-scheduler
+      nodeName: 10.13.0.150
+      requestCount: 26
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 26
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 24
+          verb: create
+        requestCount: 24
+        userAgent: kube-scheduler/v1.28.15+ff493be
+        username: system:kube-scheduler
+      nodeName: 10.13.0.150
+      requestCount: 24
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 24
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 25
+          verb: create
+        requestCount: 25
+        userAgent: kube-scheduler/v1.28.15+ff493be
+        username: system:kube-scheduler
+      nodeName: 10.13.0.150
+      requestCount: 25
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 25
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 26
+          verb: create
+        requestCount: 26
+        userAgent: kube-scheduler/v1.28.15+ff493be
+        username: system:kube-scheduler
+      nodeName: 10.13.0.150
+      requestCount: 26
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 26
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 25
+          verb: create
+        requestCount: 25
+        userAgent: kube-scheduler/v1.28.15+ff493be
+        username: system:kube-scheduler
+      nodeName: 10.13.0.150
+      requestCount: 25
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 25
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 25
+          verb: create
+        requestCount: 25
+        userAgent: kube-scheduler/v1.28.15+ff493be
+        username: system:kube-scheduler
+      nodeName: 10.13.0.150
+      requestCount: 25
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 25
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 25
+          verb: create
+        requestCount: 25
+        userAgent: kube-scheduler/v1.28.15+ff493be
+        username: system:kube-scheduler
+      nodeName: 10.13.0.150
+      requestCount: 25
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 25
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 19
+          verb: create
+        requestCount: 19
+        userAgent: kube-scheduler/v1.28.15+ff493be
+        username: system:kube-scheduler
+      nodeName: 10.13.0.150
+      requestCount: 19
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 19
+  - requestCount: 0
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - byUser:
+      - byVerb:
+        - requestCount: 17
+          verb: create
+        requestCount: 17
+        userAgent: kube-scheduler/v1.28.15+ff493be
+        username: system:kube-scheduler
+      nodeName: 10.13.2.160
+      requestCount: 17
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 17
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - byUser:
+      - byVerb:
+        - requestCount: 24
+          verb: create
+        requestCount: 24
+        userAgent: kube-scheduler/v1.28.15+ff493be
+        username: system:kube-scheduler
+      nodeName: 10.13.2.160
+      requestCount: 24
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 24
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - byUser:
+      - byVerb:
+        - requestCount: 25
+          verb: create
+        requestCount: 25
+        userAgent: kube-scheduler/v1.28.15+ff493be
+        username: system:kube-scheduler
+      nodeName: 10.13.2.160
+      requestCount: 25
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 25
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 29
+          verb: create
+        - requestCount: 2
+          verb: patch
+        requestCount: 31
+        userAgent: kube-scheduler/v1.28.15+ff493be
+        username: system:kube-scheduler
+      nodeName: 10.13.0.150
+      requestCount: 31
+    - byUser:
+      - byVerb:
+        - requestCount: 1
+          verb: create
+        requestCount: 1
+        userAgent: kube-scheduler/v1.28.15+ff493be
+        username: system:kube-scheduler
+      nodeName: 10.13.2.160
+      requestCount: 1
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 32
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 25
+          verb: create
+        - requestCount: 2
+          verb: patch
+        requestCount: 27
+        userAgent: kube-scheduler/v1.28.15+ff493be
+        username: system:kube-scheduler
+      nodeName: 10.13.0.150
+      requestCount: 27
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 27
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 27
+          verb: create
+        - requestCount: 3
+          verb: patch
+        requestCount: 30
+        userAgent: kube-scheduler/v1.28.15+ff493be
+        username: system:kube-scheduler
+      nodeName: 10.13.0.150
+      requestCount: 30
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 30
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 37
+          verb: create
+        requestCount: 37
+        userAgent: kube-scheduler/v1.28.15+ff493be
+        username: system:kube-scheduler
+      nodeName: 10.13.0.150
+      requestCount: 37
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 37
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 38
+          verb: create
+        requestCount: 38
+        userAgent: kube-scheduler/v1.28.15+ff493be
+        username: system:kube-scheduler
+      nodeName: 10.13.0.150
+      requestCount: 38
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 38
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 29
+          verb: create
+        requestCount: 29
+        userAgent: kube-scheduler/v1.28.15+ff493be
+        username: system:kube-scheduler
+      nodeName: 10.13.0.150
+      requestCount: 29
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 29
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 26
+          verb: create
+        requestCount: 26
+        userAgent: kube-scheduler/v1.28.15+ff493be
+        username: system:kube-scheduler
+      nodeName: 10.13.0.150
+      requestCount: 26
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 26
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 24
+          verb: create
+        requestCount: 24
+        userAgent: kube-scheduler/v1.28.15+ff493be
+        username: system:kube-scheduler
+      nodeName: 10.13.0.150
+      requestCount: 24
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 24
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 26
+          verb: create
+        requestCount: 26
+        userAgent: kube-scheduler/v1.28.15+ff493be
+        username: system:kube-scheduler
+      nodeName: 10.13.0.150
+      requestCount: 26
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 26
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 24
+          verb: create
+        requestCount: 24
+        userAgent: kube-scheduler/v1.28.15+ff493be
+        username: system:kube-scheduler
+      nodeName: 10.13.0.150
+      requestCount: 24
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 24
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 26
+          verb: create
+        requestCount: 26
+        userAgent: kube-scheduler/v1.28.15+ff493be
+        username: system:kube-scheduler
+      nodeName: 10.13.0.150
+      requestCount: 26
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 26
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 24
+          verb: create
+        requestCount: 24
+        userAgent: kube-scheduler/v1.28.15+ff493be
+        username: system:kube-scheduler
+      nodeName: 10.13.0.150
+      requestCount: 24
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 24
+  requestCount: 604

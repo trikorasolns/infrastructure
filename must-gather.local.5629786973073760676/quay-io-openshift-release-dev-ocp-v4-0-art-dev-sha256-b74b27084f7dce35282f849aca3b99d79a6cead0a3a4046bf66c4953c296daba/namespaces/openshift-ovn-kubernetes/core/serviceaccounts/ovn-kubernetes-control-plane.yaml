@@ -1,0 +1,26 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  creationTimestamp: "2025-03-31T20:18:15Z"
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:ownerReferences:
+          k:{"uid":"f247aa7f-5271-4e41-99c9-6fc4166400fb"}: {}
+    manager: cluster-network-operator/operconfig
+    operation: Apply
+    time: "2025-03-31T20:18:15Z"
+  name: ovn-kubernetes-control-plane
+  namespace: openshift-ovn-kubernetes
+  ownerReferences:
+  - apiVersion: operator.openshift.io/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: Network
+    name: cluster
+    uid: f247aa7f-5271-4e41-99c9-6fc4166400fb
+  resourceVersion: "71880"
+  uid: ef6932d2-36a9-4cf0-ad1d-2c6238999db5

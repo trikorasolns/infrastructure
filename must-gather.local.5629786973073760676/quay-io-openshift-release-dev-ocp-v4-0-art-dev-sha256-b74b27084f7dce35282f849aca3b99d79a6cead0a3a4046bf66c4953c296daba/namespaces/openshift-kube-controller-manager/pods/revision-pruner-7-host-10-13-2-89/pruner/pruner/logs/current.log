@@ -1,0 +1,16 @@
+2025-03-31T20:28:50.318941495Z I0331 20:28:50.318759       1 cmd.go:41] &{<nil> true {false} prune true map[cert-dir:0xc0006de960 max-eligible-revision:0xc0006de6e0 protected-revisions:0xc0006de780 resource-dir:0xc0006de820 static-pod-name:0xc0006de8c0 v:0xc0006df040] [0xc0006df040 0xc0006de6e0 0xc0006de780 0xc0006de820 0xc0006de960 0xc0006de8c0] [] map[cert-dir:0xc0006de960 help:0xc0006df400 log-flush-frequency:0xc0006defa0 max-eligible-revision:0xc0006de6e0 protected-revisions:0xc0006de780 resource-dir:0xc0006de820 static-pod-name:0xc0006de8c0 v:0xc0006df040 vmodule:0xc0006df0e0] [0xc0006de6e0 0xc0006de780 0xc0006de820 0xc0006de8c0 0xc0006de960 0xc0006defa0 0xc0006df040 0xc0006df0e0 0xc0006df400] [0xc0006de960 0xc0006df400 0xc0006defa0 0xc0006de6e0 0xc0006de780 0xc0006de820 0xc0006de8c0 0xc0006df040 0xc0006df0e0] map[104:0xc0006df400 118:0xc0006df040] [] -1 0 0xc00098eff0 true 0x740c00 []}
+2025-03-31T20:28:50.318941495Z I0331 20:28:50.318888       1 cmd.go:42] (*prune.PruneOptions)(0xc00014c4b0)({
+2025-03-31T20:28:50.318941495Z  MaxEligibleRevision: (int) 7,
+2025-03-31T20:28:50.318941495Z  ProtectedRevisions: ([]int) (len=6 cap=6) {
+2025-03-31T20:28:50.318941495Z   (int) 2,
+2025-03-31T20:28:50.318941495Z   (int) 3,
+2025-03-31T20:28:50.318941495Z   (int) 4,
+2025-03-31T20:28:50.318941495Z   (int) 5,
+2025-03-31T20:28:50.318941495Z   (int) 6,
+2025-03-31T20:28:50.318941495Z   (int) 7
+2025-03-31T20:28:50.318941495Z  },
+2025-03-31T20:28:50.318941495Z  ResourceDir: (string) (len=36) "/etc/kubernetes/static-pod-resources",
+2025-03-31T20:28:50.318941495Z  CertDir: (string) (len=29) "kube-controller-manager-certs",
+2025-03-31T20:28:50.318941495Z  StaticPodName: (string) (len=27) "kube-controller-manager-pod"
+2025-03-31T20:28:50.318941495Z })
+2025-03-31T20:28:50.319062813Z I0331 20:28:50.318945       1 cmd.go:134] Skipping /etc/kubernetes/static-pod-resources/kube-controller-manager-certs as it does not exist

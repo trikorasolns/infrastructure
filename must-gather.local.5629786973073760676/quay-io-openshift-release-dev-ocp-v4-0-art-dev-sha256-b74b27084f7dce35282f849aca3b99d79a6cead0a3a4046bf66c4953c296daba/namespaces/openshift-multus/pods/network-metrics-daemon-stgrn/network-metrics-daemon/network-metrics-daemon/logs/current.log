@@ -1,0 +1,31 @@
+2025-04-01T08:35:18.845429030Z I0401 08:35:18.844057       1 main.go:45] Version:f1b8f07c29f79a14ddd7f1f8c88d48a6092ee763
+2025-04-01T08:35:18.845429030Z I0401 08:35:18.844104       1 main.go:46] Starting with config{  :9091 host-10-13-3-120}
+2025-04-01T08:35:18.845429030Z W0401 08:35:18.844214       1 client_config.go:618] Neither --kubeconfig nor --master was specified.  Using the inClusterConfig.  This might not work.
+2025-04-01T08:35:18.845429030Z I0401 08:35:18.844604       1 controller.go:42] Setting up event handlers
+2025-04-01T08:35:18.845429030Z I0401 08:35:18.844664       1 podmetrics.go:101] Serving network metrics
+2025-04-01T08:35:18.845429030Z I0401 08:35:18.844669       1 controller.go:101] Starting pod controller
+2025-04-01T08:35:18.845429030Z I0401 08:35:18.844671       1 controller.go:104] Waiting for informer caches to sync
+2025-04-01T08:35:18.945723383Z I0401 08:35:18.945679       1 controller.go:109] Starting workers
+2025-04-01T08:35:18.945723383Z I0401 08:35:18.945699       1 controller.go:114] Started workers
+2025-04-01T08:35:18.945759652Z I0401 08:35:18.945733       1 controller.go:192] Received pod 'dns-default-tq6d7'
+2025-04-01T08:35:18.945809781Z I0401 08:35:18.945795       1 controller.go:151] Successfully synced 'openshift-dns/dns-default-tq6d7'
+2025-04-01T08:35:18.945809781Z I0401 08:35:18.945803       1 controller.go:192] Received pod 'ingress-canary-4blmj'
+2025-04-01T08:35:18.945817901Z I0401 08:35:18.945813       1 controller.go:151] Successfully synced 'openshift-ingress-canary/ingress-canary-4blmj'
+2025-04-01T08:35:18.945824121Z I0401 08:35:18.945817       1 controller.go:192] Received pod 'network-metrics-daemon-stgrn'
+2025-04-01T08:35:18.945830031Z I0401 08:35:18.945825       1 controller.go:151] Successfully synced 'openshift-multus/network-metrics-daemon-stgrn'
+2025-04-01T08:35:18.945836081Z I0401 08:35:18.945829       1 controller.go:192] Received pod 'network-check-target-t7fm9'
+2025-04-01T08:35:18.945841891Z I0401 08:35:18.945835       1 controller.go:151] Successfully synced 'openshift-network-diagnostics/network-check-target-t7fm9'
+2025-04-01T12:38:50.855030176Z I0401 12:38:50.853917       1 controller.go:192] Received pod 'csi-cinder-controllerplugin-5847b67f7b-8l8p4'
+2025-04-01T12:38:50.855030176Z I0401 12:38:50.854016       1 controller.go:151] Successfully synced 'kube-system/csi-cinder-controllerplugin-5847b67f7b-8l8p4'
+2025-04-01T13:00:26.717031094Z I0401 13:00:26.716984       1 controller.go:192] Received pod 'prometheus-adapter-74878b69dd-7pqxq'
+2025-04-01T13:00:26.717057654Z I0401 13:00:26.717032       1 controller.go:151] Successfully synced 'openshift-monitoring/prometheus-adapter-74878b69dd-7pqxq'
+2025-04-01T14:44:35.251308163Z I0401 14:44:35.251231       1 controller.go:151] Successfully synced 'kube-system/csi-cinder-controllerplugin-5847b67f7b-8l8p4'
+2025-04-01T14:48:24.879323414Z I0401 14:48:24.879289       1 controller.go:192] Received pod 'csi-cinder-controllerplugin-5847b67f7b-fdzk8'
+2025-04-01T14:48:24.879413883Z I0401 14:48:24.879404       1 controller.go:151] Successfully synced 'kube-system/csi-cinder-controllerplugin-5847b67f7b-fdzk8'
+2025-04-01T15:20:25.334529666Z I0401 15:20:25.334444       1 controller.go:151] Successfully synced 'default/openstack-manila-csi-nodeplugin-rkfvr'
+2025-04-01T15:21:46.577550685Z I0401 15:21:46.577410       1 controller.go:151] Successfully synced 'default/openstack-manila-csi-nodeplugin-rbpnc'
+2025-04-01T15:22:06.643536125Z I0401 15:22:06.641914       1 controller.go:151] Successfully synced 'default/openstack-manila-csi-nodeplugin-4lpk5'
+2025-04-01T16:44:02.415522560Z I0401 16:44:02.412778       1 controller.go:151] Successfully synced 'default/openstack-manila-csi-nodeplugin-xf2bb'
+2025-04-01T16:59:04.202758695Z I0401 16:59:04.202727       1 controller.go:151] Successfully synced 'default/openstack-manila-csi-nodeplugin-vhs27'
+2025-04-01T17:01:47.727691179Z I0401 17:01:47.721829       1 controller.go:151] Successfully synced 'default/openstack-manila-csi-nodeplugin-fnlqr'
+2025-04-02T07:22:48.398555446Z I0402 07:22:48.398313       1 controller.go:151] Successfully synced 'default/openstack-manila-csi-nodeplugin-t7qlx'

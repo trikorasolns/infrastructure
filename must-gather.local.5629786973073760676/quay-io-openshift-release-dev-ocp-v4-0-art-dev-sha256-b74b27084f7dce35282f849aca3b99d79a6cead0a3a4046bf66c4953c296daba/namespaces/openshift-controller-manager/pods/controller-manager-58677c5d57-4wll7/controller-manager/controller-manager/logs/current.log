@@ -1,0 +1,6 @@
+2025-04-01T12:58:11.042105482Z I0401 12:58:11.042048       1 leaderelection.go:122] The leader election gives 4 retries and allows for 30s of clock skew. The kube-apiserver downtime tolerance is 78s. Worst non-graceful lease acquisition is 2m43s. Worst graceful lease acquisition is {26s}.
+2025-04-01T12:58:11.042506884Z I0401 12:58:11.042490       1 controller_manager.go:39] Starting controllers on 0.0.0.0:8443 (4.15.0-202502170147.p0.gff69ddf.assembly.stream.el9-ff69ddf)
+2025-04-01T12:58:11.043537975Z I0401 12:58:11.043520       1 controller_manager.go:50] DeploymentConfig controller using images from "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:e37d7909d4e466da72b945269d1fa8dc3dcc45438f998c5946435c5ca5d1b55b"
+2025-04-01T12:58:11.043537975Z I0401 12:58:11.043530       1 controller_manager.go:56] Build controller using images from "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:7edc539afcc708fa0cbc5126188395885e277f71fab96edfc83acf69a61222d6"
+2025-04-01T12:58:11.043589584Z I0401 12:58:11.043561       1 standalone_apiserver.go:104] Started health checks at 0.0.0.0:8443
+2025-04-01T12:58:11.043623703Z I0401 12:58:11.043613       1 leaderelection.go:250] attempting to acquire leader lease openshift-controller-manager/openshift-master-controllers...

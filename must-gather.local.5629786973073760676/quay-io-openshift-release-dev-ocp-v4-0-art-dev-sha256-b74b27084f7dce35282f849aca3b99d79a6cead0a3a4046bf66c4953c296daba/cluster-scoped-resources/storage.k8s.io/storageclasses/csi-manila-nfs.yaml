@@ -1,0 +1,51 @@
+---
+allowVolumeExpansion: true
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"allowVolumeExpansion":true,"apiVersion":"storage.k8s.io/v1","kind":"StorageClass","metadata":{"annotations":{},"name":"csi-manila-nfs"},"parameters":{"csi.storage.k8s.io/controller-expand-secret-name":"csi-manila-secrets","csi.storage.k8s.io/controller-expand-secret-namespace":"default","csi.storage.k8s.io/node-publish-secret-name":"csi-manila-secrets","csi.storage.k8s.io/node-publish-secret-namespace":"default","csi.storage.k8s.io/node-stage-secret-name":"csi-manila-secrets","csi.storage.k8s.io/node-stage-secret-namespace":"default","csi.storage.k8s.io/provisioner-secret-name":"csi-manila-secrets","csi.storage.k8s.io/provisioner-secret-namespace":"default","type":"default"},"provisioner":"nfs.manila.csi.openstack.org"}
+  creationTimestamp: "2025-04-02T07:13:28Z"
+  managedFields:
+  - apiVersion: storage.k8s.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:allowVolumeExpansion: {}
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:kubectl.kubernetes.io/last-applied-configuration: {}
+      f:parameters:
+        .: {}
+        f:csi.storage.k8s.io/controller-expand-secret-name: {}
+        f:csi.storage.k8s.io/controller-expand-secret-namespace: {}
+        f:csi.storage.k8s.io/node-publish-secret-name: {}
+        f:csi.storage.k8s.io/node-publish-secret-namespace: {}
+        f:csi.storage.k8s.io/node-stage-secret-name: {}
+        f:csi.storage.k8s.io/node-stage-secret-namespace: {}
+        f:csi.storage.k8s.io/provisioner-secret-name: {}
+        f:csi.storage.k8s.io/provisioner-secret-namespace: {}
+        f:type: {}
+      f:provisioner: {}
+      f:reclaimPolicy: {}
+      f:volumeBindingMode: {}
+    manager: kubectl-client-side-apply
+    operation: Update
+    time: "2025-04-02T07:13:28Z"
+  name: csi-manila-nfs
+  resourceVersion: "706571"
+  uid: 4253e6c9-4949-45cb-b482-c271c6680ce9
+parameters:
+  csi.storage.k8s.io/controller-expand-secret-name: csi-manila-secrets
+  csi.storage.k8s.io/controller-expand-secret-namespace: default
+  csi.storage.k8s.io/node-publish-secret-name: csi-manila-secrets
+  csi.storage.k8s.io/node-publish-secret-namespace: default
+  csi.storage.k8s.io/node-stage-secret-name: csi-manila-secrets
+  csi.storage.k8s.io/node-stage-secret-namespace: default
+  csi.storage.k8s.io/provisioner-secret-name: csi-manila-secrets
+  csi.storage.k8s.io/provisioner-secret-namespace: default
+  type: default
+provisioner: nfs.manila.csi.openstack.org
+reclaimPolicy: Delete
+volumeBindingMode: Immediate

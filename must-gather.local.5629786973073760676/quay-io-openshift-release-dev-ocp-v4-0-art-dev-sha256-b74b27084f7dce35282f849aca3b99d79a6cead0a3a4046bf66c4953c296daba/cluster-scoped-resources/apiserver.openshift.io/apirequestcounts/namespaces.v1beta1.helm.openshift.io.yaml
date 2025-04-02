@@ -1,0 +1,520 @@
+---
+apiVersion: apiserver.openshift.io/v1
+kind: APIRequestCount
+metadata:
+  creationTimestamp: "2025-03-31T21:17:35Z"
+  generation: 1
+  managedFields:
+  - apiVersion: apiserver.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec:
+        .: {}
+        f:numberOfUsersToReport: {}
+    manager: kube-apiserver
+    operation: Update
+    time: "2025-03-31T21:17:35Z"
+  - apiVersion: apiserver.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        .: {}
+        f:currentHour:
+          .: {}
+          f:byNode: {}
+          f:requestCount: {}
+        f:last24h: {}
+        f:requestCount: {}
+    manager: kube-apiserver
+    operation: Update
+    subresource: status
+    time: "2025-04-02T07:05:07Z"
+  name: namespaces.v1beta1.helm.openshift.io
+  resourceVersion: "703740"
+  uid: fa31667a-d28e-4d3c-8264-67b9a02bd214
+spec:
+  numberOfUsersToReport: 10
+status:
+  currentHour:
+    byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  last24h:
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  - requestCount: 0
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 57
+          verb: list
+        requestCount: 57
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.0.150
+      requestCount: 57
+    - byUser:
+      - byVerb:
+        - requestCount: 78
+          verb: list
+        requestCount: 78
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.2.160
+      requestCount: 78
+    - byUser:
+      - byVerb:
+        - requestCount: 136
+          verb: list
+        requestCount: 136
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.2.89
+      requestCount: 136
+    requestCount: 271
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 179
+          verb: list
+        requestCount: 179
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.0.150
+      requestCount: 179
+    - byUser:
+      - byVerb:
+        - requestCount: 168
+          verb: list
+        requestCount: 168
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.2.160
+      requestCount: 168
+    - byUser:
+      - byVerb:
+        - requestCount: 6
+          verb: list
+        requestCount: 6
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.2.89
+      requestCount: 6
+    requestCount: 353
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 444
+          verb: list
+        requestCount: 444
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.0.150
+      requestCount: 444
+    - byUser:
+      - byVerb:
+        - requestCount: 64
+          verb: list
+        requestCount: 64
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.2.160
+      requestCount: 64
+    - byUser:
+      - byVerb:
+        - requestCount: 67
+          verb: list
+        requestCount: 67
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.2.89
+      requestCount: 67
+    requestCount: 575
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 331
+          verb: list
+        requestCount: 331
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.0.150
+      requestCount: 331
+    - byUser:
+      - byVerb:
+        - requestCount: 189
+          verb: list
+        requestCount: 189
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.2.160
+      requestCount: 189
+    - byUser:
+      - byVerb:
+        - requestCount: 82
+          verb: list
+        requestCount: 82
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.2.89
+      requestCount: 82
+    requestCount: 602
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 101
+          verb: list
+        requestCount: 101
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.0.150
+      requestCount: 101
+    - byUser:
+      - byVerb:
+        - requestCount: 341
+          verb: list
+        requestCount: 341
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.2.160
+      requestCount: 341
+    - byUser:
+      - byVerb:
+        - requestCount: 239
+          verb: list
+        requestCount: 239
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.2.89
+      requestCount: 239
+    requestCount: 681
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 107
+          verb: list
+        requestCount: 107
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.0.150
+      requestCount: 107
+    - byUser:
+      - byVerb:
+        - requestCount: 399
+          verb: list
+        requestCount: 399
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.2.160
+      requestCount: 399
+    - byUser:
+      - byVerb:
+        - requestCount: 202
+          verb: list
+        requestCount: 202
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.2.89
+      requestCount: 202
+    requestCount: 708
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 253
+          verb: list
+        requestCount: 253
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.0.150
+      requestCount: 253
+    - byUser:
+      - byVerb:
+        - requestCount: 308
+          verb: list
+        requestCount: 308
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.2.160
+      requestCount: 308
+    - byUser:
+      - byVerb:
+        - requestCount: 149
+          verb: list
+        requestCount: 149
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.2.89
+      requestCount: 149
+    requestCount: 710
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 357
+          verb: list
+        requestCount: 357
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.0.150
+      requestCount: 357
+    - byUser:
+      - byVerb:
+        - requestCount: 59
+          verb: list
+        requestCount: 59
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.2.160
+      requestCount: 59
+    - byUser:
+      - byVerb:
+        - requestCount: 292
+          verb: list
+        requestCount: 292
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.2.89
+      requestCount: 292
+    requestCount: 708
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 155
+          verb: list
+        requestCount: 155
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.0.150
+      requestCount: 155
+    - byUser:
+      - byVerb:
+        - requestCount: 251
+          verb: list
+        requestCount: 251
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.2.160
+      requestCount: 251
+    - byUser:
+      - byVerb:
+        - requestCount: 304
+          verb: list
+        requestCount: 304
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.2.89
+      requestCount: 304
+    requestCount: 710
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 273
+          verb: list
+        requestCount: 273
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.0.150
+      requestCount: 273
+    - byUser:
+      - byVerb:
+        - requestCount: 125
+          verb: list
+        requestCount: 125
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.2.160
+      requestCount: 125
+    - byUser:
+      - byVerb:
+        - requestCount: 311
+          verb: list
+        requestCount: 311
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.2.89
+      requestCount: 311
+    requestCount: 709
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 197
+          verb: list
+        requestCount: 197
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.0.150
+      requestCount: 197
+    - byUser:
+      - byVerb:
+        - requestCount: 258
+          verb: list
+        requestCount: 258
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.2.160
+      requestCount: 258
+    - byUser:
+      - byVerb:
+        - requestCount: 254
+          verb: list
+        requestCount: 254
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.2.89
+      requestCount: 254
+    requestCount: 709
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 169
+          verb: list
+        requestCount: 169
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.0.150
+      requestCount: 169
+    - byUser:
+      - byVerb:
+        - requestCount: 191
+          verb: list
+        requestCount: 191
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.2.160
+      requestCount: 191
+    - byUser:
+      - byVerb:
+        - requestCount: 350
+          verb: list
+        requestCount: 350
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.2.89
+      requestCount: 350
+    requestCount: 710
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 348
+          verb: list
+        requestCount: 348
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.0.150
+      requestCount: 348
+    - byUser:
+      - byVerb:
+        - requestCount: 85
+          verb: list
+        requestCount: 85
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.2.160
+      requestCount: 85
+    - byUser:
+      - byVerb:
+        - requestCount: 276
+          verb: list
+        requestCount: 276
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.2.89
+      requestCount: 276
+    requestCount: 709
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 25
+          verb: list
+        requestCount: 25
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.0.150
+      requestCount: 25
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - byUser:
+      - byVerb:
+        - requestCount: 34
+          verb: list
+        requestCount: 34
+        userAgent: ""
+        username: kube:admin
+      nodeName: 10.13.2.89
+      requestCount: 34
+    requestCount: 59
+  - byNode:
+    - nodeName: 10.13.0.150
+      requestCount: 0
+    - nodeName: 10.13.2.160
+      requestCount: 0
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 0
+  requestCount: 8214

@@ -1,0 +1,53 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  annotations:
+    capability.openshift.io/name: Storage
+    include.release.openshift.io/ibm-cloud-managed: "true"
+    include.release.openshift.io/self-managed-high-availability: "true"
+    include.release.openshift.io/single-node-developer: "true"
+  creationTimestamp: "2025-03-31T14:24:10Z"
+  labels:
+    addonmanager.kubernetes.io/mode: Reconcile
+    kubernetes.io/cluster-service: "true"
+  managedFields:
+  - apiVersion: rbac.authorization.k8s.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:capability.openshift.io/name: {}
+          f:include.release.openshift.io/ibm-cloud-managed: {}
+          f:include.release.openshift.io/self-managed-high-availability: {}
+          f:include.release.openshift.io/single-node-developer: {}
+        f:labels:
+          .: {}
+          f:addonmanager.kubernetes.io/mode: {}
+          f:kubernetes.io/cluster-service: {}
+        f:ownerReferences:
+          .: {}
+          k:{"uid":"5052a10d-b0db-474e-b63d-8e02132cf28b"}: {}
+      f:roleRef: {}
+      f:subjects: {}
+    manager: cluster-version-operator
+    operation: Update
+    time: "2025-03-31T14:24:10Z"
+  name: cluster-storage-operator-role
+  ownerReferences:
+  - apiVersion: config.openshift.io/v1
+    controller: true
+    kind: ClusterVersion
+    name: version
+    uid: 5052a10d-b0db-474e-b63d-8e02132cf28b
+  resourceVersion: "2065"
+  uid: 20da1e44-13a7-461c-ad24-f380291c5085
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: cluster-storage-operator
+  namespace: openshift-cluster-storage-operator

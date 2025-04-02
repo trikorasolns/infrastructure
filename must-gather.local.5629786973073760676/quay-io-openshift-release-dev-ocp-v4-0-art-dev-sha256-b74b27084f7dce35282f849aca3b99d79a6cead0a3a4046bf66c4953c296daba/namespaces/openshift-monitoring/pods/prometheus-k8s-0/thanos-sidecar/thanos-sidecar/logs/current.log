@@ -1,0 +1,13 @@
+2025-03-31T20:33:35.686429196Z ts=2025-03-31T20:33:35.686363428Z caller=sidecar.go:126 level=info msg="no supported bucket was configured, uploads will be disabled"
+2025-03-31T20:33:35.686590884Z ts=2025-03-31T20:33:35.686568073Z caller=options.go:30 level=info protocol=gRPC msg="enabling server side TLS"
+2025-03-31T20:33:35.686998086Z ts=2025-03-31T20:33:35.686978966Z caller=options.go:66 level=info protocol=gRPC msg="server TLS client verification enabled"
+2025-03-31T20:33:35.687360728Z ts=2025-03-31T20:33:35.687340849Z caller=sidecar.go:370 level=info msg="starting sidecar"
+2025-03-31T20:33:35.687479206Z ts=2025-03-31T20:33:35.687460356Z caller=reloader.go:199 level=info component=reloader msg="nothing to be watched"
+2025-03-31T20:33:35.687507186Z ts=2025-03-31T20:33:35.687462916Z caller=intrumentation.go:56 level=info msg="changing probe status" status=ready
+2025-03-31T20:33:35.687692122Z ts=2025-03-31T20:33:35.687661073Z caller=intrumentation.go:75 level=info msg="changing probe status" status=healthy
+2025-03-31T20:33:35.687692122Z ts=2025-03-31T20:33:35.687678002Z caller=http.go:73 level=info service=http/server component=sidecar msg="listening for requests and metrics" address=127.0.0.1:10902
+2025-03-31T20:33:35.687720651Z ts=2025-03-31T20:33:35.687671093Z caller=grpc.go:131 level=info service=gRPC/server component=sidecar msg="listening for serving gRPC" address=0.0.0.0:10901
+2025-03-31T20:33:35.687770390Z ts=2025-03-31T20:33:35.687751051Z caller=tls_config.go:274 level=info service=http/server component=sidecar msg="Listening on" address=127.0.0.1:10902
+2025-03-31T20:33:35.687777070Z ts=2025-03-31T20:33:35.68776311Z caller=tls_config.go:277 level=info service=http/server component=sidecar msg="TLS is disabled." http2=false address=127.0.0.1:10902
+2025-03-31T20:33:35.689131405Z ts=2025-03-31T20:33:35.689067996Z caller=sidecar.go:182 level=info msg="successfully loaded prometheus version"
+2025-03-31T20:33:35.757581596Z ts=2025-03-31T20:33:35.757523258Z caller=sidecar.go:204 level=info msg="successfully loaded prometheus external labels" external_labels="{prometheus=\"openshift-monitoring/k8s\", prometheus_replica=\"prometheus-k8s-0\"}"

@@ -1,0 +1,7 @@
+2025-03-31T20:23:00.167769619Z Flag --logtostderr has been deprecated, will be removed in a future release, see https://github.com/kubernetes/enhancements/tree/master/keps/sig-instrumentation/2845-deprecate-klog-specific-flags-in-k8s-components
+2025-03-31T20:23:00.167965478Z I0331 20:23:00.167764    6518 kube-rbac-proxy.go:578] Reading config file: /etc/kube-rbac-proxy/config-file.yaml
+2025-03-31T20:23:00.168373046Z I0331 20:23:00.168352    6518 kube-rbac-proxy.go:285] Valid token audiences: 
+2025-03-31T20:23:00.168400396Z I0331 20:23:00.168386    6518 kube-rbac-proxy.go:399] Reading certificate files
+2025-03-31T20:23:00.168879043Z I0331 20:23:00.168855    6518 kube-rbac-proxy.go:447] Starting TCP socket on 0.0.0.0:9001
+2025-03-31T20:23:00.169299390Z I0331 20:23:00.169282    6518 kube-rbac-proxy.go:454] Listening securely on 0.0.0.0:9001
+2025-03-31T20:32:47.801934117Z E0331 20:32:47.801864    6518 auth.go:47] Unable to authenticate the request due to an error: context canceled

@@ -1,0 +1,4 @@
+2025-03-31T20:23:07.974465029Z I0331 20:23:07.974305       1 start.go:38] Version: v4.15.0-202502171304.p0.g9040a70.assembly.stream.el8-dirty (9040a70ce67b34643aa4fd17dece6a9b65a48d95)
+2025-03-31T20:23:08.075658930Z I0331 20:23:08.075617       1 api.go:65] Launching server on :22624
+2025-03-31T20:23:08.075682139Z I0331 20:23:08.075662       1 api.go:65] Launching server on :22623
+2025-04-01T08:23:12.245716880Z I0401 08:23:12.245639       1 api.go:116] Pool worker requested by address:"10.13.0.22:52271" User-Agent:"Ignition/2.16.2" Accept-Header: "application/vnd.coreos.ignition+json;version=3.4.0, */*;q=0.1"

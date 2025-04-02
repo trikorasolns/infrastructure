@@ -1,0 +1,566 @@
+Mar 31 15:51:36.193415 host-10-13-2-160 systemd[1]: Starting rpm-ostree System Management Daemon...
+Mar 31 15:51:36.229537 host-10-13-2-160 rpm-ostree[2302]: Reading config file '/etc/rpm-ostreed.conf'
+Mar 31 15:51:36.238946 host-10-13-2-160 rpm-ostree[2302]: In idle state; will auto-exit in 60 seconds
+Mar 31 15:51:36.239042 host-10-13-2-160 systemd[1]: Started rpm-ostree System Management Daemon.
+Mar 31 15:51:36.244814 host-10-13-2-160 rpm-ostree[2302]: client(id:cli dbus:1.22 unit:libpod-354430e40bf8522640d0c69e04f5e6bcb4f38bcf30bf69898f9bcb57c035b8cf.scope uid:0) added; new total=1
+Mar 31 15:51:36.251206 host-10-13-2-160 rpm-ostree[2302]: client(id:cli dbus:1.22 unit:libpod-354430e40bf8522640d0c69e04f5e6bcb4f38bcf30bf69898f9bcb57c035b8cf.scope uid:0) vanished; remaining=0
+Mar 31 15:51:36.251231 host-10-13-2-160 rpm-ostree[2302]: In idle state; will auto-exit in 60 seconds
+Mar 31 15:51:36.324515 host-10-13-2-160 rpm-ostree[2302]: client(id:cli dbus:1.23 unit:libpod-354430e40bf8522640d0c69e04f5e6bcb4f38bcf30bf69898f9bcb57c035b8cf.scope uid:0) added; new total=1
+Mar 31 15:51:36.330774 host-10-13-2-160 rpm-ostree[2302]: client(id:cli dbus:1.23 unit:libpod-354430e40bf8522640d0c69e04f5e6bcb4f38bcf30bf69898f9bcb57c035b8cf.scope uid:0) vanished; remaining=0
+Mar 31 15:51:36.330857 host-10-13-2-160 rpm-ostree[2302]: In idle state; will auto-exit in 61 seconds
+Mar 31 15:52:11.655196 host-10-13-2-160 rpm-ostree[2302]: client(id:cli dbus:1.24 unit:libpod-354430e40bf8522640d0c69e04f5e6bcb4f38bcf30bf69898f9bcb57c035b8cf.scope uid:0) added; new total=1
+Mar 31 15:52:11.662578 host-10-13-2-160 rpm-ostree[2302]: Loaded sysroot
+Mar 31 15:52:11.695406 host-10-13-2-160 rpm-ostree[2302]: Locked sysroot
+Mar 31 15:52:11.695470 host-10-13-2-160 rpm-ostree[2302]: Initiated txn Cleanup for client(id:cli dbus:1.24 unit:libpod-354430e40bf8522640d0c69e04f5e6bcb4f38bcf30bf69898f9bcb57c035b8cf.scope uid:0): /org/projectatomic/rpmostree1/rhcos
+Mar 31 15:52:11.700167 host-10-13-2-160 rpm-ostree[2302]: Process [pid: 2486 uid: 0 unit: libpod-354430e40bf8522640d0c69e04f5e6bcb4f38bcf30bf69898f9bcb57c035b8cf.scope] connected to transaction progress
+Mar 31 15:52:11.700832 host-10-13-2-160 rpm-ostree[2302]: Txn Cleanup on /org/projectatomic/rpmostree1/rhcos successful
+Mar 31 15:52:11.701015 host-10-13-2-160 rpm-ostree[2302]: Unlocked sysroot
+Mar 31 15:52:11.701449 host-10-13-2-160 rpm-ostree[2302]: Process [pid: 2486 uid: 0 unit: libpod-354430e40bf8522640d0c69e04f5e6bcb4f38bcf30bf69898f9bcb57c035b8cf.scope] disconnected from transaction progress
+Mar 31 15:52:11.703265 host-10-13-2-160 rpm-ostree[2302]: client(id:cli dbus:1.24 unit:libpod-354430e40bf8522640d0c69e04f5e6bcb4f38bcf30bf69898f9bcb57c035b8cf.scope uid:0) vanished; remaining=0
+Mar 31 15:52:11.703278 host-10-13-2-160 rpm-ostree[2302]: In idle state; will auto-exit in 63 seconds
+Mar 31 15:52:11.741844 host-10-13-2-160 rpm-ostree[2302]: client(id:cli dbus:1.25 unit:libpod-354430e40bf8522640d0c69e04f5e6bcb4f38bcf30bf69898f9bcb57c035b8cf.scope uid:0) added; new total=1
+Mar 31 15:52:11.747605 host-10-13-2-160 rpm-ostree[2302]: client(id:cli dbus:1.25 unit:libpod-354430e40bf8522640d0c69e04f5e6bcb4f38bcf30bf69898f9bcb57c035b8cf.scope uid:0) vanished; remaining=0
+Mar 31 15:52:11.747617 host-10-13-2-160 rpm-ostree[2302]: In idle state; will auto-exit in 63 seconds
+Mar 31 15:52:11.797255 host-10-13-2-160 rpm-ostree[2302]: client(id:cli dbus:1.26 unit:libpod-354430e40bf8522640d0c69e04f5e6bcb4f38bcf30bf69898f9bcb57c035b8cf.scope uid:0) added; new total=1
+Mar 31 15:52:11.804691 host-10-13-2-160 rpm-ostree[2302]: Loaded sysroot
+Mar 31 15:52:11.804916 host-10-13-2-160 rpm-ostree[2302]: Locked sysroot
+Mar 31 15:52:11.805027 host-10-13-2-160 rpm-ostree[2302]: Initiated txn Rebase for client(id:cli dbus:1.26 unit:libpod-354430e40bf8522640d0c69e04f5e6bcb4f38bcf30bf69898f9bcb57c035b8cf.scope uid:0): /org/projectatomic/rpmostree1/rhcos
+Mar 31 15:52:11.809283 host-10-13-2-160 rpm-ostree[2302]: Process [pid: 2501 uid: 0 unit: libpod-354430e40bf8522640d0c69e04f5e6bcb4f38bcf30bf69898f9bcb57c035b8cf.scope] connected to transaction progress
+Mar 31 15:52:11.876947 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree-unverified-registry:quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:da668dd26a52bb8b1e8a047550590f1b7d1270c5e0a6b49eb8ee7852ea6ccfbb
+Mar 31 15:52:14.032947 host-10-13-2-160 rpm-ostree[2302]: layers already present: 7; layers needed: 44 (1.2 GB)
+Mar 31 15:52:14.034855 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:0e281261d4b3 (116.7 MB)
+Mar 31 15:52:23.770904 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:0e281261d4b3
+Mar 31 15:52:23.770904 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:a233fe07bac5 (431.5 MB)
+Mar 31 15:52:26.006217 host-10-13-2-89 systemd[1]: Starting rpm-ostree System Management Daemon...
+Mar 31 15:52:26.042394 host-10-13-2-89 rpm-ostree[2300]: Reading config file '/etc/rpm-ostreed.conf'
+Mar 31 15:52:26.051947 host-10-13-2-89 rpm-ostree[2300]: In idle state; will auto-exit in 61 seconds
+Mar 31 15:52:26.052120 host-10-13-2-89 systemd[1]: Started rpm-ostree System Management Daemon.
+Mar 31 15:52:26.058239 host-10-13-2-89 rpm-ostree[2300]: client(id:cli dbus:1.22 unit:libpod-81a5e89911911fa60b58d37d3a3f3fcb17dc5f7227a56979a04d8592822b9a80.scope uid:0) added; new total=1
+Mar 31 15:52:26.065590 host-10-13-2-89 rpm-ostree[2300]: client(id:cli dbus:1.22 unit:libpod-81a5e89911911fa60b58d37d3a3f3fcb17dc5f7227a56979a04d8592822b9a80.scope uid:0) vanished; remaining=0
+Mar 31 15:52:26.065614 host-10-13-2-89 rpm-ostree[2300]: In idle state; will auto-exit in 64 seconds
+Mar 31 15:52:26.130158 host-10-13-2-89 rpm-ostree[2300]: client(id:cli dbus:1.23 unit:libpod-81a5e89911911fa60b58d37d3a3f3fcb17dc5f7227a56979a04d8592822b9a80.scope uid:0) added; new total=1
+Mar 31 15:52:26.136157 host-10-13-2-89 rpm-ostree[2300]: client(id:cli dbus:1.23 unit:libpod-81a5e89911911fa60b58d37d3a3f3fcb17dc5f7227a56979a04d8592822b9a80.scope uid:0) vanished; remaining=0
+Mar 31 15:52:26.136182 host-10-13-2-89 rpm-ostree[2300]: In idle state; will auto-exit in 60 seconds
+Mar 31 15:52:56.057239 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:a233fe07bac5
+Mar 31 15:52:56.057239 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:e3abe3214cb7 (62.3 MB)
+Mar 31 15:53:00.387252 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:e3abe3214cb7
+Mar 31 15:53:00.387252 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:ab0fc687e5b4 (44.3 MB)
+Mar 31 15:53:02.722986 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:ab0fc687e5b4
+Mar 31 15:53:02.722986 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:c662be688a9a (24.1 MB)
+Mar 31 15:53:02.801122 host-10-13-2-89 rpm-ostree[2300]: client(id:cli dbus:1.24 unit:libpod-81a5e89911911fa60b58d37d3a3f3fcb17dc5f7227a56979a04d8592822b9a80.scope uid:0) added; new total=1
+Mar 31 15:53:02.808466 host-10-13-2-89 rpm-ostree[2300]: Loaded sysroot
+Mar 31 15:53:02.846589 host-10-13-2-89 rpm-ostree[2300]: Locked sysroot
+Mar 31 15:53:02.846662 host-10-13-2-89 rpm-ostree[2300]: Initiated txn Cleanup for client(id:cli dbus:1.24 unit:libpod-81a5e89911911fa60b58d37d3a3f3fcb17dc5f7227a56979a04d8592822b9a80.scope uid:0): /org/projectatomic/rpmostree1/rhcos
+Mar 31 15:53:02.852208 host-10-13-2-89 rpm-ostree[2300]: Process [pid: 2479 uid: 0 unit: libpod-81a5e89911911fa60b58d37d3a3f3fcb17dc5f7227a56979a04d8592822b9a80.scope] connected to transaction progress
+Mar 31 15:53:02.853107 host-10-13-2-89 rpm-ostree[2300]: Txn Cleanup on /org/projectatomic/rpmostree1/rhcos successful
+Mar 31 15:53:02.853851 host-10-13-2-89 rpm-ostree[2300]: Unlocked sysroot
+Mar 31 15:53:02.854565 host-10-13-2-89 rpm-ostree[2300]: Process [pid: 2479 uid: 0 unit: libpod-81a5e89911911fa60b58d37d3a3f3fcb17dc5f7227a56979a04d8592822b9a80.scope] disconnected from transaction progress
+Mar 31 15:53:02.857060 host-10-13-2-89 rpm-ostree[2300]: client(id:cli dbus:1.24 unit:libpod-81a5e89911911fa60b58d37d3a3f3fcb17dc5f7227a56979a04d8592822b9a80.scope uid:0) vanished; remaining=0
+Mar 31 15:53:02.857091 host-10-13-2-89 rpm-ostree[2300]: In idle state; will auto-exit in 61 seconds
+Mar 31 15:53:02.902772 host-10-13-2-89 rpm-ostree[2300]: client(id:cli dbus:1.25 unit:libpod-81a5e89911911fa60b58d37d3a3f3fcb17dc5f7227a56979a04d8592822b9a80.scope uid:0) added; new total=1
+Mar 31 15:53:02.910237 host-10-13-2-89 rpm-ostree[2300]: client(id:cli dbus:1.25 unit:libpod-81a5e89911911fa60b58d37d3a3f3fcb17dc5f7227a56979a04d8592822b9a80.scope uid:0) vanished; remaining=0
+Mar 31 15:53:02.910266 host-10-13-2-89 rpm-ostree[2300]: In idle state; will auto-exit in 64 seconds
+Mar 31 15:53:02.986608 host-10-13-2-89 rpm-ostree[2300]: client(id:cli dbus:1.26 unit:libpod-81a5e89911911fa60b58d37d3a3f3fcb17dc5f7227a56979a04d8592822b9a80.scope uid:0) added; new total=1
+Mar 31 15:53:02.993995 host-10-13-2-89 rpm-ostree[2300]: Loaded sysroot
+Mar 31 15:53:02.994223 host-10-13-2-89 rpm-ostree[2300]: Locked sysroot
+Mar 31 15:53:02.994360 host-10-13-2-89 rpm-ostree[2300]: Initiated txn Rebase for client(id:cli dbus:1.26 unit:libpod-81a5e89911911fa60b58d37d3a3f3fcb17dc5f7227a56979a04d8592822b9a80.scope uid:0): /org/projectatomic/rpmostree1/rhcos
+Mar 31 15:53:02.997878 host-10-13-2-89 rpm-ostree[2300]: Process [pid: 2494 uid: 0 unit: libpod-81a5e89911911fa60b58d37d3a3f3fcb17dc5f7227a56979a04d8592822b9a80.scope] connected to transaction progress
+Mar 31 15:53:03.053430 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree-unverified-registry:quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:da668dd26a52bb8b1e8a047550590f1b7d1270c5e0a6b49eb8ee7852ea6ccfbb
+Mar 31 15:53:04.858467 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:c662be688a9a
+Mar 31 15:53:04.858467 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:13c9afed6f63 (18.9 MB)
+Mar 31 15:53:05.470384 host-10-13-2-89 rpm-ostree[2300]: layers already present: 7; layers needed: 44 (1.2 GB)
+Mar 31 15:53:05.471928 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:0e281261d4b3 (116.7 MB)
+Mar 31 15:53:05.926541 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:13c9afed6f63
+Mar 31 15:53:05.926541 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:d4375697d8bd (13.0 MB)
+Mar 31 15:53:10.467150 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:0e281261d4b3
+Mar 31 15:53:10.467150 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:a233fe07bac5 (431.5 MB)
+Mar 31 15:53:12.459505 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:d4375697d8bd
+Mar 31 15:53:12.459505 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:d0169d93f6b0 (35.4 MB)
+Mar 31 15:53:20.817710 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:d0169d93f6b0
+Mar 31 15:53:20.817710 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:b10c74efc500 (33.5 MB)
+Mar 31 15:53:25.636628 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:b10c74efc500
+Mar 31 15:53:25.636628 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:85456c8f9d4b (12.8 MB)
+Mar 31 15:53:31.029843 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:85456c8f9d4b
+Mar 31 15:53:31.029843 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:236b06b1b811 (11.0 MB)
+Mar 31 15:53:31.478611 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:a233fe07bac5
+Mar 31 15:53:31.478611 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:e3abe3214cb7 (62.3 MB)
+Mar 31 15:53:32.524779 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:236b06b1b811
+Mar 31 15:53:32.524779 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:a1371d13aec6 (8.7 MB)
+Mar 31 15:53:34.515259 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:a1371d13aec6
+Mar 31 15:53:34.515259 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:38ceeb0c7f0f (10.3 MB)
+Mar 31 15:53:34.541958 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:e3abe3214cb7
+Mar 31 15:53:34.541958 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:ab0fc687e5b4 (44.3 MB)
+Mar 31 15:53:35.376130 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:38ceeb0c7f0f
+Mar 31 15:53:35.376130 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:d270018ff8a2 (11.9 MB)
+Mar 31 15:53:37.169093 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:d270018ff8a2
+Mar 31 15:53:37.169093 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:71d7cb6540af (8.5 MB)
+Mar 31 15:53:37.176292 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:ab0fc687e5b4
+Mar 31 15:53:37.176292 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:c662be688a9a (24.1 MB)
+Mar 31 15:53:38.133994 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:c662be688a9a
+Mar 31 15:53:38.133994 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:13c9afed6f63 (18.9 MB)
+Mar 31 15:53:38.916201 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:13c9afed6f63
+Mar 31 15:53:38.916201 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:d4375697d8bd (13.0 MB)
+Mar 31 15:53:39.225028 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:71d7cb6540af
+Mar 31 15:53:39.225028 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:a01e68a80775 (6.8 MB)
+Mar 31 15:53:39.765652 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:d4375697d8bd
+Mar 31 15:53:39.765652 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:d0169d93f6b0 (35.4 MB)
+Mar 31 15:53:40.055563 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:a01e68a80775
+Mar 31 15:53:40.055563 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:0c4ff92f21d7 (6.2 MB)
+Mar 31 15:53:40.565806 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:0c4ff92f21d7
+Mar 31 15:53:40.565806 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:c69683c8cf2b (13.5 MB)
+Mar 31 15:53:43.038842 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:c69683c8cf2b
+Mar 31 15:53:43.038842 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:ad80d1e8d07a (5.8 MB)
+Mar 31 15:53:43.392826 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:d0169d93f6b0
+Mar 31 15:53:43.392826 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:b10c74efc500 (33.5 MB)
+Mar 31 15:53:43.483585 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:ad80d1e8d07a
+Mar 31 15:53:43.483585 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:7453a57c73bf (5.4 MB)
+Mar 31 15:53:45.060479 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:b10c74efc500
+Mar 31 15:53:45.060479 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:85456c8f9d4b (12.8 MB)
+Mar 31 15:53:45.098782 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:7453a57c73bf
+Mar 31 15:53:45.099512 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:7ef1d8c73f1b (11.1 MB)
+Mar 31 15:53:45.820636 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:85456c8f9d4b
+Mar 31 15:53:45.820636 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:236b06b1b811 (11.0 MB)
+Mar 31 15:53:46.525695 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:236b06b1b811
+Mar 31 15:53:46.525695 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:a1371d13aec6 (8.7 MB)
+Mar 31 15:53:46.689358 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:7ef1d8c73f1b
+Mar 31 15:53:46.689358 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:738adb82324b (4.2 MB)
+Mar 31 15:53:47.136391 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:738adb82324b
+Mar 31 15:53:47.136391 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:f1f4cfbecf9a (2.6 MB)
+Mar 31 15:53:47.231127 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:a1371d13aec6
+Mar 31 15:53:47.231127 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:38ceeb0c7f0f (10.3 MB)
+Mar 31 15:53:47.817828 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:38ceeb0c7f0f
+Mar 31 15:53:47.817828 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:d270018ff8a2 (11.9 MB)
+Mar 31 15:53:48.505285 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:d270018ff8a2
+Mar 31 15:53:48.505285 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:71d7cb6540af (8.5 MB)
+Mar 31 15:53:48.551037 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:f1f4cfbecf9a
+Mar 31 15:53:48.551037 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:97b41573266c (5.7 MB)
+Mar 31 15:53:49.023224 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:71d7cb6540af
+Mar 31 15:53:49.023224 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:a01e68a80775 (6.8 MB)
+Mar 31 15:53:49.546521 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:a01e68a80775
+Mar 31 15:53:49.546521 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:0c4ff92f21d7 (6.2 MB)
+Mar 31 15:53:50.151505 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:97b41573266c
+Mar 31 15:53:50.151505 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:bbbd0246919c (1.2 MB)
+Mar 31 15:53:50.273806 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:0c4ff92f21d7
+Mar 31 15:53:50.273806 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:c69683c8cf2b (13.5 MB)
+Mar 31 15:53:50.764044 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:c69683c8cf2b
+Mar 31 15:53:50.764044 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:ad80d1e8d07a (5.8 MB)
+Mar 31 15:53:51.267328 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:bbbd0246919c
+Mar 31 15:53:51.267328 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:20e218446f83 (6.8 MB)
+Mar 31 15:53:51.296767 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:ad80d1e8d07a
+Mar 31 15:53:51.296767 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:7453a57c73bf (5.4 MB)
+Mar 31 15:53:51.825331 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:7453a57c73bf
+Mar 31 15:53:51.825331 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:7ef1d8c73f1b (11.1 MB)
+Mar 31 15:53:52.248944 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:20e218446f83
+Mar 31 15:53:52.248944 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:d59cbf828bf6 (2.4 MB)
+Mar 31 15:53:52.392343 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:7ef1d8c73f1b
+Mar 31 15:53:52.392343 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:738adb82324b (4.2 MB)
+Mar 31 15:53:52.835251 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:738adb82324b
+Mar 31 15:53:52.835251 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:f1f4cfbecf9a (2.6 MB)
+Mar 31 15:53:54.661401 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:d59cbf828bf6
+Mar 31 15:53:54.661401 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:b58917c60f35 (10.7 MB)
+Mar 31 15:53:56.852626 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:f1f4cfbecf9a
+Mar 31 15:53:56.852626 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:97b41573266c (5.7 MB)
+Mar 31 15:53:57.331561 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:97b41573266c
+Mar 31 15:53:57.331561 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:bbbd0246919c (1.2 MB)
+Mar 31 15:53:57.716811 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:bbbd0246919c
+Mar 31 15:53:57.716811 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:20e218446f83 (6.8 MB)
+Mar 31 15:53:58.299846 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:20e218446f83
+Mar 31 15:53:58.299846 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:d59cbf828bf6 (2.4 MB)
+Mar 31 15:53:59.214383 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:b58917c60f35
+Mar 31 15:53:59.214383 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:733b48e0bde3 (46.3 MB)
+Mar 31 15:53:59.265741 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:d59cbf828bf6
+Mar 31 15:53:59.265741 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:b58917c60f35 (10.7 MB)
+Mar 31 15:53:59.900324 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:b58917c60f35
+Mar 31 15:53:59.900715 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:733b48e0bde3 (46.3 MB)
+Mar 31 15:54:01.261610 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:733b48e0bde3
+Mar 31 15:54:01.261610 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:32536c0b10b6 (6.2 MB)
+Mar 31 15:54:02.769426 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:32536c0b10b6
+Mar 31 15:54:02.769426 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:846007eec127 (9.1 MB)
+Mar 31 15:54:03.210353 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:733b48e0bde3
+Mar 31 15:54:03.210353 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:32536c0b10b6 (6.2 MB)
+Mar 31 15:54:03.676885 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:846007eec127
+Mar 31 15:54:03.676885 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:fa1051df52f3 (6.3 MB)
+Mar 31 15:54:03.974928 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:32536c0b10b6
+Mar 31 15:54:03.974928 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:846007eec127 (9.1 MB)
+Mar 31 15:54:04.213889 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:fa1051df52f3
+Mar 31 15:54:04.213889 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:774c736b0b6c (5.3 MB)
+Mar 31 15:54:04.769097 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:774c736b0b6c
+Mar 31 15:54:04.769097 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:7405cef88bb7 (3.8 MB)
+Mar 31 15:54:05.081076 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:846007eec127
+Mar 31 15:54:05.081076 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:fa1051df52f3 (6.3 MB)
+Mar 31 15:54:05.542989 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:fa1051df52f3
+Mar 31 15:54:05.542989 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:774c736b0b6c (5.3 MB)
+Mar 31 15:54:06.071081 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:774c736b0b6c
+Mar 31 15:54:06.071081 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:7405cef88bb7 (3.8 MB)
+Mar 31 15:54:07.154163 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:7405cef88bb7
+Mar 31 15:54:07.154163 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:305b580e9a91 (3.1 MB)
+Mar 31 15:54:07.221928 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:7405cef88bb7
+Mar 31 15:54:07.221928 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:305b580e9a91 (3.1 MB)
+Mar 31 15:54:08.057709 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:305b580e9a91
+Mar 31 15:54:08.057709 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:3970c9fde68c (2.5 MB)
+Mar 31 15:54:08.150268 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:305b580e9a91
+Mar 31 15:54:08.150268 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:3970c9fde68c (2.5 MB)
+Mar 31 15:54:08.953713 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:3970c9fde68c
+Mar 31 15:54:08.953713 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:959c6e7699f5 (12.4 MB)
+Mar 31 15:54:08.967402 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:3970c9fde68c
+Mar 31 15:54:08.967402 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:959c6e7699f5 (12.4 MB)
+Mar 31 15:54:10.137987 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:959c6e7699f5
+Mar 31 15:54:10.137987 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:438074a86d81 (3.5 MB)
+Mar 31 15:54:10.138945 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:959c6e7699f5
+Mar 31 15:54:10.138945 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:438074a86d81 (3.5 MB)
+Mar 31 15:54:11.952874 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:438074a86d81
+Mar 31 15:54:11.952874 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:d0d27c542db8 (2.4 MB)
+Mar 31 15:54:11.962008 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:438074a86d81
+Mar 31 15:54:11.962008 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:d0d27c542db8 (2.4 MB)
+Mar 31 15:54:12.828627 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:d0d27c542db8
+Mar 31 15:54:12.828627 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:5d617697504e (2.1 MB)
+Mar 31 15:54:12.919468 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:d0d27c542db8
+Mar 31 15:54:12.919468 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:5d617697504e (2.1 MB)
+Mar 31 15:54:13.463788 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:5d617697504e
+Mar 31 15:54:13.463788 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:8200fe9e04f2 (4.7 MB)
+Mar 31 15:54:13.493146 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:5d617697504e
+Mar 31 15:54:13.493146 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:8200fe9e04f2 (4.7 MB)
+Mar 31 15:54:15.020295 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:8200fe9e04f2
+Mar 31 15:54:15.020295 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:395de464756b (38.0 MB)
+Mar 31 15:54:15.170561 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:8200fe9e04f2
+Mar 31 15:54:15.170561 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:395de464756b (38.0 MB)
+Mar 31 15:54:17.507563 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:395de464756b
+Mar 31 15:54:17.507563 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:bf58d0855dd9 (119.2 MB)
+Mar 31 15:54:18.042611 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:395de464756b
+Mar 31 15:54:18.042611 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:bf58d0855dd9 (119.2 MB)
+Mar 31 15:54:30.262253 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:bf58d0855dd9
+Mar 31 15:54:30.262253 host-10-13-2-89 rpm-ostree[2300]: Fetching ostree chunk sha256:5599780531cd (1.6 MB)
+Mar 31 15:54:31.482677 host-10-13-2-89 rpm-ostree[2300]: Fetched ostree chunk sha256:5599780531cd
+Mar 31 15:54:31.844952 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:bf58d0855dd9
+Mar 31 15:54:31.844952 host-10-13-2-160 rpm-ostree[2302]: Fetching ostree chunk sha256:5599780531cd (1.6 MB)
+Mar 31 15:54:33.160611 host-10-13-2-160 rpm-ostree[2302]: Fetched ostree chunk sha256:5599780531cd
+Mar 31 15:54:35.304279 host-10-13-2-89 rpm-ostree[2300]: Created new deployment /ostree/deploy/rhcos/deploy/583368582182ed32803558e34dd6a4e4e1e0ead6dbd02c5ccc125aee27ddfe07.0
+Mar 31 15:54:35.317456 host-10-13-2-89 rpm-ostree[2300]: sanitycheck(/usr/bin/true) successful
+Mar 31 15:54:35.882113 host-10-13-2-89 rpm-ostree[2300]: Txn Rebase on /org/projectatomic/rpmostree1/rhcos successful
+Mar 31 15:54:35.883586 host-10-13-2-89 rpm-ostree[2300]: Unlocked sysroot
+Mar 31 15:54:35.884499 host-10-13-2-89 rpm-ostree[2300]: Process [pid: 2494 uid: 0 unit: libpod-81a5e89911911fa60b58d37d3a3f3fcb17dc5f7227a56979a04d8592822b9a80.scope] disconnected from transaction progress
+Mar 31 15:54:36.178177 host-10-13-2-89 rpm-ostree[2300]: client(id:cli dbus:1.26 unit:libpod-81a5e89911911fa60b58d37d3a3f3fcb17dc5f7227a56979a04d8592822b9a80.scope uid:0) vanished; remaining=0
+Mar 31 15:54:36.178196 host-10-13-2-89 rpm-ostree[2300]: In idle state; will auto-exit in 61 seconds
+Mar 31 15:54:36.210114 host-10-13-2-89 rpm-ostree[2300]: client(id:cli dbus:1.27 unit:libpod-81a5e89911911fa60b58d37d3a3f3fcb17dc5f7227a56979a04d8592822b9a80.scope uid:0) added; new total=1
+Mar 31 15:54:36.216273 host-10-13-2-89 rpm-ostree[2300]: Loaded sysroot
+Mar 31 15:54:36.216369 host-10-13-2-89 rpm-ostree[2300]: Locked sysroot
+Mar 31 15:54:36.216410 host-10-13-2-89 rpm-ostree[2300]: Initiated txn KernelArgs for client(id:cli dbus:1.27 unit:libpod-81a5e89911911fa60b58d37d3a3f3fcb17dc5f7227a56979a04d8592822b9a80.scope uid:0): /org/projectatomic/rpmostree1/rhcos
+Mar 31 15:54:36.219645 host-10-13-2-89 rpm-ostree[2300]: Process [pid: 2522 uid: 0 unit: libpod-81a5e89911911fa60b58d37d3a3f3fcb17dc5f7227a56979a04d8592822b9a80.scope] connected to transaction progress
+Mar 31 15:54:36.987587 host-10-13-2-160 rpm-ostree[2302]: Created new deployment /ostree/deploy/rhcos/deploy/45b580f6f33bb0c33bc60241f2a1a0ae90961298c0184f9a017f23ed44400a1b.0
+Mar 31 15:54:37.001772 host-10-13-2-160 rpm-ostree[2302]: sanitycheck(/usr/bin/true) successful
+Mar 31 15:54:37.593445 host-10-13-2-160 rpm-ostree[2302]: Txn Rebase on /org/projectatomic/rpmostree1/rhcos successful
+Mar 31 15:54:37.595457 host-10-13-2-160 rpm-ostree[2302]: Unlocked sysroot
+Mar 31 15:54:37.596526 host-10-13-2-160 rpm-ostree[2302]: Process [pid: 2501 uid: 0 unit: libpod-354430e40bf8522640d0c69e04f5e6bcb4f38bcf30bf69898f9bcb57c035b8cf.scope] disconnected from transaction progress
+Mar 31 15:54:37.729677 host-10-13-2-160 rpm-ostree[2302]: client(id:cli dbus:1.26 unit:libpod-354430e40bf8522640d0c69e04f5e6bcb4f38bcf30bf69898f9bcb57c035b8cf.scope uid:0) vanished; remaining=0
+Mar 31 15:54:37.729713 host-10-13-2-160 rpm-ostree[2302]: In idle state; will auto-exit in 64 seconds
+Mar 31 15:54:37.771389 host-10-13-2-160 rpm-ostree[2302]: client(id:cli dbus:1.27 unit:libpod-354430e40bf8522640d0c69e04f5e6bcb4f38bcf30bf69898f9bcb57c035b8cf.scope uid:0) added; new total=1
+Mar 31 15:54:37.779864 host-10-13-2-160 rpm-ostree[2302]: Loaded sysroot
+Mar 31 15:54:37.780020 host-10-13-2-160 rpm-ostree[2302]: Locked sysroot
+Mar 31 15:54:37.780120 host-10-13-2-160 rpm-ostree[2302]: Initiated txn KernelArgs for client(id:cli dbus:1.27 unit:libpod-354430e40bf8522640d0c69e04f5e6bcb4f38bcf30bf69898f9bcb57c035b8cf.scope uid:0): /org/projectatomic/rpmostree1/rhcos
+Mar 31 15:54:37.783727 host-10-13-2-160 rpm-ostree[2302]: Process [pid: 2528 uid: 0 unit: libpod-354430e40bf8522640d0c69e04f5e6bcb4f38bcf30bf69898f9bcb57c035b8cf.scope] connected to transaction progress
+Mar 31 15:54:38.291071 host-10-13-2-89 rpm-ostree[2300]: Created new deployment /ostree/deploy/rhcos/deploy/583368582182ed32803558e34dd6a4e4e1e0ead6dbd02c5ccc125aee27ddfe07.1
+Mar 31 15:54:38.303095 host-10-13-2-89 rpm-ostree[2300]: sanitycheck(/usr/bin/true) successful
+Mar 31 15:54:38.797473 host-10-13-2-89 rpm-ostree[2300]: Txn KernelArgs on /org/projectatomic/rpmostree1/rhcos successful
+Mar 31 15:54:38.801917 host-10-13-2-89 rpm-ostree[2300]: Unlocked sysroot
+Mar 31 15:54:38.802795 host-10-13-2-89 rpm-ostree[2300]: Process [pid: 2522 uid: 0 unit: libpod-81a5e89911911fa60b58d37d3a3f3fcb17dc5f7227a56979a04d8592822b9a80.scope] disconnected from transaction progress
+Mar 31 15:54:38.941538 host-10-13-2-89 rpm-ostree[2300]: client(id:cli dbus:1.27 unit:libpod-81a5e89911911fa60b58d37d3a3f3fcb17dc5f7227a56979a04d8592822b9a80.scope uid:0) vanished; remaining=0
+Mar 31 15:54:38.941567 host-10-13-2-89 rpm-ostree[2300]: In idle state; will auto-exit in 60 seconds
+Mar 31 15:54:39.237747 host-10-13-2-89 systemd[1]: Stopping rpm-ostree System Management Daemon...
+Mar 31 15:54:39.298417 host-10-13-2-89 systemd[1]: rpm-ostreed.service: Deactivated successfully.
+Mar 31 15:54:39.298786 host-10-13-2-89 systemd[1]: Stopped rpm-ostree System Management Daemon.
+Mar 31 15:54:39.299161 host-10-13-2-89 systemd[1]: rpm-ostreed.service: Consumed 39.922s CPU time.
+-- Boot 0de35f4510734490b5bb01af79b9d5d7 --
+Mar 31 15:54:39.878689 host-10-13-2-160 rpm-ostree[2302]: Created new deployment /ostree/deploy/rhcos/deploy/45b580f6f33bb0c33bc60241f2a1a0ae90961298c0184f9a017f23ed44400a1b.1
+Mar 31 15:54:39.896393 host-10-13-2-160 rpm-ostree[2302]: sanitycheck(/usr/bin/true) successful
+Mar 31 15:54:40.373833 host-10-13-2-160 rpm-ostree[2302]: Txn KernelArgs on /org/projectatomic/rpmostree1/rhcos successful
+Mar 31 15:54:40.376738 host-10-13-2-160 rpm-ostree[2302]: Unlocked sysroot
+Mar 31 15:54:40.377579 host-10-13-2-160 rpm-ostree[2302]: Process [pid: 2528 uid: 0 unit: libpod-354430e40bf8522640d0c69e04f5e6bcb4f38bcf30bf69898f9bcb57c035b8cf.scope] disconnected from transaction progress
+Mar 31 15:54:40.515026 host-10-13-2-160 rpm-ostree[2302]: client(id:cli dbus:1.27 unit:libpod-354430e40bf8522640d0c69e04f5e6bcb4f38bcf30bf69898f9bcb57c035b8cf.scope uid:0) vanished; remaining=0
+Mar 31 15:54:40.515042 host-10-13-2-160 rpm-ostree[2302]: In idle state; will auto-exit in 62 seconds
+Mar 31 15:54:40.789682 host-10-13-2-160 systemd[1]: Stopping rpm-ostree System Management Daemon...
+Mar 31 15:54:40.852316 host-10-13-2-160 systemd[1]: rpm-ostreed.service: Deactivated successfully.
+Mar 31 15:54:40.852449 host-10-13-2-160 systemd[1]: Stopped rpm-ostree System Management Daemon.
+Mar 31 15:54:40.852584 host-10-13-2-160 systemd[1]: rpm-ostreed.service: Consumed 44.333s CPU time.
+-- Boot 21eda58e3d56416fb5822114ac3c9851 --
+Mar 31 15:54:48.516783 host-10-13-0-150 systemd[1]: Starting rpm-ostree System Management Daemon...
+Mar 31 15:54:48.538289 host-10-13-0-150 rpm-ostree[2282]: Reading config file '/etc/rpm-ostreed.conf'
+Mar 31 15:54:48.549624 host-10-13-0-150 rpm-ostree[2282]: In idle state; will auto-exit in 63 seconds
+Mar 31 15:54:48.549760 host-10-13-0-150 systemd[1]: Started rpm-ostree System Management Daemon.
+Mar 31 15:54:48.555733 host-10-13-0-150 rpm-ostree[2282]: client(id:cli dbus:1.22 unit:libpod-d65c2c318297f89c876c3aa06b9774ad2da00237cffc2229aa3ae88efbea8df2.scope uid:0) added; new total=1
+Mar 31 15:54:48.563271 host-10-13-0-150 rpm-ostree[2282]: client(id:cli dbus:1.22 unit:libpod-d65c2c318297f89c876c3aa06b9774ad2da00237cffc2229aa3ae88efbea8df2.scope uid:0) vanished; remaining=0
+Mar 31 15:54:48.563310 host-10-13-0-150 rpm-ostree[2282]: In idle state; will auto-exit in 62 seconds
+Mar 31 15:54:48.613870 host-10-13-0-150 rpm-ostree[2282]: client(id:cli dbus:1.23 unit:libpod-d65c2c318297f89c876c3aa06b9774ad2da00237cffc2229aa3ae88efbea8df2.scope uid:0) added; new total=1
+Mar 31 15:54:48.619735 host-10-13-0-150 rpm-ostree[2282]: client(id:cli dbus:1.23 unit:libpod-d65c2c318297f89c876c3aa06b9774ad2da00237cffc2229aa3ae88efbea8df2.scope uid:0) vanished; remaining=0
+Mar 31 15:54:48.619760 host-10-13-0-150 rpm-ostree[2282]: In idle state; will auto-exit in 63 seconds
+Mar 31 15:55:33.600643 host-10-13-0-150 rpm-ostree[2282]: client(id:cli dbus:1.24 unit:libpod-d65c2c318297f89c876c3aa06b9774ad2da00237cffc2229aa3ae88efbea8df2.scope uid:0) added; new total=1
+Mar 31 15:55:33.606951 host-10-13-0-150 rpm-ostree[2282]: Loaded sysroot
+Mar 31 15:55:33.645583 host-10-13-0-150 rpm-ostree[2282]: Locked sysroot
+Mar 31 15:55:33.645695 host-10-13-0-150 rpm-ostree[2282]: Initiated txn Cleanup for client(id:cli dbus:1.24 unit:libpod-d65c2c318297f89c876c3aa06b9774ad2da00237cffc2229aa3ae88efbea8df2.scope uid:0): /org/projectatomic/rpmostree1/rhcos
+Mar 31 15:55:33.652707 host-10-13-0-150 rpm-ostree[2282]: Process [pid: 2463 uid: 0 unit: libpod-d65c2c318297f89c876c3aa06b9774ad2da00237cffc2229aa3ae88efbea8df2.scope] connected to transaction progress
+Mar 31 15:55:33.653666 host-10-13-0-150 rpm-ostree[2282]: Txn Cleanup on /org/projectatomic/rpmostree1/rhcos successful
+Mar 31 15:55:33.653968 host-10-13-0-150 rpm-ostree[2282]: Unlocked sysroot
+Mar 31 15:55:33.655243 host-10-13-0-150 rpm-ostree[2282]: Process [pid: 2463 uid: 0 unit: libpod-d65c2c318297f89c876c3aa06b9774ad2da00237cffc2229aa3ae88efbea8df2.scope] disconnected from transaction progress
+Mar 31 15:55:33.657410 host-10-13-0-150 rpm-ostree[2282]: client(id:cli dbus:1.24 unit:libpod-d65c2c318297f89c876c3aa06b9774ad2da00237cffc2229aa3ae88efbea8df2.scope uid:0) vanished; remaining=0
+Mar 31 15:55:33.657433 host-10-13-0-150 rpm-ostree[2282]: In idle state; will auto-exit in 64 seconds
+Mar 31 15:55:33.685952 host-10-13-0-150 rpm-ostree[2282]: client(id:cli dbus:1.25 unit:libpod-d65c2c318297f89c876c3aa06b9774ad2da00237cffc2229aa3ae88efbea8df2.scope uid:0) added; new total=1
+Mar 31 15:55:33.691266 host-10-13-0-150 rpm-ostree[2282]: client(id:cli dbus:1.25 unit:libpod-d65c2c318297f89c876c3aa06b9774ad2da00237cffc2229aa3ae88efbea8df2.scope uid:0) vanished; remaining=0
+Mar 31 15:55:33.691289 host-10-13-0-150 rpm-ostree[2282]: In idle state; will auto-exit in 63 seconds
+Mar 31 15:55:33.738376 host-10-13-0-150 rpm-ostree[2282]: client(id:cli dbus:1.26 unit:libpod-d65c2c318297f89c876c3aa06b9774ad2da00237cffc2229aa3ae88efbea8df2.scope uid:0) added; new total=1
+Mar 31 15:55:33.743100 host-10-13-0-150 rpm-ostree[2282]: Loaded sysroot
+Mar 31 15:55:33.743185 host-10-13-0-150 rpm-ostree[2282]: Locked sysroot
+Mar 31 15:55:33.743219 host-10-13-0-150 rpm-ostree[2282]: Initiated txn Rebase for client(id:cli dbus:1.26 unit:libpod-d65c2c318297f89c876c3aa06b9774ad2da00237cffc2229aa3ae88efbea8df2.scope uid:0): /org/projectatomic/rpmostree1/rhcos
+Mar 31 15:55:33.745756 host-10-13-0-150 rpm-ostree[2282]: Process [pid: 2478 uid: 0 unit: libpod-d65c2c318297f89c876c3aa06b9774ad2da00237cffc2229aa3ae88efbea8df2.scope] connected to transaction progress
+Mar 31 15:55:33.820957 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree-unverified-registry:quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:da668dd26a52bb8b1e8a047550590f1b7d1270c5e0a6b49eb8ee7852ea6ccfbb
+Mar 31 15:55:35.537370 host-10-13-0-150 rpm-ostree[2282]: layers already present: 7; layers needed: 44 (1.2 GB)
+Mar 31 15:55:35.540493 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:0e281261d4b3 (116.7 MB)
+Mar 31 15:55:43.923591 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:0e281261d4b3
+Mar 31 15:55:43.923591 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:a233fe07bac5 (431.5 MB)
+Mar 31 15:56:02.992205 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:a233fe07bac5
+Mar 31 15:56:02.992205 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:e3abe3214cb7 (62.3 MB)
+Mar 31 15:56:05.412269 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:e3abe3214cb7
+Mar 31 15:56:05.412269 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:ab0fc687e5b4 (44.3 MB)
+Mar 31 15:56:07.120667 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:ab0fc687e5b4
+Mar 31 15:56:07.120667 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:c662be688a9a (24.1 MB)
+Mar 31 15:56:08.133962 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:c662be688a9a
+Mar 31 15:56:08.134325 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:13c9afed6f63 (18.9 MB)
+Mar 31 15:56:08.970003 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:13c9afed6f63
+Mar 31 15:56:08.970178 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:d4375697d8bd (13.0 MB)
+Mar 31 15:56:09.779153 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:d4375697d8bd
+Mar 31 15:56:09.779153 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:d0169d93f6b0 (35.4 MB)
+Mar 31 15:56:10.854265 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:d0169d93f6b0
+Mar 31 15:56:10.854265 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:b10c74efc500 (33.5 MB)
+Mar 31 15:56:12.196772 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:b10c74efc500
+Mar 31 15:56:12.196772 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:85456c8f9d4b (12.8 MB)
+Mar 31 15:56:12.904529 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:85456c8f9d4b
+Mar 31 15:56:12.904529 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:236b06b1b811 (11.0 MB)
+Mar 31 15:56:17.609549 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:236b06b1b811
+Mar 31 15:56:17.609549 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:a1371d13aec6 (8.7 MB)
+Mar 31 15:56:18.315889 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:a1371d13aec6
+Mar 31 15:56:18.316129 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:38ceeb0c7f0f (10.3 MB)
+Mar 31 15:56:19.044421 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:38ceeb0c7f0f
+Mar 31 15:56:19.044759 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:d270018ff8a2 (11.9 MB)
+Mar 31 15:56:19.847775 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:d270018ff8a2
+Mar 31 15:56:19.847775 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:71d7cb6540af (8.5 MB)
+Mar 31 15:56:20.427421 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:71d7cb6540af
+Mar 31 15:56:20.427421 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:a01e68a80775 (6.8 MB)
+Mar 31 15:56:21.017521 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:a01e68a80775
+Mar 31 15:56:21.017521 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:0c4ff92f21d7 (6.2 MB)
+Mar 31 15:56:21.546244 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:0c4ff92f21d7
+Mar 31 15:56:21.547377 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:c69683c8cf2b (13.5 MB)
+Mar 31 15:56:22.242434 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:c69683c8cf2b
+Mar 31 15:56:22.242434 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:ad80d1e8d07a (5.8 MB)
+Mar 31 15:56:23.462582 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:ad80d1e8d07a
+Mar 31 15:56:23.462582 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:7453a57c73bf (5.4 MB)
+Mar 31 15:56:23.983658 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:7453a57c73bf
+Mar 31 15:56:23.983658 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:7ef1d8c73f1b (11.1 MB)
+Mar 31 15:56:24.598454 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:7ef1d8c73f1b
+Mar 31 15:56:24.598454 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:738adb82324b (4.2 MB)
+Mar 31 15:56:25.296584 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:738adb82324b
+Mar 31 15:56:25.296584 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:f1f4cfbecf9a (2.6 MB)
+Mar 31 15:56:25.706684 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:f1f4cfbecf9a
+Mar 31 15:56:25.706684 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:97b41573266c (5.7 MB)
+Mar 31 15:56:26.164626 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:97b41573266c
+Mar 31 15:56:26.164626 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:bbbd0246919c (1.2 MB)
+Mar 31 15:56:26.539386 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:bbbd0246919c
+Mar 31 15:56:26.539535 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:20e218446f83 (6.8 MB)
+Mar 31 15:56:27.118744 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:20e218446f83
+Mar 31 15:56:27.118744 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:d59cbf828bf6 (2.4 MB)
+Mar 31 15:56:27.624792 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:d59cbf828bf6
+Mar 31 15:56:27.624792 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:b58917c60f35 (10.7 MB)
+Mar 31 15:56:28.215996 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:b58917c60f35
+Mar 31 15:56:28.215996 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:733b48e0bde3 (46.3 MB)
+Mar 31 15:56:29.586492 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:733b48e0bde3
+Mar 31 15:56:29.586492 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:32536c0b10b6 (6.2 MB)
+Mar 31 15:56:30.174797 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:32536c0b10b6
+Mar 31 15:56:30.174797 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:846007eec127 (9.1 MB)
+Mar 31 15:56:30.680606 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:846007eec127
+Mar 31 15:56:30.680606 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:fa1051df52f3 (6.3 MB)
+Mar 31 15:56:31.180427 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:fa1051df52f3
+Mar 31 15:56:31.180427 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:774c736b0b6c (5.3 MB)
+Mar 31 15:56:31.703142 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:774c736b0b6c
+Mar 31 15:56:31.703142 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:7405cef88bb7 (3.8 MB)
+Mar 31 15:56:32.210311 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:7405cef88bb7
+Mar 31 15:56:32.210311 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:305b580e9a91 (3.1 MB)
+Mar 31 15:56:33.214040 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:305b580e9a91
+Mar 31 15:56:33.214040 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:3970c9fde68c (2.5 MB)
+Mar 31 15:56:33.655383 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:3970c9fde68c
+Mar 31 15:56:33.655383 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:959c6e7699f5 (12.4 MB)
+Mar 31 15:56:34.342168 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:959c6e7699f5
+Mar 31 15:56:34.342168 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:438074a86d81 (3.5 MB)
+Mar 31 15:56:34.843567 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:438074a86d81
+Mar 31 15:56:34.843567 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:d0d27c542db8 (2.4 MB)
+Mar 31 15:56:35.785630 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:d0d27c542db8
+Mar 31 15:56:35.785630 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:5d617697504e (2.1 MB)
+Mar 31 15:56:36.362786 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:5d617697504e
+Mar 31 15:56:36.362786 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:8200fe9e04f2 (4.7 MB)
+Mar 31 15:56:37.525260 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:8200fe9e04f2
+Mar 31 15:56:37.525260 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:395de464756b (38.0 MB)
+Mar 31 15:56:38.634711 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:395de464756b
+Mar 31 15:56:38.634711 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:bf58d0855dd9 (119.2 MB)
+Mar 31 15:56:46.696836 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:bf58d0855dd9
+Mar 31 15:56:46.696836 host-10-13-0-150 rpm-ostree[2282]: Fetching ostree chunk sha256:5599780531cd (1.6 MB)
+Mar 31 15:56:47.329214 host-10-13-0-150 rpm-ostree[2282]: Fetched ostree chunk sha256:5599780531cd
+Mar 31 15:56:51.058578 host-10-13-0-150 rpm-ostree[2282]: Created new deployment /ostree/deploy/rhcos/deploy/e638dea795d64566a68aa2ea8ab1e4d688d99738f88004096e8c63d43b786017.0
+Mar 31 15:56:51.075193 host-10-13-0-150 rpm-ostree[2282]: sanitycheck(/usr/bin/true) successful
+Mar 31 15:56:51.652816 host-10-13-0-150 rpm-ostree[2282]: Txn Rebase on /org/projectatomic/rpmostree1/rhcos successful
+Mar 31 15:56:51.656210 host-10-13-0-150 rpm-ostree[2282]: Unlocked sysroot
+Mar 31 15:56:51.657719 host-10-13-0-150 rpm-ostree[2282]: Process [pid: 2478 uid: 0 unit: libpod-d65c2c318297f89c876c3aa06b9774ad2da00237cffc2229aa3ae88efbea8df2.scope] disconnected from transaction progress
+Mar 31 15:56:51.962544 host-10-13-0-150 rpm-ostree[2282]: client(id:cli dbus:1.26 unit:libpod-d65c2c318297f89c876c3aa06b9774ad2da00237cffc2229aa3ae88efbea8df2.scope uid:0) vanished; remaining=0
+Mar 31 15:56:51.962562 host-10-13-0-150 rpm-ostree[2282]: In idle state; will auto-exit in 64 seconds
+Mar 31 15:56:52.011777 host-10-13-0-150 rpm-ostree[2282]: client(id:cli dbus:1.27 unit:libpod-d65c2c318297f89c876c3aa06b9774ad2da00237cffc2229aa3ae88efbea8df2.scope uid:0) added; new total=1
+Mar 31 15:56:52.020363 host-10-13-0-150 rpm-ostree[2282]: Loaded sysroot
+Mar 31 15:56:52.020572 host-10-13-0-150 rpm-ostree[2282]: Locked sysroot
+Mar 31 15:56:52.020652 host-10-13-0-150 rpm-ostree[2282]: Initiated txn KernelArgs for client(id:cli dbus:1.27 unit:libpod-d65c2c318297f89c876c3aa06b9774ad2da00237cffc2229aa3ae88efbea8df2.scope uid:0): /org/projectatomic/rpmostree1/rhcos
+Mar 31 15:56:52.024843 host-10-13-0-150 rpm-ostree[2282]: Process [pid: 2504 uid: 0 unit: libpod-d65c2c318297f89c876c3aa06b9774ad2da00237cffc2229aa3ae88efbea8df2.scope] connected to transaction progress
+Mar 31 15:56:54.146674 host-10-13-0-150 rpm-ostree[2282]: Created new deployment /ostree/deploy/rhcos/deploy/e638dea795d64566a68aa2ea8ab1e4d688d99738f88004096e8c63d43b786017.1
+Mar 31 15:56:54.164538 host-10-13-0-150 rpm-ostree[2282]: sanitycheck(/usr/bin/true) successful
+Mar 31 15:56:54.665661 host-10-13-0-150 rpm-ostree[2282]: Txn KernelArgs on /org/projectatomic/rpmostree1/rhcos successful
+Mar 31 15:56:54.668602 host-10-13-0-150 rpm-ostree[2282]: Unlocked sysroot
+Mar 31 15:56:54.669741 host-10-13-0-150 rpm-ostree[2282]: Process [pid: 2504 uid: 0 unit: libpod-d65c2c318297f89c876c3aa06b9774ad2da00237cffc2229aa3ae88efbea8df2.scope] disconnected from transaction progress
+Mar 31 15:56:54.811301 host-10-13-0-150 rpm-ostree[2282]: client(id:cli dbus:1.27 unit:libpod-d65c2c318297f89c876c3aa06b9774ad2da00237cffc2229aa3ae88efbea8df2.scope uid:0) vanished; remaining=0
+Mar 31 15:56:54.811319 host-10-13-0-150 rpm-ostree[2282]: In idle state; will auto-exit in 63 seconds
+Mar 31 15:56:55.125632 host-10-13-0-150 systemd[1]: Stopping rpm-ostree System Management Daemon...
+Mar 31 15:56:55.178928 host-10-13-0-150 systemd[1]: rpm-ostreed.service: Deactivated successfully.
+Mar 31 15:56:55.179054 host-10-13-0-150 systemd[1]: Stopped rpm-ostree System Management Daemon.
+Mar 31 15:56:55.179345 host-10-13-0-150 systemd[1]: rpm-ostreed.service: Consumed 40.447s CPU time.
+-- Boot fd6470c57e2e49328484d9abb99803e8 --
+Mar 31 20:23:00.610008 host-10-13-2-89 systemd[1]: Starting rpm-ostree System Management Daemon...
+Mar 31 20:23:00.650490 host-10-13-2-160 systemd[1]: Starting rpm-ostree System Management Daemon...
+Mar 31 20:23:00.669502 host-10-13-2-89 rpm-ostree[5735]: Reading config file '/etc/rpm-ostreed.conf'
+Mar 31 20:23:00.679459 host-10-13-2-89 rpm-ostree[5735]: In idle state; will auto-exit in 64 seconds
+Mar 31 20:23:00.679790 host-10-13-2-89 systemd[1]: Started rpm-ostree System Management Daemon.
+Mar 31 20:23:00.684406 host-10-13-2-89 rpm-ostree[5735]: client(id:cli dbus:1.222 unit:crio-7d1b9ac1ac9a51426e89771c4035b210305dbbaea5640a21d998131998ac6842.scope uid:0) added; new total=1
+Mar 31 20:23:00.686317 host-10-13-2-160 rpm-ostree[6619]: Reading config file '/etc/rpm-ostreed.conf'
+Mar 31 20:23:00.691386 host-10-13-2-89 rpm-ostree[5735]: client(id:cli dbus:1.222 unit:crio-7d1b9ac1ac9a51426e89771c4035b210305dbbaea5640a21d998131998ac6842.scope uid:0) vanished; remaining=0
+Mar 31 20:23:00.691475 host-10-13-2-89 rpm-ostree[5735]: In idle state; will auto-exit in 63 seconds
+Mar 31 20:23:00.706399 host-10-13-2-160 systemd[1]: Started rpm-ostree System Management Daemon.
+Mar 31 20:23:00.706401 host-10-13-2-160 rpm-ostree[6619]: In idle state; will auto-exit in 61 seconds
+Mar 31 20:23:00.711536 host-10-13-2-160 rpm-ostree[6619]: client(id:cli dbus:1.269 unit:crio-e5dbd38f774774a9b7f097562edf235b1e3397b085687f284b850029efd7ca56.scope uid:0) added; new total=1
+Mar 31 20:23:00.720227 host-10-13-2-160 rpm-ostree[6619]: client(id:cli dbus:1.269 unit:crio-e5dbd38f774774a9b7f097562edf235b1e3397b085687f284b850029efd7ca56.scope uid:0) vanished; remaining=0
+Mar 31 20:23:00.720443 host-10-13-2-160 rpm-ostree[6619]: In idle state; will auto-exit in 64 seconds
+Mar 31 20:23:00.776036 host-10-13-2-89 rpm-ostree[5735]: client(id:machine-config-operator dbus:1.223 unit:crio-7d1b9ac1ac9a51426e89771c4035b210305dbbaea5640a21d998131998ac6842.scope uid:0) added; new total=1
+Mar 31 20:23:00.787105 host-10-13-2-89 rpm-ostree[5735]: client(id:machine-config-operator dbus:1.223 unit:crio-7d1b9ac1ac9a51426e89771c4035b210305dbbaea5640a21d998131998ac6842.scope uid:0) vanished; remaining=0
+Mar 31 20:23:00.787311 host-10-13-2-89 rpm-ostree[5735]: In idle state; will auto-exit in 62 seconds
+Mar 31 20:23:00.803200 host-10-13-2-160 rpm-ostree[6619]: client(id:machine-config-operator dbus:1.270 unit:crio-e5dbd38f774774a9b7f097562edf235b1e3397b085687f284b850029efd7ca56.scope uid:0) added; new total=1
+Mar 31 20:23:00.813274 host-10-13-2-160 rpm-ostree[6619]: client(id:machine-config-operator dbus:1.270 unit:crio-e5dbd38f774774a9b7f097562edf235b1e3397b085687f284b850029efd7ca56.scope uid:0) vanished; remaining=0
+Mar 31 20:23:00.813303 host-10-13-2-160 rpm-ostree[6619]: In idle state; will auto-exit in 60 seconds
+Mar 31 20:23:00.846031 host-10-13-2-89 rpm-ostree[5735]: client(id:machine-config-operator dbus:1.224 unit:crio-7d1b9ac1ac9a51426e89771c4035b210305dbbaea5640a21d998131998ac6842.scope uid:0) added; new total=1
+Mar 31 20:23:00.854729 host-10-13-2-89 rpm-ostree[5735]: client(id:machine-config-operator dbus:1.224 unit:crio-7d1b9ac1ac9a51426e89771c4035b210305dbbaea5640a21d998131998ac6842.scope uid:0) vanished; remaining=0
+Mar 31 20:23:00.854937 host-10-13-2-89 rpm-ostree[5735]: In idle state; will auto-exit in 62 seconds
+Mar 31 20:23:00.858669 host-10-13-2-160 rpm-ostree[6619]: client(id:machine-config-operator dbus:1.271 unit:crio-e5dbd38f774774a9b7f097562edf235b1e3397b085687f284b850029efd7ca56.scope uid:0) added; new total=1
+Mar 31 20:23:00.865372 host-10-13-2-160 rpm-ostree[6619]: client(id:machine-config-operator dbus:1.271 unit:crio-e5dbd38f774774a9b7f097562edf235b1e3397b085687f284b850029efd7ca56.scope uid:0) vanished; remaining=0
+Mar 31 20:23:00.865387 host-10-13-2-160 rpm-ostree[6619]: In idle state; will auto-exit in 63 seconds
+Mar 31 20:23:01.348450 host-10-13-0-150 systemd[1]: Starting rpm-ostree System Management Daemon...
+Mar 31 20:23:01.447989 host-10-13-0-150 rpm-ostree[7807]: Reading config file '/etc/rpm-ostreed.conf'
+Mar 31 20:23:01.464417 host-10-13-0-150 rpm-ostree[7807]: In idle state; will auto-exit in 60 seconds
+Mar 31 20:23:01.464518 host-10-13-0-150 systemd[1]: Started rpm-ostree System Management Daemon.
+Mar 31 20:23:01.473588 host-10-13-0-150 rpm-ostree[7807]: client(id:cli dbus:1.268 unit:crio-9bddc610ee4e1517b74c722b5fd4863cc69fed5d45b9d43bf0dc79059d40bf52.scope uid:0) added; new total=1
+Mar 31 20:23:01.478305 host-10-13-0-150 rpm-ostree[7807]: client(id:cli dbus:1.268 unit:crio-9bddc610ee4e1517b74c722b5fd4863cc69fed5d45b9d43bf0dc79059d40bf52.scope uid:0) vanished; remaining=0
+Mar 31 20:23:01.478402 host-10-13-0-150 rpm-ostree[7807]: In idle state; will auto-exit in 61 seconds
+Mar 31 20:23:01.540799 host-10-13-0-150 rpm-ostree[7807]: client(id:machine-config-operator dbus:1.269 unit:crio-9bddc610ee4e1517b74c722b5fd4863cc69fed5d45b9d43bf0dc79059d40bf52.scope uid:0) added; new total=1
+Mar 31 20:23:01.549551 host-10-13-0-150 rpm-ostree[7807]: client(id:machine-config-operator dbus:1.269 unit:crio-9bddc610ee4e1517b74c722b5fd4863cc69fed5d45b9d43bf0dc79059d40bf52.scope uid:0) vanished; remaining=0
+Mar 31 20:23:01.549611 host-10-13-0-150 rpm-ostree[7807]: In idle state; will auto-exit in 64 seconds
+Mar 31 20:23:01.580730 host-10-13-0-150 rpm-ostree[7807]: client(id:machine-config-operator dbus:1.270 unit:crio-9bddc610ee4e1517b74c722b5fd4863cc69fed5d45b9d43bf0dc79059d40bf52.scope uid:0) added; new total=1
+Mar 31 20:23:01.588988 host-10-13-0-150 rpm-ostree[7807]: client(id:machine-config-operator dbus:1.270 unit:crio-9bddc610ee4e1517b74c722b5fd4863cc69fed5d45b9d43bf0dc79059d40bf52.scope uid:0) vanished; remaining=0
+Mar 31 20:23:01.589096 host-10-13-0-150 rpm-ostree[7807]: In idle state; will auto-exit in 63 seconds
+Mar 31 20:23:19.942995 host-10-13-2-160 rpm-ostree[6619]: client(id:machine-config-operator dbus:1.282 unit:crio-e5dbd38f774774a9b7f097562edf235b1e3397b085687f284b850029efd7ca56.scope uid:0) added; new total=1
+Mar 31 20:23:19.955440 host-10-13-2-160 rpm-ostree[6619]: Loaded sysroot
+Mar 31 20:23:19.987866 host-10-13-2-160 rpm-ostree[6619]: Locked sysroot
+Mar 31 20:23:19.988024 host-10-13-2-160 rpm-ostree[6619]: Initiated txn Cleanup for client(id:machine-config-operator dbus:1.282 unit:crio-e5dbd38f774774a9b7f097562edf235b1e3397b085687f284b850029efd7ca56.scope uid:0): /org/projectatomic/rpmostree1/rhcos
+Mar 31 20:23:19.994294 host-10-13-2-160 rpm-ostree[6619]: Process [pid: 7237 uid: 0 unit: crio-e5dbd38f774774a9b7f097562edf235b1e3397b085687f284b850029efd7ca56.scope] connected to transaction progress
+Mar 31 20:23:20.153121 host-10-13-2-160 rpm-ostree[6619]: Starting syncfs() for system root
+Mar 31 20:23:20.155866 host-10-13-2-160 rpm-ostree[6619]: Completed syncfs() for system root in 3 ms
+Mar 31 20:23:20.155993 host-10-13-2-160 rpm-ostree[6619]: Starting freeze/thaw cycle for system root
+Mar 31 20:23:20.181663 host-10-13-2-160 rpm-ostree[6619]: Completed freeze/thaw cycle for system root in 26 ms
+Mar 31 20:23:20.182152 host-10-13-2-160 rpm-ostree[6619]: Bootloader updated; bootconfig swap: yes; bootversion: boot.1.1, deployment count change: -1
+Mar 31 20:23:22.336736 host-10-13-2-160 rpm-ostree[6619]: Txn Cleanup on /org/projectatomic/rpmostree1/rhcos successful
+Mar 31 20:23:22.337796 host-10-13-2-160 rpm-ostree[6619]: Unlocked sysroot
+Mar 31 20:23:22.338525 host-10-13-2-160 rpm-ostree[6619]: Process [pid: 7237 uid: 0 unit: crio-e5dbd38f774774a9b7f097562edf235b1e3397b085687f284b850029efd7ca56.scope] disconnected from transaction progress
+Mar 31 20:23:22.340342 host-10-13-2-160 rpm-ostree[6619]: client(id:machine-config-operator dbus:1.282 unit:crio-e5dbd38f774774a9b7f097562edf235b1e3397b085687f284b850029efd7ca56.scope uid:0) vanished; remaining=0
+Mar 31 20:23:22.340358 host-10-13-2-160 rpm-ostree[6619]: In idle state; will auto-exit in 60 seconds
+Mar 31 20:23:27.340414 host-10-13-2-160 rpm-ostree[6619]: client(id:machine-config-operator dbus:1.285 unit:crio-e5dbd38f774774a9b7f097562edf235b1e3397b085687f284b850029efd7ca56.scope uid:0) added; new total=1
+Mar 31 20:23:27.349997 host-10-13-2-160 rpm-ostree[6619]: client(id:machine-config-operator dbus:1.285 unit:crio-e5dbd38f774774a9b7f097562edf235b1e3397b085687f284b850029efd7ca56.scope uid:0) vanished; remaining=0
+Mar 31 20:23:27.350028 host-10-13-2-160 rpm-ostree[6619]: In idle state; will auto-exit in 61 seconds
+Mar 31 20:23:36.049747 host-10-13-2-89 rpm-ostree[5735]: client(id:machine-config-operator dbus:1.235 unit:crio-7d1b9ac1ac9a51426e89771c4035b210305dbbaea5640a21d998131998ac6842.scope uid:0) added; new total=1
+Mar 31 20:23:36.057621 host-10-13-2-89 rpm-ostree[5735]: Loaded sysroot
+Mar 31 20:23:36.152310 host-10-13-2-89 rpm-ostree[5735]: Locked sysroot
+Mar 31 20:23:36.152421 host-10-13-2-89 rpm-ostree[5735]: Initiated txn Cleanup for client(id:machine-config-operator dbus:1.235 unit:crio-7d1b9ac1ac9a51426e89771c4035b210305dbbaea5640a21d998131998ac6842.scope uid:0): /org/projectatomic/rpmostree1/rhcos
+Mar 31 20:23:36.157397 host-10-13-2-89 rpm-ostree[5735]: Process [pid: 6418 uid: 0 unit: crio-7d1b9ac1ac9a51426e89771c4035b210305dbbaea5640a21d998131998ac6842.scope] connected to transaction progress
+Mar 31 20:23:36.305115 host-10-13-2-89 rpm-ostree[5735]: Starting syncfs() for system root
+Mar 31 20:23:36.307258 host-10-13-2-89 rpm-ostree[5735]: Completed syncfs() for system root in 2 ms
+Mar 31 20:23:36.307270 host-10-13-2-89 rpm-ostree[5735]: Starting freeze/thaw cycle for system root
+Mar 31 20:23:36.331638 host-10-13-2-89 rpm-ostree[5735]: Completed freeze/thaw cycle for system root in 25 ms
+Mar 31 20:23:36.332138 host-10-13-2-89 rpm-ostree[5735]: Bootloader updated; bootconfig swap: yes; bootversion: boot.1.1, deployment count change: -1
+Mar 31 20:23:36.709828 host-10-13-0-150 rpm-ostree[7807]: client(id:machine-config-operator dbus:1.339 unit:crio-9bddc610ee4e1517b74c722b5fd4863cc69fed5d45b9d43bf0dc79059d40bf52.scope uid:0) added; new total=1
+Mar 31 20:23:36.718561 host-10-13-0-150 rpm-ostree[7807]: Loaded sysroot
+Mar 31 20:23:36.797497 host-10-13-0-150 rpm-ostree[7807]: Locked sysroot
+Mar 31 20:23:36.797671 host-10-13-0-150 rpm-ostree[7807]: Initiated txn Cleanup for client(id:machine-config-operator dbus:1.339 unit:crio-9bddc610ee4e1517b74c722b5fd4863cc69fed5d45b9d43bf0dc79059d40bf52.scope uid:0): /org/projectatomic/rpmostree1/rhcos
+Mar 31 20:23:36.801177 host-10-13-0-150 rpm-ostree[7807]: Process [pid: 10129 uid: 0 unit: crio-9bddc610ee4e1517b74c722b5fd4863cc69fed5d45b9d43bf0dc79059d40bf52.scope] connected to transaction progress
+Mar 31 20:23:36.965929 host-10-13-0-150 rpm-ostree[7807]: Starting syncfs() for system root
+Mar 31 20:23:36.970728 host-10-13-0-150 rpm-ostree[7807]: Completed syncfs() for system root in 5 ms
+Mar 31 20:23:36.970736 host-10-13-0-150 rpm-ostree[7807]: Starting freeze/thaw cycle for system root
+Mar 31 20:23:37.001953 host-10-13-0-150 rpm-ostree[7807]: Completed freeze/thaw cycle for system root in 31 ms
+Mar 31 20:23:37.002391 host-10-13-0-150 rpm-ostree[7807]: Bootloader updated; bootconfig swap: yes; bootversion: boot.1.1, deployment count change: -1
+Mar 31 20:23:38.372252 host-10-13-2-89 rpm-ostree[5735]: Txn Cleanup on /org/projectatomic/rpmostree1/rhcos successful
+Mar 31 20:23:38.374618 host-10-13-2-89 rpm-ostree[5735]: Unlocked sysroot
+Mar 31 20:23:38.377419 host-10-13-2-89 rpm-ostree[5735]: Process [pid: 6418 uid: 0 unit: crio-7d1b9ac1ac9a51426e89771c4035b210305dbbaea5640a21d998131998ac6842.scope] disconnected from transaction progress
+Mar 31 20:23:38.382669 host-10-13-2-89 rpm-ostree[5735]: client(id:machine-config-operator dbus:1.235 unit:crio-7d1b9ac1ac9a51426e89771c4035b210305dbbaea5640a21d998131998ac6842.scope uid:0) vanished; remaining=0
+Mar 31 20:23:38.382685 host-10-13-2-89 rpm-ostree[5735]: In idle state; will auto-exit in 61 seconds
+Mar 31 20:23:39.141574 host-10-13-0-150 rpm-ostree[7807]: Txn Cleanup on /org/projectatomic/rpmostree1/rhcos successful
+Mar 31 20:23:39.142794 host-10-13-0-150 rpm-ostree[7807]: Unlocked sysroot
+Mar 31 20:23:39.144209 host-10-13-0-150 rpm-ostree[7807]: Process [pid: 10129 uid: 0 unit: crio-9bddc610ee4e1517b74c722b5fd4863cc69fed5d45b9d43bf0dc79059d40bf52.scope] disconnected from transaction progress
+Mar 31 20:23:39.146363 host-10-13-0-150 rpm-ostree[7807]: client(id:machine-config-operator dbus:1.339 unit:crio-9bddc610ee4e1517b74c722b5fd4863cc69fed5d45b9d43bf0dc79059d40bf52.scope uid:0) vanished; remaining=0
+Mar 31 20:23:39.146376 host-10-13-0-150 rpm-ostree[7807]: In idle state; will auto-exit in 61 seconds
+Mar 31 20:23:42.860494 host-10-13-0-150 rpm-ostree[7807]: client(id:machine-config-operator dbus:1.350 unit:crio-9bddc610ee4e1517b74c722b5fd4863cc69fed5d45b9d43bf0dc79059d40bf52.scope uid:0) added; new total=1
+Mar 31 20:23:42.868611 host-10-13-0-150 rpm-ostree[7807]: client(id:machine-config-operator dbus:1.350 unit:crio-9bddc610ee4e1517b74c722b5fd4863cc69fed5d45b9d43bf0dc79059d40bf52.scope uid:0) vanished; remaining=0
+Mar 31 20:23:42.868733 host-10-13-0-150 rpm-ostree[7807]: In idle state; will auto-exit in 60 seconds
+Mar 31 20:23:45.911318 host-10-13-2-89 rpm-ostree[5735]: client(id:machine-config-operator dbus:1.242 unit:crio-7d1b9ac1ac9a51426e89771c4035b210305dbbaea5640a21d998131998ac6842.scope uid:0) added; new total=1
+Mar 31 20:23:45.919962 host-10-13-2-89 rpm-ostree[5735]: client(id:machine-config-operator dbus:1.242 unit:crio-7d1b9ac1ac9a51426e89771c4035b210305dbbaea5640a21d998131998ac6842.scope uid:0) vanished; remaining=0
+Mar 31 20:23:45.919995 host-10-13-2-89 rpm-ostree[5735]: In idle state; will auto-exit in 61 seconds
+Mar 31 20:24:28.938604 host-10-13-2-160 systemd[1]: rpm-ostreed.service: Deactivated successfully.
+Mar 31 20:24:28.939278 host-10-13-2-160 systemd[1]: rpm-ostreed.service: Consumed 1.595s CPU time.
+Mar 31 20:24:42.926482 host-10-13-0-150 rpm-ostree[7807]: In idle state; will auto-exit in 61 seconds
+Mar 31 20:24:42.942706 host-10-13-0-150 systemd[1]: rpm-ostreed.service: Deactivated successfully.
+Mar 31 20:24:42.943294 host-10-13-0-150 systemd[1]: rpm-ostreed.service: Consumed 1.469s CPU time.
+Mar 31 20:24:46.923532 host-10-13-2-89 systemd[1]: rpm-ostreed.service: Deactivated successfully.
+Mar 31 20:24:46.924221 host-10-13-2-89 systemd[1]: rpm-ostreed.service: Consumed 1.496s CPU time.
+Mar 31 20:28:52.269350 host-10-13-2-89 systemd[1]: Starting rpm-ostree System Management Daemon...
+Mar 31 20:28:52.341524 host-10-13-2-89 rpm-ostree[13131]: Reading config file '/etc/rpm-ostreed.conf'
+Mar 31 20:28:52.351070 host-10-13-2-89 rpm-ostree[13131]: In idle state; will auto-exit in 63 seconds
+Mar 31 20:28:52.351193 host-10-13-2-89 systemd[1]: Started rpm-ostree System Management Daemon.
+Mar 31 20:28:52.355674 host-10-13-2-89 rpm-ostree[13131]: client(id:machine-config-operator dbus:1.370 unit:crio-7d1b9ac1ac9a51426e89771c4035b210305dbbaea5640a21d998131998ac6842.scope uid:0) added; new total=1
+Mar 31 20:28:52.363795 host-10-13-2-89 rpm-ostree[13131]: client(id:machine-config-operator dbus:1.370 unit:crio-7d1b9ac1ac9a51426e89771c4035b210305dbbaea5640a21d998131998ac6842.scope uid:0) vanished; remaining=0
+Mar 31 20:28:52.363808 host-10-13-2-89 rpm-ostree[13131]: In idle state; will auto-exit in 60 seconds
+Mar 31 20:29:20.639543 host-10-13-2-160 systemd[1]: Starting rpm-ostree System Management Daemon...
+Mar 31 20:29:20.720579 host-10-13-2-160 rpm-ostree[14996]: Reading config file '/etc/rpm-ostreed.conf'
+Mar 31 20:29:20.726142 host-10-13-2-160 rpm-ostree[14996]: In idle state; will auto-exit in 63 seconds
+Mar 31 20:29:20.726608 host-10-13-2-160 systemd[1]: Started rpm-ostree System Management Daemon.
+Mar 31 20:29:20.732478 host-10-13-2-160 rpm-ostree[14996]: client(id:machine-config-operator dbus:1.441 unit:crio-e5dbd38f774774a9b7f097562edf235b1e3397b085687f284b850029efd7ca56.scope uid:0) added; new total=1
+Mar 31 20:29:20.742141 host-10-13-2-160 rpm-ostree[14996]: client(id:machine-config-operator dbus:1.441 unit:crio-e5dbd38f774774a9b7f097562edf235b1e3397b085687f284b850029efd7ca56.scope uid:0) vanished; remaining=0
+Mar 31 20:29:20.742156 host-10-13-2-160 rpm-ostree[14996]: In idle state; will auto-exit in 64 seconds
+Mar 31 20:29:52.961574 host-10-13-2-89 rpm-ostree[13131]: In idle state; will auto-exit in 64 seconds
+Mar 31 20:29:52.965376 host-10-13-2-89 systemd[1]: rpm-ostreed.service: Deactivated successfully.
+Mar 31 20:29:55.140047 host-10-13-0-150 systemd[1]: Starting rpm-ostree System Management Daemon...
+Mar 31 20:29:55.263218 host-10-13-0-150 rpm-ostree[19392]: Reading config file '/etc/rpm-ostreed.conf'
+Mar 31 20:29:55.268360 host-10-13-0-150 rpm-ostree[19392]: In idle state; will auto-exit in 63 seconds
+Mar 31 20:29:55.268408 host-10-13-0-150 systemd[1]: Started rpm-ostree System Management Daemon.
+Mar 31 20:29:55.271138 host-10-13-0-150 rpm-ostree[19392]: client(id:machine-config-operator dbus:1.558 unit:crio-9bddc610ee4e1517b74c722b5fd4863cc69fed5d45b9d43bf0dc79059d40bf52.scope uid:0) added; new total=1
+Mar 31 20:29:55.274916 host-10-13-0-150 rpm-ostree[19392]: client(id:machine-config-operator dbus:1.558 unit:crio-9bddc610ee4e1517b74c722b5fd4863cc69fed5d45b9d43bf0dc79059d40bf52.scope uid:0) vanished; remaining=0
+Mar 31 20:29:55.274929 host-10-13-0-150 rpm-ostree[19392]: In idle state; will auto-exit in 60 seconds
+Mar 31 20:30:24.941907 host-10-13-2-160 systemd[1]: rpm-ostreed.service: Deactivated successfully.
+Mar 31 20:30:55.930545 host-10-13-0-150 rpm-ostree[19392]: In idle state; will auto-exit in 60 seconds
+Mar 31 20:30:55.941689 host-10-13-0-150 systemd[1]: rpm-ostreed.service: Deactivated successfully.
+Mar 31 20:31:28.905933 host-10-13-0-150 systemd[1]: Starting rpm-ostree System Management Daemon...
+Mar 31 20:31:29.050456 host-10-13-0-150 rpm-ostree[22340]: Reading config file '/etc/rpm-ostreed.conf'
+Mar 31 20:31:29.053488 host-10-13-0-150 rpm-ostree[22340]: In idle state; will auto-exit in 63 seconds
+Mar 31 20:31:29.053864 host-10-13-0-150 systemd[1]: Started rpm-ostree System Management Daemon.
+Mar 31 20:31:29.056019 host-10-13-0-150 rpm-ostree[22340]: client(id:machine-config-operator dbus:1.590 unit:crio-9bddc610ee4e1517b74c722b5fd4863cc69fed5d45b9d43bf0dc79059d40bf52.scope uid:0) added; new total=1
+Mar 31 20:31:29.059365 host-10-13-0-150 rpm-ostree[22340]: client(id:machine-config-operator dbus:1.590 unit:crio-9bddc610ee4e1517b74c722b5fd4863cc69fed5d45b9d43bf0dc79059d40bf52.scope uid:0) vanished; remaining=0
+Mar 31 20:31:29.059375 host-10-13-0-150 rpm-ostree[22340]: In idle state; will auto-exit in 60 seconds
+Mar 31 20:32:24.200792 host-10-13-0-150 rpm-ostree[22340]: client(id:machine-config-operator dbus:1.645 unit:crio-9bddc610ee4e1517b74c722b5fd4863cc69fed5d45b9d43bf0dc79059d40bf52.scope uid:0) added; new total=1
+Mar 31 20:32:24.205136 host-10-13-0-150 rpm-ostree[22340]: client(id:machine-config-operator dbus:1.645 unit:crio-9bddc610ee4e1517b74c722b5fd4863cc69fed5d45b9d43bf0dc79059d40bf52.scope uid:0) vanished; remaining=0
+Mar 31 20:32:24.205149 host-10-13-0-150 rpm-ostree[22340]: In idle state; will auto-exit in 64 seconds
+Mar 31 20:33:00.413254 host-10-13-0-150 rpm-ostree[22340]: client(id:machine-config-operator dbus:1.706 unit:crio-9bddc610ee4e1517b74c722b5fd4863cc69fed5d45b9d43bf0dc79059d40bf52.scope uid:0) added; new total=1
+Mar 31 20:33:00.419784 host-10-13-0-150 rpm-ostree[22340]: client(id:machine-config-operator dbus:1.706 unit:crio-9bddc610ee4e1517b74c722b5fd4863cc69fed5d45b9d43bf0dc79059d40bf52.scope uid:0) vanished; remaining=0
+Mar 31 20:33:00.419797 host-10-13-0-150 rpm-ostree[22340]: In idle state; will auto-exit in 61 seconds
+Mar 31 20:34:01.894302 host-10-13-0-150 systemd[1]: rpm-ostreed.service: Deactivated successfully.

@@ -1,0 +1,2 @@
+2025-03-31T20:20:17.600072525Z 2025-03-31T20:20:17+00:00 [cnibincopy] Successfully copied files in /usr/src/route-override/rhel9/bin/ to /host/opt/cni/bin/upgrade_0a9470c2-3219-44c4-94f5-1852295ccbdc
+2025-03-31T20:20:17.602929380Z 2025-03-31T20:20:17+00:00 [cnibincopy] Successfully moved files in /host/opt/cni/bin/upgrade_0a9470c2-3219-44c4-94f5-1852295ccbdc to /host/opt/cni/bin/

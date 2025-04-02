@@ -1,0 +1,120 @@
+---
+apiVersion: config.openshift.io/v1
+kind: ClusterOperator
+metadata:
+  annotations:
+    exclude.release.openshift.io/internal-openshift-hosted: "true"
+    include.release.openshift.io/self-managed-high-availability: "true"
+    include.release.openshift.io/single-node-developer: "true"
+  creationTimestamp: "2025-03-31T14:23:39Z"
+  generation: 1
+  managedFields:
+  - apiVersion: config.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:exclude.release.openshift.io/internal-openshift-hosted: {}
+          f:include.release.openshift.io/self-managed-high-availability: {}
+          f:include.release.openshift.io/single-node-developer: {}
+        f:ownerReferences:
+          .: {}
+          k:{"uid":"5052a10d-b0db-474e-b63d-8e02132cf28b"}: {}
+      f:spec: {}
+    manager: cluster-version-operator
+    operation: Update
+    time: "2025-03-31T14:23:39Z"
+  - apiVersion: config.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        .: {}
+        f:extension: {}
+    manager: cluster-version-operator
+    operation: Update
+    subresource: status
+    time: "2025-03-31T14:23:39Z"
+  - apiVersion: config.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        f:conditions: {}
+        f:relatedObjects: {}
+        f:versions: {}
+    manager: cluster-kube-controller-manager-operator
+    operation: Update
+    subresource: status
+    time: "2025-04-01T12:55:39Z"
+  name: kube-controller-manager
+  ownerReferences:
+  - apiVersion: config.openshift.io/v1
+    controller: true
+    kind: ClusterVersion
+    name: version
+    uid: 5052a10d-b0db-474e-b63d-8e02132cf28b
+  resourceVersion: "336749"
+  uid: c558dc43-b6e7-47d5-9ba4-12a7f18d19bf
+spec: {}
+status:
+  conditions:
+  - lastTransitionTime: "2025-03-31T20:34:12Z"
+    message: 'NodeControllerDegraded: All master nodes are ready'
+    reason: AsExpected
+    status: "False"
+    type: Degraded
+  - lastTransitionTime: "2025-03-31T20:36:54Z"
+    message: 'NodeInstallerProgressing: 3 nodes are at revision 8'
+    reason: AsExpected
+    status: "False"
+    type: Progressing
+  - lastTransitionTime: "2025-03-31T20:28:13Z"
+    message: 'StaticPodsAvailable: 3 nodes are active; 3 nodes are at revision 8'
+    reason: AsExpected
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2025-03-31T20:22:01Z"
+    message: All is well
+    reason: AsExpected
+    status: "True"
+    type: Upgradeable
+  - lastTransitionTime: "2025-03-31T20:22:01Z"
+    reason: NoData
+    status: Unknown
+    type: EvaluationConditionsDetected
+  extension: null
+  relatedObjects:
+  - group: operator.openshift.io
+    name: cluster
+    resource: kubecontrollermanagers
+  - group: ""
+    name: openshift-config
+    resource: namespaces
+  - group: ""
+    name: openshift-config-managed
+    resource: namespaces
+  - group: ""
+    name: openshift-kube-controller-manager
+    resource: namespaces
+  - group: ""
+    name: openshift-kube-controller-manager-operator
+    resource: namespaces
+  - group: ""
+    name: kube-system
+    resource: namespaces
+  - group: certificates.k8s.io
+    name: ""
+    resource: certificatesigningrequests
+  - group: ""
+    name: ""
+    resource: nodes
+  - group: config.openshift.io
+    name: cluster
+    resource: nodes
+  versions:
+  - name: raw-internal
+    version: 4.15.46
+  - name: kube-controller-manager
+    version: 1.28.15
+  - name: operator
+    version: 4.15.46

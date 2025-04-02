@@ -1,0 +1,87 @@
+---
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2025-04-01T08:35:18Z"
+    creationTimestamp: "2025-03-31T20:23:12Z"
+    labels:
+      dns.operator.openshift.io/owning-dns: default
+    managedFields:
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:endpoints.kubernetes.io/last-change-trigger-time: {}
+          f:labels:
+            .: {}
+            f:dns.operator.openshift.io/owning-dns: {}
+        f:subsets: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-04-01T08:35:18Z"
+    name: dns-default
+    namespace: openshift-dns
+    resourceVersion: "259915"
+    uid: 346bf0e7-3f1b-4b3b-bf19-d14da683b27b
+  subsets:
+  - addresses:
+    - ip: 10.128.0.43
+      nodeName: host-10-13-0-150
+      targetRef:
+        kind: Pod
+        name: dns-default-zk549
+        namespace: openshift-dns
+        uid: 6ad2f547-5aa7-4940-a115-de50861bc633
+    - ip: 10.128.2.5
+      nodeName: host-10-13-3-120
+      targetRef:
+        kind: Pod
+        name: dns-default-tq6d7
+        namespace: openshift-dns
+        uid: 2f86db26-9ee1-408b-aeb2-aa85178acc8c
+    - ip: 10.129.0.13
+      nodeName: host-10-13-2-160
+      targetRef:
+        kind: Pod
+        name: dns-default-xq96q
+        namespace: openshift-dns
+        uid: 40c6be5e-4e84-4227-9d89-623e38c26c3f
+    - ip: 10.129.2.6
+      nodeName: host-10-13-2-1
+      targetRef:
+        kind: Pod
+        name: dns-default-mc6g5
+        namespace: openshift-dns
+        uid: 91de67db-85dd-43f8-9880-b93f4b6367a6
+    - ip: 10.130.0.16
+      nodeName: host-10-13-2-89
+      targetRef:
+        kind: Pod
+        name: dns-default-f5vgw
+        namespace: openshift-dns
+        uid: 7f4d8999-d5e9-4df8-9ff4-123532737e46
+    - ip: 10.131.0.5
+      nodeName: host-10-13-3-78
+      targetRef:
+        kind: Pod
+        name: dns-default-sknnq
+        namespace: openshift-dns
+        uid: 75f05b3d-d79a-4d81-9230-0d2174f8df07
+    ports:
+    - name: dns
+      port: 5353
+      protocol: UDP
+    - name: metrics
+      port: 9154
+      protocol: TCP
+    - name: dns-tcp
+      port: 5353
+      protocol: TCP
+kind: EndpointsList
+metadata:
+  resourceVersion: "718134"

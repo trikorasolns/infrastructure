@@ -1,0 +1,45 @@
+2025-04-01T08:34:11.381743916Z ++ K8S_NODE=
+2025-04-01T08:34:11.381743916Z ++ [[ -n '' ]]
+2025-04-01T08:34:11.381743916Z ++ northd_pidfile=/var/run/ovn/ovn-northd.pid
+2025-04-01T08:34:11.381743916Z ++ controller_pidfile=/var/run/ovn/ovn-controller.pid
+2025-04-01T08:34:11.381743916Z ++ controller_logfile=/var/log/ovn/acl-audit-log.log
+2025-04-01T08:34:11.381743916Z ++ vswitch_dbsock=/var/run/openvswitch/db.sock
+2025-04-01T08:34:11.381743916Z ++ nbdb_pidfile=/var/run/ovn/ovnnb_db.pid
+2025-04-01T08:34:11.381743916Z ++ nbdb_sock=/var/run/ovn/ovnnb_db.sock
+2025-04-01T08:34:11.381743916Z ++ nbdb_ctl=/var/run/ovn/ovnnb_db.ctl
+2025-04-01T08:34:11.381743916Z ++ sbdb_pidfile=/var/run/ovn/ovnsb_db.pid
+2025-04-01T08:34:11.381743916Z ++ sbdb_sock=/var/run/ovn/ovnsb_db.sock
+2025-04-01T08:34:11.381743916Z ++ sbdb_ctl=/var/run/ovn/ovnsb_db.ctl
+2025-04-01T08:34:11.383024099Z + start-rbac-proxy-node ovn-node-metrics 9103 29103 /etc/pki/tls/metrics-cert/tls.key /etc/pki/tls/metrics-cert/tls.crt
+2025-04-01T08:34:11.383024099Z + local detail=ovn-node-metrics
+2025-04-01T08:34:11.383024099Z + local listen_port=9103
+2025-04-01T08:34:11.383040789Z + local upstream_port=29103
+2025-04-01T08:34:11.383040789Z + local privkey=/etc/pki/tls/metrics-cert/tls.key
+2025-04-01T08:34:11.383040789Z + local clientcert=/etc/pki/tls/metrics-cert/tls.crt
+2025-04-01T08:34:11.383040789Z + [[ 5 -ne 5 ]]
+2025-04-01T08:34:11.383279795Z ++ date -Iseconds
+2025-04-01T08:34:11.385180589Z + echo '2025-04-01T08:34:11+00:00 INFO: waiting for ovn-node-metrics certs to be mounted'
+2025-04-01T08:34:11.385212398Z 2025-04-01T08:34:11+00:00 INFO: waiting for ovn-node-metrics certs to be mounted
+2025-04-01T08:34:11.385219528Z + wait-for-certs ovn-node-metrics /etc/pki/tls/metrics-cert/tls.key /etc/pki/tls/metrics-cert/tls.crt
+2025-04-01T08:34:11.385240048Z + local detail=ovn-node-metrics
+2025-04-01T08:34:11.385240048Z + local privkey=/etc/pki/tls/metrics-cert/tls.key
+2025-04-01T08:34:11.385246868Z + local clientcert=/etc/pki/tls/metrics-cert/tls.crt
+2025-04-01T08:34:11.385246868Z + [[ 3 -ne 3 ]]
+2025-04-01T08:34:11.385270117Z + retries=0
+2025-04-01T08:34:11.385546363Z ++ date +%s
+2025-04-01T08:34:11.387165000Z + TS=1743496451
+2025-04-01T08:34:11.387180310Z + WARN_TS=1743497651
+2025-04-01T08:34:11.387206560Z + HAS_LOGGED_INFO=0
+2025-04-01T08:34:11.387206560Z + [[ ! -f /etc/pki/tls/metrics-cert/tls.key ]]
+2025-04-01T08:34:11.387295678Z + [[ ! -f /etc/pki/tls/metrics-cert/tls.crt ]]
+2025-04-01T08:34:11.388194707Z ++ date -Iseconds
+2025-04-01T08:34:11.389954722Z 2025-04-01T08:34:11+00:00 INFO: ovn-node-metrics certs mounted, starting kube-rbac-proxy
+2025-04-01T08:34:11.389967242Z + echo '2025-04-01T08:34:11+00:00 INFO: ovn-node-metrics certs mounted, starting kube-rbac-proxy'
+2025-04-01T08:34:11.389974961Z + exec /usr/bin/kube-rbac-proxy --logtostderr --secure-listen-address=:9103 --tls-cipher-suites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256 --upstream=http://127.0.0.1:29103/ --tls-private-key-file=/etc/pki/tls/metrics-cert/tls.key --tls-cert-file=/etc/pki/tls/metrics-cert/tls.crt
+2025-04-01T08:34:11.442301586Z Flag --logtostderr has been deprecated, will be removed in a future release, see https://github.com/kubernetes/enhancements/tree/master/keps/sig-instrumentation/2845-deprecate-klog-specific-flags-in-k8s-components
+2025-04-01T08:34:11.442854088Z I0401 08:34:11.442809    3624 kube-rbac-proxy.go:285] Valid token audiences: 
+2025-04-01T08:34:11.442894728Z I0401 08:34:11.442881    3624 kube-rbac-proxy.go:399] Reading certificate files
+2025-04-01T08:34:11.443417661Z I0401 08:34:11.443399    3624 kube-rbac-proxy.go:447] Starting TCP socket on :9103
+2025-04-01T08:34:11.443712886Z I0401 08:34:11.443687    3624 kube-rbac-proxy.go:454] Listening securely on :9103
+2025-04-01T08:34:35.693006777Z E0401 08:34:35.692933    3624 auth.go:47] Unable to authenticate the request due to an error: context canceled
+2025-04-01T08:34:43.598224372Z E0401 08:34:43.598128    3624 auth.go:47] Unable to authenticate the request due to an error: context canceled

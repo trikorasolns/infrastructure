@@ -1,0 +1,106 @@
+---
+apiVersion: config.openshift.io/v1
+kind: ClusterOperator
+metadata:
+  annotations:
+    capability.openshift.io/name: Storage
+    include.release.openshift.io/ibm-cloud-managed: "true"
+    include.release.openshift.io/self-managed-high-availability: "true"
+    include.release.openshift.io/single-node-developer: "true"
+  creationTimestamp: "2025-03-31T14:23:39Z"
+  generation: 1
+  managedFields:
+  - apiVersion: config.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:capability.openshift.io/name: {}
+          f:include.release.openshift.io/ibm-cloud-managed: {}
+          f:include.release.openshift.io/self-managed-high-availability: {}
+          f:include.release.openshift.io/single-node-developer: {}
+        f:ownerReferences:
+          .: {}
+          k:{"uid":"5052a10d-b0db-474e-b63d-8e02132cf28b"}: {}
+      f:spec: {}
+    manager: cluster-version-operator
+    operation: Update
+    time: "2025-03-31T14:23:39Z"
+  - apiVersion: config.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        .: {}
+        f:extension: {}
+    manager: cluster-version-operator
+    operation: Update
+    subresource: status
+    time: "2025-03-31T14:23:40Z"
+  - apiVersion: config.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        f:conditions: {}
+        f:relatedObjects: {}
+        f:versions: {}
+    manager: cluster-storage-operator
+    operation: Update
+    subresource: status
+    time: "2025-03-31T20:22:18Z"
+  name: storage
+  ownerReferences:
+  - apiVersion: config.openshift.io/v1
+    controller: true
+    kind: ClusterVersion
+    name: version
+    uid: 5052a10d-b0db-474e-b63d-8e02132cf28b
+  resourceVersion: "49691"
+  uid: 7c3b16cf-7d17-46ab-8c26-89cfad05e273
+spec: {}
+status:
+  conditions:
+  - lastTransitionTime: "2025-03-31T20:22:16Z"
+    message: All is well
+    reason: AsExpected
+    status: "False"
+    type: Degraded
+  - lastTransitionTime: "2025-03-31T20:22:18Z"
+    message: All is well
+    reason: AsExpected
+    status: "False"
+    type: Progressing
+  - lastTransitionTime: "2025-03-31T20:22:18Z"
+    message: 'DefaultStorageClassControllerAvailable: No default StorageClass for
+      this platform'
+    reason: AsExpected
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2025-03-31T20:22:17Z"
+    message: All is well
+    reason: AsExpected
+    status: "True"
+    type: Upgradeable
+  extension: null
+  relatedObjects:
+  - group: ""
+    name: openshift-cluster-storage-operator
+    resource: namespaces
+  - group: ""
+    name: openshift-cluster-csi-drivers
+    resource: namespaces
+  - group: operator.openshift.io
+    name: cluster
+    resource: storages
+  - group: rbac.authorization.k8s.io
+    name: cluster-storage-operator-role
+    resource: clusterrolebindings
+  - group: sharedresource.openshift.io
+    name: ""
+    resource: sharedconfigmaps
+  - group: sharedresource.openshift.io
+    name: ""
+    resource: sharedsecrets
+  versions:
+  - name: operator
+    version: 4.15.46

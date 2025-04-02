@@ -1,0 +1,137 @@
+---
+apiVersion: route.openshift.io/v1
+items:
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    annotations:
+      haproxy.router.openshift.io/timeout: 5m
+    creationTimestamp: "2025-03-31T20:28:42Z"
+    labels:
+      app: console
+    managedFields:
+    - apiVersion: route.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:haproxy.router.openshift.io/timeout: {}
+          f:labels:
+            .: {}
+            f:app: {}
+        f:spec:
+          f:host: {}
+          f:port:
+            .: {}
+            f:targetPort: {}
+          f:tls:
+            .: {}
+            f:insecureEdgeTerminationPolicy: {}
+            f:termination: {}
+          f:to:
+            f:kind: {}
+            f:name: {}
+            f:weight: {}
+          f:wildcardPolicy: {}
+      manager: console
+      operation: Update
+      time: "2025-03-31T20:28:42Z"
+    - apiVersion: route.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:ingress: {}
+      manager: openshift-router
+      operation: Update
+      subresource: status
+      time: "2025-03-31T20:28:42Z"
+    name: console
+    namespace: openshift-console
+    resourceVersion: "62279"
+    uid: 6b021654-b862-46d8-9a10-22cdbfe997d9
+  spec:
+    host: console-openshift-console.apps.ovhcpococp.trikorasolutions.net
+    port:
+      targetPort: https
+    tls:
+      insecureEdgeTerminationPolicy: Redirect
+      termination: reencrypt
+    to:
+      kind: Service
+      name: console
+      weight: 100
+    wildcardPolicy: None
+  status:
+    ingress:
+    - conditions:
+      - lastTransitionTime: "2025-03-31T20:28:42Z"
+        status: "True"
+        type: Admitted
+      host: console-openshift-console.apps.ovhcpococp.trikorasolutions.net
+      routerCanonicalHostname: router-default.apps.ovhcpococp.trikorasolutions.net
+      routerName: default
+      wildcardPolicy: None
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    creationTimestamp: "2025-03-31T20:28:43Z"
+    managedFields:
+    - apiVersion: route.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:spec:
+          f:host: {}
+          f:port:
+            .: {}
+            f:targetPort: {}
+          f:tls:
+            .: {}
+            f:insecureEdgeTerminationPolicy: {}
+            f:termination: {}
+          f:to:
+            f:kind: {}
+            f:name: {}
+            f:weight: {}
+          f:wildcardPolicy: {}
+      manager: console
+      operation: Update
+      time: "2025-03-31T20:28:43Z"
+    - apiVersion: route.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:ingress: {}
+      manager: openshift-router
+      operation: Update
+      subresource: status
+      time: "2025-03-31T20:28:43Z"
+    name: downloads
+    namespace: openshift-console
+    resourceVersion: "62319"
+    uid: 8b1c2e90-2f9e-481e-81e6-a02a337b97dd
+  spec:
+    host: downloads-openshift-console.apps.ovhcpococp.trikorasolutions.net
+    port:
+      targetPort: http
+    tls:
+      insecureEdgeTerminationPolicy: Redirect
+      termination: edge
+    to:
+      kind: Service
+      name: downloads
+      weight: 100
+    wildcardPolicy: None
+  status:
+    ingress:
+    - conditions:
+      - lastTransitionTime: "2025-03-31T20:28:43Z"
+        status: "True"
+        type: Admitted
+      host: downloads-openshift-console.apps.ovhcpococp.trikorasolutions.net
+      routerCanonicalHostname: router-default.apps.ovhcpococp.trikorasolutions.net
+      routerName: default
+      wildcardPolicy: None
+kind: RouteList
+metadata:
+  resourceVersion: "718125"

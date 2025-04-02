@@ -1,0 +1,9 @@
+2025-03-31T20:29:46.470191045Z I0331 20:29:46.470047       1 kube-rbac-proxy.go:578] Reading config file: /etc/kube-rbac-proxy/config.yaml
+2025-03-31T20:29:46.470629292Z I0331 20:29:46.470613       1 kube-rbac-proxy.go:285] Valid token audiences: 
+2025-03-31T20:29:46.470842091Z I0331 20:29:46.470827       1 kube-rbac-proxy.go:399] Reading certificate files
+2025-03-31T20:29:46.471173560Z I0331 20:29:46.471154       1 dynamic_cafile_content.go:157] "Starting controller" name="client-ca::/etc/tls/client/client-ca.crt"
+2025-03-31T20:29:46.471306330Z I0331 20:29:46.471290       1 kube-rbac-proxy.go:447] Starting TCP socket on 0.0.0.0:9094
+2025-03-31T20:29:46.471551628Z I0331 20:29:46.471538       1 kube-rbac-proxy.go:454] Listening securely on 0.0.0.0:9094
+2025-04-01T08:08:28.865474459Z I0401 08:08:28.865384       1 dynamic_cafile_content.go:211] "Failed to remove file watch, it may have been deleted" file="/etc/tls/client/client-ca.crt" err="can't remove non-existent inotify watch for: /etc/tls/client/client-ca.crt"
+2025-04-01T09:38:10.888893273Z I0401 09:38:10.888827       1 dynamic_cafile_content.go:211] "Failed to remove file watch, it may have been deleted" file="/etc/tls/client/client-ca.crt" err="can't remove non-existent inotify watch for: /etc/tls/client/client-ca.crt"
+2025-04-01T13:00:38.890291191Z I0401 13:00:38.890224       1 dynamic_cafile_content.go:211] "Failed to remove file watch, it may have been deleted" file="/etc/tls/client/client-ca.crt" err="can't remove non-existent inotify watch for: /etc/tls/client/client-ca.crt"

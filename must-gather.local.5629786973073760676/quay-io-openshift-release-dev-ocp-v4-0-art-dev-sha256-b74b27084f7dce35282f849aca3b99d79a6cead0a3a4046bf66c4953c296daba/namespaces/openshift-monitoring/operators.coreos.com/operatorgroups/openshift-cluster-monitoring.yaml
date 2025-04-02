@@ -1,0 +1,166 @@
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  annotations:
+    capability.openshift.io/name: OperatorLifecycleManager
+    include.release.openshift.io/ibm-cloud-managed: "true"
+    include.release.openshift.io/self-managed-high-availability: "true"
+    include.release.openshift.io/single-node-developer: "true"
+    olm.providedAPIs: Alertmanager.v1.monitoring.coreos.com,PodMonitor.v1.monitoring.coreos.com,Probe.v1.monitoring.coreos.com,Prometheus.v1.monitoring.coreos.com,PrometheusRule.v1.monitoring.coreos.com,ServiceMonitor.v1.monitoring.coreos.com,ThanosRuler.v1.monitoring.coreos.com,AlertmanagerConfig.v1alpha1.monitoring.coreos.com
+  creationTimestamp: "2025-03-31T14:24:35Z"
+  generation: 1
+  managedFields:
+  - apiVersion: operators.coreos.com/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:capability.openshift.io/name: {}
+          f:include.release.openshift.io/ibm-cloud-managed: {}
+          f:include.release.openshift.io/self-managed-high-availability: {}
+          f:include.release.openshift.io/single-node-developer: {}
+          f:olm.providedAPIs: {}
+        f:ownerReferences:
+          .: {}
+          k:{"uid":"5052a10d-b0db-474e-b63d-8e02132cf28b"}: {}
+      f:spec:
+        .: {}
+        f:selector:
+          .: {}
+          f:matchLabels:
+            .: {}
+            f:openshift.io/cluster-monitoring: {}
+        f:staticProvidedAPIs: {}
+        f:upgradeStrategy: {}
+    manager: cluster-version-operator
+    operation: Update
+    time: "2025-03-31T14:24:35Z"
+  - apiVersion: operators.coreos.com/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        .: {}
+        f:lastUpdated: {}
+        f:namespaces:
+          .: {}
+          v:"openshift-apiserver": {}
+          v:"openshift-apiserver-operator": {}
+          v:"openshift-authentication": {}
+          v:"openshift-authentication-operator": {}
+          v:"openshift-cloud-controller-manager": {}
+          v:"openshift-cloud-controller-manager-operator": {}
+          v:"openshift-cloud-credential-operator": {}
+          v:"openshift-cloud-network-config-controller": {}
+          v:"openshift-cluster-csi-drivers": {}
+          v:"openshift-cluster-machine-approver": {}
+          v:"openshift-cluster-node-tuning-operator": {}
+          v:"openshift-cluster-samples-operator": {}
+          v:"openshift-cluster-storage-operator": {}
+          v:"openshift-cluster-version": {}
+          v:"openshift-config-operator": {}
+          v:"openshift-console": {}
+          v:"openshift-console-operator": {}
+          v:"openshift-controller-manager": {}
+          v:"openshift-controller-manager-operator": {}
+          v:"openshift-dns": {}
+          v:"openshift-dns-operator": {}
+          v:"openshift-etcd-operator": {}
+          v:"openshift-image-registry": {}
+          v:"openshift-ingress": {}
+          v:"openshift-ingress-operator": {}
+          v:"openshift-insights": {}
+          v:"openshift-kube-apiserver": {}
+          v:"openshift-kube-apiserver-operator": {}
+          v:"openshift-kube-controller-manager": {}
+          v:"openshift-kube-controller-manager-operator": {}
+          v:"openshift-kube-scheduler": {}
+          v:"openshift-kube-scheduler-operator": {}
+          v:"openshift-kube-storage-version-migrator": {}
+          v:"openshift-kube-storage-version-migrator-operator": {}
+          v:"openshift-machine-api": {}
+          v:"openshift-machine-config-operator": {}
+          v:"openshift-marketplace": {}
+          v:"openshift-monitoring": {}
+          v:"openshift-multus": {}
+          v:"openshift-network-diagnostics": {}
+          v:"openshift-network-node-identity": {}
+          v:"openshift-network-operator": {}
+          v:"openshift-oauth-apiserver": {}
+          v:"openshift-operator-lifecycle-manager": {}
+          v:"openshift-ovn-kubernetes": {}
+          v:"openshift-route-controller-manager": {}
+          v:"openshift-service-ca-operator": {}
+          v:"openshift-user-workload-monitoring": {}
+    manager: olm
+    operation: Update
+    subresource: status
+    time: "2025-03-31T20:32:57Z"
+  name: openshift-cluster-monitoring
+  namespace: openshift-monitoring
+  ownerReferences:
+  - apiVersion: config.openshift.io/v1
+    controller: true
+    kind: ClusterVersion
+    name: version
+    uid: 5052a10d-b0db-474e-b63d-8e02132cf28b
+  resourceVersion: "67401"
+  uid: 728784b2-4302-4164-b9cc-f5bf2430e4e0
+spec:
+  selector:
+    matchLabels:
+      openshift.io/cluster-monitoring: "true"
+  staticProvidedAPIs: true
+  upgradeStrategy: Default
+status:
+  lastUpdated: "2025-03-31T20:32:57Z"
+  namespaces:
+  - openshift-kube-storage-version-migrator
+  - openshift-cluster-version
+  - openshift-kube-apiserver
+  - openshift-cloud-credential-operator
+  - openshift-dns-operator
+  - openshift-monitoring
+  - openshift-cluster-machine-approver
+  - openshift-apiserver-operator
+  - openshift-image-registry
+  - openshift-insights
+  - openshift-ingress
+  - openshift-authentication-operator
+  - openshift-controller-manager-operator
+  - openshift-ingress-operator
+  - openshift-console-operator
+  - openshift-dns
+  - openshift-kube-controller-manager-operator
+  - openshift-authentication
+  - openshift-console
+  - openshift-machine-api
+  - openshift-config-operator
+  - openshift-cloud-controller-manager-operator
+  - openshift-ovn-kubernetes
+  - openshift-cluster-node-tuning-operator
+  - openshift-operator-lifecycle-manager
+  - openshift-oauth-apiserver
+  - openshift-cluster-csi-drivers
+  - openshift-route-controller-manager
+  - openshift-network-node-identity
+  - openshift-multus
+  - openshift-marketplace
+  - openshift-user-workload-monitoring
+  - openshift-kube-scheduler-operator
+  - openshift-cluster-storage-operator
+  - openshift-machine-config-operator
+  - openshift-network-operator
+  - openshift-cluster-samples-operator
+  - openshift-controller-manager
+  - openshift-kube-scheduler
+  - openshift-service-ca-operator
+  - openshift-cloud-network-config-controller
+  - openshift-kube-controller-manager
+  - openshift-kube-storage-version-migrator-operator
+  - openshift-network-diagnostics
+  - openshift-etcd-operator
+  - openshift-kube-apiserver-operator
+  - openshift-apiserver
+  - openshift-cloud-controller-manager

@@ -1,0 +1,46 @@
+---
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2025-03-31T20:40:18Z"
+    creationTimestamp: "2025-03-31T14:23:55Z"
+    labels:
+      app: kube-storage-version-migrator-operator
+    managedFields:
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:endpoints.kubernetes.io/last-change-trigger-time: {}
+          f:labels:
+            .: {}
+            f:app: {}
+        f:subsets: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-03-31T20:40:18Z"
+    name: metrics
+    namespace: openshift-kube-storage-version-migrator-operator
+    resourceVersion: "72849"
+    uid: 107a41b1-1360-4915-ac4e-7b0e50c8e2a2
+  subsets:
+  - addresses:
+    - ip: 10.128.0.20
+      nodeName: host-10-13-0-150
+      targetRef:
+        kind: Pod
+        name: kube-storage-version-migrator-operator-d99954847-tgwt8
+        namespace: openshift-kube-storage-version-migrator-operator
+        uid: 4cdce30a-9cf9-47e9-9e1b-c22346a3edc3
+    ports:
+    - name: https
+      port: 8443
+      protocol: TCP
+kind: EndpointsList
+metadata:
+  resourceVersion: "718260"

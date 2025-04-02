@@ -1,0 +1,5 @@
+2025-03-31T20:33:12.415408416Z I0331 20:33:12.415175       1 kube-rbac-proxy.go:578] Reading config file: /etc/kube-rbac-proxy/config.yaml
+2025-03-31T20:33:12.415854133Z I0331 20:33:12.415839       1 kube-rbac-proxy.go:285] Valid token audiences: 
+2025-03-31T20:33:12.415875393Z I0331 20:33:12.415867       1 kube-rbac-proxy.go:399] Reading certificate files
+2025-03-31T20:33:12.416525318Z I0331 20:33:12.416313       1 kube-rbac-proxy.go:447] Starting TCP socket on 0.0.0.0:9092
+2025-03-31T20:33:12.416525318Z I0331 20:33:12.416483       1 kube-rbac-proxy.go:454] Listening securely on 0.0.0.0:9092

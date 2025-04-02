@@ -1,0 +1,25 @@
+2025-04-01T12:39:04.971198978Z 2025/04/01 12:39:04 Running command:
+2025-04-01T12:39:04.971198978Z Command env: (log-file=, also-stdout=false, redirect-stderr=true)
+2025-04-01T12:39:04.971198978Z Run from directory: 
+2025-04-01T12:39:04.971198978Z Executable path: /bin/cinder-csi-plugin
+2025-04-01T12:39:04.971198978Z Args (comma-delimited): /bin/cinder-csi-plugin,--endpoint=unix://csi/csi.sock,--provide-controller-service=false,--cloud-config=/etc/config/cloud.conf,--v=1
+2025-04-01T12:39:04.971712388Z 2025/04/01 12:39:04 Now listening for interrupts
+2025-04-01T12:39:04.982096780Z I0401 12:39:04.982063      12 driver.go:101] Driver: cinder.csi.openstack.org
+2025-04-01T12:39:04.982131999Z I0401 12:39:04.982124      12 driver.go:102] Driver version: 2.0.0@v1.32.0
+2025-04-01T12:39:04.982148758Z I0401 12:39:04.982142      12 driver.go:103] CSI Spec version: 1.8.0
+2025-04-01T12:39:04.982165628Z I0401 12:39:04.982159      12 driver.go:104] Topology awareness: bool
+2025-04-01T12:39:04.982749667Z I0401 12:39:04.982737      12 driver.go:141] Enabling controller service capability: LIST_VOLUMES
+2025-04-01T12:39:04.982770486Z I0401 12:39:04.982763      12 driver.go:141] Enabling controller service capability: CREATE_DELETE_VOLUME
+2025-04-01T12:39:04.982786246Z I0401 12:39:04.982780      12 driver.go:141] Enabling controller service capability: PUBLISH_UNPUBLISH_VOLUME
+2025-04-01T12:39:04.982801486Z I0401 12:39:04.982795      12 driver.go:141] Enabling controller service capability: CREATE_DELETE_SNAPSHOT
+2025-04-01T12:39:04.982816735Z I0401 12:39:04.982810      12 driver.go:141] Enabling controller service capability: LIST_SNAPSHOTS
+2025-04-01T12:39:04.982870684Z I0401 12:39:04.982826      12 driver.go:141] Enabling controller service capability: EXPAND_VOLUME
+2025-04-01T12:39:04.982890974Z I0401 12:39:04.982884      12 driver.go:141] Enabling controller service capability: CLONE_VOLUME
+2025-04-01T12:39:04.983054411Z I0401 12:39:04.982900      12 driver.go:141] Enabling controller service capability: LIST_VOLUMES_PUBLISHED_NODES
+2025-04-01T12:39:04.983074091Z I0401 12:39:04.983060      12 driver.go:141] Enabling controller service capability: GET_VOLUME
+2025-04-01T12:39:04.983080421Z I0401 12:39:04.983073      12 driver.go:152] Enabling volume access mode: SINGLE_NODE_WRITER
+2025-04-01T12:39:04.983087130Z I0401 12:39:04.983080      12 driver.go:165] Enabling node service capability: STAGE_UNSTAGE_VOLUME
+2025-04-01T12:39:04.983087130Z I0401 12:39:04.983084      12 driver.go:165] Enabling node service capability: EXPAND_VOLUME
+2025-04-01T12:39:04.983093600Z I0401 12:39:04.983087      12 driver.go:165] Enabling node service capability: GET_VOLUME_STATS
+2025-04-01T12:39:04.986556823Z I0401 12:39:04.986528      12 driver.go:198] Providing node service
+2025-04-01T12:39:04.986897998Z I0401 12:39:04.986861      12 server.go:107] Listening for connections on address: &net.UnixAddr{Name:"/csi/csi.sock", Net:"unix"}

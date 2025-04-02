@@ -1,0 +1,42 @@
+2025-04-01T08:34:41.034630891Z + [[ -f /env/_master ]]
+2025-04-01T08:34:41.034630891Z + . /ovnkube-lib/ovnkube-lib.sh
+2025-04-01T08:34:41.034630891Z ++ set -x
+2025-04-01T08:34:41.034630891Z ++ K8S_NODE=
+2025-04-01T08:34:41.034630891Z ++ [[ -n '' ]]
+2025-04-01T08:34:41.034630891Z ++ northd_pidfile=/var/run/ovn/ovn-northd.pid
+2025-04-01T08:34:41.034630891Z ++ controller_pidfile=/var/run/ovn/ovn-controller.pid
+2025-04-01T08:34:41.034630891Z ++ controller_logfile=/var/log/ovn/acl-audit-log.log
+2025-04-01T08:34:41.034630891Z ++ vswitch_dbsock=/var/run/openvswitch/db.sock
+2025-04-01T08:34:41.034630891Z ++ nbdb_pidfile=/var/run/ovn/ovnnb_db.pid
+2025-04-01T08:34:41.034630891Z ++ nbdb_sock=/var/run/ovn/ovnnb_db.sock
+2025-04-01T08:34:41.034630891Z ++ nbdb_ctl=/var/run/ovn/ovnnb_db.ctl
+2025-04-01T08:34:41.034630891Z ++ sbdb_pidfile=/var/run/ovn/ovnsb_db.pid
+2025-04-01T08:34:41.034630891Z ++ sbdb_sock=/var/run/ovn/ovnsb_db.sock
+2025-04-01T08:34:41.034630891Z ++ sbdb_ctl=/var/run/ovn/ovnsb_db.ctl
+2025-04-01T08:34:41.035414720Z + trap quit-ovn-northd TERM INT
+2025-04-01T08:34:41.035414720Z + start-ovn-northd info
+2025-04-01T08:34:41.035414720Z + local log_level=info
+2025-04-01T08:34:41.035414720Z + [[ 1 -ne 1 ]]
+2025-04-01T08:34:41.036083479Z ++ date -Iseconds
+2025-04-01T08:34:41.037626586Z + echo '2025-04-01T08:34:41+00:00 - starting ovn-northd'
+2025-04-01T08:34:41.038911827Z 2025-04-01T08:34:41+00:00 - starting ovn-northd
+2025-04-01T08:34:41.039054194Z + wait 3939
+2025-04-01T08:34:41.039189522Z + exec ovn-northd --no-chdir -vconsole:info -vfile:off '-vPATTERN:console:%D{%Y-%m-%dT%H:%M:%S.###Z}|%05N|%c%T|%p|%m' --pidfile /var/run/ovn/ovn-northd.pid --n-threads=1
+2025-04-01T08:34:41.045651495Z 2025-04-01T08:34:41.045Z|00001|ovn_northd|INFO|OVN internal version is : [23.09.5-20.32.0-71.6]
+2025-04-01T08:34:41.045831382Z 2025-04-01T08:34:41.045Z|00002|reconnect|INFO|unix:/var/run/ovn/ovnnb_db.sock: connecting...
+2025-04-01T08:34:41.045907080Z 2025-04-01T08:34:41.045Z|00003|reconnect|INFO|unix:/var/run/ovn/ovnnb_db.sock: connection attempt failed (No such file or directory)
+2025-04-01T08:34:41.045936820Z 2025-04-01T08:34:41.045Z|00004|ovn_northd|INFO|OVN NB IDL reconnected, force recompute.
+2025-04-01T08:34:41.045975310Z 2025-04-01T08:34:41.045Z|00005|reconnect|INFO|unix:/var/run/ovn/ovnsb_db.sock: connecting...
+2025-04-01T08:34:41.045998840Z 2025-04-01T08:34:41.045Z|00006|reconnect|INFO|unix:/var/run/ovn/ovnsb_db.sock: connection attempt failed (No such file or directory)
+2025-04-01T08:34:41.046022629Z 2025-04-01T08:34:41.046Z|00007|ovn_northd|INFO|OVN SB IDL reconnected, force recompute.
+2025-04-01T08:34:42.047454753Z 2025-04-01T08:34:42.047Z|00008|reconnect|INFO|unix:/var/run/ovn/ovnnb_db.sock: connecting...
+2025-04-01T08:34:42.047582261Z 2025-04-01T08:34:42.047Z|00009|reconnect|INFO|unix:/var/run/ovn/ovnnb_db.sock: connected
+2025-04-01T08:34:42.047717488Z 2025-04-01T08:34:42.047Z|00010|reconnect|INFO|unix:/var/run/ovn/ovnsb_db.sock: connecting...
+2025-04-01T08:34:42.047804427Z 2025-04-01T08:34:42.047Z|00011|reconnect|INFO|unix:/var/run/ovn/ovnsb_db.sock: connection attempt failed (No such file or directory)
+2025-04-01T08:34:42.047928776Z 2025-04-01T08:34:42.047Z|00012|reconnect|INFO|unix:/var/run/ovn/ovnsb_db.sock: waiting 2 seconds before reconnect
+2025-04-01T08:34:44.048277668Z 2025-04-01T08:34:44.048Z|00013|reconnect|INFO|unix:/var/run/ovn/ovnsb_db.sock: connecting...
+2025-04-01T08:34:44.048462785Z 2025-04-01T08:34:44.048Z|00014|reconnect|INFO|unix:/var/run/ovn/ovnsb_db.sock: connected
+2025-04-01T08:34:44.048798580Z 2025-04-01T08:34:44.048Z|00015|ovn_northd|INFO|ovn-northd lock acquired. This ovn-northd instance is now active.
+2025-04-01T08:34:47.445710346Z 2025-04-01T08:34:47.445Z|00016|northd|WARN|No path for static route 100.64.0.6/32; next hop 100.88.0.6
+2025-04-01T08:34:53.052442484Z 2025-04-01T08:34:53.052Z|00017|memory|INFO|14392 kB peak resident set size after 12.0 seconds
+2025-04-01T08:34:53.052696161Z 2025-04-01T08:34:53.052Z|00018|memory|INFO|idl-cells-OVN_Northbound:1757 idl-cells-OVN_Southbound:10995

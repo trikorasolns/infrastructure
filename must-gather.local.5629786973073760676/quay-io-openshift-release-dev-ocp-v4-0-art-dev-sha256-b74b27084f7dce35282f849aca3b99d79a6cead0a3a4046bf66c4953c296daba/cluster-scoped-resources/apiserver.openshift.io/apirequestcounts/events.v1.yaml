@@ -1,0 +1,2890 @@
+---
+apiVersion: apiserver.openshift.io/v1
+kind: APIRequestCount
+metadata:
+  creationTimestamp: "2025-03-31T14:28:22Z"
+  generation: 1
+  managedFields:
+  - apiVersion: apiserver.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec:
+        .: {}
+        f:numberOfUsersToReport: {}
+    manager: kube-apiserver
+    operation: Update
+    time: "2025-03-31T14:28:22Z"
+  - apiVersion: apiserver.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        .: {}
+        f:currentHour:
+          .: {}
+          f:byNode: {}
+          f:requestCount: {}
+        f:last24h: {}
+        f:requestCount: {}
+    manager: kube-apiserver
+    operation: Update
+    subresource: status
+    time: "2025-04-02T07:48:36Z"
+  name: events.v1
+  resourceVersion: "718159"
+  uid: 49cd68d9-133a-40bb-adfc-8ae9b02d1a4b
+spec:
+  numberOfUsersToReport: 10
+status:
+  currentHour:
+    byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 181
+          verb: create
+        requestCount: 181
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-89
+      - byVerb:
+        - requestCount: 10
+          verb: list
+        - requestCount: 12
+          verb: watch
+        requestCount: 22
+        userAgent: openshift-controller-manager/v0.0.0
+        username: system:serviceaccount:openshift-infra:unidling-controller
+      - byVerb:
+        - requestCount: 13
+          verb: create
+        requestCount: 13
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 3
+          verb: list
+        - requestCount: 8
+          verb: watch
+        requestCount: 11
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 9
+          verb: create
+        requestCount: 9
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:cronjob-controller
+      - byVerb:
+        - requestCount: 6
+          verb: create
+        requestCount: 6
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:job-controller
+      - byVerb:
+        - requestCount: 5
+          verb: patch
+        requestCount: 5
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-120
+      - byVerb:
+        - requestCount: 1
+          verb: create
+        - requestCount: 3
+          verb: patch
+        requestCount: 4
+        userAgent: csi-provisioner/v0.0.0
+        username: system:serviceaccount:kube-system:csi-cinder-controller-sa
+      - byVerb:
+        - requestCount: 1
+          verb: create
+        requestCount: 1
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-89
+      - byVerb:
+        - requestCount: 1
+          verb: create
+        requestCount: 1
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:attachdetach-controller
+      nodeName: 10.13.0.150
+      requestCount: 254
+    - byUser:
+      - byVerb:
+        - requestCount: 17
+          verb: create
+        - requestCount: 5
+          verb: patch
+        requestCount: 22
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-1
+      - byVerb:
+        - requestCount: 4
+          verb: list
+        - requestCount: 10
+          verb: watch
+        requestCount: 14
+        userAgent: ingress-operator/v0.0.0
+        username: system:serviceaccount:openshift-ingress-operator:ingress-operator
+      - byVerb:
+        - requestCount: 10
+          verb: patch
+        requestCount: 10
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-78
+      - byVerb:
+        - requestCount: 5
+          verb: create
+        requestCount: 5
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-1
+      nodeName: 10.13.2.160
+      requestCount: 51
+    - byUser:
+      - byVerb:
+        - requestCount: 14
+          verb: create
+        requestCount: 14
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-89
+      nodeName: 10.13.2.89
+      requestCount: 14
+    requestCount: 319
+  last24h:
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 169
+          verb: create
+        requestCount: 169
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-160
+      - byVerb:
+        - requestCount: 86
+          verb: create
+        requestCount: 86
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-89
+      - byVerb:
+        - requestCount: 10
+          verb: list
+        - requestCount: 13
+          verb: watch
+        requestCount: 23
+        userAgent: openshift-controller-manager/v0.0.0
+        username: system:serviceaccount:openshift-infra:unidling-controller
+      - byVerb:
+        - requestCount: 6
+          verb: list
+        - requestCount: 14
+          verb: watch
+        requestCount: 20
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 18
+          verb: create
+        requestCount: 18
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 14
+          verb: create
+        requestCount: 14
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-160
+      - byVerb:
+        - requestCount: 14
+          verb: create
+        requestCount: 14
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:cronjob-controller
+      - byVerb:
+        - requestCount: 12
+          verb: patch
+        requestCount: 12
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-120
+      - byVerb:
+        - requestCount: 10
+          verb: create
+        requestCount: 10
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:job-controller
+      - byVerb:
+        - requestCount: 7
+          verb: create
+        requestCount: 7
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-89
+      nodeName: 10.13.0.150
+      requestCount: 373
+    - byUser:
+      - byVerb:
+        - requestCount: 15
+          verb: create
+        - requestCount: 12
+          verb: patch
+        requestCount: 27
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-1
+      - byVerb:
+        - requestCount: 24
+          verb: patch
+        requestCount: 24
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-78
+      - byVerb:
+        - requestCount: 6
+          verb: list
+        - requestCount: 13
+          verb: watch
+        requestCount: 19
+        userAgent: ingress-operator/v0.0.0
+        username: system:serviceaccount:openshift-ingress-operator:ingress-operator
+      - byVerb:
+        - requestCount: 5
+          verb: create
+        requestCount: 5
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-1
+      nodeName: 10.13.2.160
+      requestCount: 75
+    - byUser:
+      - byVerb:
+        - requestCount: 2
+          verb: list
+        requestCount: 2
+        userAgent: insights-operator/v0.0.0
+        username: system:serviceaccount:openshift-insights:gather
+      nodeName: 10.13.2.89
+      requestCount: 2
+    requestCount: 450
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 205
+          verb: create
+        requestCount: 205
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-160
+      - byVerb:
+        - requestCount: 37
+          verb: create
+        requestCount: 37
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-89
+      - byVerb:
+        - requestCount: 12
+          verb: list
+        - requestCount: 14
+          verb: watch
+        requestCount: 26
+        userAgent: openshift-controller-manager/v0.0.0
+        username: system:serviceaccount:openshift-infra:unidling-controller
+      - byVerb:
+        - requestCount: 19
+          verb: create
+        requestCount: 19
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 17
+          verb: create
+        requestCount: 17
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-160
+      - byVerb:
+        - requestCount: 5
+          verb: list
+        - requestCount: 12
+          verb: watch
+        requestCount: 17
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 12
+          verb: patch
+        requestCount: 12
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-120
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        requestCount: 12
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:cronjob-controller
+      - byVerb:
+        - requestCount: 8
+          verb: create
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:job-controller
+      - byVerb:
+        - requestCount: 3
+          verb: create
+        requestCount: 3
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-89
+      nodeName: 10.13.0.150
+      requestCount: 356
+    - byUser:
+      - byVerb:
+        - requestCount: 1
+          verb: create
+        - requestCount: 24
+          verb: patch
+        requestCount: 25
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-78
+      - byVerb:
+        - requestCount: 9
+          verb: create
+        - requestCount: 12
+          verb: patch
+        requestCount: 21
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-1
+      - byVerb:
+        - requestCount: 5
+          verb: list
+        - requestCount: 12
+          verb: watch
+        requestCount: 17
+        userAgent: ingress-operator/v0.0.0
+        username: system:serviceaccount:openshift-ingress-operator:ingress-operator
+      - byVerb:
+        - requestCount: 3
+          verb: create
+        requestCount: 3
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-1
+      nodeName: 10.13.2.160
+      requestCount: 66
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 422
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 207
+          verb: create
+        requestCount: 207
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-160
+      - byVerb:
+        - requestCount: 49
+          verb: create
+        requestCount: 49
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-89
+      - byVerb:
+        - requestCount: 8
+          verb: list
+        - requestCount: 11
+          verb: watch
+        requestCount: 19
+        userAgent: openshift-controller-manager/v0.0.0
+        username: system:serviceaccount:openshift-infra:unidling-controller
+      - byVerb:
+        - requestCount: 18
+          verb: create
+        requestCount: 18
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 5
+          verb: list
+        - requestCount: 12
+          verb: watch
+        requestCount: 17
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 17
+          verb: create
+        requestCount: 17
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-160
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        requestCount: 12
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:cronjob-controller
+      - byVerb:
+        - requestCount: 12
+          verb: patch
+        requestCount: 12
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-120
+      - byVerb:
+        - requestCount: 8
+          verb: create
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:job-controller
+      - byVerb:
+        - requestCount: 4
+          verb: create
+        requestCount: 4
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-89
+      nodeName: 10.13.0.150
+      requestCount: 363
+    - byUser:
+      - byVerb:
+        - requestCount: 24
+          verb: patch
+        requestCount: 24
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-78
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        - requestCount: 12
+          verb: patch
+        requestCount: 24
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-1
+      - byVerb:
+        - requestCount: 6
+          verb: list
+        - requestCount: 15
+          verb: watch
+        requestCount: 21
+        userAgent: ingress-operator/v0.0.0
+        username: system:serviceaccount:openshift-ingress-operator:ingress-operator
+      - byVerb:
+        - requestCount: 4
+          verb: create
+        requestCount: 4
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-1
+      - byVerb:
+        - requestCount: 2
+          verb: list
+        requestCount: 2
+        userAgent: insights-operator/v0.0.0
+        username: system:serviceaccount:openshift-insights:gather
+      nodeName: 10.13.2.160
+      requestCount: 75
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 438
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 216
+          verb: create
+        requestCount: 216
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-160
+      - byVerb:
+        - requestCount: 52
+          verb: create
+        requestCount: 52
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-89
+      - byVerb:
+        - requestCount: 12
+          verb: list
+        - requestCount: 15
+          verb: watch
+        requestCount: 27
+        userAgent: openshift-controller-manager/v0.0.0
+        username: system:serviceaccount:openshift-infra:unidling-controller
+      - byVerb:
+        - requestCount: 5
+          verb: list
+        - requestCount: 14
+          verb: watch
+        requestCount: 19
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 18
+          verb: create
+        requestCount: 18
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-160
+      - byVerb:
+        - requestCount: 18
+          verb: create
+        requestCount: 18
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 1
+          verb: create
+        - requestCount: 12
+          verb: patch
+        requestCount: 13
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-120
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        requestCount: 12
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:cronjob-controller
+      - byVerb:
+        - requestCount: 8
+          verb: create
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:job-controller
+      - byVerb:
+        - requestCount: 4
+          verb: create
+        requestCount: 4
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-89
+      nodeName: 10.13.0.150
+      requestCount: 387
+    - byUser:
+      - byVerb:
+        - requestCount: 1
+          verb: create
+        - requestCount: 24
+          verb: patch
+        requestCount: 25
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-78
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        - requestCount: 12
+          verb: patch
+        requestCount: 24
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-1
+      - byVerb:
+        - requestCount: 4
+          verb: list
+        - requestCount: 12
+          verb: watch
+        requestCount: 16
+        userAgent: ingress-operator/v0.0.0
+        username: system:serviceaccount:openshift-ingress-operator:ingress-operator
+      - byVerb:
+        - requestCount: 4
+          verb: create
+        requestCount: 4
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-1
+      nodeName: 10.13.2.160
+      requestCount: 69
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 456
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 221
+          verb: create
+        requestCount: 221
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-160
+      - byVerb:
+        - requestCount: 35
+          verb: create
+        requestCount: 35
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-89
+      - byVerb:
+        - requestCount: 12
+          verb: list
+        - requestCount: 14
+          verb: watch
+        requestCount: 26
+        userAgent: openshift-controller-manager/v0.0.0
+        username: system:serviceaccount:openshift-infra:unidling-controller
+      - byVerb:
+        - requestCount: 18
+          verb: create
+        requestCount: 18
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 5
+          verb: list
+        - requestCount: 13
+          verb: watch
+        requestCount: 18
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 18
+          verb: create
+        requestCount: 18
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-160
+      - byVerb:
+        - requestCount: 12
+          verb: patch
+        requestCount: 12
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-120
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        requestCount: 12
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:cronjob-controller
+      - byVerb:
+        - requestCount: 8
+          verb: create
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:job-controller
+      - byVerb:
+        - requestCount: 3
+          verb: create
+        requestCount: 3
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-89
+      nodeName: 10.13.0.150
+      requestCount: 371
+    - byUser:
+      - byVerb:
+        - requestCount: 1
+          verb: create
+        - requestCount: 24
+          verb: patch
+        requestCount: 25
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-78
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        - requestCount: 12
+          verb: patch
+        requestCount: 24
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-1
+      - byVerb:
+        - requestCount: 5
+          verb: list
+        - requestCount: 13
+          verb: watch
+        requestCount: 18
+        userAgent: ingress-operator/v0.0.0
+        username: system:serviceaccount:openshift-ingress-operator:ingress-operator
+      - byVerb:
+        - requestCount: 4
+          verb: create
+        requestCount: 4
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-1
+      nodeName: 10.13.2.160
+      requestCount: 71
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 442
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 206
+          verb: create
+        requestCount: 206
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-89
+      - byVerb:
+        - requestCount: 48
+          verb: create
+        requestCount: 48
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-160
+      - byVerb:
+        - requestCount: 10
+          verb: list
+        - requestCount: 12
+          verb: watch
+        requestCount: 22
+        userAgent: openshift-controller-manager/v0.0.0
+        username: system:serviceaccount:openshift-infra:unidling-controller
+      - byVerb:
+        - requestCount: 19
+          verb: create
+        requestCount: 19
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 5
+          verb: list
+        - requestCount: 13
+          verb: watch
+        requestCount: 18
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 17
+          verb: create
+        requestCount: 17
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-89
+      - byVerb:
+        - requestCount: 12
+          verb: patch
+        requestCount: 12
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-120
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        requestCount: 12
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:cronjob-controller
+      - byVerb:
+        - requestCount: 8
+          verb: create
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:job-controller
+      - byVerb:
+        - requestCount: 4
+          verb: create
+        requestCount: 4
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-160
+      nodeName: 10.13.0.150
+      requestCount: 366
+    - byUser:
+      - byVerb:
+        - requestCount: 1
+          verb: create
+        - requestCount: 24
+          verb: patch
+        requestCount: 25
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-78
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        - requestCount: 12
+          verb: patch
+        requestCount: 24
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-1
+      - byVerb:
+        - requestCount: 5
+          verb: list
+        - requestCount: 14
+          verb: watch
+        requestCount: 19
+        userAgent: ingress-operator/v0.0.0
+        username: system:serviceaccount:openshift-ingress-operator:ingress-operator
+      - byVerb:
+        - requestCount: 4
+          verb: create
+        requestCount: 4
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-1
+      nodeName: 10.13.2.160
+      requestCount: 72
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 438
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 229
+          verb: create
+        requestCount: 229
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-89
+      - byVerb:
+        - requestCount: 24
+          verb: create
+        requestCount: 24
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-160
+      - byVerb:
+        - requestCount: 10
+          verb: list
+        - requestCount: 13
+          verb: watch
+        requestCount: 23
+        userAgent: openshift-controller-manager/v0.0.0
+        username: system:serviceaccount:openshift-infra:unidling-controller
+      - byVerb:
+        - requestCount: 19
+          verb: create
+        requestCount: 19
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-89
+      - byVerb:
+        - requestCount: 18
+          verb: create
+        requestCount: 18
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 4
+          verb: list
+        - requestCount: 12
+          verb: watch
+        requestCount: 16
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 1
+          verb: create
+        - requestCount: 12
+          verb: patch
+        requestCount: 13
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-120
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        requestCount: 12
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:cronjob-controller
+      - byVerb:
+        - requestCount: 8
+          verb: create
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:job-controller
+      - byVerb:
+        - requestCount: 2
+          verb: create
+        requestCount: 2
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-160
+      nodeName: 10.13.0.150
+      requestCount: 364
+    - byUser:
+      - byVerb:
+        - requestCount: 24
+          verb: patch
+        requestCount: 24
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-78
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        - requestCount: 12
+          verb: patch
+        requestCount: 24
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-1
+      - byVerb:
+        - requestCount: 4
+          verb: list
+        - requestCount: 11
+          verb: watch
+        requestCount: 15
+        userAgent: ingress-operator/v0.0.0
+        username: system:serviceaccount:openshift-ingress-operator:ingress-operator
+      - byVerb:
+        - requestCount: 4
+          verb: create
+        requestCount: 4
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-1
+      nodeName: 10.13.2.160
+      requestCount: 67
+    - byUser:
+      - byVerb:
+        - requestCount: 2
+          verb: list
+        requestCount: 2
+        userAgent: insights-operator/v0.0.0
+        username: system:serviceaccount:openshift-insights:gather
+      nodeName: 10.13.2.89
+      requestCount: 2
+    requestCount: 433
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 181
+          verb: create
+        requestCount: 181
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-89
+      - byVerb:
+        - requestCount: 10
+          verb: list
+        - requestCount: 12
+          verb: watch
+        requestCount: 22
+        userAgent: openshift-controller-manager/v0.0.0
+        username: system:serviceaccount:openshift-infra:unidling-controller
+      - byVerb:
+        - requestCount: 13
+          verb: create
+        requestCount: 13
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 3
+          verb: list
+        - requestCount: 8
+          verb: watch
+        requestCount: 11
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 9
+          verb: create
+        requestCount: 9
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:cronjob-controller
+      - byVerb:
+        - requestCount: 6
+          verb: create
+        requestCount: 6
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:job-controller
+      - byVerb:
+        - requestCount: 5
+          verb: patch
+        requestCount: 5
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-120
+      - byVerb:
+        - requestCount: 1
+          verb: create
+        - requestCount: 3
+          verb: patch
+        requestCount: 4
+        userAgent: csi-provisioner/v0.0.0
+        username: system:serviceaccount:kube-system:csi-cinder-controller-sa
+      - byVerb:
+        - requestCount: 1
+          verb: create
+        requestCount: 1
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-89
+      - byVerb:
+        - requestCount: 1
+          verb: create
+        requestCount: 1
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:attachdetach-controller
+      nodeName: 10.13.0.150
+      requestCount: 254
+    - byUser:
+      - byVerb:
+        - requestCount: 17
+          verb: create
+        - requestCount: 5
+          verb: patch
+        requestCount: 22
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-1
+      - byVerb:
+        - requestCount: 4
+          verb: list
+        - requestCount: 10
+          verb: watch
+        requestCount: 14
+        userAgent: ingress-operator/v0.0.0
+        username: system:serviceaccount:openshift-ingress-operator:ingress-operator
+      - byVerb:
+        - requestCount: 10
+          verb: patch
+        requestCount: 10
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-78
+      - byVerb:
+        - requestCount: 5
+          verb: create
+        requestCount: 5
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-1
+      nodeName: 10.13.2.160
+      requestCount: 51
+    - byUser:
+      - byVerb:
+        - requestCount: 14
+          verb: create
+        requestCount: 14
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-89
+      nodeName: 10.13.2.89
+      requestCount: 14
+    requestCount: 319
+  - requestCount: 0
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 133
+          verb: create
+        - requestCount: 7
+          verb: patch
+        requestCount: 140
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-89
+      - byVerb:
+        - requestCount: 8
+          verb: list
+        - requestCount: 11
+          verb: watch
+        requestCount: 19
+        userAgent: openshift-controller-manager/v0.0.0
+        username: system:serviceaccount:openshift-infra:unidling-controller
+      - byVerb:
+        - requestCount: 18
+          verb: create
+        requestCount: 18
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-160
+      - byVerb:
+        - requestCount: 15
+          verb: create
+        requestCount: 15
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-89
+      - byVerb:
+        - requestCount: 14
+          verb: create
+        requestCount: 14
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 6
+          verb: create
+        - requestCount: 1
+          verb: list
+        - requestCount: 4
+          verb: watch
+        requestCount: 11
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 3
+          verb: create
+        requestCount: 3
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:cronjob-controller
+      - byVerb:
+        - requestCount: 3
+          verb: create
+        requestCount: 3
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-1
+      - byVerb:
+        - requestCount: 2
+          verb: create
+        requestCount: 2
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:job-controller
+      - byVerb:
+        - requestCount: 2
+          verb: create
+        requestCount: 2
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver:installer-sa
+      nodeName: 10.13.0.150
+      requestCount: 227
+    - byUser:
+      - byVerb:
+        - requestCount: 96
+          verb: create
+        requestCount: 96
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-89
+      - byVerb:
+        - requestCount: 5
+          verb: list
+        - requestCount: 12
+          verb: watch
+        requestCount: 17
+        userAgent: ingress-operator/v0.0.0
+        username: system:serviceaccount:openshift-ingress-operator:ingress-operator
+      - byVerb:
+        - requestCount: 4
+          verb: create
+        - requestCount: 1
+          verb: list
+        - requestCount: 5
+          verb: watch
+        requestCount: 10
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 6
+          verb: create
+        requestCount: 6
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-1
+      - byVerb:
+        - requestCount: 6
+          verb: create
+        requestCount: 6
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:cronjob-controller
+      - byVerb:
+        - requestCount: 4
+          verb: create
+        requestCount: 4
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:job-controller
+      - byVerb:
+        - requestCount: 2
+          verb: create
+        requestCount: 2
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver:localhost-recovery-client
+      - byVerb:
+        - requestCount: 1
+          verb: create
+        requestCount: 1
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver:installer-sa
+      nodeName: 10.13.2.160
+      requestCount: 142
+    - byUser:
+      - byVerb:
+        - requestCount: 23
+          verb: create
+        requestCount: 23
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-89
+      - byVerb:
+        - requestCount: 8
+          verb: create
+        requestCount: 8
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-160
+      - byVerb:
+        - requestCount: 3
+          verb: create
+        requestCount: 3
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-1
+      - byVerb:
+        - requestCount: 3
+          verb: create
+        requestCount: 3
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver:localhost-recovery-client
+      - byVerb:
+        - requestCount: 2
+          verb: create
+        requestCount: 2
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-89
+      - byVerb:
+        - requestCount: 1
+          verb: watch
+        requestCount: 1
+        userAgent: ingress-operator/v0.0.0
+        username: system:serviceaccount:openshift-ingress-operator:ingress-operator
+      - byVerb:
+        - requestCount: 1
+          verb: create
+        requestCount: 1
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-160
+      - byVerb:
+        - requestCount: 1
+          verb: watch
+        requestCount: 1
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 1
+          verb: patch
+        requestCount: 1
+        userAgent: cluster-kube-controller-manager-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-controller-manager:localhost-recovery-client
+      - byVerb:
+        - requestCount: 1
+          verb: watch
+        requestCount: 1
+        userAgent: openshift-controller-manager/v0.0.0
+        username: system:serviceaccount:openshift-infra:unidling-controller
+      nodeName: 10.13.2.89
+      requestCount: 44
+    requestCount: 413
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 230
+          verb: create
+        requestCount: 230
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-89
+      - byVerb:
+        - requestCount: 10
+          verb: list
+        - requestCount: 14
+          verb: watch
+        requestCount: 24
+        userAgent: openshift-controller-manager/v0.0.0
+        username: system:serviceaccount:openshift-infra:unidling-controller
+      - byVerb:
+        - requestCount: 19
+          verb: create
+        requestCount: 19
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-89
+      - byVerb:
+        - requestCount: 18
+          verb: create
+        requestCount: 18
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 4
+          verb: list
+        - requestCount: 12
+          verb: watch
+        requestCount: 16
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        requestCount: 12
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:cronjob-controller
+      - byVerb:
+        - requestCount: 8
+          verb: create
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:job-controller
+      - byVerb:
+        - requestCount: 4
+          verb: create
+        requestCount: 4
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-1
+      - byVerb:
+        - requestCount: 2
+          verb: list
+        requestCount: 2
+        userAgent: insights-operator/v0.0.0
+        username: system:serviceaccount:openshift-insights:gather
+      - byVerb:
+        - requestCount: 2
+          verb: create
+        requestCount: 2
+        userAgent: ovnkube-identity/v0.28.3
+        username: system:serviceaccount:openshift-network-node-identity:network-node-identity
+      nodeName: 10.13.0.150
+      requestCount: 335
+    - byUser:
+      - byVerb:
+        - requestCount: 3
+          verb: list
+        - requestCount: 11
+          verb: watch
+        requestCount: 14
+        userAgent: ingress-operator/v0.0.0
+        username: system:serviceaccount:openshift-ingress-operator:ingress-operator
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        requestCount: 12
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-1
+      nodeName: 10.13.2.160
+      requestCount: 26
+    - byUser:
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        requestCount: 12
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-160
+      nodeName: 10.13.2.89
+      requestCount: 12
+    requestCount: 373
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 146
+          verb: create
+        requestCount: 146
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-89
+      - byVerb:
+        - requestCount: 10
+          verb: list
+        - requestCount: 12
+          verb: watch
+        requestCount: 22
+        userAgent: openshift-controller-manager/v0.0.0
+        username: system:serviceaccount:openshift-infra:unidling-controller
+      - byVerb:
+        - requestCount: 17
+          verb: create
+        requestCount: 17
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 3
+          verb: list
+        - requestCount: 12
+          verb: watch
+        requestCount: 15
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        requestCount: 12
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-89
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        requestCount: 12
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:cronjob-controller
+      - byVerb:
+        - requestCount: 8
+          verb: create
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:job-controller
+      - byVerb:
+        - requestCount: 5
+          verb: create
+        requestCount: 5
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-160
+      - byVerb:
+        - requestCount: 4
+          verb: create
+        requestCount: 4
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-1
+      - byVerb:
+        - requestCount: 2
+          verb: create
+        - requestCount: 2
+          verb: patch
+        requestCount: 4
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-0-150
+      nodeName: 10.13.0.150
+      requestCount: 245
+    - byUser:
+      - byVerb:
+        - requestCount: 5
+          verb: list
+        - requestCount: 12
+          verb: watch
+        requestCount: 17
+        userAgent: ingress-operator/v0.0.0
+        username: system:serviceaccount:openshift-ingress-operator:ingress-operator
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        requestCount: 12
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-1
+      - byVerb:
+        - requestCount: 3
+          verb: create
+        requestCount: 3
+        userAgent: authentication-operator/v0.0.0
+        username: system:serviceaccount:openshift-authentication-operator:authentication-operator
+      - byVerb:
+        - requestCount: 2
+          verb: create
+        - requestCount: 1
+          verb: patch
+        requestCount: 3
+        userAgent: operator/v0.0.0
+        username: system:serviceaccount:openshift-monitoring:cluster-monitoring-operator
+      - byVerb:
+        - requestCount: 2
+          verb: create
+        requestCount: 2
+        userAgent: cluster-openshift-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-apiserver-operator:openshift-apiserver-operator
+      nodeName: 10.13.2.160
+      requestCount: 37
+    - byUser:
+      - byVerb:
+        - requestCount: 71
+          verb: create
+        - requestCount: 6
+          verb: patch
+        requestCount: 77
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-160
+      - byVerb:
+        - requestCount: 2
+          verb: create
+        requestCount: 2
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-0-150
+      - byVerb:
+        - requestCount: 1
+          verb: create
+        requestCount: 1
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver:installer-sa
+      nodeName: 10.13.2.89
+      requestCount: 80
+    requestCount: 362
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 155
+          verb: create
+        requestCount: 155
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-160
+      - byVerb:
+        - requestCount: 1
+          verb: create
+        - requestCount: 31
+          verb: patch
+        requestCount: 32
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:persistent-volume-binder
+      - byVerb:
+        - requestCount: 21
+          verb: create
+        requestCount: 21
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-1
+      - byVerb:
+        - requestCount: 4
+          verb: list
+        - requestCount: 11
+          verb: watch
+        requestCount: 15
+        userAgent: ingress-operator/v0.0.0
+        username: system:serviceaccount:openshift-ingress-operator:ingress-operator
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        requestCount: 12
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-78
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        requestCount: 12
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-160
+      - byVerb:
+        - requestCount: 9
+          verb: create
+        requestCount: 9
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:cronjob-controller
+      - byVerb:
+        - requestCount: 6
+          verb: create
+        requestCount: 6
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:job-controller
+      - byVerb:
+        - requestCount: 6
+          verb: create
+        requestCount: 6
+        userAgent: ovnkube-identity/v0.28.3
+        username: system:serviceaccount:openshift-network-node-identity:network-node-identity
+      - byVerb:
+        - requestCount: 6
+          verb: create
+        requestCount: 6
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:daemon-set-controller
+      nodeName: 10.13.0.150
+      requestCount: 274
+    - byUser:
+      - byVerb:
+        - requestCount: 104
+          verb: create
+        - requestCount: 9
+          verb: patch
+        requestCount: 113
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-89
+      - byVerb:
+        - requestCount: 35
+          verb: create
+        - requestCount: 5
+          verb: patch
+        requestCount: 40
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-120
+      - byVerb:
+        - requestCount: 8
+          verb: list
+        - requestCount: 11
+          verb: watch
+        requestCount: 19
+        userAgent: openshift-controller-manager/v0.0.0
+        username: system:serviceaccount:openshift-infra:unidling-controller
+      - byVerb:
+        - requestCount: 2
+          verb: create
+        - requestCount: 4
+          verb: list
+        - requestCount: 10
+          verb: watch
+        requestCount: 16
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 15
+          verb: create
+        requestCount: 15
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 5
+          verb: create
+        requestCount: 5
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-89
+      - byVerb:
+        - requestCount: 3
+          verb: create
+        requestCount: 3
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-1
+      - byVerb:
+        - requestCount: 1
+          verb: list
+        requestCount: 1
+        userAgent: oc/4.15.0
+        username: system:admin
+      - byVerb:
+        - requestCount: 1
+          verb: create
+        requestCount: 1
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver:localhost-recovery-client
+      nodeName: 10.13.2.160
+      requestCount: 213
+    - byUser:
+      - byVerb:
+        - requestCount: 45
+          verb: create
+        - requestCount: 26
+          verb: patch
+        requestCount: 71
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-160
+      - byVerb:
+        - requestCount: 50
+          verb: create
+        - requestCount: 10
+          verb: patch
+        requestCount: 60
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-0-150
+      - byVerb:
+        - requestCount: 6
+          verb: create
+        - requestCount: 11
+          verb: patch
+        requestCount: 17
+        userAgent: cluster-openshift-controller-manager-operator/v0.0.0
+        username: system:serviceaccount:openshift-controller-manager-operator:openshift-controller-manager-operator
+      - byVerb:
+        - requestCount: 16
+          verb: create
+        requestCount: 16
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:deployment-controller
+      - byVerb:
+        - requestCount: 16
+          verb: create
+        requestCount: 16
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:replicaset-controller
+      - byVerb:
+        - requestCount: 4
+          verb: create
+        - requestCount: 1
+          verb: watch
+        requestCount: 5
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 3
+          verb: create
+        requestCount: 3
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver:localhost-recovery-client
+      - byVerb:
+        - requestCount: 3
+          verb: create
+        requestCount: 3
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-89
+      - byVerb:
+        - requestCount: 1
+          verb: create
+        - requestCount: 2
+          verb: patch
+        requestCount: 3
+        userAgent: cluster-kube-controller-manager-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-controller-manager:localhost-recovery-client
+      - byVerb:
+        - requestCount: 3
+          verb: create
+        requestCount: 3
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-1
+      nodeName: 10.13.2.89
+      requestCount: 197
+    requestCount: 684
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 197
+          verb: create
+        requestCount: 197
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-160
+      - byVerb:
+        - requestCount: 85
+          verb: create
+        - requestCount: 11
+          verb: patch
+        requestCount: 96
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-89
+      - byVerb:
+        - requestCount: 8
+          verb: list
+        - requestCount: 12
+          verb: watch
+        requestCount: 20
+        userAgent: openshift-controller-manager/v0.0.0
+        username: system:serviceaccount:openshift-infra:unidling-controller
+      - byVerb:
+        - requestCount: 18
+          verb: create
+        requestCount: 18
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 17
+          verb: create
+        requestCount: 17
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-160
+      - byVerb:
+        - requestCount: 2
+          verb: create
+        - requestCount: 3
+          verb: list
+        - requestCount: 11
+          verb: watch
+        requestCount: 16
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 11
+          verb: patch
+        requestCount: 11
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:persistent-volume-binder
+      - byVerb:
+        - requestCount: 11
+          verb: patch
+        requestCount: 11
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-120
+      - byVerb:
+        - requestCount: 9
+          verb: create
+        requestCount: 9
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:cronjob-controller
+      - byVerb:
+        - requestCount: 6
+          verb: create
+        requestCount: 6
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:job-controller
+      nodeName: 10.13.0.150
+      requestCount: 401
+    - byUser:
+      - byVerb:
+        - requestCount: 6
+          verb: list
+        - requestCount: 14
+          verb: watch
+        requestCount: 20
+        userAgent: ingress-operator/v0.0.0
+        username: system:serviceaccount:openshift-ingress-operator:ingress-operator
+      - byVerb:
+        - requestCount: 9
+          verb: create
+        requestCount: 9
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-1
+      - byVerb:
+        - requestCount: 3
+          verb: create
+        requestCount: 3
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-1
+      nodeName: 10.13.2.160
+      requestCount: 32
+    - byUser:
+      - byVerb:
+        - requestCount: 33
+          verb: create
+        - requestCount: 9
+          verb: patch
+        requestCount: 42
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-160
+      - byVerb:
+        - requestCount: 5
+          verb: create
+        - requestCount: 3
+          verb: patch
+        requestCount: 8
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-1
+      - byVerb:
+        - requestCount: 4
+          verb: create
+        requestCount: 4
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-78
+      - byVerb:
+        - requestCount: 4
+          verb: create
+        requestCount: 4
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:deployment-controller
+      - byVerb:
+        - requestCount: 4
+          verb: create
+        requestCount: 4
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:replicaset-controller
+      - byVerb:
+        - requestCount: 3
+          verb: create
+        requestCount: 3
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:cronjob-controller
+      - byVerb:
+        - requestCount: 2
+          verb: create
+        requestCount: 2
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:job-controller
+      - byVerb:
+        - requestCount: 1
+          verb: watch
+        requestCount: 1
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 1
+          verb: create
+        requestCount: 1
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-3-78
+      - byVerb:
+        - requestCount: 1
+          verb: watch
+        requestCount: 1
+        userAgent: openshift-controller-manager/v0.0.0
+        username: system:serviceaccount:openshift-infra:unidling-controller
+      nodeName: 10.13.2.89
+      requestCount: 70
+    requestCount: 503
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 170
+          verb: create
+        - requestCount: 7
+          verb: patch
+        requestCount: 177
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-160
+      - byVerb:
+        - requestCount: 76
+          verb: create
+        - requestCount: 7
+          verb: patch
+        requestCount: 83
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-89
+      - byVerb:
+        - requestCount: 21
+          verb: create
+        - requestCount: 16
+          verb: patch
+        requestCount: 37
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-120
+      - byVerb:
+        - requestCount: 10
+          verb: list
+        - requestCount: 13
+          verb: watch
+        requestCount: 23
+        userAgent: openshift-controller-manager/v0.0.0
+        username: system:serviceaccount:openshift-infra:unidling-controller
+      - byVerb:
+        - requestCount: 6
+          verb: list
+        - requestCount: 14
+          verb: watch
+        requestCount: 20
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 18
+          verb: create
+        requestCount: 18
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 14
+          verb: create
+        requestCount: 14
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-160
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        requestCount: 12
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:cronjob-controller
+      - byVerb:
+        - requestCount: 10
+          verb: patch
+        requestCount: 10
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:persistent-volume-binder
+      - byVerb:
+        - requestCount: 1
+          verb: create
+        - requestCount: 7
+          verb: patch
+        requestCount: 8
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-0-150
+      nodeName: 10.13.0.150
+      requestCount: 402
+    - byUser:
+      - byVerb:
+        - requestCount: 23
+          verb: create
+        - requestCount: 10
+          verb: patch
+        requestCount: 33
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-78
+      - byVerb:
+        - requestCount: 17
+          verb: create
+        - requestCount: 7
+          verb: patch
+        requestCount: 24
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-1
+      - byVerb:
+        - requestCount: 4
+          verb: list
+        - requestCount: 12
+          verb: watch
+        requestCount: 16
+        userAgent: ingress-operator/v0.0.0
+        username: system:serviceaccount:openshift-ingress-operator:ingress-operator
+      - byVerb:
+        - requestCount: 5
+          verb: create
+        requestCount: 5
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-1
+      - byVerb:
+        - requestCount: 1
+          verb: create
+        requestCount: 1
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-3-78
+      - byVerb:
+        - requestCount: 1
+          verb: create
+        requestCount: 1
+        userAgent: csi-snapshotter/v0.0.0
+        username: system:serviceaccount:kube-system:csi-cinder-controller-sa
+      - byVerb:
+        - requestCount: 1
+          verb: create
+        requestCount: 1
+        userAgent: csi-attacher/v0.0.0
+        username: system:serviceaccount:kube-system:csi-cinder-controller-sa
+      nodeName: 10.13.2.160
+      requestCount: 81
+    - byUser:
+      - byVerb:
+        - requestCount: 2
+          verb: list
+        requestCount: 2
+        userAgent: insights-operator/v0.0.0
+        username: system:serviceaccount:openshift-insights:gather
+      nodeName: 10.13.2.89
+      requestCount: 2
+    requestCount: 485
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 229
+          verb: create
+        requestCount: 229
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-89
+      - byVerb:
+        - requestCount: 25
+          verb: create
+        - requestCount: 37
+          verb: patch
+        requestCount: 62
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-120
+      - byVerb:
+        - requestCount: 24
+          verb: create
+        requestCount: 24
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-160
+      - byVerb:
+        - requestCount: 19
+          verb: create
+        requestCount: 19
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-89
+      - byVerb:
+        - requestCount: 8
+          verb: list
+        - requestCount: 11
+          verb: watch
+        requestCount: 19
+        userAgent: openshift-controller-manager/v0.0.0
+        username: system:serviceaccount:openshift-infra:unidling-controller
+      - byVerb:
+        - requestCount: 18
+          verb: create
+        requestCount: 18
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 4
+          verb: list
+        - requestCount: 13
+          verb: watch
+        requestCount: 17
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        requestCount: 12
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:cronjob-controller
+      - byVerb:
+        - requestCount: 9
+          verb: create
+        requestCount: 9
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:daemon-set-controller
+      - byVerb:
+        - requestCount: 8
+          verb: create
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:job-controller
+      nodeName: 10.13.0.150
+      requestCount: 417
+    - byUser:
+      - byVerb:
+        - requestCount: 70
+          verb: create
+        - requestCount: 62
+          verb: patch
+        requestCount: 132
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-78
+      - byVerb:
+        - requestCount: 34
+          verb: create
+        - requestCount: 38
+          verb: patch
+        requestCount: 72
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-1
+      - byVerb:
+        - requestCount: 6
+          verb: list
+        - requestCount: 13
+          verb: watch
+        requestCount: 19
+        userAgent: ingress-operator/v0.0.0
+        username: system:serviceaccount:openshift-ingress-operator:ingress-operator
+      - byVerb:
+        - requestCount: 3
+          verb: create
+        requestCount: 3
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-1
+      - byVerb:
+        - requestCount: 3
+          verb: create
+        requestCount: 3
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-3-78
+      nodeName: 10.13.2.160
+      requestCount: 229
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 646
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 217
+          verb: create
+        requestCount: 217
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-89
+      - byVerb:
+        - requestCount: 22
+          verb: create
+        - requestCount: 51
+          verb: patch
+        requestCount: 73
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-120
+      - byVerb:
+        - requestCount: 48
+          verb: create
+        requestCount: 48
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-160
+      - byVerb:
+        - requestCount: 10
+          verb: list
+        - requestCount: 14
+          verb: watch
+        requestCount: 24
+        userAgent: openshift-controller-manager/v0.0.0
+        username: system:serviceaccount:openshift-infra:unidling-controller
+      - byVerb:
+        - requestCount: 18
+          verb: create
+        requestCount: 18
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-89
+      - byVerb:
+        - requestCount: 18
+          verb: create
+        requestCount: 18
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 5
+          verb: list
+        - requestCount: 12
+          verb: watch
+        requestCount: 17
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        requestCount: 12
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:cronjob-controller
+      - byVerb:
+        - requestCount: 9
+          verb: create
+        requestCount: 9
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:daemon-set-controller
+      - byVerb:
+        - requestCount: 8
+          verb: create
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:job-controller
+      nodeName: 10.13.0.150
+      requestCount: 444
+    - byUser:
+      - byVerb:
+        - requestCount: 62
+          verb: create
+        - requestCount: 89
+          verb: patch
+        requestCount: 151
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-78
+      - byVerb:
+        - requestCount: 35
+          verb: create
+        - requestCount: 50
+          verb: patch
+        requestCount: 85
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-1
+      - byVerb:
+        - requestCount: 5
+          verb: list
+        - requestCount: 14
+          verb: watch
+        requestCount: 19
+        userAgent: ingress-operator/v0.0.0
+        username: system:serviceaccount:openshift-ingress-operator:ingress-operator
+      - byVerb:
+        - requestCount: 4
+          verb: create
+        requestCount: 4
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-1
+      - byVerb:
+        - requestCount: 3
+          verb: create
+        requestCount: 3
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-3-78
+      nodeName: 10.13.2.160
+      requestCount: 262
+    - byUser:
+      - byVerb:
+        - requestCount: 2
+          verb: list
+        requestCount: 2
+        userAgent: insights-operator/v0.0.0
+        username: system:serviceaccount:openshift-insights:gather
+      nodeName: 10.13.2.89
+      requestCount: 2
+    requestCount: 708
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 253
+          verb: create
+        requestCount: 253
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-89
+      - byVerb:
+        - requestCount: 8
+          verb: create
+        - requestCount: 34
+          verb: patch
+        requestCount: 42
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-120
+      - byVerb:
+        - requestCount: 12
+          verb: list
+        - requestCount: 14
+          verb: watch
+        requestCount: 26
+        userAgent: openshift-controller-manager/v0.0.0
+        username: system:serviceaccount:openshift-infra:unidling-controller
+      - byVerb:
+        - requestCount: 21
+          verb: create
+        requestCount: 21
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-89
+      - byVerb:
+        - requestCount: 19
+          verb: create
+        requestCount: 19
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 5
+          verb: list
+        - requestCount: 13
+          verb: watch
+        requestCount: 18
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        requestCount: 12
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:cronjob-controller
+      - byVerb:
+        - requestCount: 8
+          verb: create
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:job-controller
+      - byVerb:
+        - requestCount: 3
+          verb: create
+        requestCount: 3
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:daemon-set-controller
+      - byVerb:
+        - requestCount: 1
+          verb: create
+        requestCount: 1
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:statefulset-controller
+      nodeName: 10.13.0.150
+      requestCount: 403
+    - byUser:
+      - byVerb:
+        - requestCount: 22
+          verb: create
+        - requestCount: 57
+          verb: patch
+        requestCount: 79
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-78
+      - byVerb:
+        - requestCount: 20
+          verb: create
+        - requestCount: 34
+          verb: patch
+        requestCount: 54
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-1
+      - byVerb:
+        - requestCount: 5
+          verb: list
+        - requestCount: 12
+          verb: watch
+        requestCount: 17
+        userAgent: ingress-operator/v0.0.0
+        username: system:serviceaccount:openshift-ingress-operator:ingress-operator
+      - byVerb:
+        - requestCount: 4
+          verb: create
+        requestCount: 4
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-1
+      - byVerb:
+        - requestCount: 1
+          verb: create
+        requestCount: 1
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-3-78
+      nodeName: 10.13.2.160
+      requestCount: 155
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 558
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 261
+          verb: create
+        - requestCount: 1
+          verb: patch
+        requestCount: 262
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-89
+      - byVerb:
+        - requestCount: 10
+          verb: list
+        - requestCount: 12
+          verb: watch
+        requestCount: 22
+        userAgent: openshift-controller-manager/v0.0.0
+        username: system:serviceaccount:openshift-infra:unidling-controller
+      - byVerb:
+        - requestCount: 21
+          verb: create
+        requestCount: 21
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-89
+      - byVerb:
+        - requestCount: 18
+          verb: create
+        requestCount: 18
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 4
+          verb: list
+        - requestCount: 11
+          verb: watch
+        requestCount: 15
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        requestCount: 12
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:cronjob-controller
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        requestCount: 12
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-160
+      - byVerb:
+        - requestCount: 12
+          verb: patch
+        requestCount: 12
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-120
+      - byVerb:
+        - requestCount: 8
+          verb: create
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:job-controller
+      - byVerb:
+        - requestCount: 2
+          verb: list
+        requestCount: 2
+        userAgent: insights-operator/v0.0.0
+        username: system:serviceaccount:openshift-insights:gather
+      nodeName: 10.13.0.150
+      requestCount: 384
+    - byUser:
+      - byVerb:
+        - requestCount: 24
+          verb: patch
+        requestCount: 24
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-78
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        - requestCount: 12
+          verb: patch
+        requestCount: 24
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-1
+      - byVerb:
+        - requestCount: 4
+          verb: list
+        - requestCount: 12
+          verb: watch
+        requestCount: 16
+        userAgent: ingress-operator/v0.0.0
+        username: system:serviceaccount:openshift-ingress-operator:ingress-operator
+      - byVerb:
+        - requestCount: 4
+          verb: create
+        requestCount: 4
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-1
+      nodeName: 10.13.2.160
+      requestCount: 68
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 452
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 208
+          verb: create
+        requestCount: 208
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-160
+      - byVerb:
+        - requestCount: 35
+          verb: create
+        requestCount: 35
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-89
+      - byVerb:
+        - requestCount: 8
+          verb: list
+        - requestCount: 13
+          verb: watch
+        requestCount: 21
+        userAgent: openshift-controller-manager/v0.0.0
+        username: system:serviceaccount:openshift-infra:unidling-controller
+      - byVerb:
+        - requestCount: 5
+          verb: list
+        - requestCount: 14
+          verb: watch
+        requestCount: 19
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 18
+          verb: create
+        requestCount: 18
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 17
+          verb: create
+        requestCount: 17
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-160
+      - byVerb:
+        - requestCount: 12
+          verb: patch
+        requestCount: 12
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-120
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        requestCount: 12
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:cronjob-controller
+      - byVerb:
+        - requestCount: 8
+          verb: create
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:job-controller
+      - byVerb:
+        - requestCount: 2
+          verb: create
+        requestCount: 2
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-89
+      nodeName: 10.13.0.150
+      requestCount: 352
+    - byUser:
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        - requestCount: 12
+          verb: patch
+        requestCount: 24
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-1
+      - byVerb:
+        - requestCount: 24
+          verb: patch
+        requestCount: 24
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-78
+      - byVerb:
+        - requestCount: 5
+          verb: list
+        - requestCount: 14
+          verb: watch
+        requestCount: 19
+        userAgent: ingress-operator/v0.0.0
+        username: system:serviceaccount:openshift-ingress-operator:ingress-operator
+      - byVerb:
+        - requestCount: 4
+          verb: create
+        requestCount: 4
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-1
+      nodeName: 10.13.2.160
+      requestCount: 71
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 423
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 232
+          verb: create
+        requestCount: 232
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-160
+      - byVerb:
+        - requestCount: 35
+          verb: create
+        requestCount: 35
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-89
+      - byVerb:
+        - requestCount: 10
+          verb: list
+        - requestCount: 13
+          verb: watch
+        requestCount: 23
+        userAgent: openshift-controller-manager/v0.0.0
+        username: system:serviceaccount:openshift-infra:unidling-controller
+      - byVerb:
+        - requestCount: 19
+          verb: create
+        requestCount: 19
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-160
+      - byVerb:
+        - requestCount: 18
+          verb: create
+        requestCount: 18
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 5
+          verb: list
+        - requestCount: 12
+          verb: watch
+        requestCount: 17
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        requestCount: 12
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:cronjob-controller
+      - byVerb:
+        - requestCount: 12
+          verb: patch
+        requestCount: 12
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-120
+      - byVerb:
+        - requestCount: 8
+          verb: create
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:job-controller
+      - byVerb:
+        - requestCount: 3
+          verb: create
+        requestCount: 3
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-89
+      nodeName: 10.13.0.150
+      requestCount: 379
+    - byUser:
+      - byVerb:
+        - requestCount: 1
+          verb: create
+        - requestCount: 24
+          verb: patch
+        requestCount: 25
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-78
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        - requestCount: 12
+          verb: patch
+        requestCount: 24
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-1
+      - byVerb:
+        - requestCount: 6
+          verb: list
+        - requestCount: 14
+          verb: watch
+        requestCount: 20
+        userAgent: ingress-operator/v0.0.0
+        username: system:serviceaccount:openshift-ingress-operator:ingress-operator
+      - byVerb:
+        - requestCount: 4
+          verb: create
+        requestCount: 4
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-1
+      nodeName: 10.13.2.160
+      requestCount: 73
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 452
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 244
+          verb: create
+        requestCount: 244
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-160
+      - byVerb:
+        - requestCount: 10
+          verb: list
+        - requestCount: 13
+          verb: watch
+        requestCount: 23
+        userAgent: openshift-controller-manager/v0.0.0
+        username: system:serviceaccount:openshift-infra:unidling-controller
+      - byVerb:
+        - requestCount: 6
+          verb: list
+        - requestCount: 15
+          verb: watch
+        requestCount: 21
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 20
+          verb: create
+        requestCount: 20
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-160
+      - byVerb:
+        - requestCount: 19
+          verb: create
+        requestCount: 19
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 12
+          verb: patch
+        requestCount: 12
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-120
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        requestCount: 12
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:cronjob-controller
+      - byVerb:
+        - requestCount: 8
+          verb: create
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:job-controller
+      - byVerb:
+        - requestCount: 2
+          verb: create
+        requestCount: 2
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-89
+      nodeName: 10.13.0.150
+      requestCount: 361
+    - byUser:
+      - byVerb:
+        - requestCount: 24
+          verb: patch
+        requestCount: 24
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-78
+      - byVerb:
+        - requestCount: 6
+          verb: list
+        - requestCount: 15
+          verb: watch
+        requestCount: 21
+        userAgent: ingress-operator/v0.0.0
+        username: system:serviceaccount:openshift-ingress-operator:ingress-operator
+      - byVerb:
+        - requestCount: 9
+          verb: create
+        - requestCount: 12
+          verb: patch
+        requestCount: 21
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-1
+      - byVerb:
+        - requestCount: 3
+          verb: create
+        requestCount: 3
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-1
+      nodeName: 10.13.2.160
+      requestCount: 69
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 430
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 268
+          verb: create
+        requestCount: 268
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-160
+      - byVerb:
+        - requestCount: 10
+          verb: list
+        - requestCount: 13
+          verb: watch
+        requestCount: 23
+        userAgent: openshift-controller-manager/v0.0.0
+        username: system:serviceaccount:openshift-infra:unidling-controller
+      - byVerb:
+        - requestCount: 22
+          verb: create
+        requestCount: 22
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-160
+      - byVerb:
+        - requestCount: 18
+          verb: create
+        requestCount: 18
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 5
+          verb: list
+        - requestCount: 12
+          verb: watch
+        requestCount: 17
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 12
+          verb: patch
+        requestCount: 12
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-120
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        requestCount: 12
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:cronjob-controller
+      - byVerb:
+        - requestCount: 8
+          verb: create
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:job-controller
+      - byVerb:
+        - requestCount: 2
+          verb: list
+        requestCount: 2
+        userAgent: insights-operator/v0.0.0
+        username: system:serviceaccount:openshift-insights:gather
+      - byVerb:
+        - requestCount: 1
+          verb: create
+        requestCount: 1
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-89
+      nodeName: 10.13.0.150
+      requestCount: 383
+    - byUser:
+      - byVerb:
+        - requestCount: 24
+          verb: patch
+        requestCount: 24
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-78
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        - requestCount: 12
+          verb: patch
+        requestCount: 24
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-1
+      - byVerb:
+        - requestCount: 4
+          verb: list
+        - requestCount: 11
+          verb: watch
+        requestCount: 15
+        userAgent: ingress-operator/v0.0.0
+        username: system:serviceaccount:openshift-ingress-operator:ingress-operator
+      - byVerb:
+        - requestCount: 4
+          verb: create
+        requestCount: 4
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-1
+      nodeName: 10.13.2.160
+      requestCount: 67
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 450
+  - byNode:
+    - byUser:
+      - byVerb:
+        - requestCount: 123
+          verb: create
+        requestCount: 123
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-160
+      - byVerb:
+        - requestCount: 121
+          verb: create
+        requestCount: 121
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-89
+      - byVerb:
+        - requestCount: 10
+          verb: list
+        - requestCount: 14
+          verb: watch
+        requestCount: 24
+        userAgent: openshift-controller-manager/v0.0.0
+        username: system:serviceaccount:openshift-infra:unidling-controller
+      - byVerb:
+        - requestCount: 5
+          verb: list
+        - requestCount: 13
+          verb: watch
+        requestCount: 18
+        userAgent: cluster-kube-apiserver-operator/v0.0.0
+        username: system:serviceaccount:openshift-kube-apiserver-operator:kube-apiserver-operator
+      - byVerb:
+        - requestCount: 18
+          verb: create
+        requestCount: 18
+        userAgent: machine-config-operator/v0.0.0
+        username: system:serviceaccount:openshift-machine-config-operator:machine-config-operator
+      - byVerb:
+        - requestCount: 12
+          verb: patch
+        requestCount: 12
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-120
+      - byVerb:
+        - requestCount: 12
+          verb: create
+        requestCount: 12
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:cronjob-controller
+      - byVerb:
+        - requestCount: 10
+          verb: create
+        requestCount: 10
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-89
+      - byVerb:
+        - requestCount: 10
+          verb: create
+        requestCount: 10
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-160
+      - byVerb:
+        - requestCount: 8
+          verb: create
+        requestCount: 8
+        userAgent: kube-controller-manager/v1.28.15+ff493be
+        username: system:serviceaccount:kube-system:job-controller
+      nodeName: 10.13.0.150
+      requestCount: 356
+    - byUser:
+      - byVerb:
+        - requestCount: 24
+          verb: patch
+        requestCount: 24
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-3-78
+      - byVerb:
+        - requestCount: 9
+          verb: create
+        - requestCount: 12
+          verb: patch
+        requestCount: 21
+        userAgent: kubelet/v1.28.15+ff493be
+        username: system:node:host-10-13-2-1
+      - byVerb:
+        - requestCount: 5
+          verb: list
+        - requestCount: 13
+          verb: watch
+        requestCount: 18
+        userAgent: ingress-operator/v0.0.0
+        username: system:serviceaccount:openshift-ingress-operator:ingress-operator
+      - byVerb:
+        - requestCount: 3
+          verb: create
+        requestCount: 3
+        userAgent: multus-daemon/v0.0.0
+        username: system:multus:host-10-13-2-1
+      nodeName: 10.13.2.160
+      requestCount: 66
+    - nodeName: 10.13.2.89
+      requestCount: 0
+    requestCount: 422
+  requestCount: 10759

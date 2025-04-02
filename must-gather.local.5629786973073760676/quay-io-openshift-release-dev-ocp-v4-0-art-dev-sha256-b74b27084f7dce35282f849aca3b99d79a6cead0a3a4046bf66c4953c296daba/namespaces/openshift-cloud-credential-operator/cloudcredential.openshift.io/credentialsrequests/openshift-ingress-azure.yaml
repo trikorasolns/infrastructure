@@ -1,0 +1,91 @@
+---
+apiVersion: cloudcredential.openshift.io/v1
+kind: CredentialsRequest
+metadata:
+  annotations:
+    capability.openshift.io/name: CloudCredential
+    include.release.openshift.io/ibm-cloud-managed: "true"
+    include.release.openshift.io/self-managed-high-availability: "true"
+    include.release.openshift.io/single-node-developer: "true"
+  creationTimestamp: "2025-03-31T14:23:52Z"
+  generation: 1
+  labels:
+    controller-tools.k8s.io: "1.0"
+  managedFields:
+  - apiVersion: cloudcredential.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:capability.openshift.io/name: {}
+          f:include.release.openshift.io/ibm-cloud-managed: {}
+          f:include.release.openshift.io/self-managed-high-availability: {}
+          f:include.release.openshift.io/single-node-developer: {}
+        f:labels:
+          .: {}
+          f:controller-tools.k8s.io: {}
+        f:ownerReferences:
+          .: {}
+          k:{"uid":"5052a10d-b0db-474e-b63d-8e02132cf28b"}: {}
+      f:spec:
+        .: {}
+        f:providerSpec:
+          .: {}
+          f:apiVersion: {}
+          f:kind: {}
+          f:permissions: {}
+        f:secretRef:
+          .: {}
+          f:name: {}
+          f:namespace: {}
+        f:serviceAccountNames: {}
+    manager: cluster-version-operator
+    operation: Update
+    time: "2025-03-31T14:23:52Z"
+  - apiVersion: cloudcredential.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        .: {}
+        f:conditions: {}
+        f:lastSyncGeneration: {}
+        f:provisioned: {}
+    manager: Go-http-client
+    operation: Update
+    subresource: status
+    time: "2025-03-31T14:25:27Z"
+  name: openshift-ingress-azure
+  namespace: openshift-cloud-credential-operator
+  ownerReferences:
+  - apiVersion: config.openshift.io/v1
+    controller: true
+    kind: ClusterVersion
+    name: version
+    uid: 5052a10d-b0db-474e-b63d-8e02132cf28b
+  resourceVersion: "2627"
+  uid: dcf11f1b-9bb8-4e2d-88bf-0d01521795dc
+spec:
+  providerSpec:
+    apiVersion: cloudcredential.openshift.io/v1
+    kind: AzureProviderSpec
+    permissions:
+    - Microsoft.Network/dnsZones/A/delete
+    - Microsoft.Network/dnsZones/A/write
+    - Microsoft.Network/privateDnsZones/A/delete
+    - Microsoft.Network/privateDnsZones/A/write
+  secretRef:
+    name: cloud-credentials
+    namespace: openshift-ingress-operator
+  serviceAccountNames:
+  - ingress-operator
+status:
+  conditions:
+  - lastProbeTime: "2025-03-31T14:25:27Z"
+    lastTransitionTime: "2025-03-31T14:25:27Z"
+    message: CredentialsRequest is not for platform None
+    reason: InfrastructureMismatch
+    status: "True"
+    type: Ignored
+  lastSyncGeneration: 0
+  provisioned: false

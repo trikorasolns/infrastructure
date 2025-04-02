@@ -1,0 +1,41 @@
+2025-04-01T14:48:25.519014144Z 2025/04/01 14:48:25 Running command:
+2025-04-01T14:48:25.519014144Z Command env: (log-file=, also-stdout=false, redirect-stderr=true)
+2025-04-01T14:48:25.519014144Z Run from directory: 
+2025-04-01T14:48:25.519014144Z Executable path: /bin/cinder-csi-plugin
+2025-04-01T14:48:25.519014144Z Args (comma-delimited): /bin/cinder-csi-plugin,--endpoint=unix://csi/csi.sock,--cloud-config=/etc/config/cloud.conf,--cluster=kubernetes,--pvc-annotations,--v=1
+2025-04-01T14:48:25.519687584Z 2025/04/01 14:48:25 Now listening for interrupts
+2025-04-01T14:48:25.533249302Z W0401 14:48:25.533210      10 client_config.go:667] Neither --kubeconfig nor --master was specified.  Using the inClusterConfig.  This might not work.
+2025-04-01T14:48:25.533529667Z I0401 14:48:25.533504      10 envvar.go:172] "Feature gate default state" feature="InformerResourceVersion" enabled=false
+2025-04-01T14:48:25.533529667Z I0401 14:48:25.533515      10 envvar.go:172] "Feature gate default state" feature="WatchListClient" enabled=false
+2025-04-01T14:48:25.533529667Z I0401 14:48:25.533520      10 envvar.go:172] "Feature gate default state" feature="ClientsAllowCBOR" enabled=false
+2025-04-01T14:48:25.533529667Z I0401 14:48:25.533523      10 envvar.go:172] "Feature gate default state" feature="ClientsPreferCBOR" enabled=false
+2025-04-01T14:48:25.634451614Z I0401 14:48:25.634364      10 csi.go:149] Successully created PVC Annotations Lister
+2025-04-01T14:48:25.634587852Z I0401 14:48:25.634567      10 driver.go:101] Driver: cinder.csi.openstack.org
+2025-04-01T14:48:25.634630381Z I0401 14:48:25.634613      10 driver.go:102] Driver version: 2.0.0@v1.32.0
+2025-04-01T14:48:25.634669260Z I0401 14:48:25.634653      10 driver.go:103] CSI Spec version: 1.8.0
+2025-04-01T14:48:25.634708889Z I0401 14:48:25.634692      10 driver.go:104] Topology awareness: bool
+2025-04-01T14:48:25.635085663Z I0401 14:48:25.635066      10 driver.go:141] Enabling controller service capability: LIST_VOLUMES
+2025-04-01T14:48:25.635127302Z I0401 14:48:25.635111      10 driver.go:141] Enabling controller service capability: CREATE_DELETE_VOLUME
+2025-04-01T14:48:25.635164672Z I0401 14:48:25.635149      10 driver.go:141] Enabling controller service capability: PUBLISH_UNPUBLISH_VOLUME
+2025-04-01T14:48:25.635201842Z I0401 14:48:25.635186      10 driver.go:141] Enabling controller service capability: CREATE_DELETE_SNAPSHOT
+2025-04-01T14:48:25.635238062Z I0401 14:48:25.635222      10 driver.go:141] Enabling controller service capability: LIST_SNAPSHOTS
+2025-04-01T14:48:25.635273861Z I0401 14:48:25.635258      10 driver.go:141] Enabling controller service capability: EXPAND_VOLUME
+2025-04-01T14:48:25.635310580Z I0401 14:48:25.635295      10 driver.go:141] Enabling controller service capability: CLONE_VOLUME
+2025-04-01T14:48:25.635356750Z I0401 14:48:25.635341      10 driver.go:141] Enabling controller service capability: LIST_VOLUMES_PUBLISHED_NODES
+2025-04-01T14:48:25.635420288Z I0401 14:48:25.635379      10 driver.go:141] Enabling controller service capability: GET_VOLUME
+2025-04-01T14:48:25.635469248Z I0401 14:48:25.635453      10 driver.go:152] Enabling volume access mode: SINGLE_NODE_WRITER
+2025-04-01T14:48:25.635512117Z I0401 14:48:25.635496      10 driver.go:165] Enabling node service capability: STAGE_UNSTAGE_VOLUME
+2025-04-01T14:48:25.635549616Z I0401 14:48:25.635534      10 driver.go:165] Enabling node service capability: EXPAND_VOLUME
+2025-04-01T14:48:25.635586356Z I0401 14:48:25.635571      10 driver.go:165] Enabling node service capability: GET_VOLUME_STATS
+2025-04-01T14:48:25.636013459Z I0401 14:48:25.635991      10 openstack.go:103] Global: ""
+2025-04-01T14:48:25.636069139Z I0401 14:48:25.636046      10 openstack.go:106] Block storage opts: {0 false false false}
+2025-04-01T14:48:27.147063865Z I0401 14:48:27.146993      10 driver.go:193] Providing controller service
+2025-04-01T14:48:27.150395413Z I0401 14:48:27.150338      10 driver.go:198] Providing node service
+2025-04-01T14:48:27.150905685Z I0401 14:48:27.150844      10 server.go:107] Listening for connections on address: &net.UnixAddr{Name:"/csi/csi.sock", Net:"unix"}
+2025-04-01T14:48:28.361764386Z I0401 14:48:28.361705      10 csi.go:93] detected AZ from the topology: nova
+2025-04-01T16:48:26.711365279Z E0401 16:48:26.711317      10 controllerserver.go:457] Failed to ListVolumes: Get "https://volume.compute.gra11.cloud.ovh.net/v3/b9d1d83f632c41d0bbd1ca0b5844a9d4/volumes/detail": EOF
+2025-04-01T16:48:26.711489797Z E0401 16:48:26.711444      10 utils.go:99] [ID:263] GRPC error: rpc error: code = Internal desc = ListVolumes failed with error Get "https://volume.compute.gra11.cloud.ovh.net/v3/b9d1d83f632c41d0bbd1ca0b5844a9d4/volumes/detail": EOF
+2025-04-01T20:06:06.063972970Z E0401 20:06:06.063905      10 controllerserver.go:457] Failed to ListVolumes: Get "https://volume.compute.gra11.cloud.ovh.net/v3/b9d1d83f632c41d0bbd1ca0b5844a9d4/volumes/detail": EOF
+2025-04-01T20:06:06.064088058Z E0401 20:06:06.064062      10 utils.go:99] [ID:656] GRPC error: rpc error: code = Internal desc = ListVolumes failed with error Get "https://volume.compute.gra11.cloud.ovh.net/v3/b9d1d83f632c41d0bbd1ca0b5844a9d4/volumes/detail": EOF
+2025-04-02T04:00:00.673900737Z E0402 04:00:00.673835      10 controllerserver.go:457] Failed to ListVolumes: Get "https://volume.compute.gra11.cloud.ovh.net/v3/b9d1d83f632c41d0bbd1ca0b5844a9d4/volumes/detail": EOF
+2025-04-02T04:00:00.674015675Z E0402 04:00:00.673988      10 utils.go:99] [ID:1600] GRPC error: rpc error: code = Internal desc = ListVolumes failed with error Get "https://volume.compute.gra11.cloud.ovh.net/v3/b9d1d83f632c41d0bbd1ca0b5844a9d4/volumes/detail": EOF

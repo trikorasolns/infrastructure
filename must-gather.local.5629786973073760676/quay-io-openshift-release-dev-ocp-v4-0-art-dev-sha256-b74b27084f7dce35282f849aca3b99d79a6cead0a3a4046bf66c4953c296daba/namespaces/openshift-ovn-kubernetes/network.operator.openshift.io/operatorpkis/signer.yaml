@@ -1,0 +1,33 @@
+---
+apiVersion: network.operator.openshift.io/v1
+kind: OperatorPKI
+metadata:
+  creationTimestamp: "2025-03-31T20:18:17Z"
+  generation: 1
+  managedFields:
+  - apiVersion: network.operator.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:ownerReferences:
+          k:{"uid":"f247aa7f-5271-4e41-99c9-6fc4166400fb"}: {}
+      f:spec:
+        f:targetCert:
+          f:commonName: {}
+    manager: cluster-network-operator/operconfig
+    operation: Apply
+    time: "2025-03-31T20:18:17Z"
+  name: signer
+  namespace: openshift-ovn-kubernetes
+  ownerReferences:
+  - apiVersion: operator.openshift.io/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: Network
+    name: cluster
+    uid: f247aa7f-5271-4e41-99c9-6fc4166400fb
+  resourceVersion: "47249"
+  uid: 2eeec2cd-83a5-45f9-9bdc-c908385f496e
+spec:
+  targetCert:
+    commonName: ovn-kubernetes-signer

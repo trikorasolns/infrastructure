@@ -1,0 +1,3507 @@
+---
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      k8s.ovn.org/pod-networks: '{"default":{"ip_addresses":["10.128.2.9/23"],"mac_address":"0a:58:0a:80:02:09","gateway_ips":["10.128.2.1"],"routes":[{"dest":"10.128.0.0/14","nextHop":"10.128.2.1"},{"dest":"172.30.0.0/16","nextHop":"10.128.2.1"},{"dest":"169.254.169.5/32","nextHop":"10.128.2.1"},{"dest":"100.64.0.0/16","nextHop":"10.128.2.1"}],"ip_address":"10.128.2.9/23","gateway_ip":"10.128.2.1"}}'
+      k8s.v1.cni.cncf.io/network-status: |-
+        [{
+            "name": "ovn-kubernetes",
+            "interface": "eth0",
+            "ips": [
+                "10.128.2.9"
+            ],
+            "mac": "0a:58:0a:80:02:09",
+            "default": true,
+            "dns": {}
+        }]
+    creationTimestamp: "2025-04-01T14:48:24Z"
+    generateName: csi-cinder-controllerplugin-5847b67f7b-
+    labels:
+      app: csi-cinder-controllerplugin
+      pod-template-hash: 5847b67f7b
+    managedFields:
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:k8s.ovn.org/pod-networks: {}
+      manager: host-10-13-3-120
+      operation: Update
+      subresource: status
+      time: "2025-04-01T14:48:24Z"
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:generateName: {}
+          f:labels:
+            .: {}
+            f:app: {}
+            f:pod-template-hash: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"b8a61b7b-b82c-40dd-9441-d8415c248162"}: {}
+        f:spec:
+          f:containers:
+            k:{"name":"cinder-csi-plugin"}:
+              .: {}
+              f:args: {}
+              f:env:
+                .: {}
+                k:{"name":"CLOUD_CONFIG"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+                k:{"name":"CLUSTER_NAME"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+                k:{"name":"CSI_ENDPOINT"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:livenessProbe:
+                .: {}
+                f:failureThreshold: {}
+                f:httpGet:
+                  .: {}
+                  f:path: {}
+                  f:port: {}
+                  f:scheme: {}
+                f:initialDelaySeconds: {}
+                f:periodSeconds: {}
+                f:successThreshold: {}
+                f:timeoutSeconds: {}
+              f:name: {}
+              f:ports:
+                .: {}
+                k:{"containerPort":9808,"protocol":"TCP"}:
+                  .: {}
+                  f:containerPort: {}
+                  f:name: {}
+                  f:protocol: {}
+              f:resources: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/csi"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                k:{"mountPath":"/etc/config"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+            k:{"name":"csi-attacher"}:
+              .: {}
+              f:args: {}
+              f:env:
+                .: {}
+                k:{"name":"ADDRESS"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:name: {}
+              f:resources: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/var/lib/csi/sockets/pluginproxy/"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+            k:{"name":"csi-provisioner"}:
+              .: {}
+              f:args: {}
+              f:env:
+                .: {}
+                k:{"name":"ADDRESS"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:name: {}
+              f:resources: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/var/lib/csi/sockets/pluginproxy/"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+            k:{"name":"csi-resizer"}:
+              .: {}
+              f:args: {}
+              f:env:
+                .: {}
+                k:{"name":"ADDRESS"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:name: {}
+              f:resources: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/var/lib/csi/sockets/pluginproxy/"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+            k:{"name":"csi-snapshotter"}:
+              .: {}
+              f:args: {}
+              f:env:
+                .: {}
+                k:{"name":"ADDRESS"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:name: {}
+              f:resources: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/var/lib/csi/sockets/pluginproxy/"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+            k:{"name":"liveness-probe"}:
+              .: {}
+              f:args: {}
+              f:env:
+                .: {}
+                k:{"name":"ADDRESS"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:name: {}
+              f:resources: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/var/lib/csi/sockets/pluginproxy/"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+          f:dnsPolicy: {}
+          f:enableServiceLinks: {}
+          f:restartPolicy: {}
+          f:schedulerName: {}
+          f:securityContext: {}
+          f:serviceAccount: {}
+          f:serviceAccountName: {}
+          f:terminationGracePeriodSeconds: {}
+          f:volumes:
+            .: {}
+            k:{"name":"secret-cinderplugin"}:
+              .: {}
+              f:name: {}
+              f:secret:
+                .: {}
+                f:defaultMode: {}
+                f:secretName: {}
+            k:{"name":"socket-dir"}:
+              .: {}
+              f:emptyDir: {}
+              f:name: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-04-01T14:48:24Z"
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            f:k8s.v1.cni.cncf.io/network-status: {}
+      manager: multus-daemon
+      operation: Update
+      subresource: status
+      time: "2025-04-01T14:48:24Z"
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            k:{"type":"ContainersReady"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Initialized"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Ready"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+          f:containerStatuses: {}
+          f:hostIP: {}
+          f:phase: {}
+          f:podIP: {}
+          f:podIPs:
+            .: {}
+            k:{"ip":"10.128.2.9"}:
+              .: {}
+              f:ip: {}
+          f:startTime: {}
+      manager: kubelet
+      operation: Update
+      subresource: status
+      time: "2025-04-01T14:48:25Z"
+    name: csi-cinder-controllerplugin-5847b67f7b-fdzk8
+    namespace: kube-system
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: csi-cinder-controllerplugin-5847b67f7b
+      uid: b8a61b7b-b82c-40dd-9441-d8415c248162
+    resourceVersion: "370625"
+    uid: 1b51854b-87e9-4704-a1d7-8fd71a3cb7d2
+  spec:
+    containers:
+    - args:
+      - --csi-address=$(ADDRESS)
+      - --timeout=3m
+      - --leader-election=true
+      - --default-fstype=ext4
+      env:
+      - name: ADDRESS
+        value: /var/lib/csi/sockets/pluginproxy/csi.sock
+      image: registry.k8s.io/sig-storage/csi-attacher:v4.7.0
+      imagePullPolicy: IfNotPresent
+      name: csi-attacher
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/lib/csi/sockets/pluginproxy/
+        name: socket-dir
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-qksm2
+        readOnly: true
+    - args:
+      - --csi-address=$(ADDRESS)
+      - --timeout=3m
+      - --default-fstype=ext4
+      - --feature-gates=Topology=true
+      - --extra-create-metadata
+      - --leader-election=true
+      env:
+      - name: ADDRESS
+        value: /var/lib/csi/sockets/pluginproxy/csi.sock
+      image: registry.k8s.io/sig-storage/csi-provisioner:v5.1.0
+      imagePullPolicy: IfNotPresent
+      name: csi-provisioner
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/lib/csi/sockets/pluginproxy/
+        name: socket-dir
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-qksm2
+        readOnly: true
+    - args:
+      - --csi-address=$(ADDRESS)
+      - --timeout=3m
+      - --extra-create-metadata
+      - --leader-election=true
+      env:
+      - name: ADDRESS
+        value: /var/lib/csi/sockets/pluginproxy/csi.sock
+      image: registry.k8s.io/sig-storage/csi-snapshotter:v8.1.0
+      imagePullPolicy: Always
+      name: csi-snapshotter
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/lib/csi/sockets/pluginproxy/
+        name: socket-dir
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-qksm2
+        readOnly: true
+    - args:
+      - --csi-address=$(ADDRESS)
+      - --timeout=3m
+      - --handle-volume-inuse-error=false
+      - --leader-election=true
+      env:
+      - name: ADDRESS
+        value: /var/lib/csi/sockets/pluginproxy/csi.sock
+      image: registry.k8s.io/sig-storage/csi-resizer:v1.12.0
+      imagePullPolicy: IfNotPresent
+      name: csi-resizer
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/lib/csi/sockets/pluginproxy/
+        name: socket-dir
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-qksm2
+        readOnly: true
+    - args:
+      - --csi-address=$(ADDRESS)
+      env:
+      - name: ADDRESS
+        value: /var/lib/csi/sockets/pluginproxy/csi.sock
+      image: registry.k8s.io/sig-storage/livenessprobe:v2.14.0
+      imagePullPolicy: IfNotPresent
+      name: liveness-probe
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/lib/csi/sockets/pluginproxy/
+        name: socket-dir
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-qksm2
+        readOnly: true
+    - args:
+      - /bin/cinder-csi-plugin
+      - --endpoint=$(CSI_ENDPOINT)
+      - --cloud-config=$(CLOUD_CONFIG)
+      - --cluster=$(CLUSTER_NAME)
+      - --pvc-annotations
+      - --v=1
+      env:
+      - name: CSI_ENDPOINT
+        value: unix://csi/csi.sock
+      - name: CLOUD_CONFIG
+        value: /etc/config/cloud.conf
+      - name: CLUSTER_NAME
+        value: kubernetes
+      image: registry.k8s.io/provider-os/cinder-csi-plugin:v1.32.0
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        failureThreshold: 5
+        httpGet:
+          path: /healthz
+          port: healthz
+          scheme: HTTP
+        initialDelaySeconds: 10
+        periodSeconds: 60
+        successThreshold: 1
+        timeoutSeconds: 10
+      name: cinder-csi-plugin
+      ports:
+      - containerPort: 9808
+        name: healthz
+        protocol: TCP
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /csi
+        name: socket-dir
+      - mountPath: /etc/config
+        name: secret-cinderplugin
+        readOnly: true
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-qksm2
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: host-10-13-3-120
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: csi-cinder-controller-sa
+    serviceAccountName: csi-cinder-controller-sa
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - emptyDir: {}
+      name: socket-dir
+    - name: secret-cinderplugin
+      secret:
+        defaultMode: 420
+        secretName: cloud-config
+    - name: kube-api-access-qksm2
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+        - configMap:
+            items:
+            - key: service-ca.crt
+              path: service-ca.crt
+            name: openshift-service-ca.crt
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2025-04-01T14:48:24Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2025-04-01T14:48:25Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2025-04-01T14:48:25Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2025-04-01T14:48:24Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: cri-o://31203b066f9defbfaf1178bb16d04fc66312bb5a926fda4a04b6b41beff82223
+      image: registry.k8s.io/provider-os/cinder-csi-plugin:v1.32.0
+      imageID: registry.k8s.io/provider-os/cinder-csi-plugin@sha256:50dc4d53b2f9f743a575c98c87342ff680931abb1104db549b2bb10de09cec47
+      lastState: {}
+      name: cinder-csi-plugin
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-04-01T14:48:25Z"
+    - containerID: cri-o://8ba44d307a3b29db8b305dfb3e713e48daa71c9c40e3e3f546db63d5bb98e333
+      image: registry.k8s.io/sig-storage/csi-attacher:v4.7.0
+      imageID: registry.k8s.io/sig-storage/csi-attacher@sha256:47ab8aebebdc59316004ba8d51a903637d808f4e62a6d0f599ed3c2483cea901
+      lastState: {}
+      name: csi-attacher
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-04-01T14:48:24Z"
+    - containerID: cri-o://eaf9a8372962861bc7858f605742dd2ff765cf8ff49915fc7bbce846f21c86fd
+      image: registry.k8s.io/sig-storage/csi-provisioner:v5.1.0
+      imageID: registry.k8s.io/sig-storage/csi-provisioner@sha256:672e45d6a55678abc1d102de665b5cbd63848e75dc7896f238c8eaaf3c7d322f
+      lastState: {}
+      name: csi-provisioner
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-04-01T14:48:25Z"
+    - containerID: cri-o://57a67794344fa22596cc681583d5e9d87780222214bcc4bf4e209dfb0f765822
+      image: registry.k8s.io/sig-storage/csi-resizer:v1.12.0
+      imageID: registry.k8s.io/sig-storage/csi-resizer@sha256:706f7cdcccd30ca5f0e94d548e2e0c658f69c0fe4b68a5bf37818a04ca618d3d
+      lastState: {}
+      name: csi-resizer
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-04-01T14:48:25Z"
+    - containerID: cri-o://7f9df683c7089e4c2debd3cfcacf65a7ff72e66e29db84edb6c130565cc0d362
+      image: registry.k8s.io/sig-storage/csi-snapshotter:v8.1.0
+      imageID: registry.k8s.io/sig-storage/csi-snapshotter@sha256:81d32545fb1b2c319bfeb36a70db4b4d3aea9c51c0574b209b8f64750b32d2f0
+      lastState: {}
+      name: csi-snapshotter
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-04-01T14:48:25Z"
+    - containerID: cri-o://a3452f1c177faa6fff2aaf82921b8a00bb29b857cb834827ccaa96452538ea88
+      image: registry.k8s.io/sig-storage/livenessprobe:v2.14.0
+      imageID: registry.k8s.io/sig-storage/livenessprobe@sha256:13f6b1f9d0514b859e549e20b731d93c90a144186deb68bfc931e3dbf9041afc
+      lastState: {}
+      name: liveness-probe
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-04-01T14:48:25Z"
+    hostIP: 10.13.3.120
+    phase: Running
+    podIP: 10.128.2.9
+    podIPs:
+    - ip: 10.128.2.9
+    qosClass: BestEffort
+    startTime: "2025-04-01T14:48:24Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2025-04-01T12:38:50Z"
+    generateName: csi-cinder-nodeplugin-
+    labels:
+      app: csi-cinder-nodeplugin
+      controller-revision-hash: d6645b977
+      pod-template-generation: "1"
+    managedFields:
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:generateName: {}
+          f:labels:
+            .: {}
+            f:app: {}
+            f:controller-revision-hash: {}
+            f:pod-template-generation: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"f986fcc0-41b9-40d0-b776-6547e40bf031"}: {}
+        f:spec:
+          f:affinity:
+            .: {}
+            f:nodeAffinity:
+              .: {}
+              f:requiredDuringSchedulingIgnoredDuringExecution: {}
+          f:containers:
+            k:{"name":"cinder-csi-plugin"}:
+              .: {}
+              f:args: {}
+              f:env:
+                .: {}
+                k:{"name":"CLOUD_CONFIG"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+                k:{"name":"CSI_ENDPOINT"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:livenessProbe:
+                .: {}
+                f:failureThreshold: {}
+                f:httpGet:
+                  .: {}
+                  f:path: {}
+                  f:port: {}
+                  f:scheme: {}
+                f:initialDelaySeconds: {}
+                f:periodSeconds: {}
+                f:successThreshold: {}
+                f:timeoutSeconds: {}
+              f:name: {}
+              f:ports:
+                .: {}
+                k:{"containerPort":9808,"protocol":"TCP"}:
+                  .: {}
+                  f:containerPort: {}
+                  f:hostPort: {}
+                  f:name: {}
+                  f:protocol: {}
+              f:resources: {}
+              f:securityContext:
+                .: {}
+                f:allowPrivilegeEscalation: {}
+                f:capabilities:
+                  .: {}
+                  f:add: {}
+                f:privileged: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/csi"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                k:{"mountPath":"/dev"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:mountPropagation: {}
+                  f:name: {}
+                k:{"mountPath":"/etc/config"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+                k:{"mountPath":"/var/lib/kubelet"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:mountPropagation: {}
+                  f:name: {}
+            k:{"name":"liveness-probe"}:
+              .: {}
+              f:args: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:name: {}
+              f:resources: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/csi"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+            k:{"name":"node-driver-registrar"}:
+              .: {}
+              f:args: {}
+              f:env:
+                .: {}
+                k:{"name":"ADDRESS"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+                k:{"name":"DRIVER_REG_SOCK_PATH"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+                k:{"name":"KUBE_NODE_NAME"}:
+                  .: {}
+                  f:name: {}
+                  f:valueFrom:
+                    .: {}
+                    f:fieldRef: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:name: {}
+              f:resources: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/csi"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                k:{"mountPath":"/registration"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+          f:dnsPolicy: {}
+          f:enableServiceLinks: {}
+          f:hostNetwork: {}
+          f:restartPolicy: {}
+          f:schedulerName: {}
+          f:securityContext: {}
+          f:serviceAccount: {}
+          f:serviceAccountName: {}
+          f:terminationGracePeriodSeconds: {}
+          f:tolerations: {}
+          f:volumes:
+            .: {}
+            k:{"name":"kubelet-dir"}:
+              .: {}
+              f:hostPath:
+                .: {}
+                f:path: {}
+                f:type: {}
+              f:name: {}
+            k:{"name":"pods-probe-dir"}:
+              .: {}
+              f:hostPath:
+                .: {}
+                f:path: {}
+                f:type: {}
+              f:name: {}
+            k:{"name":"registration-dir"}:
+              .: {}
+              f:hostPath:
+                .: {}
+                f:path: {}
+                f:type: {}
+              f:name: {}
+            k:{"name":"secret-cinderplugin"}:
+              .: {}
+              f:name: {}
+              f:secret:
+                .: {}
+                f:defaultMode: {}
+                f:secretName: {}
+            k:{"name":"socket-dir"}:
+              .: {}
+              f:hostPath:
+                .: {}
+                f:path: {}
+                f:type: {}
+              f:name: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-04-01T12:38:50Z"
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            k:{"type":"ContainersReady"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Initialized"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Ready"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+          f:containerStatuses: {}
+          f:hostIP: {}
+          f:phase: {}
+          f:podIP: {}
+          f:podIPs:
+            .: {}
+            k:{"ip":"10.13.3.120"}:
+              .: {}
+              f:ip: {}
+          f:startTime: {}
+      manager: kubelet
+      operation: Update
+      subresource: status
+      time: "2025-04-01T12:39:06Z"
+    name: csi-cinder-nodeplugin-7q5nb
+    namespace: kube-system
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DaemonSet
+      name: csi-cinder-nodeplugin
+      uid: f986fcc0-41b9-40d0-b776-6547e40bf031
+    resourceVersion: "331811"
+    uid: e0a20fc3-6f35-4025-8fac-0eebda2657bd
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchFields:
+            - key: metadata.name
+              operator: In
+              values:
+              - host-10-13-3-120
+    containers:
+    - args:
+      - --csi-address=$(ADDRESS)
+      - --kubelet-registration-path=$(DRIVER_REG_SOCK_PATH)
+      env:
+      - name: ADDRESS
+        value: /csi/csi.sock
+      - name: DRIVER_REG_SOCK_PATH
+        value: /var/lib/kubelet/plugins/cinder.csi.openstack.org/csi.sock
+      - name: KUBE_NODE_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: spec.nodeName
+      image: registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.12.0
+      imagePullPolicy: IfNotPresent
+      name: node-driver-registrar
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /csi
+        name: socket-dir
+      - mountPath: /registration
+        name: registration-dir
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-pz757
+        readOnly: true
+    - args:
+      - --csi-address=/csi/csi.sock
+      image: registry.k8s.io/sig-storage/livenessprobe:v2.14.0
+      imagePullPolicy: IfNotPresent
+      name: liveness-probe
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /csi
+        name: socket-dir
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-pz757
+        readOnly: true
+    - args:
+      - /bin/cinder-csi-plugin
+      - --endpoint=$(CSI_ENDPOINT)
+      - --provide-controller-service=false
+      - --cloud-config=$(CLOUD_CONFIG)
+      - --v=1
+      env:
+      - name: CSI_ENDPOINT
+        value: unix://csi/csi.sock
+      - name: CLOUD_CONFIG
+        value: /etc/config/cloud.conf
+      image: registry.k8s.io/provider-os/cinder-csi-plugin:v1.32.0
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        failureThreshold: 5
+        httpGet:
+          path: /healthz
+          port: healthz
+          scheme: HTTP
+        initialDelaySeconds: 10
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 3
+      name: cinder-csi-plugin
+      ports:
+      - containerPort: 9808
+        hostPort: 9808
+        name: healthz
+        protocol: TCP
+      resources: {}
+      securityContext:
+        allowPrivilegeEscalation: true
+        capabilities:
+          add:
+          - SYS_ADMIN
+        privileged: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /csi
+        name: socket-dir
+      - mountPath: /var/lib/kubelet
+        mountPropagation: Bidirectional
+        name: kubelet-dir
+      - mountPath: /dev
+        mountPropagation: HostToContainer
+        name: pods-probe-dir
+      - mountPath: /etc/config
+        name: secret-cinderplugin
+        readOnly: true
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-pz757
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    hostNetwork: true
+    nodeName: host-10-13-3-120
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: csi-cinder-node-sa
+    serviceAccountName: csi-cinder-node-sa
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/disk-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/pid-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/unschedulable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/network-unavailable
+      operator: Exists
+    volumes:
+    - hostPath:
+        path: /var/lib/kubelet/plugins/cinder.csi.openstack.org
+        type: DirectoryOrCreate
+      name: socket-dir
+    - hostPath:
+        path: /var/lib/kubelet/plugins_registry/
+        type: Directory
+      name: registration-dir
+    - hostPath:
+        path: /var/lib/kubelet
+        type: Directory
+      name: kubelet-dir
+    - hostPath:
+        path: /dev
+        type: Directory
+      name: pods-probe-dir
+    - name: secret-cinderplugin
+      secret:
+        defaultMode: 420
+        secretName: cloud-config
+    - name: kube-api-access-pz757
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+        - configMap:
+            items:
+            - key: service-ca.crt
+              path: service-ca.crt
+            name: openshift-service-ca.crt
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2025-04-01T12:38:50Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2025-04-01T12:39:06Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2025-04-01T12:39:06Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2025-04-01T12:38:50Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: cri-o://3153f5fdd8100a333da9ef0b23003c8916f174e03d0019ccf45eabea64d855b6
+      image: registry.k8s.io/provider-os/cinder-csi-plugin:v1.32.0
+      imageID: registry.k8s.io/provider-os/cinder-csi-plugin@sha256:50dc4d53b2f9f743a575c98c87342ff680931abb1104db549b2bb10de09cec47
+      lastState: {}
+      name: cinder-csi-plugin
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-04-01T12:39:05Z"
+    - containerID: cri-o://708f2e63199dc25f9b1753bc091c32b29e29429277d9bc3003d14f04bf3f9dc1
+      image: registry.k8s.io/sig-storage/livenessprobe:v2.14.0
+      imageID: registry.k8s.io/sig-storage/livenessprobe@sha256:13f6b1f9d0514b859e549e20b731d93c90a144186deb68bfc931e3dbf9041afc
+      lastState: {}
+      name: liveness-probe
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-04-01T12:38:59Z"
+    - containerID: cri-o://4c5c12abce19e14f15f1541a1c450ffde43cb977d82af68c3cae589849d72e49
+      image: registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.12.0
+      imageID: registry.k8s.io/sig-storage/csi-node-driver-registrar@sha256:0d23a6fd60c421054deec5e6d0405dc3498095a5a597e175236c0692f4adee0f
+      lastState: {}
+      name: node-driver-registrar
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-04-01T12:38:56Z"
+    hostIP: 10.13.3.120
+    phase: Running
+    podIP: 10.13.3.120
+    podIPs:
+    - ip: 10.13.3.120
+    qosClass: BestEffort
+    startTime: "2025-04-01T12:38:50Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2025-04-01T12:38:50Z"
+    generateName: csi-cinder-nodeplugin-
+    labels:
+      app: csi-cinder-nodeplugin
+      controller-revision-hash: d6645b977
+      pod-template-generation: "1"
+    managedFields:
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:generateName: {}
+          f:labels:
+            .: {}
+            f:app: {}
+            f:controller-revision-hash: {}
+            f:pod-template-generation: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"f986fcc0-41b9-40d0-b776-6547e40bf031"}: {}
+        f:spec:
+          f:affinity:
+            .: {}
+            f:nodeAffinity:
+              .: {}
+              f:requiredDuringSchedulingIgnoredDuringExecution: {}
+          f:containers:
+            k:{"name":"cinder-csi-plugin"}:
+              .: {}
+              f:args: {}
+              f:env:
+                .: {}
+                k:{"name":"CLOUD_CONFIG"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+                k:{"name":"CSI_ENDPOINT"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:livenessProbe:
+                .: {}
+                f:failureThreshold: {}
+                f:httpGet:
+                  .: {}
+                  f:path: {}
+                  f:port: {}
+                  f:scheme: {}
+                f:initialDelaySeconds: {}
+                f:periodSeconds: {}
+                f:successThreshold: {}
+                f:timeoutSeconds: {}
+              f:name: {}
+              f:ports:
+                .: {}
+                k:{"containerPort":9808,"protocol":"TCP"}:
+                  .: {}
+                  f:containerPort: {}
+                  f:hostPort: {}
+                  f:name: {}
+                  f:protocol: {}
+              f:resources: {}
+              f:securityContext:
+                .: {}
+                f:allowPrivilegeEscalation: {}
+                f:capabilities:
+                  .: {}
+                  f:add: {}
+                f:privileged: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/csi"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                k:{"mountPath":"/dev"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:mountPropagation: {}
+                  f:name: {}
+                k:{"mountPath":"/etc/config"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+                k:{"mountPath":"/var/lib/kubelet"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:mountPropagation: {}
+                  f:name: {}
+            k:{"name":"liveness-probe"}:
+              .: {}
+              f:args: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:name: {}
+              f:resources: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/csi"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+            k:{"name":"node-driver-registrar"}:
+              .: {}
+              f:args: {}
+              f:env:
+                .: {}
+                k:{"name":"ADDRESS"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+                k:{"name":"DRIVER_REG_SOCK_PATH"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+                k:{"name":"KUBE_NODE_NAME"}:
+                  .: {}
+                  f:name: {}
+                  f:valueFrom:
+                    .: {}
+                    f:fieldRef: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:name: {}
+              f:resources: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/csi"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                k:{"mountPath":"/registration"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+          f:dnsPolicy: {}
+          f:enableServiceLinks: {}
+          f:hostNetwork: {}
+          f:restartPolicy: {}
+          f:schedulerName: {}
+          f:securityContext: {}
+          f:serviceAccount: {}
+          f:serviceAccountName: {}
+          f:terminationGracePeriodSeconds: {}
+          f:tolerations: {}
+          f:volumes:
+            .: {}
+            k:{"name":"kubelet-dir"}:
+              .: {}
+              f:hostPath:
+                .: {}
+                f:path: {}
+                f:type: {}
+              f:name: {}
+            k:{"name":"pods-probe-dir"}:
+              .: {}
+              f:hostPath:
+                .: {}
+                f:path: {}
+                f:type: {}
+              f:name: {}
+            k:{"name":"registration-dir"}:
+              .: {}
+              f:hostPath:
+                .: {}
+                f:path: {}
+                f:type: {}
+              f:name: {}
+            k:{"name":"secret-cinderplugin"}:
+              .: {}
+              f:name: {}
+              f:secret:
+                .: {}
+                f:defaultMode: {}
+                f:secretName: {}
+            k:{"name":"socket-dir"}:
+              .: {}
+              f:hostPath:
+                .: {}
+                f:path: {}
+                f:type: {}
+              f:name: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-04-01T12:38:50Z"
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            k:{"type":"ContainersReady"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Initialized"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Ready"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+          f:containerStatuses: {}
+          f:hostIP: {}
+          f:phase: {}
+          f:podIP: {}
+          f:podIPs:
+            .: {}
+            k:{"ip":"10.13.2.160"}:
+              .: {}
+              f:ip: {}
+          f:startTime: {}
+      manager: kubelet
+      operation: Update
+      subresource: status
+      time: "2025-04-01T12:39:05Z"
+    name: csi-cinder-nodeplugin-fb8br
+    namespace: kube-system
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DaemonSet
+      name: csi-cinder-nodeplugin
+      uid: f986fcc0-41b9-40d0-b776-6547e40bf031
+    resourceVersion: "331790"
+    uid: bd69ce77-5cc4-4f20-9ad3-4e2631a62521
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchFields:
+            - key: metadata.name
+              operator: In
+              values:
+              - host-10-13-2-160
+    containers:
+    - args:
+      - --csi-address=$(ADDRESS)
+      - --kubelet-registration-path=$(DRIVER_REG_SOCK_PATH)
+      env:
+      - name: ADDRESS
+        value: /csi/csi.sock
+      - name: DRIVER_REG_SOCK_PATH
+        value: /var/lib/kubelet/plugins/cinder.csi.openstack.org/csi.sock
+      - name: KUBE_NODE_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: spec.nodeName
+      image: registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.12.0
+      imagePullPolicy: IfNotPresent
+      name: node-driver-registrar
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /csi
+        name: socket-dir
+      - mountPath: /registration
+        name: registration-dir
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-lmk8x
+        readOnly: true
+    - args:
+      - --csi-address=/csi/csi.sock
+      image: registry.k8s.io/sig-storage/livenessprobe:v2.14.0
+      imagePullPolicy: IfNotPresent
+      name: liveness-probe
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /csi
+        name: socket-dir
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-lmk8x
+        readOnly: true
+    - args:
+      - /bin/cinder-csi-plugin
+      - --endpoint=$(CSI_ENDPOINT)
+      - --provide-controller-service=false
+      - --cloud-config=$(CLOUD_CONFIG)
+      - --v=1
+      env:
+      - name: CSI_ENDPOINT
+        value: unix://csi/csi.sock
+      - name: CLOUD_CONFIG
+        value: /etc/config/cloud.conf
+      image: registry.k8s.io/provider-os/cinder-csi-plugin:v1.32.0
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        failureThreshold: 5
+        httpGet:
+          path: /healthz
+          port: healthz
+          scheme: HTTP
+        initialDelaySeconds: 10
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 3
+      name: cinder-csi-plugin
+      ports:
+      - containerPort: 9808
+        hostPort: 9808
+        name: healthz
+        protocol: TCP
+      resources: {}
+      securityContext:
+        allowPrivilegeEscalation: true
+        capabilities:
+          add:
+          - SYS_ADMIN
+        privileged: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /csi
+        name: socket-dir
+      - mountPath: /var/lib/kubelet
+        mountPropagation: Bidirectional
+        name: kubelet-dir
+      - mountPath: /dev
+        mountPropagation: HostToContainer
+        name: pods-probe-dir
+      - mountPath: /etc/config
+        name: secret-cinderplugin
+        readOnly: true
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-lmk8x
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    hostNetwork: true
+    nodeName: host-10-13-2-160
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: csi-cinder-node-sa
+    serviceAccountName: csi-cinder-node-sa
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/disk-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/pid-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/unschedulable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/network-unavailable
+      operator: Exists
+    volumes:
+    - hostPath:
+        path: /var/lib/kubelet/plugins/cinder.csi.openstack.org
+        type: DirectoryOrCreate
+      name: socket-dir
+    - hostPath:
+        path: /var/lib/kubelet/plugins_registry/
+        type: Directory
+      name: registration-dir
+    - hostPath:
+        path: /var/lib/kubelet
+        type: Directory
+      name: kubelet-dir
+    - hostPath:
+        path: /dev
+        type: Directory
+      name: pods-probe-dir
+    - name: secret-cinderplugin
+      secret:
+        defaultMode: 420
+        secretName: cloud-config
+    - name: kube-api-access-lmk8x
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+        - configMap:
+            items:
+            - key: service-ca.crt
+              path: service-ca.crt
+            name: openshift-service-ca.crt
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2025-04-01T12:38:50Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2025-04-01T12:39:05Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2025-04-01T12:39:05Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2025-04-01T12:38:50Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: cri-o://1ce827eb0558ad67c3e38eff17f8bdfd44cc78246780caca6f465957a09044d5
+      image: registry.k8s.io/provider-os/cinder-csi-plugin:v1.32.0
+      imageID: registry.k8s.io/provider-os/cinder-csi-plugin@sha256:50dc4d53b2f9f743a575c98c87342ff680931abb1104db549b2bb10de09cec47
+      lastState: {}
+      name: cinder-csi-plugin
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-04-01T12:39:05Z"
+    - containerID: cri-o://65446f9c0333079ed453ece4793e6628e6a17d6b869b85ba60b18e7aab53649c
+      image: registry.k8s.io/sig-storage/livenessprobe:v2.14.0
+      imageID: registry.k8s.io/sig-storage/livenessprobe@sha256:13f6b1f9d0514b859e549e20b731d93c90a144186deb68bfc931e3dbf9041afc
+      lastState: {}
+      name: liveness-probe
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-04-01T12:38:59Z"
+    - containerID: cri-o://c28cc004c1e3299805ea3799176ab10c62570845390f23ec1c4a69a7a6b7fddc
+      image: registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.12.0
+      imageID: registry.k8s.io/sig-storage/csi-node-driver-registrar@sha256:0d23a6fd60c421054deec5e6d0405dc3498095a5a597e175236c0692f4adee0f
+      lastState: {}
+      name: node-driver-registrar
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-04-01T12:38:54Z"
+    hostIP: 10.13.2.160
+    phase: Running
+    podIP: 10.13.2.160
+    podIPs:
+    - ip: 10.13.2.160
+    qosClass: BestEffort
+    startTime: "2025-04-01T12:38:50Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2025-04-01T12:38:50Z"
+    generateName: csi-cinder-nodeplugin-
+    labels:
+      app: csi-cinder-nodeplugin
+      controller-revision-hash: d6645b977
+      pod-template-generation: "1"
+    managedFields:
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:generateName: {}
+          f:labels:
+            .: {}
+            f:app: {}
+            f:controller-revision-hash: {}
+            f:pod-template-generation: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"f986fcc0-41b9-40d0-b776-6547e40bf031"}: {}
+        f:spec:
+          f:affinity:
+            .: {}
+            f:nodeAffinity:
+              .: {}
+              f:requiredDuringSchedulingIgnoredDuringExecution: {}
+          f:containers:
+            k:{"name":"cinder-csi-plugin"}:
+              .: {}
+              f:args: {}
+              f:env:
+                .: {}
+                k:{"name":"CLOUD_CONFIG"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+                k:{"name":"CSI_ENDPOINT"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:livenessProbe:
+                .: {}
+                f:failureThreshold: {}
+                f:httpGet:
+                  .: {}
+                  f:path: {}
+                  f:port: {}
+                  f:scheme: {}
+                f:initialDelaySeconds: {}
+                f:periodSeconds: {}
+                f:successThreshold: {}
+                f:timeoutSeconds: {}
+              f:name: {}
+              f:ports:
+                .: {}
+                k:{"containerPort":9808,"protocol":"TCP"}:
+                  .: {}
+                  f:containerPort: {}
+                  f:hostPort: {}
+                  f:name: {}
+                  f:protocol: {}
+              f:resources: {}
+              f:securityContext:
+                .: {}
+                f:allowPrivilegeEscalation: {}
+                f:capabilities:
+                  .: {}
+                  f:add: {}
+                f:privileged: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/csi"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                k:{"mountPath":"/dev"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:mountPropagation: {}
+                  f:name: {}
+                k:{"mountPath":"/etc/config"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+                k:{"mountPath":"/var/lib/kubelet"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:mountPropagation: {}
+                  f:name: {}
+            k:{"name":"liveness-probe"}:
+              .: {}
+              f:args: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:name: {}
+              f:resources: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/csi"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+            k:{"name":"node-driver-registrar"}:
+              .: {}
+              f:args: {}
+              f:env:
+                .: {}
+                k:{"name":"ADDRESS"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+                k:{"name":"DRIVER_REG_SOCK_PATH"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+                k:{"name":"KUBE_NODE_NAME"}:
+                  .: {}
+                  f:name: {}
+                  f:valueFrom:
+                    .: {}
+                    f:fieldRef: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:name: {}
+              f:resources: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/csi"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                k:{"mountPath":"/registration"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+          f:dnsPolicy: {}
+          f:enableServiceLinks: {}
+          f:hostNetwork: {}
+          f:restartPolicy: {}
+          f:schedulerName: {}
+          f:securityContext: {}
+          f:serviceAccount: {}
+          f:serviceAccountName: {}
+          f:terminationGracePeriodSeconds: {}
+          f:tolerations: {}
+          f:volumes:
+            .: {}
+            k:{"name":"kubelet-dir"}:
+              .: {}
+              f:hostPath:
+                .: {}
+                f:path: {}
+                f:type: {}
+              f:name: {}
+            k:{"name":"pods-probe-dir"}:
+              .: {}
+              f:hostPath:
+                .: {}
+                f:path: {}
+                f:type: {}
+              f:name: {}
+            k:{"name":"registration-dir"}:
+              .: {}
+              f:hostPath:
+                .: {}
+                f:path: {}
+                f:type: {}
+              f:name: {}
+            k:{"name":"secret-cinderplugin"}:
+              .: {}
+              f:name: {}
+              f:secret:
+                .: {}
+                f:defaultMode: {}
+                f:secretName: {}
+            k:{"name":"socket-dir"}:
+              .: {}
+              f:hostPath:
+                .: {}
+                f:path: {}
+                f:type: {}
+              f:name: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-04-01T12:38:50Z"
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            k:{"type":"ContainersReady"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Initialized"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Ready"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+          f:containerStatuses: {}
+          f:hostIP: {}
+          f:phase: {}
+          f:podIP: {}
+          f:podIPs:
+            .: {}
+            k:{"ip":"10.13.3.78"}:
+              .: {}
+              f:ip: {}
+          f:startTime: {}
+      manager: kubelet
+      operation: Update
+      subresource: status
+      time: "2025-04-01T12:38:59Z"
+    name: csi-cinder-nodeplugin-gpgc9
+    namespace: kube-system
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DaemonSet
+      name: csi-cinder-nodeplugin
+      uid: f986fcc0-41b9-40d0-b776-6547e40bf031
+    resourceVersion: "331714"
+    uid: 03e8f128-ae30-446b-aaed-43603aa13de7
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchFields:
+            - key: metadata.name
+              operator: In
+              values:
+              - host-10-13-3-78
+    containers:
+    - args:
+      - --csi-address=$(ADDRESS)
+      - --kubelet-registration-path=$(DRIVER_REG_SOCK_PATH)
+      env:
+      - name: ADDRESS
+        value: /csi/csi.sock
+      - name: DRIVER_REG_SOCK_PATH
+        value: /var/lib/kubelet/plugins/cinder.csi.openstack.org/csi.sock
+      - name: KUBE_NODE_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: spec.nodeName
+      image: registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.12.0
+      imagePullPolicy: IfNotPresent
+      name: node-driver-registrar
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /csi
+        name: socket-dir
+      - mountPath: /registration
+        name: registration-dir
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-ck9q2
+        readOnly: true
+    - args:
+      - --csi-address=/csi/csi.sock
+      image: registry.k8s.io/sig-storage/livenessprobe:v2.14.0
+      imagePullPolicy: IfNotPresent
+      name: liveness-probe
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /csi
+        name: socket-dir
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-ck9q2
+        readOnly: true
+    - args:
+      - /bin/cinder-csi-plugin
+      - --endpoint=$(CSI_ENDPOINT)
+      - --provide-controller-service=false
+      - --cloud-config=$(CLOUD_CONFIG)
+      - --v=1
+      env:
+      - name: CSI_ENDPOINT
+        value: unix://csi/csi.sock
+      - name: CLOUD_CONFIG
+        value: /etc/config/cloud.conf
+      image: registry.k8s.io/provider-os/cinder-csi-plugin:v1.32.0
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        failureThreshold: 5
+        httpGet:
+          path: /healthz
+          port: healthz
+          scheme: HTTP
+        initialDelaySeconds: 10
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 3
+      name: cinder-csi-plugin
+      ports:
+      - containerPort: 9808
+        hostPort: 9808
+        name: healthz
+        protocol: TCP
+      resources: {}
+      securityContext:
+        allowPrivilegeEscalation: true
+        capabilities:
+          add:
+          - SYS_ADMIN
+        privileged: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /csi
+        name: socket-dir
+      - mountPath: /var/lib/kubelet
+        mountPropagation: Bidirectional
+        name: kubelet-dir
+      - mountPath: /dev
+        mountPropagation: HostToContainer
+        name: pods-probe-dir
+      - mountPath: /etc/config
+        name: secret-cinderplugin
+        readOnly: true
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-ck9q2
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    hostNetwork: true
+    nodeName: host-10-13-3-78
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: csi-cinder-node-sa
+    serviceAccountName: csi-cinder-node-sa
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/disk-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/pid-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/unschedulable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/network-unavailable
+      operator: Exists
+    volumes:
+    - hostPath:
+        path: /var/lib/kubelet/plugins/cinder.csi.openstack.org
+        type: DirectoryOrCreate
+      name: socket-dir
+    - hostPath:
+        path: /var/lib/kubelet/plugins_registry/
+        type: Directory
+      name: registration-dir
+    - hostPath:
+        path: /var/lib/kubelet
+        type: Directory
+      name: kubelet-dir
+    - hostPath:
+        path: /dev
+        type: Directory
+      name: pods-probe-dir
+    - name: secret-cinderplugin
+      secret:
+        defaultMode: 420
+        secretName: cloud-config
+    - name: kube-api-access-ck9q2
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+        - configMap:
+            items:
+            - key: service-ca.crt
+              path: service-ca.crt
+            name: openshift-service-ca.crt
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2025-04-01T12:38:50Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2025-04-01T12:38:59Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2025-04-01T12:38:59Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2025-04-01T12:38:50Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: cri-o://ba440ed278b67bdcb1aff61e3e4b805f2efbdfbfffb9c3fe6322777cffee11a1
+      image: registry.k8s.io/provider-os/cinder-csi-plugin:v1.32.0
+      imageID: registry.k8s.io/provider-os/cinder-csi-plugin@sha256:50dc4d53b2f9f743a575c98c87342ff680931abb1104db549b2bb10de09cec47
+      lastState: {}
+      name: cinder-csi-plugin
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-04-01T12:38:58Z"
+    - containerID: cri-o://83e0980f1d97973b884ee286e04e38474ae767cf39616cfdb58aa63453639f8e
+      image: registry.k8s.io/sig-storage/livenessprobe:v2.14.0
+      imageID: registry.k8s.io/sig-storage/livenessprobe@sha256:13f6b1f9d0514b859e549e20b731d93c90a144186deb68bfc931e3dbf9041afc
+      lastState: {}
+      name: liveness-probe
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-04-01T12:38:54Z"
+    - containerID: cri-o://f5e38987bef515ffa740f4457b849fb2aa2b1907a6e5d816a799017974c03995
+      image: registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.12.0
+      imageID: registry.k8s.io/sig-storage/csi-node-driver-registrar@sha256:0d23a6fd60c421054deec5e6d0405dc3498095a5a597e175236c0692f4adee0f
+      lastState: {}
+      name: node-driver-registrar
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-04-01T12:38:53Z"
+    hostIP: 10.13.3.78
+    phase: Running
+    podIP: 10.13.3.78
+    podIPs:
+    - ip: 10.13.3.78
+    qosClass: BestEffort
+    startTime: "2025-04-01T12:38:50Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2025-04-01T12:38:50Z"
+    generateName: csi-cinder-nodeplugin-
+    labels:
+      app: csi-cinder-nodeplugin
+      controller-revision-hash: d6645b977
+      pod-template-generation: "1"
+    managedFields:
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:generateName: {}
+          f:labels:
+            .: {}
+            f:app: {}
+            f:controller-revision-hash: {}
+            f:pod-template-generation: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"f986fcc0-41b9-40d0-b776-6547e40bf031"}: {}
+        f:spec:
+          f:affinity:
+            .: {}
+            f:nodeAffinity:
+              .: {}
+              f:requiredDuringSchedulingIgnoredDuringExecution: {}
+          f:containers:
+            k:{"name":"cinder-csi-plugin"}:
+              .: {}
+              f:args: {}
+              f:env:
+                .: {}
+                k:{"name":"CLOUD_CONFIG"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+                k:{"name":"CSI_ENDPOINT"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:livenessProbe:
+                .: {}
+                f:failureThreshold: {}
+                f:httpGet:
+                  .: {}
+                  f:path: {}
+                  f:port: {}
+                  f:scheme: {}
+                f:initialDelaySeconds: {}
+                f:periodSeconds: {}
+                f:successThreshold: {}
+                f:timeoutSeconds: {}
+              f:name: {}
+              f:ports:
+                .: {}
+                k:{"containerPort":9808,"protocol":"TCP"}:
+                  .: {}
+                  f:containerPort: {}
+                  f:hostPort: {}
+                  f:name: {}
+                  f:protocol: {}
+              f:resources: {}
+              f:securityContext:
+                .: {}
+                f:allowPrivilegeEscalation: {}
+                f:capabilities:
+                  .: {}
+                  f:add: {}
+                f:privileged: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/csi"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                k:{"mountPath":"/dev"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:mountPropagation: {}
+                  f:name: {}
+                k:{"mountPath":"/etc/config"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+                k:{"mountPath":"/var/lib/kubelet"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:mountPropagation: {}
+                  f:name: {}
+            k:{"name":"liveness-probe"}:
+              .: {}
+              f:args: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:name: {}
+              f:resources: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/csi"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+            k:{"name":"node-driver-registrar"}:
+              .: {}
+              f:args: {}
+              f:env:
+                .: {}
+                k:{"name":"ADDRESS"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+                k:{"name":"DRIVER_REG_SOCK_PATH"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+                k:{"name":"KUBE_NODE_NAME"}:
+                  .: {}
+                  f:name: {}
+                  f:valueFrom:
+                    .: {}
+                    f:fieldRef: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:name: {}
+              f:resources: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/csi"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                k:{"mountPath":"/registration"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+          f:dnsPolicy: {}
+          f:enableServiceLinks: {}
+          f:hostNetwork: {}
+          f:restartPolicy: {}
+          f:schedulerName: {}
+          f:securityContext: {}
+          f:serviceAccount: {}
+          f:serviceAccountName: {}
+          f:terminationGracePeriodSeconds: {}
+          f:tolerations: {}
+          f:volumes:
+            .: {}
+            k:{"name":"kubelet-dir"}:
+              .: {}
+              f:hostPath:
+                .: {}
+                f:path: {}
+                f:type: {}
+              f:name: {}
+            k:{"name":"pods-probe-dir"}:
+              .: {}
+              f:hostPath:
+                .: {}
+                f:path: {}
+                f:type: {}
+              f:name: {}
+            k:{"name":"registration-dir"}:
+              .: {}
+              f:hostPath:
+                .: {}
+                f:path: {}
+                f:type: {}
+              f:name: {}
+            k:{"name":"secret-cinderplugin"}:
+              .: {}
+              f:name: {}
+              f:secret:
+                .: {}
+                f:defaultMode: {}
+                f:secretName: {}
+            k:{"name":"socket-dir"}:
+              .: {}
+              f:hostPath:
+                .: {}
+                f:path: {}
+                f:type: {}
+              f:name: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-04-01T12:38:50Z"
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            k:{"type":"ContainersReady"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Initialized"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Ready"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+          f:containerStatuses: {}
+          f:hostIP: {}
+          f:phase: {}
+          f:podIP: {}
+          f:podIPs:
+            .: {}
+            k:{"ip":"10.13.0.150"}:
+              .: {}
+              f:ip: {}
+          f:startTime: {}
+      manager: kubelet
+      operation: Update
+      subresource: status
+      time: "2025-04-01T12:39:11Z"
+    name: csi-cinder-nodeplugin-mqd7k
+    namespace: kube-system
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DaemonSet
+      name: csi-cinder-nodeplugin
+      uid: f986fcc0-41b9-40d0-b776-6547e40bf031
+    resourceVersion: "331865"
+    uid: ceef2ffe-11ee-4e95-ba04-6a575da1a1bc
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchFields:
+            - key: metadata.name
+              operator: In
+              values:
+              - host-10-13-0-150
+    containers:
+    - args:
+      - --csi-address=$(ADDRESS)
+      - --kubelet-registration-path=$(DRIVER_REG_SOCK_PATH)
+      env:
+      - name: ADDRESS
+        value: /csi/csi.sock
+      - name: DRIVER_REG_SOCK_PATH
+        value: /var/lib/kubelet/plugins/cinder.csi.openstack.org/csi.sock
+      - name: KUBE_NODE_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: spec.nodeName
+      image: registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.12.0
+      imagePullPolicy: IfNotPresent
+      name: node-driver-registrar
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /csi
+        name: socket-dir
+      - mountPath: /registration
+        name: registration-dir
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-nnl2t
+        readOnly: true
+    - args:
+      - --csi-address=/csi/csi.sock
+      image: registry.k8s.io/sig-storage/livenessprobe:v2.14.0
+      imagePullPolicy: IfNotPresent
+      name: liveness-probe
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /csi
+        name: socket-dir
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-nnl2t
+        readOnly: true
+    - args:
+      - /bin/cinder-csi-plugin
+      - --endpoint=$(CSI_ENDPOINT)
+      - --provide-controller-service=false
+      - --cloud-config=$(CLOUD_CONFIG)
+      - --v=1
+      env:
+      - name: CSI_ENDPOINT
+        value: unix://csi/csi.sock
+      - name: CLOUD_CONFIG
+        value: /etc/config/cloud.conf
+      image: registry.k8s.io/provider-os/cinder-csi-plugin:v1.32.0
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        failureThreshold: 5
+        httpGet:
+          path: /healthz
+          port: healthz
+          scheme: HTTP
+        initialDelaySeconds: 10
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 3
+      name: cinder-csi-plugin
+      ports:
+      - containerPort: 9808
+        hostPort: 9808
+        name: healthz
+        protocol: TCP
+      resources: {}
+      securityContext:
+        allowPrivilegeEscalation: true
+        capabilities:
+          add:
+          - SYS_ADMIN
+        privileged: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /csi
+        name: socket-dir
+      - mountPath: /var/lib/kubelet
+        mountPropagation: Bidirectional
+        name: kubelet-dir
+      - mountPath: /dev
+        mountPropagation: HostToContainer
+        name: pods-probe-dir
+      - mountPath: /etc/config
+        name: secret-cinderplugin
+        readOnly: true
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-nnl2t
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    hostNetwork: true
+    nodeName: host-10-13-0-150
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: csi-cinder-node-sa
+    serviceAccountName: csi-cinder-node-sa
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/disk-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/pid-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/unschedulable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/network-unavailable
+      operator: Exists
+    volumes:
+    - hostPath:
+        path: /var/lib/kubelet/plugins/cinder.csi.openstack.org
+        type: DirectoryOrCreate
+      name: socket-dir
+    - hostPath:
+        path: /var/lib/kubelet/plugins_registry/
+        type: Directory
+      name: registration-dir
+    - hostPath:
+        path: /var/lib/kubelet
+        type: Directory
+      name: kubelet-dir
+    - hostPath:
+        path: /dev
+        type: Directory
+      name: pods-probe-dir
+    - name: secret-cinderplugin
+      secret:
+        defaultMode: 420
+        secretName: cloud-config
+    - name: kube-api-access-nnl2t
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+        - configMap:
+            items:
+            - key: service-ca.crt
+              path: service-ca.crt
+            name: openshift-service-ca.crt
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2025-04-01T12:38:50Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2025-04-01T12:39:11Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2025-04-01T12:39:11Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2025-04-01T12:38:50Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: cri-o://061e2a03f8ff0b2fe8f843afa761c82a87f434fc382997ec4fa2677cd6b207b0
+      image: registry.k8s.io/provider-os/cinder-csi-plugin:v1.32.0
+      imageID: registry.k8s.io/provider-os/cinder-csi-plugin@sha256:50dc4d53b2f9f743a575c98c87342ff680931abb1104db549b2bb10de09cec47
+      lastState: {}
+      name: cinder-csi-plugin
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-04-01T12:39:11Z"
+    - containerID: cri-o://1b589df6055e57d74c97bbec46df3bd9c028c19f530a1268d59793356e96f810
+      image: registry.k8s.io/sig-storage/livenessprobe:v2.14.0
+      imageID: registry.k8s.io/sig-storage/livenessprobe@sha256:13f6b1f9d0514b859e549e20b731d93c90a144186deb68bfc931e3dbf9041afc
+      lastState: {}
+      name: liveness-probe
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-04-01T12:39:04Z"
+    - containerID: cri-o://7b13449704498c5fbbdcb77a5b6c4b9aa22a05bacc8c5f535deac739b439fbd3
+      image: registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.12.0
+      imageID: registry.k8s.io/sig-storage/csi-node-driver-registrar@sha256:0d23a6fd60c421054deec5e6d0405dc3498095a5a597e175236c0692f4adee0f
+      lastState: {}
+      name: node-driver-registrar
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-04-01T12:38:58Z"
+    hostIP: 10.13.0.150
+    phase: Running
+    podIP: 10.13.0.150
+    podIPs:
+    - ip: 10.13.0.150
+    qosClass: BestEffort
+    startTime: "2025-04-01T12:38:50Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2025-04-01T12:38:50Z"
+    generateName: csi-cinder-nodeplugin-
+    labels:
+      app: csi-cinder-nodeplugin
+      controller-revision-hash: d6645b977
+      pod-template-generation: "1"
+    managedFields:
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:generateName: {}
+          f:labels:
+            .: {}
+            f:app: {}
+            f:controller-revision-hash: {}
+            f:pod-template-generation: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"f986fcc0-41b9-40d0-b776-6547e40bf031"}: {}
+        f:spec:
+          f:affinity:
+            .: {}
+            f:nodeAffinity:
+              .: {}
+              f:requiredDuringSchedulingIgnoredDuringExecution: {}
+          f:containers:
+            k:{"name":"cinder-csi-plugin"}:
+              .: {}
+              f:args: {}
+              f:env:
+                .: {}
+                k:{"name":"CLOUD_CONFIG"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+                k:{"name":"CSI_ENDPOINT"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:livenessProbe:
+                .: {}
+                f:failureThreshold: {}
+                f:httpGet:
+                  .: {}
+                  f:path: {}
+                  f:port: {}
+                  f:scheme: {}
+                f:initialDelaySeconds: {}
+                f:periodSeconds: {}
+                f:successThreshold: {}
+                f:timeoutSeconds: {}
+              f:name: {}
+              f:ports:
+                .: {}
+                k:{"containerPort":9808,"protocol":"TCP"}:
+                  .: {}
+                  f:containerPort: {}
+                  f:hostPort: {}
+                  f:name: {}
+                  f:protocol: {}
+              f:resources: {}
+              f:securityContext:
+                .: {}
+                f:allowPrivilegeEscalation: {}
+                f:capabilities:
+                  .: {}
+                  f:add: {}
+                f:privileged: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/csi"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                k:{"mountPath":"/dev"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:mountPropagation: {}
+                  f:name: {}
+                k:{"mountPath":"/etc/config"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+                k:{"mountPath":"/var/lib/kubelet"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:mountPropagation: {}
+                  f:name: {}
+            k:{"name":"liveness-probe"}:
+              .: {}
+              f:args: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:name: {}
+              f:resources: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/csi"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+            k:{"name":"node-driver-registrar"}:
+              .: {}
+              f:args: {}
+              f:env:
+                .: {}
+                k:{"name":"ADDRESS"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+                k:{"name":"DRIVER_REG_SOCK_PATH"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+                k:{"name":"KUBE_NODE_NAME"}:
+                  .: {}
+                  f:name: {}
+                  f:valueFrom:
+                    .: {}
+                    f:fieldRef: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:name: {}
+              f:resources: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/csi"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                k:{"mountPath":"/registration"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+          f:dnsPolicy: {}
+          f:enableServiceLinks: {}
+          f:hostNetwork: {}
+          f:restartPolicy: {}
+          f:schedulerName: {}
+          f:securityContext: {}
+          f:serviceAccount: {}
+          f:serviceAccountName: {}
+          f:terminationGracePeriodSeconds: {}
+          f:tolerations: {}
+          f:volumes:
+            .: {}
+            k:{"name":"kubelet-dir"}:
+              .: {}
+              f:hostPath:
+                .: {}
+                f:path: {}
+                f:type: {}
+              f:name: {}
+            k:{"name":"pods-probe-dir"}:
+              .: {}
+              f:hostPath:
+                .: {}
+                f:path: {}
+                f:type: {}
+              f:name: {}
+            k:{"name":"registration-dir"}:
+              .: {}
+              f:hostPath:
+                .: {}
+                f:path: {}
+                f:type: {}
+              f:name: {}
+            k:{"name":"secret-cinderplugin"}:
+              .: {}
+              f:name: {}
+              f:secret:
+                .: {}
+                f:defaultMode: {}
+                f:secretName: {}
+            k:{"name":"socket-dir"}:
+              .: {}
+              f:hostPath:
+                .: {}
+                f:path: {}
+                f:type: {}
+              f:name: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-04-01T12:38:50Z"
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            k:{"type":"ContainersReady"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Initialized"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Ready"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+          f:containerStatuses: {}
+          f:hostIP: {}
+          f:phase: {}
+          f:podIP: {}
+          f:podIPs:
+            .: {}
+            k:{"ip":"10.13.2.89"}:
+              .: {}
+              f:ip: {}
+          f:startTime: {}
+      manager: kubelet
+      operation: Update
+      subresource: status
+      time: "2025-04-01T12:39:05Z"
+    name: csi-cinder-nodeplugin-s9v8s
+    namespace: kube-system
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DaemonSet
+      name: csi-cinder-nodeplugin
+      uid: f986fcc0-41b9-40d0-b776-6547e40bf031
+    resourceVersion: "331798"
+    uid: e509bda6-016b-4e0b-a8a4-c17dc7d7c6fc
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchFields:
+            - key: metadata.name
+              operator: In
+              values:
+              - host-10-13-2-89
+    containers:
+    - args:
+      - --csi-address=$(ADDRESS)
+      - --kubelet-registration-path=$(DRIVER_REG_SOCK_PATH)
+      env:
+      - name: ADDRESS
+        value: /csi/csi.sock
+      - name: DRIVER_REG_SOCK_PATH
+        value: /var/lib/kubelet/plugins/cinder.csi.openstack.org/csi.sock
+      - name: KUBE_NODE_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: spec.nodeName
+      image: registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.12.0
+      imagePullPolicy: IfNotPresent
+      name: node-driver-registrar
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /csi
+        name: socket-dir
+      - mountPath: /registration
+        name: registration-dir
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-l8ncw
+        readOnly: true
+    - args:
+      - --csi-address=/csi/csi.sock
+      image: registry.k8s.io/sig-storage/livenessprobe:v2.14.0
+      imagePullPolicy: IfNotPresent
+      name: liveness-probe
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /csi
+        name: socket-dir
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-l8ncw
+        readOnly: true
+    - args:
+      - /bin/cinder-csi-plugin
+      - --endpoint=$(CSI_ENDPOINT)
+      - --provide-controller-service=false
+      - --cloud-config=$(CLOUD_CONFIG)
+      - --v=1
+      env:
+      - name: CSI_ENDPOINT
+        value: unix://csi/csi.sock
+      - name: CLOUD_CONFIG
+        value: /etc/config/cloud.conf
+      image: registry.k8s.io/provider-os/cinder-csi-plugin:v1.32.0
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        failureThreshold: 5
+        httpGet:
+          path: /healthz
+          port: healthz
+          scheme: HTTP
+        initialDelaySeconds: 10
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 3
+      name: cinder-csi-plugin
+      ports:
+      - containerPort: 9808
+        hostPort: 9808
+        name: healthz
+        protocol: TCP
+      resources: {}
+      securityContext:
+        allowPrivilegeEscalation: true
+        capabilities:
+          add:
+          - SYS_ADMIN
+        privileged: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /csi
+        name: socket-dir
+      - mountPath: /var/lib/kubelet
+        mountPropagation: Bidirectional
+        name: kubelet-dir
+      - mountPath: /dev
+        mountPropagation: HostToContainer
+        name: pods-probe-dir
+      - mountPath: /etc/config
+        name: secret-cinderplugin
+        readOnly: true
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-l8ncw
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    hostNetwork: true
+    nodeName: host-10-13-2-89
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: csi-cinder-node-sa
+    serviceAccountName: csi-cinder-node-sa
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/disk-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/pid-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/unschedulable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/network-unavailable
+      operator: Exists
+    volumes:
+    - hostPath:
+        path: /var/lib/kubelet/plugins/cinder.csi.openstack.org
+        type: DirectoryOrCreate
+      name: socket-dir
+    - hostPath:
+        path: /var/lib/kubelet/plugins_registry/
+        type: Directory
+      name: registration-dir
+    - hostPath:
+        path: /var/lib/kubelet
+        type: Directory
+      name: kubelet-dir
+    - hostPath:
+        path: /dev
+        type: Directory
+      name: pods-probe-dir
+    - name: secret-cinderplugin
+      secret:
+        defaultMode: 420
+        secretName: cloud-config
+    - name: kube-api-access-l8ncw
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+        - configMap:
+            items:
+            - key: service-ca.crt
+              path: service-ca.crt
+            name: openshift-service-ca.crt
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2025-04-01T12:38:50Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2025-04-01T12:39:05Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2025-04-01T12:39:05Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2025-04-01T12:38:50Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: cri-o://3bb80a0d1b199016e217d84153a8b9bf8b62f03fb82e5ba2d6178e9a9438bc7a
+      image: registry.k8s.io/provider-os/cinder-csi-plugin:v1.32.0
+      imageID: registry.k8s.io/provider-os/cinder-csi-plugin@sha256:50dc4d53b2f9f743a575c98c87342ff680931abb1104db549b2bb10de09cec47
+      lastState: {}
+      name: cinder-csi-plugin
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-04-01T12:39:04Z"
+    - containerID: cri-o://7b68feb320a1d71db6c0b85db308161955d29051e8519484aeede0fb0cdcfba0
+      image: registry.k8s.io/sig-storage/livenessprobe:v2.14.0
+      imageID: registry.k8s.io/sig-storage/livenessprobe@sha256:13f6b1f9d0514b859e549e20b731d93c90a144186deb68bfc931e3dbf9041afc
+      lastState: {}
+      name: liveness-probe
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-04-01T12:39:00Z"
+    - containerID: cri-o://0148a1a5c3d6c68f5bdb4aeffad945ef8d1047be02f869619669a0b6f8d97173
+      image: registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.12.0
+      imageID: registry.k8s.io/sig-storage/csi-node-driver-registrar@sha256:0d23a6fd60c421054deec5e6d0405dc3498095a5a597e175236c0692f4adee0f
+      lastState: {}
+      name: node-driver-registrar
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-04-01T12:38:57Z"
+    hostIP: 10.13.2.89
+    phase: Running
+    podIP: 10.13.2.89
+    podIPs:
+    - ip: 10.13.2.89
+    qosClass: BestEffort
+    startTime: "2025-04-01T12:38:50Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2025-04-01T12:38:50Z"
+    generateName: csi-cinder-nodeplugin-
+    labels:
+      app: csi-cinder-nodeplugin
+      controller-revision-hash: d6645b977
+      pod-template-generation: "1"
+    managedFields:
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:generateName: {}
+          f:labels:
+            .: {}
+            f:app: {}
+            f:controller-revision-hash: {}
+            f:pod-template-generation: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"f986fcc0-41b9-40d0-b776-6547e40bf031"}: {}
+        f:spec:
+          f:affinity:
+            .: {}
+            f:nodeAffinity:
+              .: {}
+              f:requiredDuringSchedulingIgnoredDuringExecution: {}
+          f:containers:
+            k:{"name":"cinder-csi-plugin"}:
+              .: {}
+              f:args: {}
+              f:env:
+                .: {}
+                k:{"name":"CLOUD_CONFIG"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+                k:{"name":"CSI_ENDPOINT"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:livenessProbe:
+                .: {}
+                f:failureThreshold: {}
+                f:httpGet:
+                  .: {}
+                  f:path: {}
+                  f:port: {}
+                  f:scheme: {}
+                f:initialDelaySeconds: {}
+                f:periodSeconds: {}
+                f:successThreshold: {}
+                f:timeoutSeconds: {}
+              f:name: {}
+              f:ports:
+                .: {}
+                k:{"containerPort":9808,"protocol":"TCP"}:
+                  .: {}
+                  f:containerPort: {}
+                  f:hostPort: {}
+                  f:name: {}
+                  f:protocol: {}
+              f:resources: {}
+              f:securityContext:
+                .: {}
+                f:allowPrivilegeEscalation: {}
+                f:capabilities:
+                  .: {}
+                  f:add: {}
+                f:privileged: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/csi"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                k:{"mountPath":"/dev"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:mountPropagation: {}
+                  f:name: {}
+                k:{"mountPath":"/etc/config"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+                k:{"mountPath":"/var/lib/kubelet"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:mountPropagation: {}
+                  f:name: {}
+            k:{"name":"liveness-probe"}:
+              .: {}
+              f:args: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:name: {}
+              f:resources: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/csi"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+            k:{"name":"node-driver-registrar"}:
+              .: {}
+              f:args: {}
+              f:env:
+                .: {}
+                k:{"name":"ADDRESS"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+                k:{"name":"DRIVER_REG_SOCK_PATH"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+                k:{"name":"KUBE_NODE_NAME"}:
+                  .: {}
+                  f:name: {}
+                  f:valueFrom:
+                    .: {}
+                    f:fieldRef: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:name: {}
+              f:resources: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/csi"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                k:{"mountPath":"/registration"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+          f:dnsPolicy: {}
+          f:enableServiceLinks: {}
+          f:hostNetwork: {}
+          f:restartPolicy: {}
+          f:schedulerName: {}
+          f:securityContext: {}
+          f:serviceAccount: {}
+          f:serviceAccountName: {}
+          f:terminationGracePeriodSeconds: {}
+          f:tolerations: {}
+          f:volumes:
+            .: {}
+            k:{"name":"kubelet-dir"}:
+              .: {}
+              f:hostPath:
+                .: {}
+                f:path: {}
+                f:type: {}
+              f:name: {}
+            k:{"name":"pods-probe-dir"}:
+              .: {}
+              f:hostPath:
+                .: {}
+                f:path: {}
+                f:type: {}
+              f:name: {}
+            k:{"name":"registration-dir"}:
+              .: {}
+              f:hostPath:
+                .: {}
+                f:path: {}
+                f:type: {}
+              f:name: {}
+            k:{"name":"secret-cinderplugin"}:
+              .: {}
+              f:name: {}
+              f:secret:
+                .: {}
+                f:defaultMode: {}
+                f:secretName: {}
+            k:{"name":"socket-dir"}:
+              .: {}
+              f:hostPath:
+                .: {}
+                f:path: {}
+                f:type: {}
+              f:name: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-04-01T12:38:50Z"
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            k:{"type":"ContainersReady"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Initialized"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Ready"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+          f:containerStatuses: {}
+          f:hostIP: {}
+          f:phase: {}
+          f:podIP: {}
+          f:podIPs:
+            .: {}
+            k:{"ip":"10.13.2.1"}:
+              .: {}
+              f:ip: {}
+          f:startTime: {}
+      manager: kubelet
+      operation: Update
+      subresource: status
+      time: "2025-04-01T12:39:01Z"
+    name: csi-cinder-nodeplugin-smlq4
+    namespace: kube-system
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DaemonSet
+      name: csi-cinder-nodeplugin
+      uid: f986fcc0-41b9-40d0-b776-6547e40bf031
+    resourceVersion: "331743"
+    uid: 081eb74a-3920-4a6e-8f0a-f894df5a73c6
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchFields:
+            - key: metadata.name
+              operator: In
+              values:
+              - host-10-13-2-1
+    containers:
+    - args:
+      - --csi-address=$(ADDRESS)
+      - --kubelet-registration-path=$(DRIVER_REG_SOCK_PATH)
+      env:
+      - name: ADDRESS
+        value: /csi/csi.sock
+      - name: DRIVER_REG_SOCK_PATH
+        value: /var/lib/kubelet/plugins/cinder.csi.openstack.org/csi.sock
+      - name: KUBE_NODE_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: spec.nodeName
+      image: registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.12.0
+      imagePullPolicy: IfNotPresent
+      name: node-driver-registrar
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /csi
+        name: socket-dir
+      - mountPath: /registration
+        name: registration-dir
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-q7qlm
+        readOnly: true
+    - args:
+      - --csi-address=/csi/csi.sock
+      image: registry.k8s.io/sig-storage/livenessprobe:v2.14.0
+      imagePullPolicy: IfNotPresent
+      name: liveness-probe
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /csi
+        name: socket-dir
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-q7qlm
+        readOnly: true
+    - args:
+      - /bin/cinder-csi-plugin
+      - --endpoint=$(CSI_ENDPOINT)
+      - --provide-controller-service=false
+      - --cloud-config=$(CLOUD_CONFIG)
+      - --v=1
+      env:
+      - name: CSI_ENDPOINT
+        value: unix://csi/csi.sock
+      - name: CLOUD_CONFIG
+        value: /etc/config/cloud.conf
+      image: registry.k8s.io/provider-os/cinder-csi-plugin:v1.32.0
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        failureThreshold: 5
+        httpGet:
+          path: /healthz
+          port: healthz
+          scheme: HTTP
+        initialDelaySeconds: 10
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 3
+      name: cinder-csi-plugin
+      ports:
+      - containerPort: 9808
+        hostPort: 9808
+        name: healthz
+        protocol: TCP
+      resources: {}
+      securityContext:
+        allowPrivilegeEscalation: true
+        capabilities:
+          add:
+          - SYS_ADMIN
+        privileged: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /csi
+        name: socket-dir
+      - mountPath: /var/lib/kubelet
+        mountPropagation: Bidirectional
+        name: kubelet-dir
+      - mountPath: /dev
+        mountPropagation: HostToContainer
+        name: pods-probe-dir
+      - mountPath: /etc/config
+        name: secret-cinderplugin
+        readOnly: true
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-q7qlm
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    hostNetwork: true
+    nodeName: host-10-13-2-1
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: csi-cinder-node-sa
+    serviceAccountName: csi-cinder-node-sa
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/disk-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/pid-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/unschedulable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/network-unavailable
+      operator: Exists
+    volumes:
+    - hostPath:
+        path: /var/lib/kubelet/plugins/cinder.csi.openstack.org
+        type: DirectoryOrCreate
+      name: socket-dir
+    - hostPath:
+        path: /var/lib/kubelet/plugins_registry/
+        type: Directory
+      name: registration-dir
+    - hostPath:
+        path: /var/lib/kubelet
+        type: Directory
+      name: kubelet-dir
+    - hostPath:
+        path: /dev
+        type: Directory
+      name: pods-probe-dir
+    - name: secret-cinderplugin
+      secret:
+        defaultMode: 420
+        secretName: cloud-config
+    - name: kube-api-access-q7qlm
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+        - configMap:
+            items:
+            - key: service-ca.crt
+              path: service-ca.crt
+            name: openshift-service-ca.crt
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2025-04-01T12:38:50Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2025-04-01T12:39:01Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2025-04-01T12:39:01Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2025-04-01T12:38:50Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: cri-o://3f1c2c47932cd0a6e06b6cef93138150e506a4db3a1432467c712fc972b3898d
+      image: registry.k8s.io/provider-os/cinder-csi-plugin:v1.32.0
+      imageID: registry.k8s.io/provider-os/cinder-csi-plugin@sha256:50dc4d53b2f9f743a575c98c87342ff680931abb1104db549b2bb10de09cec47
+      lastState: {}
+      name: cinder-csi-plugin
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-04-01T12:39:01Z"
+    - containerID: cri-o://374175258dd8fa75991ecd57e755f05a44756be74bd53797123e55d769634431
+      image: registry.k8s.io/sig-storage/livenessprobe:v2.14.0
+      imageID: registry.k8s.io/sig-storage/livenessprobe@sha256:13f6b1f9d0514b859e549e20b731d93c90a144186deb68bfc931e3dbf9041afc
+      lastState: {}
+      name: liveness-probe
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-04-01T12:38:55Z"
+    - containerID: cri-o://b3be86dd8ab03533c54f589aed604b07c6ba86dbc4fb1c360b77337cf040a960
+      image: registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.12.0
+      imageID: registry.k8s.io/sig-storage/csi-node-driver-registrar@sha256:0d23a6fd60c421054deec5e6d0405dc3498095a5a597e175236c0692f4adee0f
+      lastState: {}
+      name: node-driver-registrar
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-04-01T12:38:54Z"
+    hostIP: 10.13.2.1
+    phase: Running
+    podIP: 10.13.2.1
+    podIPs:
+    - ip: 10.13.2.1
+    qosClass: BestEffort
+    startTime: "2025-04-01T12:38:50Z"
+kind: PodList
+metadata:
+  resourceVersion: "718245"

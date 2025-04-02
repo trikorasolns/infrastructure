@@ -1,0 +1,4 @@
+2025-04-02T00:00:01.093332680Z Warning: apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+2025-04-02T00:00:01.288936211Z I0402 00:00:01.288862       6 prune.go:348] Creating image pruner with keepYoungerThan=1h0m0s, keepTagRevisions=3, pruneOverSizeLimit=<nil>, allImages=true
+2025-04-02T00:00:01.302478487Z Only API objects will be removed.  No modifications to the image registry will be made.
+2025-04-02T00:00:01.378833746Z Summary: deleted 0 objects

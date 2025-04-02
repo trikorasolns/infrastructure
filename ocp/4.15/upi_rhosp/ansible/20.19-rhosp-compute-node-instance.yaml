@@ -23,7 +23,7 @@
     openstack.cloud.server:
       name: "{{ rhosp_compute_node_server_prefix }}-{{ item }}"
       image: "{{ rhosp_rhcoreos_image_name }}"
-      flavor: "{{ rhosp_flavor_worker }}"
+      flavor: "{{ rhosp_compute_node[item].flavor | default(rhosp_flavor_worker) }}"
       userdata: "{{ lookup('file', '/tmp/worker-' + metadata_json.infraID + '.ign') | string }}"
       network: "{{ rhosp_network }}"
       auto_floating_ip: false

@@ -1,0 +1,50 @@
+---
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  creationTimestamp: "2025-03-31T14:24:05Z"
+  generation: 1
+  labels:
+    machineconfiguration.openshift.io/role: master
+  managedFields:
+  - apiVersion: machineconfiguration.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:labels:
+          .: {}
+          f:machineconfiguration.openshift.io/role: {}
+      f:spec:
+        .: {}
+        f:config:
+          .: {}
+          f:ignition:
+            .: {}
+            f:version: {}
+          f:passwd:
+            .: {}
+            f:users: {}
+        f:fips: {}
+        f:kernelArguments: {}
+        f:kernelType: {}
+        f:osImageURL: {}
+    manager: cluster-bootstrap
+    operation: Update
+    time: "2025-03-31T14:24:05Z"
+  name: 99-master-ssh
+  resourceVersion: "1747"
+  uid: 93f4fb5b-2850-4229-b6ea-042171de6666
+spec:
+  config:
+    ignition:
+      version: 3.2.0
+    passwd:
+      users:
+      - name: core
+        sshAuthorizedKeys:
+        - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCx2AICVeeMP2J/ZeK2e0X91h+fO6GSd7Y9z/Bd2xP0CsBsD/AT8wpdSohayNrwkdy99ucaxGnR4DLPRAZD6GcyVG5UODlv2LMHE+rRnWuVRhtinsXKBwSyze1r8p5aJezoLeb3/5lVFOi16SoBGPHxd1bcOGpi8ZkqslHOQnXsHFTmtLtcFVO7mEWksWtqsBgD8jFZQZDIDNuRoBzW5kUL/aWgP+a5qHvBwZ+wRrlSglr1deXdz6v4VOTW3FspLqaKwEQv7BN1z7eb6Ik5cmMbyGmGV+/eEdvihg8lfn7VnVHUSPqZjFC3dOsAKpJUJj72kOgFXY3ruUt8RjP6yQj0qsMz22qrRrj2iYoii5yVR+uIZmFt53BFH7YL+3GlfJJP+dgNCHv9WvC0xGyROXlQz0FuatXXi43Ax7Kmt8gcGjeiaKHYe3h8/bONlNP28U2PLs4MAr2fCeXW8OAhbfLtO20lWhdNI3Cp0YM9EY5EVPMkCRpr4wmULvRtd/L8Y+JeBYLf3XtB/evFkQYZ4bodn2wT0V2PxKGVWPY3/41qUs3K1S8u0lFwySCzKGly0/LH4d7U3AqUCKijzgv1uEOPYLYLZlyW9UOArEIZ3TIqZhqziP61+nkAJsY/3L4zPF12mwuuUzDvmb0Z5Ck5uHwTTf9nxrVBHlWEJG2Pn80ZJw==
+          ajc102@ws15
+  fips: false
+  kernelArguments: null
+  kernelType: ""
+  osImageURL: ""

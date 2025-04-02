@@ -1,0 +1,77 @@
+apiVersion: config.openshift.io/v1
+kind: FeatureGate
+metadata:
+  creationTimestamp: "2025-03-31T14:23:47Z"
+  generation: 1
+  managedFields:
+  - apiVersion: config.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec: {}
+    manager: cluster-bootstrap
+    operation: Update
+    time: "2025-03-31T14:23:47Z"
+  - apiVersion: config.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        .: {}
+        f:featureGates:
+          .: {}
+          k:{"version":"4.15.46"}:
+            .: {}
+            f:disabled: {}
+            f:enabled: {}
+            f:version: {}
+    manager: cluster-bootstrap
+    operation: Update
+    subresource: status
+    time: "2025-03-31T14:23:47Z"
+  name: cluster
+  resourceVersion: "1029"
+  uid: e7963c57-c3d5-45f8-9c77-87b7c29d6b5f
+spec: {}
+status:
+  featureGates:
+  - disabled:
+    - name: AdminNetworkPolicy
+    - name: AutomatedEtcdBackup
+    - name: CSIDriverSharedResource
+    - name: ClusterAPIInstall
+    - name: DNSNameResolver
+    - name: DisableKubeletCloudCredentialProviders
+    - name: DynamicResourceAllocation
+    - name: EventedPLEG
+    - name: GCPClusterHostedDNS
+    - name: GCPLabelsTags
+    - name: GatewayAPI
+    - name: InsightsConfigAPI
+    - name: InstallAlternateInfrastructureAWS
+    - name: MachineAPIOperatorDisableMachineHealthCheckController
+    - name: MachineAPIProviderOpenStack
+    - name: MachineConfigNodes
+    - name: ManagedBootImages
+    - name: MaxUnavailableStatefulSet
+    - name: MetricsServer
+    - name: MixedCPUsAllocation
+    - name: NodeSwap
+    - name: OnClusterBuild
+    - name: OpenShiftPodSecurityAdmission
+    - name: RouteExternalCertificate
+    - name: SignatureStores
+    - name: SigstoreImageVerification
+    - name: VSphereControlPlaneMachineSet
+    - name: VSphereStaticIPs
+    - name: ValidatingAdmissionPolicy
+    enabled:
+    - name: AlibabaPlatform
+    - name: AzureWorkloadIdentity
+    - name: BuildCSIVolumes
+    - name: CloudDualStackNodeIPs
+    - name: ExternalCloudProvider
+    - name: ExternalCloudProviderAzure
+    - name: ExternalCloudProviderExternal
+    - name: ExternalCloudProviderGCP
+    - name: NetworkLiveMigration
+    - name: PrivateHostedZoneAWS
+    version: 4.15.46

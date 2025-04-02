@@ -1,0 +1,321 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    k8s.ovn.org/pod-networks: '{"default":{"ip_addresses":["10.130.0.5/23"],"mac_address":"0a:58:0a:82:00:05","gateway_ips":["10.130.0.1"],"routes":[{"dest":"10.128.0.0/14","nextHop":"10.130.0.1"},{"dest":"172.30.0.0/16","nextHop":"10.130.0.1"},{"dest":"169.254.169.5/32","nextHop":"10.130.0.1"},{"dest":"100.64.0.0/16","nextHop":"10.130.0.1"}],"ip_address":"10.130.0.5/23","gateway_ip":"10.130.0.1"}}'
+    k8s.v1.cni.cncf.io/network-status: |-
+      [{
+          "name": "ovn-kubernetes",
+          "interface": "eth0",
+          "ips": [
+              "10.130.0.5"
+          ],
+          "mac": "0a:58:0a:82:00:05",
+          "default": true,
+          "dns": {}
+      }]
+    openshift.io/required-scc: restricted-v2
+    openshift.io/scc: restricted-v2
+    seccomp.security.alpha.kubernetes.io/pod: runtime/default
+  creationTimestamp: "2025-03-31T20:22:11Z"
+  generateName: service-ca-85f7d84bb9-
+  labels:
+    app: service-ca
+    pod-template-hash: 85f7d84bb9
+    service-ca: "true"
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          f:k8s.ovn.org/pod-networks: {}
+    manager: host-10-13-2-89
+    operation: Update
+    subresource: status
+    time: "2025-03-31T20:22:11Z"
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:openshift.io/required-scc: {}
+          f:target.workload.openshift.io/management: {}
+        f:generateName: {}
+        f:labels:
+          .: {}
+          f:app: {}
+          f:pod-template-hash: {}
+          f:service-ca: {}
+        f:ownerReferences:
+          .: {}
+          k:{"uid":"d215e331-926d-4a70-ac98-57fe3a6dd02a"}: {}
+      f:spec:
+        f:containers:
+          k:{"name":"service-ca-controller"}:
+            .: {}
+            f:args: {}
+            f:command: {}
+            f:image: {}
+            f:imagePullPolicy: {}
+            f:name: {}
+            f:ports:
+              .: {}
+              k:{"containerPort":8443,"protocol":"TCP"}:
+                .: {}
+                f:containerPort: {}
+                f:protocol: {}
+            f:resources:
+              .: {}
+              f:requests:
+                .: {}
+                f:cpu: {}
+                f:memory: {}
+            f:securityContext:
+              .: {}
+              f:runAsNonRoot: {}
+            f:terminationMessagePath: {}
+            f:terminationMessagePolicy: {}
+            f:volumeMounts:
+              .: {}
+              k:{"mountPath":"/var/run/configmaps/signing-cabundle"}:
+                .: {}
+                f:mountPath: {}
+                f:name: {}
+              k:{"mountPath":"/var/run/secrets/signing-key"}:
+                .: {}
+                f:mountPath: {}
+                f:name: {}
+        f:dnsPolicy: {}
+        f:enableServiceLinks: {}
+        f:nodeSelector: {}
+        f:priorityClassName: {}
+        f:restartPolicy: {}
+        f:schedulerName: {}
+        f:securityContext: {}
+        f:serviceAccount: {}
+        f:serviceAccountName: {}
+        f:terminationGracePeriodSeconds: {}
+        f:tolerations: {}
+        f:volumes:
+          .: {}
+          k:{"name":"signing-cabundle"}:
+            .: {}
+            f:configMap:
+              .: {}
+              f:defaultMode: {}
+              f:name: {}
+            f:name: {}
+          k:{"name":"signing-key"}:
+            .: {}
+            f:name: {}
+            f:secret:
+              .: {}
+              f:defaultMode: {}
+              f:secretName: {}
+    manager: kube-controller-manager
+    operation: Update
+    time: "2025-03-31T20:22:11Z"
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          f:k8s.v1.cni.cncf.io/network-status: {}
+    manager: multus-daemon
+    operation: Update
+    subresource: status
+    time: "2025-03-31T20:22:11Z"
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        f:conditions:
+          k:{"type":"ContainersReady"}:
+            .: {}
+            f:lastProbeTime: {}
+            f:lastTransitionTime: {}
+            f:status: {}
+            f:type: {}
+          k:{"type":"Initialized"}:
+            .: {}
+            f:lastProbeTime: {}
+            f:lastTransitionTime: {}
+            f:status: {}
+            f:type: {}
+          k:{"type":"Ready"}:
+            .: {}
+            f:lastProbeTime: {}
+            f:lastTransitionTime: {}
+            f:status: {}
+            f:type: {}
+        f:containerStatuses: {}
+        f:hostIP: {}
+        f:phase: {}
+        f:podIP: {}
+        f:podIPs:
+          .: {}
+          k:{"ip":"10.130.0.5"}:
+            .: {}
+            f:ip: {}
+        f:startTime: {}
+    manager: kubelet
+    operation: Update
+    subresource: status
+    time: "2025-03-31T20:40:20Z"
+  name: service-ca-85f7d84bb9-v99nh
+  namespace: openshift-service-ca
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ReplicaSet
+    name: service-ca-85f7d84bb9
+    uid: d215e331-926d-4a70-ac98-57fe3a6dd02a
+  resourceVersion: "72883"
+  uid: 27480e58-bbf7-436c-a50a-a7d07ae8ea0b
+spec:
+  containers:
+  - args:
+    - -v=2
+    command:
+    - service-ca-operator
+    - controller
+    image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:03ab1f3ac1d6f42543751a4e0f3c880601bd0918eabe2d98157e2c8c486cff4e
+    imagePullPolicy: IfNotPresent
+    name: service-ca-controller
+    ports:
+    - containerPort: 8443
+      protocol: TCP
+    resources:
+      requests:
+        cpu: 10m
+        memory: 120Mi
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+      runAsNonRoot: true
+      runAsUser: 1000540000
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/signing-key
+      name: signing-key
+    - mountPath: /var/run/configmaps/signing-cabundle
+      name: signing-cabundle
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-shnm5
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: host-10-13-2-89
+  nodeSelector:
+    node-role.kubernetes.io/master: ""
+  preemptionPolicy: PreemptLowerPriority
+  priority: 2000000000
+  priorityClassName: system-cluster-critical
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext:
+    fsGroup: 1000540000
+    seLinuxOptions:
+      level: s0:c23,c17
+    seccompProfile:
+      type: RuntimeDefault
+  serviceAccount: service-ca
+  serviceAccountName: service-ca
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/master
+    operator: Exists
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 120
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 120
+  - effect: NoSchedule
+    key: node.kubernetes.io/memory-pressure
+    operator: Exists
+  volumes:
+  - name: signing-key
+    secret:
+      defaultMode: 420
+      secretName: signing-key
+  - configMap:
+      defaultMode: 420
+      name: signing-cabundle
+    name: signing-cabundle
+  - name: kube-api-access-shnm5
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+      - configMap:
+          items:
+          - key: service-ca.crt
+            path: service-ca.crt
+          name: openshift-service-ca.crt
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2025-03-31T20:22:11Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2025-03-31T20:40:20Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2025-03-31T20:40:20Z"
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2025-03-31T20:22:11Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: cri-o://cd4a1f2c2e38a1153889095b9a8951680615fe62fdcf14e2a4ea42aaa0dde4bf
+    image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:03ab1f3ac1d6f42543751a4e0f3c880601bd0918eabe2d98157e2c8c486cff4e
+    imageID: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:03ab1f3ac1d6f42543751a4e0f3c880601bd0918eabe2d98157e2c8c486cff4e
+    lastState:
+      terminated:
+        containerID: cri-o://de12253b816726a7a0842871f00e8ce9747c7355fadba9821a5d01ef390255a3
+        exitCode: 0
+        finishedAt: "2025-03-31T20:40:04Z"
+        reason: Completed
+        startedAt: "2025-03-31T20:32:19Z"
+    name: service-ca-controller
+    ready: true
+    restartCount: 2
+    started: true
+    state:
+      running:
+        startedAt: "2025-03-31T20:40:20Z"
+  hostIP: 10.13.2.89
+  phase: Running
+  podIP: 10.130.0.5
+  podIPs:
+  - ip: 10.130.0.5
+  qosClass: Burstable
+  startTime: "2025-03-31T20:22:11Z"

@@ -1,0 +1,5 @@
+egress firewalls amount: 0
+network policies amount: 0
+endpoints amount: 85
+services amount: 86
+pods amount: 287

@@ -1,0 +1,213 @@
+---
+apiVersion: discovery.k8s.io/v1
+items:
+- addressType: IPv4
+  apiVersion: discovery.k8s.io/v1
+  endpoints:
+  - addresses:
+    - 10.13.2.160
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: host-10-13-2-160
+    targetRef:
+      kind: Pod
+      name: ovnkube-control-plane-54c68569bc-gwpgm
+      namespace: openshift-ovn-kubernetes
+      uid: 63df0d0d-a0d2-4ec8-92a4-5ce33dc0bab5
+  - addresses:
+    - 10.13.0.150
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: host-10-13-0-150
+    targetRef:
+      kind: Pod
+      name: ovnkube-control-plane-54c68569bc-jxf9j
+      namespace: openshift-ovn-kubernetes
+      uid: 68334ae0-1878-4df1-b44a-86f5506eee73
+  kind: EndpointSlice
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2025-03-31T20:40:30Z"
+    creationTimestamp: "2025-03-31T20:18:20Z"
+    generateName: ovn-kubernetes-control-plane-
+    generation: 10
+    labels:
+      app: ovnkube-control-plane
+      endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+      kubernetes.io/service-name: ovn-kubernetes-control-plane
+      service.kubernetes.io/headless: ""
+    managedFields:
+    - apiVersion: discovery.k8s.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:addressType: {}
+        f:endpoints: {}
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:endpoints.kubernetes.io/last-change-trigger-time: {}
+          f:generateName: {}
+          f:labels:
+            .: {}
+            f:app: {}
+            f:endpointslice.kubernetes.io/managed-by: {}
+            f:kubernetes.io/service-name: {}
+            f:service.kubernetes.io/headless: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"6bdbb09e-8750-4d7a-998d-fa78a919e6a8"}: {}
+        f:ports: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-03-31T20:40:30Z"
+    name: ovn-kubernetes-control-plane-stqlw
+    namespace: openshift-ovn-kubernetes
+    ownerReferences:
+    - apiVersion: v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Service
+      name: ovn-kubernetes-control-plane
+      uid: 6bdbb09e-8750-4d7a-998d-fa78a919e6a8
+    resourceVersion: "73118"
+    uid: bf8bde9c-7071-4993-964e-9aa68ad2c543
+  ports:
+  - name: metrics
+    port: 9108
+    protocol: TCP
+- addressType: IPv4
+  apiVersion: discovery.k8s.io/v1
+  endpoints:
+  - addresses:
+    - 10.13.2.160
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: host-10-13-2-160
+    targetRef:
+      kind: Pod
+      name: ovnkube-node-2fv96
+      namespace: openshift-ovn-kubernetes
+      uid: eed682ab-ceee-4195-83ba-0184382e5d5e
+  - addresses:
+    - 10.13.0.150
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: host-10-13-0-150
+    targetRef:
+      kind: Pod
+      name: ovnkube-node-jks98
+      namespace: openshift-ovn-kubernetes
+      uid: 4d2366b3-9a1c-4436-8118-04e096167943
+  - addresses:
+    - 10.13.2.89
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: host-10-13-2-89
+    targetRef:
+      kind: Pod
+      name: ovnkube-node-bnfvq
+      namespace: openshift-ovn-kubernetes
+      uid: 6a5eb16e-20c4-44a9-bdae-ed6ee6769aef
+  - addresses:
+    - 10.13.3.78
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: host-10-13-3-78
+    targetRef:
+      kind: Pod
+      name: ovnkube-node-czhrl
+      namespace: openshift-ovn-kubernetes
+      uid: 49ee4a2f-15c6-469f-b6e8-7d6f239bcd63
+  - addresses:
+    - 10.13.3.120
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: host-10-13-3-120
+    targetRef:
+      kind: Pod
+      name: ovnkube-node-twdpb
+      namespace: openshift-ovn-kubernetes
+      uid: 6e1ea4c9-4d38-401d-a64e-02299b900cbd
+  - addresses:
+    - 10.13.2.1
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: host-10-13-2-1
+    targetRef:
+      kind: Pod
+      name: ovnkube-node-crpn4
+      namespace: openshift-ovn-kubernetes
+      uid: 57d1bcda-9347-4da1-92c2-8022998d5bc1
+  kind: EndpointSlice
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2025-04-01T08:35:06Z"
+    creationTimestamp: "2025-03-31T20:18:21Z"
+    generateName: ovn-kubernetes-node-
+    generation: 26
+    labels:
+      app: ovnkube-node
+      endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+      kubernetes.io/service-name: ovn-kubernetes-node
+      service.kubernetes.io/headless: ""
+    managedFields:
+    - apiVersion: discovery.k8s.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:addressType: {}
+        f:endpoints: {}
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:endpoints.kubernetes.io/last-change-trigger-time: {}
+          f:generateName: {}
+          f:labels:
+            .: {}
+            f:app: {}
+            f:endpointslice.kubernetes.io/managed-by: {}
+            f:kubernetes.io/service-name: {}
+            f:service.kubernetes.io/headless: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"d1ddfb88-18da-4b1e-85cd-8c3ef2fc60a3"}: {}
+        f:ports: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-04-01T08:35:06Z"
+    name: ovn-kubernetes-node-45cdk
+    namespace: openshift-ovn-kubernetes
+    ownerReferences:
+    - apiVersion: v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Service
+      name: ovn-kubernetes-node
+      uid: d1ddfb88-18da-4b1e-85cd-8c3ef2fc60a3
+    resourceVersion: "259851"
+    uid: a45b09fb-bb67-4b1d-a72d-84d7fd3eeb13
+  ports:
+  - name: ovn-metrics
+    port: 9105
+    protocol: TCP
+  - name: metrics
+    port: 9103
+    protocol: TCP
+kind: EndpointSliceList
+metadata:
+  resourceVersion: "718316"

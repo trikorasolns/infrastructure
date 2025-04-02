@@ -1,0 +1,43 @@
+2025-04-01T08:27:59.613593680Z I0401 08:27:59.613475    3254 controller.go:1275] starting in-cluster openshift-tuned v4.15.0-202502180534.p0.ge828bd9.assembly.stream.el9-0-g6bd62c2-dirty
+2025-04-01T08:27:59.614144711Z I0401 08:27:59.614129    3254 controller.go:520] writing /var/lib/ocp-tuned/image.env
+2025-04-01T08:28:29.620855130Z W0401 08:28:29.620786    3254 reflector.go:533] github.com/openshift/cluster-node-tuning-operator/pkg/generated/informers/externalversions/factory.go:116: failed to list *v1.Profile: Get "https://172.30.0.1:443/apis/tuned.openshift.io/v1/namespaces/openshift-cluster-node-tuning-operator/profiles?limit=500&resourceVersion=0": dial tcp 172.30.0.1:443: i/o timeout
+2025-04-01T08:28:29.620956718Z I0401 08:28:29.620945    3254 trace.go:236] Trace[1779014334]: "Reflector ListAndWatch" name:github.com/openshift/cluster-node-tuning-operator/pkg/generated/informers/externalversions/factory.go:116 (01-Apr-2025 08:27:59.620) (total time: 30000ms):
+2025-04-01T08:28:29.620956718Z Trace[1779014334]: ---"Objects listed" error:Get "https://172.30.0.1:443/apis/tuned.openshift.io/v1/namespaces/openshift-cluster-node-tuning-operator/profiles?limit=500&resourceVersion=0": dial tcp 172.30.0.1:443: i/o timeout 30000ms (08:28:29.620)
+2025-04-01T08:28:29.620956718Z Trace[1779014334]: [30.00058126s] [30.00058126s] END
+2025-04-01T08:28:29.620989648Z E0401 08:28:29.620981    3254 reflector.go:148] github.com/openshift/cluster-node-tuning-operator/pkg/generated/informers/externalversions/factory.go:116: Failed to watch *v1.Profile: failed to list *v1.Profile: Get "https://172.30.0.1:443/apis/tuned.openshift.io/v1/namespaces/openshift-cluster-node-tuning-operator/profiles?limit=500&resourceVersion=0": dial tcp 172.30.0.1:443: i/o timeout
+2025-04-01T08:29:00.626733502Z W0401 08:29:00.626366    3254 reflector.go:533] github.com/openshift/cluster-node-tuning-operator/pkg/generated/informers/externalversions/factory.go:116: failed to list *v1.Profile: Get "https://172.30.0.1:443/apis/tuned.openshift.io/v1/namespaces/openshift-cluster-node-tuning-operator/profiles?limit=500&resourceVersion=0": dial tcp 172.30.0.1:443: i/o timeout
+2025-04-01T08:29:00.626733502Z I0401 08:29:00.626654    3254 trace.go:236] Trace[1583903444]: "Reflector ListAndWatch" name:github.com/openshift/cluster-node-tuning-operator/pkg/generated/informers/externalversions/factory.go:116 (01-Apr-2025 08:28:30.625) (total time: 30000ms):
+2025-04-01T08:29:00.626733502Z Trace[1583903444]: ---"Objects listed" error:Get "https://172.30.0.1:443/apis/tuned.openshift.io/v1/namespaces/openshift-cluster-node-tuning-operator/profiles?limit=500&resourceVersion=0": dial tcp 172.30.0.1:443: i/o timeout 30000ms (08:29:00.626)
+2025-04-01T08:29:00.626733502Z Trace[1583903444]: [30.000852917s] [30.000852917s] END
+2025-04-01T08:29:00.626733502Z E0401 08:29:00.626667    3254 reflector.go:148] github.com/openshift/cluster-node-tuning-operator/pkg/generated/informers/externalversions/factory.go:116: Failed to watch *v1.Profile: failed to list *v1.Profile: Get "https://172.30.0.1:443/apis/tuned.openshift.io/v1/namespaces/openshift-cluster-node-tuning-operator/profiles?limit=500&resourceVersion=0": dial tcp 172.30.0.1:443: i/o timeout
+2025-04-01T08:29:02.439458062Z I0401 08:29:02.439395    3254 controller.go:297] disabling system tuned...
+2025-04-01T08:29:02.520930924Z I0401 08:29:02.520897    3254 controller.go:1161] started events processors
+2025-04-01T08:29:02.521047032Z I0401 08:29:02.521038    3254 controller.go:1178] started controller
+2025-04-01T08:29:02.521278978Z I0401 08:29:02.521268    3254 controller.go:431] extracting cloud provider name to /var/lib/ocp-tuned/provider
+2025-04-01T08:29:02.521487975Z I0401 08:29:02.521474    3254 controller.go:544] written "/etc/tuned/recommend.d/50-openshift.conf" to set TuneD profile openshift-node
+2025-04-01T08:29:02.521515155Z I0401 08:29:02.521507    3254 controller.go:795] recommended TuneD profile changed from () to (openshift-node)
+2025-04-01T08:29:02.521544944Z I0401 08:29:02.521538    3254 controller.go:327] profilesExtract(): extracting TuneD profiles
+2025-04-01T08:29:02.597329691Z I0401 08:29:02.597297    3254 controller.go:359] recommended TuneD profile openshift-node content changed [openshift]
+2025-04-01T08:29:02.597481818Z I0401 08:29:02.597472    3254 controller.go:649] tunedReload()
+2025-04-01T08:29:02.597787763Z I0401 08:29:02.597762    3254 controller.go:579] starting tuned...
+2025-04-01T08:29:02.597814982Z I0401 08:29:02.597808    3254 run.go:103] running cmd...
+2025-04-01T08:29:02.719818799Z 2025-04-01 08:29:02,719 INFO     tuned.daemon.application: TuneD: 2.25.1, kernel: 5.14.0-284.104.1.el9_2.x86_64
+2025-04-01T08:29:02.719941297Z 2025-04-01 08:29:02,719 INFO     tuned.daemon.application: dynamic tuning is globally disabled
+2025-04-01T08:29:02.723381999Z 2025-04-01 08:29:02,722 INFO     tuned.daemon.daemon: using sleep interval of 1 second(s)
+2025-04-01T08:29:02.723417589Z 2025-04-01 08:29:02,723 INFO     tuned.daemon.daemon: Running in automatic mode, checking what profile is recommended for your configuration.
+2025-04-01T08:29:02.723857712Z 2025-04-01 08:29:02,723 INFO     tuned.daemon.daemon: Using 'openshift-node' profile
+2025-04-01T08:29:02.724586530Z 2025-04-01 08:29:02,724 INFO     tuned.profiles.loader: loading profile: openshift-node
+2025-04-01T08:29:02.813049964Z 2025-04-01 08:29:02,812 INFO     tuned.daemon.controller: starting controller
+2025-04-01T08:29:02.813182032Z 2025-04-01 08:29:02,813 INFO     tuned.daemon.daemon: starting tuning
+2025-04-01T08:29:02.822583815Z 2025-04-01 08:29:02,822 INFO     tuned.plugins.base: instance cpu: assigning devices cpu0, cpu1
+2025-04-01T08:29:02.822948730Z 2025-04-01 08:29:02,822 INFO     tuned.plugins.plugin_cpu: We are running on an x86 AuthenticAMD platform
+2025-04-01T08:29:02.825583776Z 2025-04-01 08:29:02,825 INFO     tuned.plugins.base: instance disk: assigning devices vda
+2025-04-01T08:29:02.826117377Z 2025-04-01 08:29:02,826 WARNING  tuned.plugins.base: instance video: no matching devices available
+2025-04-01T08:29:02.827634471Z 2025-04-01 08:29:02,827 INFO     tuned.plugins.base: instance net: assigning devices ens3
+2025-04-01T08:29:02.830741189Z 2025-04-01 08:29:02,830 INFO     tuned.plugins.plugin_vm: Setting option 'dirty_ratio' to '30'.
+2025-04-01T08:29:02.832190105Z 2025-04-01 08:29:02,830 INFO     tuned.plugins.plugin_vm: Not setting option 'dirty_background_ratio' to '10', already set.
+2025-04-01T08:29:02.833224198Z 2025-04-01 08:29:02,833 INFO     tuned.plugins.plugin_sysctl: reapplying system sysctl
+2025-04-01T08:29:02.859514820Z 2025-04-01 08:29:02,859 INFO     tuned.daemon.daemon: static tuning from profile 'openshift-node' applied
+2025-04-01T08:29:02.877785855Z I0401 08:29:02.877758    3254 controller.go:800] recommended profile (openshift-node) matches current configuration
+2025-04-01T08:29:02.880558639Z I0401 08:29:02.880542    3254 controller.go:327] profilesExtract(): extracting TuneD profiles
+2025-04-01T08:29:02.943139976Z I0401 08:29:02.943111    3254 controller.go:359] recommended TuneD profile openshift-node content unchanged [openshift]

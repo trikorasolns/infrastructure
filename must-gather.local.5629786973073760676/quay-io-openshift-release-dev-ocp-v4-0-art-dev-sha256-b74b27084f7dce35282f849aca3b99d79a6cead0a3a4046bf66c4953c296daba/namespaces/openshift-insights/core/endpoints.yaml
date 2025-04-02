@@ -1,0 +1,41 @@
+---
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    creationTimestamp: "2025-03-31T14:24:13Z"
+    labels:
+      app: insights-operator
+    managedFields:
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:labels:
+            .: {}
+            f:app: {}
+        f:subsets: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-03-31T20:33:07Z"
+    name: metrics
+    namespace: openshift-insights
+    resourceVersion: "68178"
+    uid: 1a3da4cf-1e93-4161-820d-389507f2b15f
+  subsets:
+  - addresses:
+    - ip: 10.128.0.16
+      nodeName: host-10-13-0-150
+      targetRef:
+        kind: Pod
+        name: insights-operator-9b4994cc8-ndgzr
+        namespace: openshift-insights
+        uid: 559e919d-0b8f-4622-89d1-6214078970a6
+    ports:
+    - name: https
+      port: 8443
+      protocol: TCP
+kind: EndpointsList
+metadata:
+  resourceVersion: "718157"

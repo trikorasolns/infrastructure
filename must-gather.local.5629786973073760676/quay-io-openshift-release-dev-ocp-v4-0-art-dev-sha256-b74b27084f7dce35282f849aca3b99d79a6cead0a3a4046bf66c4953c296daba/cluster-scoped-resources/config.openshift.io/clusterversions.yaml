@@ -1,0 +1,200 @@
+---
+apiVersion: config.openshift.io/v1
+items:
+- apiVersion: config.openshift.io/v1
+  kind: ClusterVersion
+  metadata:
+    creationTimestamp: "2025-03-31T14:23:35Z"
+    generation: 2
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:spec:
+          .: {}
+          f:channel: {}
+          f:clusterID: {}
+      manager: cluster-bootstrap
+      operation: Update
+      time: "2025-03-31T14:23:35Z"
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:availableUpdates: {}
+          f:capabilities:
+            .: {}
+            f:enabledCapabilities: {}
+            f:knownCapabilities: {}
+          f:conditions:
+            .: {}
+            k:{"type":"Available"}:
+              .: {}
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Failing"}:
+              .: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"ImplicitlyEnabledCapabilities"}:
+              .: {}
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Progressing"}:
+              .: {}
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"ReleaseAccepted"}:
+              .: {}
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"RetrievedUpdates"}:
+              .: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Upgradeable"}:
+              .: {}
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+              f:type: {}
+          f:desired:
+            .: {}
+            f:channels:
+              .: {}
+              v:"candidate-4.15": {}
+              v:"candidate-4.16": {}
+              v:"eus-4.16": {}
+              v:"fast-4.15": {}
+              v:"fast-4.16": {}
+              v:"stable-4.15": {}
+              v:"stable-4.16": {}
+            f:image: {}
+            f:url: {}
+            f:version: {}
+          f:history: {}
+          f:observedGeneration: {}
+          f:versionHash: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: "2025-04-01T08:37:55Z"
+    name: version
+    resourceVersion: "260688"
+    uid: 5052a10d-b0db-474e-b63d-8e02132cf28b
+  spec:
+    channel: stable-4.15
+    clusterID: 11cd3b4a-61b3-4179-9a90-2e824b08ccfe
+  status:
+    availableUpdates:
+    - channels:
+      - candidate-4.15
+      - candidate-4.16
+      - fast-4.15
+      - stable-4.15
+      image: quay.io/openshift-release-dev/ocp-release@sha256:5b4a7992e54844ee8614476993919b7cd2d7d21dd3a48daaacf7a9c4f17bece6
+      url: https://access.redhat.com/errata/RHSA-2025:2454
+      version: 4.15.47
+    capabilities:
+      enabledCapabilities:
+      - Build
+      - CSISnapshot
+      - CloudCredential
+      - Console
+      - DeploymentConfig
+      - ImageRegistry
+      - Insights
+      - MachineAPI
+      - NodeTuning
+      - OperatorLifecycleManager
+      - Storage
+      - baremetal
+      - marketplace
+      - openshift-samples
+      knownCapabilities:
+      - Build
+      - CSISnapshot
+      - CloudCredential
+      - Console
+      - DeploymentConfig
+      - ImageRegistry
+      - Insights
+      - MachineAPI
+      - NodeTuning
+      - OperatorLifecycleManager
+      - Storage
+      - baremetal
+      - marketplace
+      - openshift-samples
+    conditions:
+    - lastTransitionTime: "2025-03-31T15:49:11Z"
+      status: "True"
+      type: RetrievedUpdates
+    - lastTransitionTime: "2025-03-31T14:23:39Z"
+      message: Kubernetes 1.29 and therefore OpenShift 4.16 remove several APIs which
+        require admin consideration. Please see the knowledge article https://access.redhat.com/articles/7031404
+        for details and instructions.
+      reason: AdminAckRequired
+      status: "False"
+      type: Upgradeable
+    - lastTransitionTime: "2025-03-31T14:23:39Z"
+      message: Capabilities match configured spec
+      reason: AsExpected
+      status: "False"
+      type: ImplicitlyEnabledCapabilities
+    - lastTransitionTime: "2025-03-31T14:23:39Z"
+      message: Payload loaded version="4.15.46" image="quay.io/openshift-release-dev/ocp-release@sha256:ea0429e14dc9ff007f56d5db2b75209c2510d81e6869194e33a53352d2b6a4fa"
+        architecture="amd64"
+      reason: PayloadLoaded
+      status: "True"
+      type: ReleaseAccepted
+    - lastTransitionTime: "2025-03-31T20:43:23Z"
+      message: Done applying 4.15.46
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2025-03-31T20:43:23Z"
+      status: "False"
+      type: Failing
+    - lastTransitionTime: "2025-03-31T20:43:23Z"
+      message: Cluster version is 4.15.46
+      status: "False"
+      type: Progressing
+    desired:
+      channels:
+      - candidate-4.15
+      - candidate-4.16
+      - eus-4.16
+      - fast-4.15
+      - fast-4.16
+      - stable-4.15
+      - stable-4.16
+      image: quay.io/openshift-release-dev/ocp-release@sha256:ea0429e14dc9ff007f56d5db2b75209c2510d81e6869194e33a53352d2b6a4fa
+      url: https://access.redhat.com/errata/RHSA-2025:1711
+      version: 4.15.46
+    history:
+    - completionTime: "2025-03-31T20:43:23Z"
+      image: quay.io/openshift-release-dev/ocp-release@sha256:ea0429e14dc9ff007f56d5db2b75209c2510d81e6869194e33a53352d2b6a4fa
+      startedTime: "2025-03-31T14:23:39Z"
+      state: Completed
+      verified: false
+      version: 4.15.46
+    observedGeneration: 2
+    versionHash: 4tsNKd2a2eo=
+kind: ClusterVersionList
+metadata:
+  continue: ""
+  resourceVersion: "718080"

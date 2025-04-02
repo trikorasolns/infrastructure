@@ -1,0 +1,44 @@
+---
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageVersionMigration
+metadata:
+  creationTimestamp: "2025-03-31T20:22:34Z"
+  generation: 1
+  managedFields:
+  - apiVersion: migration.k8s.io/v1alpha1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec:
+        .: {}
+        f:resource:
+          .: {}
+          f:group: {}
+          f:resource: {}
+          f:version: {}
+    manager: cluster-kube-apiserver-operator
+    operation: Update
+    time: "2025-03-31T20:22:34Z"
+  - apiVersion: migration.k8s.io/v1alpha1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        .: {}
+        f:conditions: {}
+    manager: migrator
+    operation: Update
+    subresource: status
+    time: "2025-03-31T20:22:39Z"
+  name: flowcontrol-flowschema-storage-version-migration
+  resourceVersion: "51120"
+  uid: 936dcbcc-0fc5-4272-abe6-53e0016f3955
+spec:
+  resource:
+    group: flowcontrol.apiserver.k8s.io
+    resource: flowschemas
+    version: v1beta1
+status:
+  conditions:
+  - lastUpdateTime: "2025-03-31T20:22:39Z"
+    message: 'failed to list resources: the server could not find the requested resource'
+    status: "True"
+    type: Failed

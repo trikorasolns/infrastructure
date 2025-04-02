@@ -1,0 +1,1249 @@
+[    0.000000] Linux version 5.14.0-284.104.1.el9_2.x86_64 (mockbuild@x86-64-05.build.eng.rdu2.redhat.com) (gcc (GCC) 11.3.1 20221121 (Red Hat 11.3.1-4), GNU ld version 2.35.2-37.el9) #1 SMP PREEMPT_DYNAMIC Mon Feb 10 10:00:03 EST 2025
+[    0.000000] The list of certified hardware and cloud instances for Red Hat Enterprise Linux 9 can be viewed at the Red Hat Ecosystem Catalog, https://catalog.redhat.com.
+[    0.000000] Command line: BOOT_IMAGE=(hd0,gpt3)/ostree/rhcos-28af98682992630498bb0eb62633902be1a9fbd025565b98a6cb9270233aafe8/vmlinuz-5.14.0-284.104.1.el9_2.x86_64 ostree=/ostree/boot.0/rhcos/28af98682992630498bb0eb62633902be1a9fbd025565b98a6cb9270233aafe8/0 ignition.platform.id=openstack console=ttyS0,115200n8 console=tty0 root=UUID=6e5f58d0-b64c-4d4d-9f11-62e90c0af130 rw rootflags=prjquota boot=UUID=01b165eb-8822-4a4b-b8b1-4d0d9deb0791 systemd.unified_cgroup_hierarchy=1 cgroup_no_v1=all psi=1
+[    0.000000] x86/fpu: Supporting XSAVE feature 0x001: 'x87 floating point registers'
+[    0.000000] x86/fpu: Supporting XSAVE feature 0x002: 'SSE registers'
+[    0.000000] x86/fpu: Supporting XSAVE feature 0x004: 'AVX registers'
+[    0.000000] x86/fpu: Supporting XSAVE feature 0x200: 'Protection Keys User registers'
+[    0.000000] x86/fpu: xstate_offset[2]:  576, xstate_sizes[2]:  256
+[    0.000000] x86/fpu: xstate_offset[9]:  832, xstate_sizes[9]:    8
+[    0.000000] x86/fpu: Enabled xstate features 0x207, context size is 840 bytes, using 'compacted' format.
+[    0.000000] signal: max sigframe size: 3376
+[    0.000000] BIOS-provided physical RAM map:
+[    0.000000] BIOS-e820: [mem 0x0000000000000000-0x000000000009fbff] usable
+[    0.000000] BIOS-e820: [mem 0x000000000009fc00-0x000000000009ffff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000000f0000-0x00000000000fffff] reserved
+[    0.000000] BIOS-e820: [mem 0x0000000000100000-0x00000000bffdafff] usable
+[    0.000000] BIOS-e820: [mem 0x00000000bffdb000-0x00000000bfffffff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000feffc000-0x00000000feffffff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000fffc0000-0x00000000ffffffff] reserved
+[    0.000000] BIOS-e820: [mem 0x0000000100000000-0x0000000233ffffff] usable
+[    0.000000] BIOS-e820: [mem 0x000000fd00000000-0x000000ffffffffff] reserved
+[    0.000000] NX (Execute Disable) protection: active
+[    0.000000] SMBIOS 3.0.0 present.
+[    0.000000] DMI: OpenStack Foundation OpenStack Nova, BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
+[    0.000000] Hypervisor detected: KVM
+[    0.000000] kvm-clock: Using msrs 4b564d01 and 4b564d00
+[    0.000001] kvm-clock: using sched offset of 264210009846 cycles
+[    0.000002] clocksource: kvm-clock: mask: 0xffffffffffffffff max_cycles: 0x1cd42e4dffb, max_idle_ns: 881590591483 ns
+[    0.000003] tsc: Detected 2399.994 MHz processor
+[    0.000617] e820: update [mem 0x00000000-0x00000fff] usable ==> reserved
+[    0.000619] e820: remove [mem 0x000a0000-0x000fffff] usable
+[    0.000622] last_pfn = 0x234000 max_arch_pfn = 0x400000000
+[    0.000671] x86/PAT: Configuration [0-7]: WB  WC  UC- UC  WB  WP  UC- WT  
+[    0.000681] last_pfn = 0xbffdb max_arch_pfn = 0x400000000
+[    0.002419] found SMP MP-table at [mem 0x000f53f0-0x000f53ff]
+[    0.002428] Using GB pages for direct mapping
+[    0.002581] RAMDISK: [mem 0x2cdb5000-0x326d2fff]
+[    0.002584] ACPI: Early table checksum verification disabled
+[    0.002585] ACPI: RSDP 0x00000000000F5180 000014 (v00 BOCHS )
+[    0.002588] ACPI: RSDT 0x00000000BFFE1BC1 000030 (v01 BOCHS  BXPC     00000001 BXPC 00000001)
+[    0.002591] ACPI: FACP 0x00000000BFFE1AA5 000074 (v01 BOCHS  BXPC     00000001 BXPC 00000001)
+[    0.002594] ACPI: DSDT 0x00000000BFFE0040 001A65 (v01 BOCHS  BXPC     00000001 BXPC 00000001)
+[    0.002596] ACPI: FACS 0x00000000BFFE0000 000040
+[    0.002597] ACPI: APIC 0x00000000BFFE1B19 000080 (v03 BOCHS  BXPC     00000001 BXPC 00000001)
+[    0.002598] ACPI: WAET 0x00000000BFFE1B99 000028 (v01 BOCHS  BXPC     00000001 BXPC 00000001)
+[    0.002599] ACPI: Reserving FACP table memory at [mem 0xbffe1aa5-0xbffe1b18]
+[    0.002600] ACPI: Reserving DSDT table memory at [mem 0xbffe0040-0xbffe1aa4]
+[    0.002601] ACPI: Reserving FACS table memory at [mem 0xbffe0000-0xbffe003f]
+[    0.002601] ACPI: Reserving APIC table memory at [mem 0xbffe1b19-0xbffe1b98]
+[    0.002601] ACPI: Reserving WAET table memory at [mem 0xbffe1b99-0xbffe1bc0]
+[    0.002806] No NUMA configuration found
+[    0.002807] Faking a node at [mem 0x0000000000000000-0x0000000233ffffff]
+[    0.002811] NODE_DATA(0) allocated [mem 0x233fd5000-0x233ffffff]
+[    0.003004] Zone ranges:
+[    0.003005]   DMA      [mem 0x0000000000001000-0x0000000000ffffff]
+[    0.003006]   DMA32    [mem 0x0000000001000000-0x00000000ffffffff]
+[    0.003006]   Normal   [mem 0x0000000100000000-0x0000000233ffffff]
+[    0.003007]   Device   empty
+[    0.003008] Movable zone start for each node
+[    0.003009] Early memory node ranges
+[    0.003009]   node   0: [mem 0x0000000000001000-0x000000000009efff]
+[    0.003010]   node   0: [mem 0x0000000000100000-0x00000000bffdafff]
+[    0.003011]   node   0: [mem 0x0000000100000000-0x0000000233ffffff]
+[    0.003012] Initmem setup node 0 [mem 0x0000000000001000-0x0000000233ffffff]
+[    0.003017] On node 0, zone DMA: 1 pages in unavailable ranges
+[    0.003036] On node 0, zone DMA: 97 pages in unavailable ranges
+[    0.006560] On node 0, zone Normal: 37 pages in unavailable ranges
+[    0.006765] On node 0, zone Normal: 16384 pages in unavailable ranges
+[    0.007075] ACPI: PM-Timer IO Port: 0x608
+[    0.007083] ACPI: LAPIC_NMI (acpi_id[0xff] dfl dfl lint[0x1])
+[    0.007108] IOAPIC[0]: apic_id 0, version 17, address 0xfec00000, GSI 0-23
+[    0.007110] ACPI: INT_SRC_OVR (bus 0 bus_irq 0 global_irq 2 dfl dfl)
+[    0.007111] ACPI: INT_SRC_OVR (bus 0 bus_irq 5 global_irq 5 high level)
+[    0.007112] ACPI: INT_SRC_OVR (bus 0 bus_irq 9 global_irq 9 high level)
+[    0.007113] ACPI: INT_SRC_OVR (bus 0 bus_irq 10 global_irq 10 high level)
+[    0.007114] ACPI: INT_SRC_OVR (bus 0 bus_irq 11 global_irq 11 high level)
+[    0.007116] ACPI: Using ACPI (MADT) for SMP configuration information
+[    0.007120] smpboot: Allowing 2 CPUs, 0 hotplug CPUs
+[    0.007139] PM: hibernation: Registered nosave memory: [mem 0x00000000-0x00000fff]
+[    0.007140] PM: hibernation: Registered nosave memory: [mem 0x0009f000-0x0009ffff]
+[    0.007140] PM: hibernation: Registered nosave memory: [mem 0x000a0000-0x000effff]
+[    0.007141] PM: hibernation: Registered nosave memory: [mem 0x000f0000-0x000fffff]
+[    0.007141] PM: hibernation: Registered nosave memory: [mem 0xbffdb000-0xbfffffff]
+[    0.007142] PM: hibernation: Registered nosave memory: [mem 0xc0000000-0xfeffbfff]
+[    0.007142] PM: hibernation: Registered nosave memory: [mem 0xfeffc000-0xfeffffff]
+[    0.007142] PM: hibernation: Registered nosave memory: [mem 0xff000000-0xfffbffff]
+[    0.007143] PM: hibernation: Registered nosave memory: [mem 0xfffc0000-0xffffffff]
+[    0.007144] [mem 0xc0000000-0xfeffbfff] available for PCI devices
+[    0.007144] Booting paravirtualized kernel on KVM
+[    0.007146] clocksource: refined-jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1910969940391419 ns
+[    0.010373] setup_percpu: NR_CPUS:8192 nr_cpumask_bits:2 nr_cpu_ids:2 nr_node_ids:1
+[    0.010476] percpu: Embedded 55 pages/cpu s188416 r8192 d28672 u1048576
+[    0.010479] pcpu-alloc: s188416 r8192 d28672 u1048576 alloc=1*2097152
+[    0.010481] pcpu-alloc: [0] 0 1 
+[    0.010498] kvm-guest: PV spinlocks disabled, no host support
+[    0.010500] Fallback order for Node 0: 0 
+[    0.010502] Built 1 zonelists, mobility grouping on.  Total pages: 2015707
+[    0.010503] Policy zone: Normal
+[    0.010504] Kernel command line: BOOT_IMAGE=(hd0,gpt3)/ostree/rhcos-28af98682992630498bb0eb62633902be1a9fbd025565b98a6cb9270233aafe8/vmlinuz-5.14.0-284.104.1.el9_2.x86_64 ostree=/ostree/boot.0/rhcos/28af98682992630498bb0eb62633902be1a9fbd025565b98a6cb9270233aafe8/0 ignition.platform.id=openstack console=ttyS0,115200n8 console=tty0 root=UUID=6e5f58d0-b64c-4d4d-9f11-62e90c0af130 rw rootflags=prjquota boot=UUID=01b165eb-8822-4a4b-b8b1-4d0d9deb0791 systemd.unified_cgroup_hierarchy=1 cgroup_no_v1=all psi=1
+[    0.010603] Unknown kernel command line parameters "BOOT_IMAGE=(hd0,gpt3)/ostree/rhcos-28af98682992630498bb0eb62633902be1a9fbd025565b98a6cb9270233aafe8/vmlinuz-5.14.0-284.104.1.el9_2.x86_64 ostree=/ostree/boot.0/rhcos/28af98682992630498bb0eb62633902be1a9fbd025565b98a6cb9270233aafe8/0 boot=UUID=01b165eb-8822-4a4b-b8b1-4d0d9deb0791", will be passed to user space.
+[    0.010925] Dentry cache hash table entries: 1048576 (order: 11, 8388608 bytes, linear)
+[    0.011098] Inode-cache hash table entries: 524288 (order: 10, 4194304 bytes, linear)
+[    0.011204] mem auto-init: stack:off, heap alloc:off, heap free:off
+[    0.011208] software IO TLB: area num 2.
+[    0.020325] Memory: 3118576K/8191460K available (14336K kernel code, 5536K rwdata, 10220K rodata, 2796K init, 7500K bss, 347368K reserved, 0K cma-reserved)
+[    0.020332] random: get_random_u64 called from kmem_cache_open+0x1e/0x310 with crng_init=0
+[    0.020393] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=2, Nodes=1
+[    0.020401] ftrace: allocating 44910 entries in 176 pages
+[    0.035657] ftrace: allocated 176 pages with 3 groups
+[    0.036170] Dynamic Preempt: voluntary
+[    0.036191] rcu: Preemptible hierarchical RCU implementation.
+[    0.036192] rcu: 	RCU restricting CPUs from NR_CPUS=8192 to nr_cpu_ids=2.
+[    0.036193] 	Trampoline variant of Tasks RCU enabled.
+[    0.036194] 	Rude variant of Tasks RCU enabled.
+[    0.036194] 	Tracing variant of Tasks RCU enabled.
+[    0.036195] rcu: RCU calculated value of scheduler-enlistment delay is 100 jiffies.
+[    0.036195] rcu: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=2
+[    0.038485] NR_IRQS: 524544, nr_irqs: 440, preallocated irqs: 16
+[    0.038610] rcu: srcu_init: Setting srcu_struct sizes based on contention.
+[    0.038670] kfence: initialized - using 2097152 bytes for 255 objects at 0x(____ptrval____)-0x(____ptrval____)
+[    0.038681] random: crng init done (trusting CPU's manufacturer)
+[    0.049868] Console: colour VGA+ 80x25
+[    0.082232] printk: console [tty0] enabled
+[    0.187221] printk: console [ttyS0] enabled
+[    0.187959] ACPI: Core revision 20211217
+[    0.188700] APIC: Switch to symmetric I/O mode setup
+[    0.189687] x2apic enabled
+[    0.190413] Switched APIC routing to physical x2apic.
+[    0.192143] ..TIMER: vector=0x30 apic1=0 pin1=2 apic2=-1 pin2=-1
+[    0.193127] tsc: Marking TSC unstable due to TSCs unsynchronized
+[    0.194093] Calibrating delay loop (skipped) preset value.. 4799.98 BogoMIPS (lpj=2399994)
+[    0.195090] pid_max: default: 32768 minimum: 301
+[    0.196106] LSM: Security Framework initializing
+[    0.197097] Yama: becoming mindful.
+[    0.197703] SELinux:  Initializing.
+[    0.198523] LSM support for eBPF active
+[    0.199114] Mount-cache hash table entries: 16384 (order: 5, 131072 bytes, linear)
+[    0.200103] Mountpoint-cache hash table entries: 16384 (order: 5, 131072 bytes, linear)
+[    0.201202] Disabling cpuset control group subsystem in v1 mounts
+[    0.202823] Disabling cpu control group subsystem in v1 mounts
+[    0.203795] Disabling cpuacct control group subsystem in v1 mounts
+[    0.204832] Disabling io control group subsystem in v1 mounts
+[    0.205785] Disabling memory control group subsystem in v1 mounts
+[    0.206093] Disabling devices control group subsystem in v1 mounts
+[    0.207091] Disabling freezer control group subsystem in v1 mounts
+[    0.208091] Disabling net_cls control group subsystem in v1 mounts
+[    0.209093] Disabling perf_event control group subsystem in v1 mounts
+[    0.210091] Disabling net_prio control group subsystem in v1 mounts
+[    0.211091] Disabling hugetlb control group subsystem in v1 mounts
+[    0.212091] Disabling pids control group subsystem in v1 mounts
+[    0.213091] Disabling rdma control group subsystem in v1 mounts
+[    0.214091] Disabling misc control group subsystem in v1 mounts
+[    0.215204] x86/cpu: User Mode Instruction Prevention (UMIP) activated
+[    0.216164] Last level iTLB entries: 4KB 512, 2MB 255, 4MB 127
+[    0.218091] Last level dTLB entries: 4KB 512, 2MB 255, 4MB 127, 1GB 0
+[    0.221093] Spectre V1 : Mitigation: usercopy/swapgs barriers and __user pointer sanitization
+[    0.222091] Spectre V2 : Mitigation: Retpolines
+[    0.223090] Spectre V2 : Spectre v2 / SpectreRSB mitigation: Filling RSB on context switch
+[    0.224090] Spectre V2 : Spectre v2 / SpectreRSB : Filling RSB on VMEXIT
+[    0.225090] Spectre V2 : Enabling Restricted Speculation for firmware calls
+[    0.226926] Spectre V2 : mitigation: Enabling conditional Indirect Branch Prediction Barrier
+[    0.228091] Speculative Store Bypass: Mitigation: Speculative Store Bypass disabled via prctl
+[    0.229090] Speculative Return Stack Overflow: IBPB-extending microcode not applied!
+[    0.230090] Speculative Return Stack Overflow: WARNING: See https://kernel.org/doc/html/latest/admin-guide/hw-vuln/srso.html for mitigation options.
+[    0.230090] Speculative Return Stack Overflow: Vulnerable: Safe RET, no microcode
+[    0.247718] Freeing SMP alternatives memory: 36K
+[    0.350624] smpboot: CPU0: AMD EPYC-Milan Processor (family: 0x19, model: 0x1, stepping: 0x1)
+[    0.351285] cblist_init_generic: Setting adjustable number of callback queues.
+[    0.352090] cblist_init_generic: Setting shift to 1 and lim to 1.
+[    0.353831] cblist_init_generic: Setting shift to 1 and lim to 1.
+[    0.354830] cblist_init_generic: Setting shift to 1 and lim to 1.
+[    0.355103] Performance Events: Fam17h+ core perfctr, AMD PMU driver.
+[    0.356093] ... version:                0
+[    0.357090] ... bit width:              48
+[    0.358090] ... generic registers:      6
+[    0.358767] ... value mask:             0000ffffffffffff
+[    0.359725] ... max period:             00007fffffffffff
+[    0.360090] ... fixed-purpose events:   0
+[    0.361092] ... event mask:             000000000000003f
+[    0.362180] rcu: Hierarchical SRCU implementation.
+[    0.362962] rcu: 	Max phase no-delay instances is 400.
+[    0.365568] smp: Bringing up secondary CPUs ...
+[    0.366193] x86: Booting SMP configuration:
+[    0.367092] .... node  #0, CPUs:      #1
+[    0.368205] smp: Brought up 1 node, 2 CPUs
+[    0.369597] smpboot: Max logical packages: 2
+[    0.370091] smpboot: Total of 2 processors activated (9599.97 BogoMIPS)
+[    0.392951] node 0 deferred pages initialised in 22ms
+[    0.395513] devtmpfs: initialized
+[    0.396572] x86/mm: Memory block size: 128MB
+[    0.398320] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1911260446275000 ns
+[    0.399094] futex hash table entries: 512 (order: 3, 32768 bytes, linear)
+[    0.401139] pinctrl core: initialized pinctrl subsystem
+[    0.402413] NET: Registered PF_NETLINK/PF_ROUTE protocol family
+[    0.403276] DMA: preallocated 1024 KiB GFP_KERNEL pool for atomic allocations
+[    0.404094] DMA: preallocated 1024 KiB GFP_KERNEL|GFP_DMA pool for atomic allocations
+[    0.405101] DMA: preallocated 1024 KiB GFP_KERNEL|GFP_DMA32 pool for atomic allocations
+[    0.407101] audit: initializing netlink subsys (disabled)
+[    0.408116] audit: type=2000 audit(1743496105.880:1): state=initialized audit_enabled=0 res=1
+[    0.408186] thermal_sys: Registered thermal governor 'fair_share'
+[    0.409092] thermal_sys: Registered thermal governor 'step_wise'
+[    0.410053] thermal_sys: Registered thermal governor 'user_space'
+[    0.410816] cpuidle: using governor menu
+[    0.413257] HugeTLB: can optimize 4095 vmemmap pages for hugepages-1048576kB
+[    0.414094] acpiphp: ACPI Hot Plug PCI Controller Driver version: 0.5
+[    0.415188] PCI: Using configuration type 1 for base access
+[    0.416090] PCI: Using configuration type 1 for extended access
+[    0.419440] kprobes: kprobe jump-optimization is enabled. All kprobes are optimized if possible.
+[    0.438155] HugeTLB: can optimize 7 vmemmap pages for hugepages-2048kB
+[    0.439093] HugeTLB registered 1.00 GiB page size, pre-allocated 0 pages
+[    0.440091] HugeTLB registered 2.00 MiB page size, pre-allocated 0 pages
+[    0.441144] cryptd: max_cpu_qlen set to 1000
+[    0.442151] ACPI: Added _OSI(Module Device)
+[    0.443092] ACPI: Added _OSI(Processor Device)
+[    0.443824] ACPI: Added _OSI(3.0 _SCP Extensions)
+[    0.444648] ACPI: Added _OSI(Processor Aggregator Device)
+[    0.445091] ACPI: Added _OSI(Linux-Dell-Video)
+[    0.446091] ACPI: Added _OSI(Linux-Lenovo-NV-HDMI-Audio)
+[    0.447091] ACPI: Added _OSI(Linux-HPI-Hybrid-Graphics)
+[    0.448798] ACPI: 1 ACPI AML tables successfully acquired and loaded
+[    0.450307] ACPI: Interpreter enabled
+[    0.450950] ACPI: PM: (supports S0 S4 S5)
+[    0.451570] ACPI: Using IOAPIC for interrupt routing
+[    0.452103] PCI: Using host bridge windows from ACPI; if necessary, use "pci=nocrs" and report a bug
+[    0.453090] PCI: Using E820 reservations for host bridge windows
+[    0.454933] ACPI: Enabled 2 GPEs in block 00 to 0F
+[    0.458072] ACPI: PCI Root Bridge [PCI0] (domain 0000 [bus 00-ff])
+[    0.458832] acpi PNP0A03:00: _OSC: OS supports [ExtendedConfig ASPM ClockPM Segments MSI EDR HPX-Type3]
+[    0.460537] acpiphp: Slot [3] registered
+[    0.461576] acpiphp: Slot [4] registered
+[    0.462108] acpiphp: Slot [5] registered
+[    0.462787] acpiphp: Slot [6] registered
+[    0.463573] acpiphp: Slot [7] registered
+[    0.464106] acpiphp: Slot [8] registered
+[    0.464784] acpiphp: Slot [9] registered
+[    0.465572] acpiphp: Slot [10] registered
+[    0.466107] acpiphp: Slot [11] registered
+[    0.467107] acpiphp: Slot [12] registered
+[    0.467796] acpiphp: Slot [13] registered
+[    0.468106] acpiphp: Slot [14] registered
+[    0.469106] acpiphp: Slot [15] registered
+[    0.469793] acpiphp: Slot [16] registered
+[    0.470613] acpiphp: Slot [17] registered
+[    0.471108] acpiphp: Slot [18] registered
+[    0.471797] acpiphp: Slot [19] registered
+[    0.472585] acpiphp: Slot [20] registered
+[    0.473106] acpiphp: Slot [21] registered
+[    0.474091] acpiphp: Slot [22] registered
+[    0.474787] acpiphp: Slot [23] registered
+[    0.475107] acpiphp: Slot [24] registered
+[    0.476107] acpiphp: Slot [25] registered
+[    0.476797] acpiphp: Slot [26] registered
+[    0.477107] acpiphp: Slot [27] registered
+[    0.478107] acpiphp: Slot [28] registered
+[    0.478794] acpiphp: Slot [29] registered
+[    0.479586] acpiphp: Slot [30] registered
+[    0.480107] acpiphp: Slot [31] registered
+[    0.480791] PCI host bridge to bus 0000:00
+[    0.481579] pci_bus 0000:00: root bus resource [io  0x0000-0x0cf7 window]
+[    0.482091] pci_bus 0000:00: root bus resource [io  0x0d00-0xffff window]
+[    0.483091] pci_bus 0000:00: root bus resource [mem 0x000a0000-0x000bffff window]
+[    0.484979] pci_bus 0000:00: root bus resource [mem 0xc0000000-0xfebfffff window]
+[    0.486091] pci_bus 0000:00: root bus resource [mem 0xc000000000-0xc07fffffff window]
+[    0.487091] pci_bus 0000:00: root bus resource [bus 00-ff]
+[    0.488223] pci 0000:00:00.0: [8086:1237] type 00 class 0x060000
+[    0.489456] pci 0000:00:01.0: [8086:7000] type 00 class 0x060100
+[    0.491323] pci 0000:00:01.1: [8086:7010] type 00 class 0x010180
+[    0.493843] pci 0000:00:01.1: reg 0x20: [io  0xc120-0xc12f]
+[    0.495408] pci 0000:00:01.1: legacy IDE quirk: reg 0x10: [io  0x01f0-0x01f7]
+[    0.496091] pci 0000:00:01.1: legacy IDE quirk: reg 0x14: [io  0x03f6]
+[    0.497091] pci 0000:00:01.1: legacy IDE quirk: reg 0x18: [io  0x0170-0x0177]
+[    0.498091] pci 0000:00:01.1: legacy IDE quirk: reg 0x1c: [io  0x0376]
+[    0.499231] pci 0000:00:01.2: [8086:7020] type 00 class 0x0c0300
+[    0.502253] pci 0000:00:01.2: reg 0x20: [io  0xc100-0xc11f]
+[    0.504766] pci 0000:00:01.3: [8086:7113] type 00 class 0x068000
+[    0.506146] pci 0000:00:01.3: quirk: [io  0x0600-0x063f] claimed by PIIX4 ACPI
+[    0.507097] pci 0000:00:01.3: quirk: [io  0x0700-0x070f] claimed by PIIX4 SMB
+[    0.508275] pci 0000:00:02.0: [1013:00b8] type 00 class 0x030000
+[    0.510396] pci 0000:00:02.0: reg 0x10: [mem 0xfc000000-0xfdffffff pref]
+[    0.512095] pci 0000:00:02.0: reg 0x14: [mem 0xfeb90000-0xfeb90fff]
+[    0.516397] pci 0000:00:02.0: reg 0x30: [mem 0xfeb80000-0xfeb8ffff pref]
+[    0.517166] pci 0000:00:02.0: Video device with shadowed ROM at [mem 0x000c0000-0x000dffff]
+[    0.519327] pci 0000:00:03.0: [1af4:1000] type 00 class 0x020000
+[    0.520870] pci 0000:00:03.0: reg 0x10: [io  0xc080-0xc0bf]
+[    0.522495] pci 0000:00:03.0: reg 0x14: [mem 0xfeb91000-0xfeb91fff]
+[    0.525091] pci 0000:00:03.0: reg 0x20: [mem 0xc000000000-0xc000003fff 64bit pref]
+[    0.526634] pci 0000:00:03.0: reg 0x30: [mem 0xfeb00000-0xfeb7ffff pref]
+[    0.529097] pci 0000:00:04.0: [1af4:1001] type 00 class 0x010000
+[    0.530771] pci 0000:00:04.0: reg 0x10: [io  0xc000-0xc07f]
+[    0.532091] pci 0000:00:04.0: reg 0x14: [mem 0xfeb92000-0xfeb92fff]
+[    0.536091] pci 0000:00:04.0: reg 0x20: [mem 0xc000004000-0xc000007fff 64bit pref]
+[    0.539141] pci 0000:00:05.0: [1af4:1002] type 00 class 0x00ff00
+[    0.540481] pci 0000:00:05.0: reg 0x10: [io  0xc0c0-0xc0ff]
+[    0.542756] pci 0000:00:05.0: reg 0x20: [mem 0xc000008000-0xc00000bfff 64bit pref]
+[    0.547168] ACPI: PCI: Interrupt link LNKA configured for IRQ 10
+[    0.548198] ACPI: PCI: Interrupt link LNKB configured for IRQ 10
+[    0.549188] ACPI: PCI: Interrupt link LNKC configured for IRQ 11
+[    0.550185] ACPI: PCI: Interrupt link LNKD configured for IRQ 11
+[    0.551148] ACPI: PCI: Interrupt link LNKS configured for IRQ 9
+[    0.552345] iommu: Default domain type: Translated 
+[    0.553093] iommu: DMA domain TLB invalidation policy: lazy mode 
+[    0.554184] SCSI subsystem initialized
+[    0.555114] ACPI: bus type USB registered
+[    0.555823] usbcore: registered new interface driver usbfs
+[    0.556098] usbcore: registered new interface driver hub
+[    0.557096] usbcore: registered new device driver usb
+[    0.558146] pps_core: LinuxPPS API ver. 1 registered
+[    0.559090] pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+[    0.560093] PTP clock support registered
+[    0.561603] EDAC MC: Ver: 3.0.0
+[    0.562638] NetLabel: Initializing
+[    0.563501] NetLabel:  domain hash size = 128
+[    0.564090] NetLabel:  protocols = UNLABELED CIPSOv4 CALIPSO
+[    0.565109] NetLabel:  unlabeled traffic allowed by default
+[    0.565991] PCI: Using ACPI for IRQ routing
+[    0.566588] PCI: pci_cache_line_size set to 64 bytes
+[    0.566697] e820: reserve RAM buffer [mem 0x0009fc00-0x0009ffff]
+[    0.566700] e820: reserve RAM buffer [mem 0xbffdb000-0xbfffffff]
+[    0.566719] pci 0000:00:02.0: vgaarb: setting as boot VGA device
+[    0.567050] pci 0000:00:02.0: vgaarb: bridge control possible
+[    0.567089] pci 0000:00:02.0: vgaarb: VGA device added: decodes=io+mem,owns=io+mem,locks=none
+[    0.567091] vgaarb: loaded
+[    0.567607] clocksource: Switched to clocksource kvm-clock
+[    0.586716] VFS: Disk quotas dquot_6.6.0
+[    0.587428] VFS: Dquot-cache hash table entries: 512 (order 0, 4096 bytes)
+[    0.588563] pnp: PnP ACPI init
+[    0.589231] pnp 00:03: [dma 2]
+[    0.589400] pnp: PnP ACPI: found 5 devices
+[    0.598591] clocksource: acpi_pm: mask: 0xffffff max_cycles: 0xffffff, max_idle_ns: 2085701024 ns
+[    0.600070] NET: Registered PF_INET protocol family
+[    0.600937] IP idents hash table entries: 131072 (order: 8, 1048576 bytes, linear)
+[    0.602759] tcp_listen_portaddr_hash hash table entries: 4096 (order: 4, 65536 bytes, linear)
+[    0.604130] Table-perturb hash table entries: 65536 (order: 6, 262144 bytes, linear)
+[    0.605393] TCP established hash table entries: 65536 (order: 7, 524288 bytes, linear)
+[    0.606702] TCP bind hash table entries: 65536 (order: 8, 1048576 bytes, linear)
+[    0.607963] TCP: Hash tables configured (established 65536 bind 65536)
+[    0.609057] MPTCP token hash table entries: 8192 (order: 5, 196608 bytes, linear)
+[    0.610298] UDP hash table entries: 4096 (order: 5, 131072 bytes, linear)
+[    0.611371] UDP-Lite hash table entries: 4096 (order: 5, 131072 bytes, linear)
+[    0.612591] NET: Registered PF_UNIX/PF_LOCAL protocol family
+[    0.613505] NET: Registered PF_XDP protocol family
+[    0.614303] pci_bus 0000:00: resource 4 [io  0x0000-0x0cf7 window]
+[    0.615284] pci_bus 0000:00: resource 5 [io  0x0d00-0xffff window]
+[    0.616260] pci_bus 0000:00: resource 6 [mem 0x000a0000-0x000bffff window]
+[    0.617337] pci_bus 0000:00: resource 7 [mem 0xc0000000-0xfebfffff window]
+[    0.618407] pci_bus 0000:00: resource 8 [mem 0xc000000000-0xc07fffffff window]
+[    0.619625] pci 0000:00:01.0: PIIX3: Enabling Passive Release
+[    0.620569] pci 0000:00:00.0: Limiting direct PCI/PCI transfers
+[    0.645970] ACPI: \_SB_.LNKD: Enabled at IRQ 11
+[    0.671376] pci 0000:00:01.2: quirk_usb_early_handoff+0x0/0x140 took 48674 usecs
+[    0.672650] PCI: CLS 0 bytes, default 64
+[    0.673334] PCI-DMA: Using software bounce buffering for IO (SWIOTLB)
+[    0.673532] Trying to unpack rootfs image as initramfs...
+[    0.673577] software IO TLB: mapped [mem 0x00000000bbfdb000-0x00000000bffdb000] (64MB)
+[    0.673591] ACPI: bus type thunderbolt registered
+[    0.678991] Initialise system trusted keyrings
+[    0.679752] Key type blacklist registered
+[    0.680480] workingset: timestamp_bits=36 max_order=21 bucket_order=0
+[    0.683679] zbud: loaded
+[    0.684771] integrity: Platform Keyring initialized
+[    0.688132] NET: Registered PF_ALG protocol family
+[    0.688926] xor: automatically using best checksumming function   avx       
+[    0.690024] Key type asymmetric registered
+[    0.690715] Asymmetric key parser 'x509' registered
+[    0.691515] Running certificate verification selftests
+[    0.693210] Loaded X.509 cert 'Certificate verification self-testing key: f58703bb33ce1b73ee02eccdee5b8817518fe3db'
+[    0.695248] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 246)
+[    0.696487] io scheduler mq-deadline registered
+[    0.697243] io scheduler kyber registered
+[    0.698009] io scheduler bfq registered
+[    0.699986] atomic64_test: passed for x86-64 platform with CX8 and with SSE
+[    0.701330] shpchp: Standard Hot Plug PCI Controller Driver version: 0.4
+[    0.702487] input: Power Button as /devices/LNXSYSTM:00/LNXPWRBN:00/input/input0
+[    0.703730] ACPI: button: Power Button [PWRF]
+[    0.729147] ACPI: \_SB_.LNKC: Enabled at IRQ 10
+[    0.780136] ACPI: \_SB_.LNKA: Enabled at IRQ 10
+[    0.781767] Serial: 8250/16550 driver, 4 ports, IRQ sharing enabled
+[    0.782870] 00:00: ttyS0 at I/O 0x3f8 (irq = 4, base_baud = 115200) is a 16550A
+[    0.784464] Non-volatile memory driver v1.3
+[    0.785548] rdac: device handler registered
+[    0.786296] hp_sw: device handler registered
+[    0.787008] emc: device handler registered
+[    0.787727] alua: device handler registered
+[    0.788538] libphy: Fixed MDIO Bus: probed
+[    0.789261] ehci_hcd: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
+[    0.790295] ehci-pci: EHCI PCI platform driver
+[    0.791030] ohci_hcd: USB 1.1 'Open' Host Controller (OHCI) Driver
+[    0.792001] ohci-pci: OHCI PCI platform driver
+[    0.792754] uhci_hcd: USB Universal Host Controller Interface driver
+[    0.818360] uhci_hcd 0000:00:01.2: UHCI Host Controller
+[    0.819263] uhci_hcd 0000:00:01.2: new USB bus registered, assigned bus number 1
+[    0.820476] uhci_hcd 0000:00:01.2: detected 2 ports
+[    0.821360] uhci_hcd 0000:00:01.2: irq 11, io port 0x0000c100
+[    0.822357] usb usb1: New USB device found, idVendor=1d6b, idProduct=0001, bcdDevice= 5.14
+[    0.823710] usb usb1: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    0.824892] usb usb1: Product: UHCI Host Controller
+[    0.825691] usb usb1: Manufacturer: Linux 5.14.0-284.104.1.el9_2.x86_64 uhci_hcd
+[    0.826891] usb usb1: SerialNumber: 0000:00:01.2
+[    0.827754] hub 1-0:1.0: USB hub found
+[    0.828411] hub 1-0:1.0: 2 ports detected
+[    0.829237] usbcore: registered new interface driver usbserial_generic
+[    0.830286] usbserial: USB Serial support registered for generic
+[    0.831281] i8042: PNP: PS/2 Controller [PNP0303:KBD,PNP0f13:MOU] at 0x60,0x64 irq 1,12
+[    0.833305] serio: i8042 KBD port at 0x60,0x64 irq 1
+[    0.834138] serio: i8042 AUX port at 0x60,0x64 irq 12
+[    0.835071] mousedev: PS/2 mouse device common for all mice
+[    0.836274] input: AT Translated Set 2 keyboard as /devices/platform/i8042/serio0/input/input1
+[    0.837851] rtc_cmos 00:04: RTC can wake from S4
+[    0.839194] input: VirtualPS/2 VMware VMMouse as /devices/platform/i8042/serio1/input/input4
+[    0.840910] input: VirtualPS/2 VMware VMMouse as /devices/platform/i8042/serio1/input/input3
+[    0.842397] rtc_cmos 00:04: registered as rtc0
+[    0.843249] rtc_cmos 00:04: setting system clock to 2025-04-01T08:28:25 UTC (1743496105)
+[    0.844610] rtc_cmos 00:04: alarms up to one day, y3k, 242 bytes nvram
+[    0.845944] hid: raw HID events driver (C) Jiri Kosina
+[    0.846838] usbcore: registered new interface driver usbhid
+[    0.847800] usbhid: USB HID core driver
+[    0.848496] drop_monitor: Initializing network drop monitor service
+[    0.859671] Initializing XFRM netlink socket
+[    0.860569] NET: Registered PF_INET6 protocol family
+[    0.861708] Segment Routing with IPv6
+[    0.862372] NET: Registered PF_PACKET protocol family
+[    0.863229] mpls_gso: MPLS GSO support
+[    0.864371] IPI shorthand broadcast: enabled
+[    0.865117] AVX2 version of gcm_enc/dec engaged.
+[    0.865946] AES CTR mode by8 optimization enabled
+[    0.867175] sched_clock: Marking stable (715621265, 151474784)->(882080007, -14983958)
+[    0.868615] registered taskstats version 1
+[    0.869570] Loading compiled-in X.509 certificates
+[    0.870807] Loaded X.509 cert 'Red Hat Enterprise Linux kernel signing key: 50295e3f5643f9b6bc6742bc9d2934b96779d0ef'
+[    0.872790] Loaded X.509 cert 'Red Hat Enterprise Linux Driver Update Program (key 3): bf57f3e87362bc7229d9f465321773dfd1f77a80'
+[    0.874901] Loaded X.509 cert 'Red Hat Enterprise Linux kpatch signing key: 4d38fd864ebe18c5f0b72e3852e2014c3a676fc8'
+[    0.876814] zswap: loaded using pool lzo/zbud
+[    0.877644] page_owner is disabled
+[    0.878267] Key type big_key registered
+[    0.969195] Freeing initrd memory: 91256K
+[    0.973000] Key type encrypted registered
+[    0.973741] ima: No TPM chip found, activating TPM-bypass!
+[    0.974659] Loading compiled-in module X.509 certificates
+[    0.975818] Loaded X.509 cert 'Red Hat Enterprise Linux kernel signing key: 50295e3f5643f9b6bc6742bc9d2934b96779d0ef'
+[    0.977512] ima: Allocated hash algorithm: sha256
+[    0.978297] ima: No architecture policies found
+[    0.979085] evm: Initialising EVM extended attributes:
+[    0.979953] evm: security.selinux
+[    0.980546] evm: security.SMACK64 (disabled)
+[    0.981339] evm: security.SMACK64EXEC (disabled)
+[    0.982101] evm: security.SMACK64TRANSMUTE (disabled)
+[    0.982928] evm: security.SMACK64MMAP (disabled)
+[    0.983700] evm: security.apparmor (disabled)
+[    0.984440] evm: security.ima
+[    0.984971] evm: security.capability
+[    0.985601] evm: HMAC attrs: 0x1
+[    1.048114] usb 1-1: new full-speed USB device number 2 using uhci_hcd
+[    1.103640] Freeing unused decrypted memory: 2036K
+[    1.104681] Freeing unused kernel image (initmem) memory: 2796K
+[    1.107118] Write protecting the kernel read-only data: 24576k
+[    1.108211] Freeing unused kernel image (rodata/data gap) memory: 20K
+[    1.154549] x86/mm: Checked W+X mappings: passed, no W+X pages found.
+[    1.155639] Run /init as init process
+[    1.157334]   with arguments:
+[    1.157339]     /init
+[    1.157342]   with environment:
+[    1.157345]     HOME=/
+[    1.157348]     TERM=linux
+[    1.157351]     BOOT_IMAGE=(hd0,gpt3)/ostree/rhcos-28af98682992630498bb0eb62633902be1a9fbd025565b98a6cb9270233aafe8/vmlinuz-5.14.0-284.104.1.el9_2.x86_64
+[    1.157354]     ostree=/ostree/boot.0/rhcos/28af98682992630498bb0eb62633902be1a9fbd025565b98a6cb9270233aafe8/0
+[    1.157357]     boot=UUID=01b165eb-8822-4a4b-b8b1-4d0d9deb0791
+[    1.168109] systemd[1]: systemd 252-14.el9_2.8 running in system mode (+PAM +AUDIT +SELINUX -APPARMOR +IMA +SMACK +SECCOMP +GCRYPT +GNUTLS +OPENSSL +ACL +BLKID +CURL +ELFUTILS -FIDO2 +IDN2 -IDN -IPTC +KMOD +LIBCRYPTSETUP +LIBFDISK +PCRE2 -PWQUALITY +P11KIT -QRENCODE +TPM2 +BZIP2 +LZ4 +XZ +ZLIB +ZSTD -BPF_FRAMEWORK +XKBCOMMON +UTMP +SYSVINIT default-hierarchy=unified)
+[    1.183947] systemd[1]: Detected virtualization kvm.
+[    1.184827] systemd[1]: Detected architecture x86-64.
+[    1.185719] systemd[1]: Running in initrd.
+[    1.187408] systemd[1]: No hostname configured, using default hostname.
+[    1.188536] systemd[1]: Hostname set to <localhost>.
+[    1.189443] systemd[1]: Initializing machine ID from VM UUID.
+[    1.229322] /usr/lib/systemd/system-generators/coreos-diskful-generator: line 37: value: unbound variable
+[    1.258886] usb 1-1: New USB device found, idVendor=0627, idProduct=0001, bcdDevice= 0.00
+[    1.260327] usb 1-1: New USB device strings: Mfr=1, Product=3, SerialNumber=10
+[    1.261588] usb 1-1: Product: QEMU USB Tablet
+[    1.262377] usb 1-1: Manufacturer: QEMU
+[    1.263039] usb 1-1: SerialNumber: 28754-0000:00:01.2-1
+[    1.272261] input: QEMU QEMU USB Tablet as /devices/pci0000:00/0000:00:01.2/usb1/1-1/1-1:1.0/0003:0627:0001.0001/input/input5
+[    1.274263] hid-generic 0003:0627:0001.0001: input,hidraw0: USB HID v0.01 Mouse [QEMU QEMU USB Tablet] on usb-0000:00:01.2-1/input0
+[    1.276336] systemd[1]: Queued start job for default target Initrd Default Target.
+[    1.277872] systemd[1]: Started Forward Password Requests to Clevis Directory Watch.
+[    1.279634] systemd[1]: Started Dispatch Password Requests to Console Directory Watch.
+[    1.281325] systemd[1]: Reached target Local Encrypted Volumes (Pre).
+[    1.282731] systemd[1]: Reached target Local Encrypted Volumes.
+[    1.284010] systemd[1]: Reached target Ignition Subsequent Boot Disk Setup.
+[    1.285521] systemd[1]: Reached target Subsequent (Not Ignition) boot complete.
+[    1.287105] systemd[1]: Reached target Initrd /usr File System.
+[    1.288413] systemd[1]: Reached target Path Units.
+[    1.289523] systemd[1]: Reached target Slice Units.
+[    1.290632] systemd[1]: Reached target Swaps.
+[    1.291681] systemd[1]: Reached target Timer Units.
+[    1.292899] systemd[1]: Listening on D-Bus System Message Bus Socket.
+[    1.294309] systemd[1]: Listening on Open-iSCSI iscsid Socket.
+[    1.295610] systemd[1]: Listening on Open-iSCSI iscsiuio Socket.
+[    1.297040] systemd[1]: Listening on Journal Socket (/dev/log).
+[    1.298399] systemd[1]: Listening on Journal Socket.
+[    1.299644] systemd[1]: Listening on udev Control Socket.
+[    1.300961] systemd[1]: Listening on udev Kernel Socket.
+[    1.302159] systemd[1]: Reached target Socket Units.
+[    1.303293] systemd[1]: Check That Initrd Matches Kernel was skipped because of an unmet condition check (ConditionPathIsDirectory=!/usr/lib/modules/5.14.0-284.104.1.el9_2.x86_64).
+[    1.306999] systemd[1]: Starting CoreOS: Touch /run/agetty.reload...
+[    1.309105] systemd[1]: Starting Create List of Static Device Nodes...
+[    1.310542] systemd[1]: Finish FIPS mode setup was skipped because of an unmet condition check (ConditionKernelCommandLine=fips).
+[    1.313578] systemd[1]: Starting Journal Service...
+[    1.315475] systemd[1]: Starting Load Kernel Modules...
+[    1.317478] systemd[1]: Starting Create System Users...
+[    1.319384] systemd[1]: Starting Setup Virtual Console...
+[    1.328159] systemd[1]: Finished CoreOS: Touch /run/agetty.reload.
+[    1.336557] fuse: init (API version 7.36)
+[    1.337123] systemd-sysusers[308]: Creating group 'nobody' with GID 65534.
+[    1.337495] systemd[1]: Started Journal Service.
+[    1.346244] systemd[1]: Finished Create List of Static Device Nodes.
+[    1.346381] systemd-modules-load[307]: Inserted module 'fuse'
+[    1.346420] systemd-modules-load[307]: Module 'msr' is built in
+[    1.346474] systemd[1]: Finished Load Kernel Modules.
+[    1.346490] systemd-sysusers[308]: Creating group 'sgx' with GID 999.
+[    1.346505] systemd[1]: Starting Apply Kernel Variables...
+[    1.378076] systemd[1]: Finished Apply Kernel Variables.
+[    1.379838] systemd-sysusers[308]: Creating group 'users' with GID 100.
+[    1.381082] systemd[1]: Finished Setup Virtual Console.
+[    1.382610] systemd-sysusers[308]: Creating group 'root' with GID 998.
+[    1.383757] systemd-sysusers[308]: Creating group 'dbus' with GID 81.
+[    1.384821] systemd-sysusers[308]: Creating user 'dbus' (System Message Bus) with UID 81 and GID 81.
+[    1.386324] systemd[1]: Finished Create System Users.
+[    1.387695] systemd[1]: dracut ask for additional cmdline parameters was skipped because no trigger condition checks were met.
+[    1.389550] systemd[1]: Starting dracut cmdline hook...
+[    1.392565] systemd[1]: Starting Create Static Device Nodes in /dev...
+[    1.397282] systemd[1]: Starting Create Volatile Files and Directories...
+[    1.401324] systemd[1]: Finished Create Static Device Nodes in /dev.
+[    1.403413] dracut-cmdline[315]: dracut-415.92.202502141247-0 dracut-057-22.git20230214.el9_2
+[    1.405992] systemd[1]: Finished Create Volatile Files and Directories.
+[    1.407952] dracut-cmdline[315]: Using kernel command line parameters:    BOOT_IMAGE=(hd0,gpt3)/ostree/rhcos-28af98682992630498bb0eb62633902be1a9fbd025565b98a6cb9270233aafe8/vmlinuz-5.14.0-284.104.1.el9_2.x86_64 ostree=/ostree/boot.0/rhcos/28af98682992630498bb0eb62633902be1a9fbd025565b98a6cb9270233aafe8/0 ignition.platform.id=openstack console=ttyS0,115200n8 console=tty0 root=UUID=6e5f58d0-b64c-4d4d-9f11-62e90c0af130 rw rootflags=prjquota boot=UUID=01b165eb-8822-4a4b-b8b1-4d0d9deb0791 systemd.unified_cgroup_hierarchy=1 cgroup_no_v1=all psi=1
+[    1.473364] Loading iSCSI transport class v2.0-870.
+[    1.484797] iscsi: registered transport (tcp)
+[    1.503107] iscsi: registered transport (qla4xxx)
+[    1.503951] QLogic iSCSI HBA Driver
+[    1.512058] libcxgbi:libcxgbi_init_module: Chelsio iSCSI driver library libcxgbi v0.9.1-ko (Apr. 2015)
+[    1.549794] Chelsio T4-T6 iSCSI Driver cxgb4i v0.9.5-ko (Apr. 2015)
+[    1.550942] iscsi: registered transport (cxgb4i)
+[    1.559399] cnic: QLogic cnicDriver v2.5.22 (July 20, 2015)
+[    1.565310] QLogic NetXtreme II iSCSI Driver bnx2i v2.7.10.1 (Jul 16, 2014)
+[    1.566502] iscsi: registered transport (bnx2i)
+[    1.574925] iscsi: registered transport (be2iscsi)
+[    1.575755] In beiscsi_module_init, tt=00000000c1c0e0be
+[    1.677158] systemd[1]: Finished dracut cmdline hook.
+[    1.679957] systemd[1]: Starting dracut pre-udev hook...
+[    1.715380] device-mapper: core: CONFIG_IMA_DISABLE_HTABLE is disabled. Duplicate IMA measurements will not be recorded in the IMA log.
+[    1.717358] device-mapper: uevent: version 1.0.3
+[    1.718341] device-mapper: ioctl: 4.47.0-ioctl (2022-07-28) initialised: dm-devel@redhat.com
+[    1.745525] systemd[1]: Finished dracut pre-udev hook.
+[    1.748039] systemd[1]: Starting Rule-based Manager for Device Events and Files...
+[    1.764923] systemd-udevd[483]: Using default interface naming scheme 'rhel-9.0'.
+[    1.769172] systemd[1]: Started Rule-based Manager for Device Events and Files.
+[    1.776972] systemd[1]: Starting dracut pre-trigger hook...
+[    1.787524] dracut-pre-trigger[504]: rd.md=0: removing MD RAID activation
+[    1.810928] systemd[1]: Finished dracut pre-trigger hook.
+[    1.813551] systemd[1]: Starting Coldplug All udev Devices...
+[    1.874208] systemd[1]: Finished Coldplug All udev Devices.
+[    1.876116] systemd[1]: nm-initrd.service was skipped because of an unmet condition check (ConditionPathExists=/run/NetworkManager/initrd/neednet).
+[    1.876196] systemd[1]: Reached target Network.
+[    1.876382] systemd[1]: nm-wait-online-initrd.service was skipped because of an unmet condition check (ConditionPathExists=/run/NetworkManager/initrd/neednet).
+[    1.876487] systemd[1]: Starting dracut initqueue hook...
+[    1.905195] systemd[1]: Starting Wait for udev To Complete Device Initialization...
+[    1.908416] systemd[1]: sys-module-fuse.device: Failed to enqueue SYSTEMD_WANTS= job, ignoring: Unit sys-fs-fuse-connections.mount not found.
+[    1.916616] udevadm[567]: systemd-udev-settle.service is deprecated. Please fix multipathd-configure.service not to pull it in.
+[    1.968058] libata version 3.00 loaded.
+[    1.970402] virtio_blk virtio1: [vda] 104857600 512-byte logical blocks (53.7 GB/50.0 GiB)
+[    1.973991] ata_piix 0000:00:01.1: version 2.13
+[    1.975922]  vda: vda1 vda2 vda3 vda4
+[    1.982028] scsi host0: ata_piix
+[    1.984195] scsi host1: ata_piix
+[    1.985408] ata1: PATA max MWDMA2 cmd 0x1f0 ctl 0x3f6 bmdma 0xc120 irq 14
+[    1.986538] ata2: PATA max MWDMA2 cmd 0x170 ctl 0x376 bmdma 0xc128 irq 15
+[    2.005648] virtio_net virtio0 ens3: renamed from eth0
+[    2.040217] systemd[1]: Found device /dev/disk/by-uuid/6e5f58d0-b64c-4d4d-9f11-62e90c0af130.
+[    2.045425] systemd[1]: Reached target Initrd Root Device.
+[    2.101887] systemd[1]: Finished dracut initqueue hook.
+[    2.103273] systemd[1]: Reached target Preparation for Remote File Systems.
+[    2.104770] systemd[1]: Reached target Remote Encrypted Volumes.
+[    2.106216] systemd[1]: Reached target Remote File Systems.
+[    2.108784] systemd[1]: Starting dracut pre-mount hook...
+[    2.118567] systemd[1]: Finished dracut pre-mount hook.
+[    2.150426] systemd[1]: Finished Wait for udev To Complete Device Initialization.
+[    2.152201] systemd[1]: Device-Mapper Multipath Default Configuration was skipped because of an unmet condition check (ConditionKernelCommandLine=rd.multipath=default).
+[    2.154710] systemd[1]: Starting Device-Mapper Multipath Device Controller...
+[    2.164822] multipathd[621]: --------start up--------
+[    2.165863] multipathd[621]: read /etc/multipath.conf
+[    2.168045] systemd[1]: Started Device-Mapper Multipath Device Controller.
+[    2.168085] multipathd[621]: /etc/multipath.conf does not exist, blacklisting all devices.
+[    2.168139] multipathd[621]: You can run "/sbin/mpathconf --enable" to create
+[    2.168152] multipathd[621]: /etc/multipath.conf. See man mpathconf(8) for more details
+[    2.168166] multipathd[621]: /etc/multipath.conf does not exist, blacklisting all devices.
+[    2.168180] multipathd[621]: You can run "/sbin/mpathconf --enable" to create
+[    2.168193] multipathd[621]: /etc/multipath.conf. See man mpathconf(8) for more details
+[    2.168205] multipathd[621]: path checkers start up
+[    2.178384] systemd[1]: Reached target Preparation for Local File Systems.
+[    2.179855] systemd[1]: Reached target Local File Systems.
+[    2.181132] systemd[1]: Reached target System Initialization.
+[    2.182456] systemd[1]: Reached target Basic System.
+[    2.183819] systemd[1]: Persist Osmet Files (ISO) was skipped because of an unmet condition check (ConditionKernelCommandLine=coreos.liveiso).
+[    2.188927] systemd[1]: Acquire Live PXE rootfs Image was skipped because of an unmet condition check (ConditionPathExists=/run/ostree-live).
+[    2.196041] systemd[1]: Persist Osmet Files (PXE) was skipped because of an unmet condition check (ConditionPathExists=/run/ostree-live).
+[    2.200353] systemd[1]: Starting File System Check on /dev/disk/by-uuid/6e5f58d0-b64c-4d4d-9f11-62e90c0af130...
+[    2.209689] systemd-fsck[632]: /usr/sbin/fsck.xfs: XFS file system.
+[    2.212543] systemd[1]: Finished File System Check on /dev/disk/by-uuid/6e5f58d0-b64c-4d4d-9f11-62e90c0af130.
+[    2.322928] systemd[1]: Mounting /sysroot...
+[    2.512580] SGI XFS with ACLs, security attributes, scrub, quota, no debug enabled
+[    2.516465] XFS (vda4): Mounting V5 Filesystem
+[    2.542696] XFS (vda4): Ending clean mount
+[    2.572698] systemd[1]: Mounted /sysroot.
+[    2.577912] systemd[1]: Starting OSTree Prepare OS/...
+[    2.581608] ostree-prepare-root[645]: Resolved OSTree target to: /sysroot/ostree/deploy/rhcos/deploy/f8fe2872bbcb8307e5e1eb662b8bbffc0efc914957ad6a2eb3469b8888656a8f.1
+[    2.587797] systemd[1]: Finished OSTree Prepare OS/.
+[    2.587885] ostree-prepare-root[645]: Found legacy sysroot.readonly flag, not configured in ostree/prepare-root.conf
+[    2.593858] ostree-prepare-root[645]: sysroot.readonly configuration value: 1 (fs writable: 1)
+[    2.593878] ostree-prepare-root[645]: composefs: No image present
+[    2.596655] systemd[1]: Reached target Initrd Root File System.
+[    2.598007] systemd[1]: CoreOS Propagate Multipath Configuration was skipped because of an unmet condition check (ConditionKernelCommandLine=rd.multipath=default).
+[    2.603946] systemd[1]: Starting Mountpoints Configured in the Real Root...
+[    2.612961] multipathd[621]: exit (signal)
+[    2.613971] multipathd[621]: --------shut down-------
+[    2.613997] systemd[1]: Stopping Device-Mapper Multipath Device Controller...
+[    2.621795] systemd[1]: initrd-parse-etc.service: Deactivated successfully.
+[    2.622956] systemd[1]: Finished Mountpoints Configured in the Real Root.
+[    2.626509] systemd[1]: Reached target Initrd File Systems.
+[    2.626548] systemd[1]: Reached target Initrd Default Target.
+[    2.633828] systemd[1]: Starting dracut mount hook...
+[    2.636269] systemd[1]: multipathd.service: Deactivated successfully.
+[    2.639245] systemd[1]: Stopped Device-Mapper Multipath Device Controller.
+[    2.647040] systemd[1]: Finished dracut mount hook.
+[    2.651031] systemd[1]: Starting dracut pre-pivot and cleanup hook...
+[    2.666334] dracut-pre-pivot[664]: 2.514600 | /etc/multipath.conf does not exist, blacklisting all devices.
+[    2.668476] dracut-pre-pivot[664]: 2.514679 | You can run "/sbin/mpathconf --enable" to create
+[    2.670767] dracut-pre-pivot[664]: 2.514687 | /etc/multipath.conf. See man mpathconf(8) for more details
+[    2.673962] systemd[1]: Finished dracut pre-pivot and cleanup hook.
+[    2.675425] systemd[1]: Workaround dracut FIPS unmounting /boot was skipped because of an unmet condition check (ConditionPathExists=/run/ostree-live).
+[    2.677563] systemd[1]: Starting Cleaning Up and Shutting Down Daemons...
+[    2.682769] systemd[1]: Stopped target Network.
+[    2.682807] systemd[1]: Stopped target Remote Encrypted Volumes.
+[    2.684971] systemd[1]: Stopped target Timer Units.
+[    2.686204] systemd[1]: dbus.socket: Deactivated successfully.
+[    2.687223] systemd[1]: Closed D-Bus System Message Bus Socket.
+[    2.689651] systemd[1]: Unmount Live /var if Persistent /var Is Configured was skipped because of an unmet condition check (ConditionPathExists=/run/ostree-live).
+[    2.691956] systemd[1]: dracut-pre-pivot.service: Deactivated successfully.
+[    2.691975] systemd[1]: Stopped dracut pre-pivot and cleanup hook.
+[    2.704386] systemd[1]: Stopped target Initrd Default Target.
+[    2.705786] systemd[1]: Stopped target Basic System.
+[    2.707023] systemd[1]: Stopped target Subsequent (Not Ignition) boot complete.
+[    2.708666] systemd[1]: Stopped target Ignition Subsequent Boot Disk Setup.
+[    2.710210] systemd[1]: Stopped target Initrd Root Device.
+[    2.711537] systemd[1]: Stopped target Initrd /usr File System.
+[    2.712950] systemd[1]: Stopped target Path Units.
+[    2.714151] systemd[1]: Stopped target Remote File Systems.
+[    2.715481] systemd[1]: Stopped target Preparation for Remote File Systems.
+[    2.717042] systemd[1]: Stopped target Slice Units.
+[    2.718250] systemd[1]: Stopped target Socket Units.
+[    2.719492] systemd[1]: Stopped target System Initialization.
+[    2.720887] systemd[1]: Stopped target Local File Systems.
+[    2.722219] systemd[1]: Stopped target Preparation for Local File Systems.
+[    2.723765] systemd[1]: Stopped target Swaps.
+[    2.724849] systemd[1]: iscsid.socket: Deactivated successfully.
+[    2.726875] systemd[1]: Closed Open-iSCSI iscsid Socket.
+[    2.728235] systemd[1]: iscsiuio.socket: Deactivated successfully.
+[    2.730292] systemd[1]: Closed Open-iSCSI iscsiuio Socket.
+[    2.731619] systemd[1]: coreos-touch-run-agetty.service: Deactivated successfully.
+[    2.734223] systemd[1]: Stopped CoreOS: Touch /run/agetty.reload.
+[    2.735657] systemd[1]: dracut-mount.service: Deactivated successfully.
+[    2.737850] systemd[1]: Stopped dracut mount hook.
+[    2.739119] systemd[1]: dracut-pre-mount.service: Deactivated successfully.
+[    2.741400] systemd[1]: Stopped dracut pre-mount hook.
+[    2.742726] systemd[1]: Stopped target Local Encrypted Volumes.
+[    2.744105] systemd[1]: systemd-ask-password-console.path: Deactivated successfully.
+[    2.746697] systemd[1]: Stopped Dispatch Password Requests to Console Directory Watch.
+[    2.748440] systemd[1]: Stopped target Local Encrypted Volumes (Pre).
+[    2.749885] systemd[1]: clevis-luks-askpass.path: Deactivated successfully.
+[    2.753150] systemd[1]: Stopped Forward Password Requests to Clevis Directory Watch.
+[    2.754868] systemd[1]: dracut-initqueue.service: Deactivated successfully.
+[    2.757699] systemd[1]: Stopped dracut initqueue hook.
+[    2.759060] systemd[1]: Acquire Live PXE rootfs Image was skipped because of an unmet condition check (ConditionPathExists=/run/ostree-live).
+[    2.764084] systemd[1]: systemd-sysctl.service: Deactivated successfully.
+[    2.764153] systemd[1]: Stopped Apply Kernel Variables.
+[    2.766561] systemd[1]: systemd-modules-load.service: Deactivated successfully.
+[    2.769687] systemd[1]: Stopped Load Kernel Modules.
+[    2.770958] systemd[1]: systemd-tmpfiles-setup.service: Deactivated successfully.
+[    2.774174] systemd[1]: Stopped Create Volatile Files and Directories.
+[    2.775700] systemd[1]: systemd-udev-settle.service: Deactivated successfully.
+[    2.778212] systemd[1]: Stopped Wait for udev To Complete Device Initialization.
+[    2.779858] systemd[1]: systemd-udev-trigger.service: Deactivated successfully.
+[    2.782352] systemd[1]: Stopped Coldplug All udev Devices.
+[    2.783702] systemd[1]: dracut-pre-trigger.service: Deactivated successfully.
+[    2.786028] systemd[1]: Stopped dracut pre-trigger hook.
+[    2.793889] systemd[1]: Stopping Rule-based Manager for Device Events and Files...
+[    2.796565] systemd[1]: systemd-vconsole-setup.service: Deactivated successfully.
+[    2.796632] systemd[1]: Stopped Setup Virtual Console.
+[    2.800640] systemd[1]: initrd-cleanup.service: Deactivated successfully.
+[    2.800675] systemd[1]: Finished Cleaning Up and Shutting Down Daemons.
+[    2.803265] systemd[1]: systemd-udevd.service: Deactivated successfully.
+[    2.805498] systemd[1]: Stopped Rule-based Manager for Device Events and Files.
+[    2.807799] systemd[1]: systemd-udevd-control.socket: Deactivated successfully.
+[    2.810342] systemd[1]: Closed udev Control Socket.
+[    2.811551] systemd[1]: systemd-udevd-kernel.socket: Deactivated successfully.
+[    2.814011] systemd[1]: Closed udev Kernel Socket.
+[    2.815222] systemd[1]: dracut-pre-udev.service: Deactivated successfully.
+[    2.817442] systemd[1]: Stopped dracut pre-udev hook.
+[    2.818675] systemd[1]: dracut-cmdline.service: Deactivated successfully.
+[    2.820897] systemd[1]: Stopped dracut cmdline hook.
+[    2.823630] systemd[1]: Starting Cleanup udev Database...
+[    2.824599] systemd[1]: systemd-tmpfiles-setup-dev.service: Deactivated successfully.
+[    2.825985] systemd[1]: Stopped Create Static Device Nodes in /dev.
+[    2.827124] systemd[1]: kmod-static-nodes.service: Deactivated successfully.
+[    2.828701] systemd[1]: Stopped Create List of Static Device Nodes.
+[    2.830153] systemd[1]: systemd-sysusers.service: Deactivated successfully.
+[    2.831327] systemd[1]: Stopped Create System Users.
+[    2.832246] systemd[1]: initrd-udevadm-cleanup-db.service: Deactivated successfully.
+[    2.832260] systemd[1]: Finished Cleanup udev Database.
+[    2.834892] systemd[1]: Reached target Switch Root.
+[    2.840501] systemd[1]: Starting Switch Root...
+[    2.850176] systemd[1]: Switching root.
+[    2.865793] systemd-journald[306]: Received SIGTERM from PID 1 (systemd).
+[    2.940079] audit: type=1404 audit(1743496107.595:2): enforcing=1 old_enforcing=0 auid=4294967295 ses=4294967295 enabled=1 old-enabled=1 lsm=selinux res=1
+[    2.995198] SELinux:  policy capability network_peer_controls=1
+[    2.996213] SELinux:  policy capability open_perms=1
+[    2.997034] SELinux:  policy capability extended_socket_class=1
+[    2.997999] SELinux:  policy capability always_check_network=0
+[    2.998945] SELinux:  policy capability cgroup_seclabel=1
+[    2.999829] SELinux:  policy capability nnp_nosuid_transition=1
+[    3.000783] SELinux:  policy capability genfs_seclabel_symlinks=1
+[    3.042274] audit: type=1403 audit(1743496107.698:3): auid=4294967295 ses=4294967295 lsm=selinux res=1
+[    3.069385] systemd[1]: Successfully loaded SELinux policy in 129.430ms.
+[    3.097309] systemd[1]: Relabelled /dev, /dev/shm, /run, /sys/fs/cgroup in 18.544ms.
+[    3.101689] systemd[1]: systemd 252-14.el9_2.8 running in system mode (+PAM +AUDIT +SELINUX -APPARMOR +IMA +SMACK +SECCOMP +GCRYPT +GNUTLS +OPENSSL +ACL +BLKID +CURL +ELFUTILS -FIDO2 +IDN2 -IDN -IPTC +KMOD +LIBCRYPTSETUP +LIBFDISK +PCRE2 -PWQUALITY +P11KIT -QRENCODE +TPM2 +BZIP2 +LZ4 +XZ +ZLIB +ZSTD -BPF_FRAMEWORK +XKBCOMMON +UTMP +SYSVINIT default-hierarchy=unified)
+[    3.106726] systemd[1]: Detected virtualization kvm.
+[    3.107583] systemd[1]: Detected architecture x86-64.
+[    3.151905] systemd-rc-local-generator[692]: /etc/rc.d/rc.local is not marked executable, skipping.
+[    3.339576] systemd[1]: initrd-switch-root.service: Deactivated successfully.
+[    3.340936] systemd[1]: Stopped Switch Root.
+[    3.342519] systemd[1]: systemd-journald.service: Scheduled restart job, restart counter is at 1.
+[    3.344371] systemd[1]: Created slice Slice /system/getty.
+[    3.346025] systemd[1]: Created slice Slice /system/modprobe.
+[    3.347477] systemd[1]: Created slice Slice /system/serial-getty.
+[    3.349337] systemd[1]: Created slice Slice /system/sshd-keygen.
+[    3.350824] systemd[1]: Created slice Slice /system/systemd-fsck.
+[    3.352415] systemd[1]: Created slice User and Session Slice.
+[    3.353642] systemd[1]: Started Forward Password Requests to Clevis Directory Watch.
+[    3.355217] systemd[1]: Started Dispatch Password Requests to Console Directory Watch.
+[    3.356826] systemd[1]: Started Forward Password Requests to Wall Directory Watch.
+[    3.358542] systemd[1]: Set up automount Arbitrary Executable File Formats File System Automount Point.
+[    3.360140] systemd[1]: Reached target Synchronize afterburn-sshkeys@.service template instances.
+[    3.361669] systemd[1]: Reached target Local Encrypted Volumes (Pre).
+[    3.362815] systemd[1]: Reached target Local Encrypted Volumes.
+[    3.364047] systemd[1]: Stopped target Switch Root.
+[    3.365265] systemd[1]: Stopped target Initrd File Systems.
+[    3.366423] systemd[1]: Stopped target Initrd Root File System.
+[    3.367637] systemd[1]: Reached target Local Integrity Protected Volumes.
+[    3.368959] systemd[1]: Reached target Host and Network Name Lookups.
+[    3.370216] systemd[1]: Reached target Remote Encrypted Volumes.
+[    3.371337] systemd[1]: Reached target Remote File Systems.
+[    3.372414] systemd[1]: Reached target Slice Units.
+[    3.373396] systemd[1]: Reached target Swaps.
+[    3.374347] systemd[1]: Reached target Local Verity Protected Volumes.
+[    3.375985] systemd[1]: Listening on Device-mapper event daemon FIFOs.
+[    3.378405] systemd[1]: Listening on LVM2 poll daemon socket.
+[    3.379574] systemd[1]: multipathd control socket was skipped because of an unmet condition check (ConditionPathExists=/etc/multipath.conf).
+[    3.389745] systemd[1]: Listening on RPCbind Server Activation Socket.
+[    3.391026] systemd[1]: Reached target RPC Port Mapper.
+[    3.393506] systemd[1]: Listening on Process Core Dump Socket.
+[    3.394835] systemd[1]: Listening on initctl Compatibility Named Pipe.
+[    3.396673] systemd[1]: Listening on udev Control Socket.
+[    3.398262] systemd[1]: Listening on udev Kernel Socket.
+[    3.401020] systemd[1]: Mounting Huge Pages File System...
+[    3.403898] systemd[1]: Mounting POSIX Message Queue File System...
+[    3.406921] systemd[1]: Mounting Kernel Debug File System...
+[    3.409911] systemd[1]: Mounting Kernel Trace File System...
+[    3.413149] systemd[1]: Mounting Temporary Directory /tmp...
+[    3.418080] systemd[1]: Starting CoreOS: Set printk To Level 4 (warn)...
+[    3.419744] systemd[1]: Ignition (delete config) was skipped because of an unmet condition check (ConditionFirstBoot=true).
+[    3.423352] systemd[1]: Starting Create List of Static Device Nodes...
+[    3.426286] systemd[1]: Starting Monitoring of LVM2 mirrors, snapshots etc. using dmeventd or progress polling...
+[    3.429920] systemd[1]: Starting Load Kernel Module configfs...
+[    3.432757] systemd[1]: Starting Load Kernel Module drm...
+[    3.435425] systemd[1]: Starting Load Kernel Module efi_pstore...
+[    3.441452] systemd[1]: Starting Load Kernel Module fuse...
+[    3.445279] systemd[1]: ostree-prepare-root.service: Deactivated successfully.
+[    3.446972] systemd[1]: Stopped OSTree Prepare OS/.
+[    3.449580] systemd[1]: systemd-fsck-root.service: Deactivated successfully.
+[    3.450876] systemd[1]: Stopped File System Check on Root Device.
+[    3.459300] systemd[1]: Stopped Journal Service.
+[    3.462362] systemd[1]: Starting Journal Service...
+[    3.471750] systemd[1]: Starting Load Kernel Modules...
+[    3.475317] systemd[1]: Starting Generate network units from Kernel command line...
+[    3.479063] systemd[1]: Starting Remount Root and Kernel File Systems...
+[    3.485071] systemd[1]: Starting Coldplug All udev Devices...
+[    3.499682] Warning: Deprecated Driver is detected: iptables will not be maintained in a future major release and may be disabled
+[    3.501464] systemd[1]: Started Journal Service.
+[    3.506616] ACPI: bus type drm_connector registered
+[    3.985604] piix4_smbus 0000:00:01.3: SMBus Host Controller at 0x700, revision 0
+[    4.006967] input: PC Speaker as /devices/platform/pcspkr/input/input6
+[    4.059901] cirrus 0000:00:02.0: vgaarb: deactivate vga console
+[    4.104453] Console: switching to colour dummy device 80x25
+[    4.105626] [drm] Initialized cirrus 2.0.0 2019 for 0000:00:02.0 on minor 0
+[    4.105862] fbcon: cirrusdrmfb (fb0) is primary device
+[    4.107469] cirrus 0000:00:02.0: [drm] drm_plane_enable_fb_damage_clips() not called
+[    4.183261] Console: switching to colour frame buffer device 128x48
+[    4.183334] kvm: Nested Virtualization enabled
+[    4.183336] SVM: kvm: Nested Paging enabled
+[    4.256297] cirrus 0000:00:02.0: [drm] fb0: cirrusdrmfb frame buffer device
+[    4.288441] systemd-journald[740]: Received client request to flush runtime journal.
+[    4.599156] EXT4-fs (vda3): mounted filesystem with ordered data mode. Quota mode: none.
+[    5.771215] openvswitch: Open vSwitch switching datapath
+[   17.884919] VFS: idmapped mount is not enabled.
+[   23.297980] systemd-rc-local-generator[1332]: /etc/rc.d/rc.local is not marked executable, skipping.
+[   25.080876] device ovs-system entered promiscuous mode
+[   25.081504] Timeout policy base is empty
+[   25.081507] Failed to associated timeout policy `ovs_test_tp'
+[   25.132858] device ens3 entered promiscuous mode
+[   25.352725] device ens3 left promiscuous mode
+[   25.353131] device ovs-system left promiscuous mode
+[   25.359316] device ovs-system entered promiscuous mode
+[   25.359954] No such timeout policy "ovs_test_tp"
+[   25.359957] Failed to associated timeout policy `ovs_test_tp'
+[   25.360394] device ens3 entered promiscuous mode
+[   25.845721] device br-ex entered promiscuous mode
+[   37.071589] Warning: Deprecated Driver is detected: nft_compat will not be maintained in a future major release and may be disabled
+[  322.558968] systemd-rc-local-generator[3162]: /etc/rc.d/rc.local is not marked executable, skipping.
+[  324.257179] EXT4-fs (vda3): re-mounted. Quota mode: none.
+[  375.180435] device br-int entered promiscuous mode
+[  381.532644] device ovn-k8s-mp0 entered promiscuous mode
+[  382.512557] device genev_sys_6081 entered promiscuous mode
+[  387.800880] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[  387.800917] IPv6: ADDRCONF(NETDEV_CHANGE): 20fb0fab818ebf6: link becomes ready
+[  387.824809] IPv6: ADDRCONF(NETDEV_CHANGE): 4240ab90a13384f: link becomes ready
+[  387.847076] device 20fb0fab818ebf6 entered promiscuous mode
+[  387.866361] device 4240ab90a13384f entered promiscuous mode
+[  436.312493] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[  436.312548] IPv6: ADDRCONF(NETDEV_CHANGE): ac4af1914aaffb8: link becomes ready
+[  436.340241] device ac4af1914aaffb8 entered promiscuous mode
+[  436.463144] IPv6: ADDRCONF(NETDEV_CHANGE): b36febb67204ab0: link becomes ready
+[  436.479890] device b36febb67204ab0 entered promiscuous mode
+[  994.987840] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[  994.987908] IPv6: ADDRCONF(NETDEV_CHANGE): 0b4edae50608e09: link becomes ready
+[  995.010098] device 0b4edae50608e09 entered promiscuous mode
+[ 1009.775156] device 0b4edae50608e09 left promiscuous mode
+[ 1895.223031] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[ 1895.223083] IPv6: ADDRCONF(NETDEV_CHANGE): 04f14ed06eadad1: link becomes ready
+[ 1895.252393] device 04f14ed06eadad1 entered promiscuous mode
+[ 1897.204168] device 04f14ed06eadad1 left promiscuous mode
+[ 2794.976745] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[ 2794.976811] IPv6: ADDRCONF(NETDEV_CHANGE): 87a6d2150cf5c55: link becomes ready
+[ 2794.999036] device 87a6d2150cf5c55 entered promiscuous mode
+[ 2797.626659] device 87a6d2150cf5c55 left promiscuous mode
+[ 3694.983116] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[ 3694.983167] IPv6: ADDRCONF(NETDEV_CHANGE): 35efaa482f2dcd2: link becomes ready
+[ 3695.006355] device 35efaa482f2dcd2 entered promiscuous mode
+[ 3697.073784] device 35efaa482f2dcd2 left promiscuous mode
+[ 4102.053642] IPv6: ADDRCONF(NETDEV_CHANGE): 84291dab9d4802a: link becomes ready
+[ 4102.076640] device 84291dab9d4802a entered promiscuous mode
+[ 4595.070900] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[ 4595.070963] IPv6: ADDRCONF(NETDEV_CHANGE): 48f1224867fb63c: link becomes ready
+[ 4595.095183] device 48f1224867fb63c entered promiscuous mode
+[ 4597.653608] device 48f1224867fb63c left promiscuous mode
+[ 5495.281366] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[ 5495.281397] IPv6: ADDRCONF(NETDEV_CHANGE): 6244eb425602d6a: link becomes ready
+[ 5495.314422] device 6244eb425602d6a entered promiscuous mode
+[ 5497.173492] device 6244eb425602d6a left promiscuous mode
+[ 6395.024364] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[ 6395.024427] IPv6: ADDRCONF(NETDEV_CHANGE): d63375cc51d795f: link becomes ready
+[ 6395.051252] device d63375cc51d795f entered promiscuous mode
+[ 6397.740149] device d63375cc51d795f left promiscuous mode
+[ 7295.034588] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[ 7295.034647] IPv6: ADDRCONF(NETDEV_CHANGE): 14c341863f4713c: link becomes ready
+[ 7295.067216] device 14c341863f4713c entered promiscuous mode
+[ 7297.285805] device 14c341863f4713c left promiscuous mode
+[ 8195.078225] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[ 8195.078255] IPv6: ADDRCONF(NETDEV_CHANGE): 1b4530781582c81: link becomes ready
+[ 8195.100016] device 1b4530781582c81 entered promiscuous mode
+[ 8196.846656] device 1b4530781582c81 left promiscuous mode
+[ 9095.344979] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[ 9095.345028] IPv6: ADDRCONF(NETDEV_CHANGE): ce970332d57e4cf: link becomes ready
+[ 9095.372129] device ce970332d57e4cf entered promiscuous mode
+[ 9097.437344] device ce970332d57e4cf left promiscuous mode
+[ 9995.074443] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[ 9995.074475] IPv6: ADDRCONF(NETDEV_CHANGE): 3e82f0f3bdd54ab: link becomes ready
+[ 9995.091494] device 3e82f0f3bdd54ab entered promiscuous mode
+[ 9996.976370] device 3e82f0f3bdd54ab left promiscuous mode
+[10895.086180] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[10895.086260] IPv6: ADDRCONF(NETDEV_CHANGE): b300ef4abf20bb5: link becomes ready
+[10895.112448] device b300ef4abf20bb5 entered promiscuous mode
+[10897.505023] device b300ef4abf20bb5 left promiscuous mode
+[11795.162073] IPv6: ADDRCONF(NETDEV_CHANGE): a03bd00ebe4c5a0: link becomes ready
+[11795.191272] device a03bd00ebe4c5a0 entered promiscuous mode
+[11796.989653] device a03bd00ebe4c5a0 left promiscuous mode
+[12695.139073] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[12695.139107] IPv6: ADDRCONF(NETDEV_CHANGE): e971f9e0df63120: link becomes ready
+[12695.167109] device e971f9e0df63120 entered promiscuous mode
+[12697.551042] device e971f9e0df63120 left promiscuous mode
+[13595.150655] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[13595.150686] IPv6: ADDRCONF(NETDEV_CHANGE): 36bb434ed7b5e78: link becomes ready
+[13595.170371] device 36bb434ed7b5e78 entered promiscuous mode
+[13597.085247] device 36bb434ed7b5e78 left promiscuous mode
+[14495.444072] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[14495.444136] IPv6: ADDRCONF(NETDEV_CHANGE): bb73746a0b2d601: link becomes ready
+[14495.474530] device bb73746a0b2d601 entered promiscuous mode
+[14497.557970] device bb73746a0b2d601 left promiscuous mode
+[15395.252032] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[15395.252064] IPv6: ADDRCONF(NETDEV_CHANGE): bb1df7b05c552eb: link becomes ready
+[15395.271319] device bb1df7b05c552eb entered promiscuous mode
+[15397.078595] device bb1df7b05c552eb left promiscuous mode
+[16295.195064] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[16295.195130] IPv6: ADDRCONF(NETDEV_CHANGE): 03dfc6ff6173cdc: link becomes ready
+[16295.218158] device 03dfc6ff6173cdc entered promiscuous mode
+[16297.685705] device 03dfc6ff6173cdc left promiscuous mode
+[16332.415615] device 84291dab9d4802a left promiscuous mode
+[17195.258593] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[17195.258650] IPv6: ADDRCONF(NETDEV_CHANGE): c4c435c7e93e52d: link becomes ready
+[17195.285741] device c4c435c7e93e52d entered promiscuous mode
+[17197.231794] device c4c435c7e93e52d left promiscuous mode
+[18095.229631] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[18095.229702] IPv6: ADDRCONF(NETDEV_CHANGE): 50dcd1ef1b43aa8: link becomes ready
+[18095.255670] device 50dcd1ef1b43aa8 entered promiscuous mode
+[18097.804304] device 50dcd1ef1b43aa8 left promiscuous mode
+[18995.597668] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[18995.597728] IPv6: ADDRCONF(NETDEV_CHANGE): 35e932b44b103f1: link becomes ready
+[18995.629821] device 35e932b44b103f1 entered promiscuous mode
+[18997.306876] device 35e932b44b103f1 left promiscuous mode
+[19895.246838] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[19895.247063] IPv6: ADDRCONF(NETDEV_CHANGE): 285859a3975534b: link becomes ready
+[19895.275551] device 285859a3975534b entered promiscuous mode
+[19897.864933] device 285859a3975534b left promiscuous mode
+[20795.251184] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[20795.251226] IPv6: ADDRCONF(NETDEV_CHANGE): aae64f40cb40c79: link becomes ready
+[20795.282770] device aae64f40cb40c79 entered promiscuous mode
+[20797.398666] device aae64f40cb40c79 left promiscuous mode
+[21695.269708] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[21695.269773] IPv6: ADDRCONF(NETDEV_CHANGE): 6c8071b299a4790: link becomes ready
+[21695.293447] device 6c8071b299a4790 entered promiscuous mode
+[21697.915360] device 6c8071b299a4790 left promiscuous mode
+[22595.350294] IPv6: ADDRCONF(NETDEV_CHANGE): 4fb99a2382dd4fd: link becomes ready
+[22595.380197] device 4fb99a2382dd4fd entered promiscuous mode
+[22597.410665] device 4fb99a2382dd4fd left promiscuous mode
+[22824.059527] pci 0000:00:06.0: [1af4:1001] type 00 class 0x010000
+[22824.059741] pci 0000:00:06.0: reg 0x10: [io  0x0000-0x007f]
+[22824.059819] pci 0000:00:06.0: reg 0x14: [mem 0x00000000-0x00000fff]
+[22824.060126] pci 0000:00:06.0: reg 0x20: [mem 0x00000000-0x00003fff 64bit pref]
+[22824.062727] pci 0000:00:06.0: BAR 4: assigned [mem 0xc00000c000-0xc00000ffff 64bit pref]
+[22824.062839] pci 0000:00:06.0: BAR 1: assigned [mem 0xc0000000-0xc0000fff]
+[22824.062875] pci 0000:00:06.0: BAR 0: assigned [io  0x1000-0x107f]
+[22824.062964] virtio-pci 0000:00:06.0: enabling device (0000 -> 0003)
+[22824.115509] ACPI: \_SB_.LNKB: Enabled at IRQ 11
+[22824.117427] virtio_blk virtio3: [vdb] 2097152 512-byte logical blocks (1.07 GB/1.00 GiB)
+[22830.199333] EXT4-fs (vdb): mounted filesystem with ordered data mode. Quota mode: none.
+[22830.379419] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[22830.379479] IPv6: ADDRCONF(NETDEV_CHANGE): 3db794955553c8a: link becomes ready
+[22830.405026] device 3db794955553c8a entered promiscuous mode
+[23495.296444] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[23495.296509] IPv6: ADDRCONF(NETDEV_CHANGE): 3e8732569c947ed: link becomes ready
+[23495.316685] device 3e8732569c947ed entered promiscuous mode
+[23496.934358] device 3e8732569c947ed left promiscuous mode
+[24395.312893] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[24395.312924] IPv6: ADDRCONF(NETDEV_CHANGE): bd61289b4d83f25: link becomes ready
+[24395.333412] device bd61289b4d83f25 entered promiscuous mode
+[24397.441426] device bd61289b4d83f25 left promiscuous mode
+[25295.304863] IPv6: ADDRCONF(NETDEV_CHANGE): 6ec938e01989999: link becomes ready
+[25295.327171] device 6ec938e01989999 entered promiscuous mode
+[25297.066061] device 6ec938e01989999 left promiscuous mode
+[26195.457533] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[26195.457593] IPv6: ADDRCONF(NETDEV_CHANGE): 4cdaab3e39aa560: link becomes ready
+[26195.480316] device 4cdaab3e39aa560 entered promiscuous mode
+[26197.661119] device 4cdaab3e39aa560 left promiscuous mode
+[27095.315917] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[27095.315948] IPv6: ADDRCONF(NETDEV_CHANGE): 66f5995b0546dab: link becomes ready
+[27095.336920] device 66f5995b0546dab entered promiscuous mode
+[27097.243706] device 66f5995b0546dab left promiscuous mode
+[27995.375380] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[27995.375444] IPv6: ADDRCONF(NETDEV_CHANGE): eafaf3b2f00e0e3: link becomes ready
+[27995.400896] device eafaf3b2f00e0e3 entered promiscuous mode
+[27997.770645] device eafaf3b2f00e0e3 left promiscuous mode
+[28895.419994] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[28895.420023] IPv6: ADDRCONF(NETDEV_CHANGE): c99dc74fe0ec1e1: link becomes ready
+[28895.441198] device c99dc74fe0ec1e1 entered promiscuous mode
+[28897.274612] device c99dc74fe0ec1e1 left promiscuous mode
+[29795.474653] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[29795.474727] IPv6: ADDRCONF(NETDEV_CHANGE): c1f5a9d7153a0a8: link becomes ready
+[29795.498514] device c1f5a9d7153a0a8 entered promiscuous mode
+[29797.932316] device c1f5a9d7153a0a8 left promiscuous mode
+[30695.394765] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[30695.394794] IPv6: ADDRCONF(NETDEV_CHANGE): a3a184ddc033e09: link becomes ready
+[30695.423646] device a3a184ddc033e09 entered promiscuous mode
+[30697.585008] device a3a184ddc033e09 left promiscuous mode
+[31595.432278] IPv6: ADDRCONF(NETDEV_CHANGE): 56c269dc3c1ec98: link becomes ready
+[31595.453575] device 56c269dc3c1ec98 entered promiscuous mode
+[31597.271608] device 56c269dc3c1ec98 left promiscuous mode
+[32495.431971] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[32495.432005] IPv6: ADDRCONF(NETDEV_CHANGE): d2157e882bbc1f3: link becomes ready
+[32495.453780] device d2157e882bbc1f3 entered promiscuous mode
+[32497.922285] device d2157e882bbc1f3 left promiscuous mode
+[33395.564377] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[33395.564445] IPv6: ADDRCONF(NETDEV_CHANGE): 8bf8eea040ed87d: link becomes ready
+[33395.590239] device 8bf8eea040ed87d entered promiscuous mode
+[33397.634300] device 8bf8eea040ed87d left promiscuous mode
+[34295.510130] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[34295.510172] IPv6: ADDRCONF(NETDEV_CHANGE): 66a63650c9a9df8: link becomes ready
+[34295.546443] device 66a63650c9a9df8 entered promiscuous mode
+[34297.390725] device 66a63650c9a9df8 left promiscuous mode
+[35195.480719] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[35195.480750] IPv6: ADDRCONF(NETDEV_CHANGE): 9ae84e2a740ba26: link becomes ready
+[35195.504055] device 9ae84e2a740ba26 entered promiscuous mode
+[35198.110289] device 9ae84e2a740ba26 left promiscuous mode
+[36095.489194] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[36095.489226] IPv6: ADDRCONF(NETDEV_CHANGE): 978da95e73452a1: link becomes ready
+[36095.514228] device 978da95e73452a1 entered promiscuous mode
+[36095.981064] hrtimer: interrupt took 2371515 ns
+[36097.794393] device 978da95e73452a1 left promiscuous mode
+[36995.567604] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[36995.567638] IPv6: ADDRCONF(NETDEV_CHANGE): 7bce3a21ec10e19: link becomes ready
+[36995.590315] device 7bce3a21ec10e19 entered promiscuous mode
+[36997.562615] device 7bce3a21ec10e19 left promiscuous mode
+[37895.559202] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[37895.559234] IPv6: ADDRCONF(NETDEV_CHANGE): d3c9b2cf0c1db17: link becomes ready
+[37895.587917] device d3c9b2cf0c1db17 entered promiscuous mode
+[37897.324792] device d3c9b2cf0c1db17 left promiscuous mode
+[38795.536182] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[38795.536212] IPv6: ADDRCONF(NETDEV_CHANGE): 2c93e438ed9668f: link becomes ready
+[38795.560872] device 2c93e438ed9668f entered promiscuous mode
+[38797.068673] device 2c93e438ed9668f left promiscuous mode
+[39695.574524] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[39695.574604] IPv6: ADDRCONF(NETDEV_CHANGE): 2abb28cb94b8389: link becomes ready
+[39695.602491] device 2abb28cb94b8389 entered promiscuous mode
+[39697.695943] device 2abb28cb94b8389 left promiscuous mode
+[40595.664277] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[40595.664352] IPv6: ADDRCONF(NETDEV_CHANGE): 2d09e7be14eb0b9: link becomes ready
+[40595.691445] device 2d09e7be14eb0b9 entered promiscuous mode
+[40597.399344] device 2d09e7be14eb0b9 left promiscuous mode
+[41495.593498] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[41495.593529] IPv6: ADDRCONF(NETDEV_CHANGE): 621219baf0980fc: link becomes ready
+[41495.612433] device 621219baf0980fc entered promiscuous mode
+[41498.106995] device 621219baf0980fc left promiscuous mode
+[42395.645823] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[42395.645881] IPv6: ADDRCONF(NETDEV_CHANGE): 67b3dfde19c3fb3: link becomes ready
+[42395.670072] device 67b3dfde19c3fb3 entered promiscuous mode
+[42397.761847] device 67b3dfde19c3fb3 left promiscuous mode
+[43295.914208] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[43295.914235] IPv6: ADDRCONF(NETDEV_CHANGE): f6c0d1ecc9a667f: link becomes ready
+[43295.933859] device f6c0d1ecc9a667f entered promiscuous mode
+[43298.483729] device f6c0d1ecc9a667f left promiscuous mode
+[44195.668630] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[44195.668726] IPv6: ADDRCONF(NETDEV_CHANGE): 3f3fcf982b88c03: link becomes ready
+[44195.697851] device 3f3fcf982b88c03 entered promiscuous mode
+[44198.181696] device 3f3fcf982b88c03 left promiscuous mode
+[45095.668681] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[45095.668801] IPv6: ADDRCONF(NETDEV_CHANGE): 272f6bb061a7ba0: link becomes ready
+[45095.695350] device 272f6bb061a7ba0 entered promiscuous mode
+[45097.870641] device 272f6bb061a7ba0 left promiscuous mode
+[45995.683230] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[45995.683262] IPv6: ADDRCONF(NETDEV_CHANGE): bc5dac9a2b4d021: link becomes ready
+[45995.705271] device bc5dac9a2b4d021 entered promiscuous mode
+[45997.566268] device bc5dac9a2b4d021 left promiscuous mode
+[46895.693049] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[46895.693121] IPv6: ADDRCONF(NETDEV_CHANGE): 0bcd4c8f43abec1: link becomes ready
+[46895.721572] device 0bcd4c8f43abec1 entered promiscuous mode
+[46898.242046] device 0bcd4c8f43abec1 left promiscuous mode
+[47795.811787] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[47795.811846] IPv6: ADDRCONF(NETDEV_CHANGE): e5b26f0cd4ab7fb: link becomes ready
+[47795.835510] device e5b26f0cd4ab7fb entered promiscuous mode
+[47797.930131] device e5b26f0cd4ab7fb left promiscuous mode
+[48695.740659] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[48695.740693] IPv6: ADDRCONF(NETDEV_CHANGE): 9dc7e162ee9b24b: link becomes ready
+[48695.765719] device 9dc7e162ee9b24b entered promiscuous mode
+[48697.619499] device 9dc7e162ee9b24b left promiscuous mode
+[49595.712081] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[49595.712139] IPv6: ADDRCONF(NETDEV_CHANGE): 7fa051012a37ad4: link becomes ready
+[49595.732957] device 7fa051012a37ad4 entered promiscuous mode
+[49598.330518] device 7fa051012a37ad4 left promiscuous mode
+[50495.756105] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[50495.756154] IPv6: ADDRCONF(NETDEV_CHANGE): 0dd8bd66acf43ea: link becomes ready
+[50495.777600] device 0dd8bd66acf43ea entered promiscuous mode
+[50498.054844] device 0dd8bd66acf43ea left promiscuous mode
+[51395.837284] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[51395.837316] IPv6: ADDRCONF(NETDEV_CHANGE): 0a417cca3661b0d: link becomes ready
+[51395.857579] device 0a417cca3661b0d entered promiscuous mode
+[51397.767292] device 0a417cca3661b0d left promiscuous mode
+[52295.827162] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[52295.827238] IPv6: ADDRCONF(NETDEV_CHANGE): 919db356c32d512: link becomes ready
+[52295.859814] device 919db356c32d512 entered promiscuous mode
+[52298.449216] device 919db356c32d512 left promiscuous mode
+[53195.821183] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[53195.821223] IPv6: ADDRCONF(NETDEV_CHANGE): 4ffee361d8be027: link becomes ready
+[53195.842140] device 4ffee361d8be027 entered promiscuous mode
+[53198.143923] device 4ffee361d8be027 left promiscuous mode
+[54095.847706] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[54095.847759] IPv6: ADDRCONF(NETDEV_CHANGE): 5fc976fd8eeea20: link becomes ready
+[54095.869030] device 5fc976fd8eeea20 entered promiscuous mode
+[54097.757592] device 5fc976fd8eeea20 left promiscuous mode
+[54995.933000] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[54995.933058] IPv6: ADDRCONF(NETDEV_CHANGE): 7097c9c4db19a78: link becomes ready
+[54995.959125] device 7097c9c4db19a78 entered promiscuous mode
+[54997.505927] device 7097c9c4db19a78 left promiscuous mode
+[55895.879166] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[55895.879198] IPv6: ADDRCONF(NETDEV_CHANGE): d7579f972c7f255: link becomes ready
+[55895.901712] device d7579f972c7f255 entered promiscuous mode
+[55895.922531] IPv6: ADDRCONF(NETDEV_CHANGE): 276afbba5408fad: link becomes ready
+[55895.957928] device 276afbba5408fad entered promiscuous mode
+[55898.187435] device 276afbba5408fad left promiscuous mode
+[55898.257107] device d7579f972c7f255 left promiscuous mode
+[56795.864231] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[56795.864299] IPv6: ADDRCONF(NETDEV_CHANGE): 71a69a960388f69: link becomes ready
+[56795.888343] device 71a69a960388f69 entered promiscuous mode
+[56798.037072] device 71a69a960388f69 left promiscuous mode
+[57695.863565] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[57695.863597] IPv6: ADDRCONF(NETDEV_CHANGE): b6da0f10217f404: link becomes ready
+[57695.895888] device b6da0f10217f404 entered promiscuous mode
+[57697.705406] device b6da0f10217f404 left promiscuous mode
+[58595.945258] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[58595.945309] IPv6: ADDRCONF(NETDEV_CHANGE): ca96f8b36d2fca4: link becomes ready
+[58595.966189] device ca96f8b36d2fca4 entered promiscuous mode
+[58598.353915] device ca96f8b36d2fca4 left promiscuous mode
+[59495.883240] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[59495.883301] IPv6: ADDRCONF(NETDEV_CHANGE): 3d0ffb68f27b027: link becomes ready
+[59495.910905] device 3d0ffb68f27b027 entered promiscuous mode
+[59498.072158] device 3d0ffb68f27b027 left promiscuous mode
+[60395.930637] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[60395.930665] IPv6: ADDRCONF(NETDEV_CHANGE): 31aa9bbf31aaae6: link becomes ready
+[60395.957314] device 31aa9bbf31aaae6 entered promiscuous mode
+[60397.727415] device 31aa9bbf31aaae6 left promiscuous mode
+[61295.934257] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[61295.934340] IPv6: ADDRCONF(NETDEV_CHANGE): c98a2d26cc6f4f6: link becomes ready
+[61295.956273] device c98a2d26cc6f4f6 entered promiscuous mode
+[61297.443758] device c98a2d26cc6f4f6 left promiscuous mode
+[62196.056511] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[62196.056575] IPv6: ADDRCONF(NETDEV_CHANGE): 5ab96deb083c190: link becomes ready
+[62196.080990] device 5ab96deb083c190 entered promiscuous mode
+[62198.203798] device 5ab96deb083c190 left promiscuous mode
+[63095.979645] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[63095.979695] IPv6: ADDRCONF(NETDEV_CHANGE): 177df521dd7eb70: link becomes ready
+[63096.005559] device 177df521dd7eb70 entered promiscuous mode
+[63097.972734] device 177df521dd7eb70 left promiscuous mode
+[63996.292729] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[63996.292782] IPv6: ADDRCONF(NETDEV_CHANGE): c417627ac3e1ad5: link becomes ready
+[63996.325244] device c417627ac3e1ad5 entered promiscuous mode
+[63998.721870] device c417627ac3e1ad5 left promiscuous mode
+[64895.994367] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[64895.994420] IPv6: ADDRCONF(NETDEV_CHANGE): cc8696b9b4fa15c: link becomes ready
+[64896.017126] device cc8696b9b4fa15c entered promiscuous mode
+[64897.407106] device cc8696b9b4fa15c left promiscuous mode
+[65796.106452] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[65796.106494] IPv6: ADDRCONF(NETDEV_CHANGE): 1c40ba68895b3d5: link becomes ready
+[65796.124077] device 1c40ba68895b3d5 entered promiscuous mode
+[65798.137298] device 1c40ba68895b3d5 left promiscuous mode
+[66696.046840] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[66696.046892] IPv6: ADDRCONF(NETDEV_CHANGE): 2f9aa36739fe440: link becomes ready
+[66696.072009] device 2f9aa36739fe440 entered promiscuous mode
+[66697.851015] device 2f9aa36739fe440 left promiscuous mode
+[67596.064719] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[67596.064769] IPv6: ADDRCONF(NETDEV_CHANGE): 7e9d0a247b36798: link becomes ready
+[67596.094815] device 7e9d0a247b36798 entered promiscuous mode
+[67597.605182] device 7e9d0a247b36798 left promiscuous mode
+[68496.040668] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[68496.040697] IPv6: ADDRCONF(NETDEV_CHANGE): 9e9424d9c2557b2: link becomes ready
+[68496.062555] device 9e9424d9c2557b2 entered promiscuous mode
+[68498.333471] device 9e9424d9c2557b2 left promiscuous mode
+[69396.143149] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[69396.143212] IPv6: ADDRCONF(NETDEV_CHANGE): dd376dfd8433692: link becomes ready
+[69396.171000] device dd376dfd8433692 entered promiscuous mode
+[69398.068217] device dd376dfd8433692 left promiscuous mode
+[70296.104456] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[70296.104509] IPv6: ADDRCONF(NETDEV_CHANGE): 42bbdaa9d61c37d: link becomes ready
+[70296.141793] device 42bbdaa9d61c37d entered promiscuous mode
+[70297.809762] device 42bbdaa9d61c37d left promiscuous mode
+[71196.094396] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[71196.094430] IPv6: ADDRCONF(NETDEV_CHANGE): 641dfcd17568a99: link becomes ready
+[71196.113797] device 641dfcd17568a99 entered promiscuous mode
+[71198.546602] device 641dfcd17568a99 left promiscuous mode
+[72096.128485] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[72096.128525] IPv6: ADDRCONF(NETDEV_CHANGE): 27fa6e2415891fb: link becomes ready
+[72096.155059] device 27fa6e2415891fb entered promiscuous mode
+[72098.202365] device 27fa6e2415891fb left promiscuous mode
+[72996.210668] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[72996.210732] IPv6: ADDRCONF(NETDEV_CHANGE): 05fb85e3f189700: link becomes ready
+[72996.239405] device 05fb85e3f189700 entered promiscuous mode
+[72998.860396] device 05fb85e3f189700 left promiscuous mode
+[73896.456109] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[73896.456147] IPv6: ADDRCONF(NETDEV_CHANGE): c612b92e19b74d9: link becomes ready
+[73896.480498] device c612b92e19b74d9 entered promiscuous mode
+[73898.570205] device c612b92e19b74d9 left promiscuous mode
+[74796.140632] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[74796.140663] IPv6: ADDRCONF(NETDEV_CHANGE): ddb4ee9b4d54a7a: link becomes ready
+[74796.162748] device ddb4ee9b4d54a7a entered promiscuous mode
+[74798.279938] device ddb4ee9b4d54a7a left promiscuous mode
+[75696.183338] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[75696.183370] IPv6: ADDRCONF(NETDEV_CHANGE): 96556e26a9e64e5: link becomes ready
+[75696.206368] device 96556e26a9e64e5 entered promiscuous mode
+[75697.955294] device 96556e26a9e64e5 left promiscuous mode
+[76596.272858] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[76596.272889] IPv6: ADDRCONF(NETDEV_CHANGE): 84a2d74e8bd0bc5: link becomes ready
+[76596.298790] device 84a2d74e8bd0bc5 entered promiscuous mode
+[76598.741376] device 84a2d74e8bd0bc5 left promiscuous mode
+[77496.218885] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[77496.218930] IPv6: ADDRCONF(NETDEV_CHANGE): ea199171f2dcd4e: link becomes ready
+[77496.243641] device ea199171f2dcd4e entered promiscuous mode
+[77498.450212] device ea199171f2dcd4e left promiscuous mode
+[78396.238684] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[78396.238752] IPv6: ADDRCONF(NETDEV_CHANGE): e73162b2e6777d1: link becomes ready
+[78396.267472] device e73162b2e6777d1 entered promiscuous mode
+[78398.104040] device e73162b2e6777d1 left promiscuous mode
+[79296.263101] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[79296.263137] IPv6: ADDRCONF(NETDEV_CHANGE): 17c3f3531b9d9a6: link becomes ready
+[79296.284790] device 17c3f3531b9d9a6 entered promiscuous mode
+[79298.803890] device 17c3f3531b9d9a6 left promiscuous mode
+[80196.347070] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[80196.347133] IPv6: ADDRCONF(NETDEV_CHANGE): de1f7a444c17e0c: link becomes ready
+[80196.374521] device de1f7a444c17e0c entered promiscuous mode
+[80198.528197] device de1f7a444c17e0c left promiscuous mode
+[81096.298671] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[81096.298750] IPv6: ADDRCONF(NETDEV_CHANGE): a53e61e51bde9e1: link becomes ready
+[81096.320300] device a53e61e51bde9e1 entered promiscuous mode
+[81098.268714] device a53e61e51bde9e1 left promiscuous mode
+[81996.291322] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[81996.291352] IPv6: ADDRCONF(NETDEV_CHANGE): 02939abb8706679: link becomes ready
+[81996.316562] device 02939abb8706679 entered promiscuous mode
+[81998.008726] device 02939abb8706679 left promiscuous mode
+[82474.219210] device 3db794955553c8a left promiscuous mode
+[82474.574303] EXT4-fs (vdb): unmounting filesystem.
+[82896.350008] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[82896.350073] IPv6: ADDRCONF(NETDEV_CHANGE): 1575e069eb798fb: link becomes ready
+[82896.378211] device 1575e069eb798fb entered promiscuous mode
+[82898.634159] device 1575e069eb798fb left promiscuous mode
+[83180.329001] pci 0000:00:06.0: [1af4:1001] type 00 class 0x010000
+[83180.329244] pci 0000:00:06.0: reg 0x10: [io  0x0000-0x007f]
+[83180.329358] pci 0000:00:06.0: reg 0x14: [mem 0x00000000-0x00000fff]
+[83180.329688] pci 0000:00:06.0: reg 0x20: [mem 0x00000000-0x00003fff 64bit pref]
+[83180.332261] pci 0000:00:06.0: BAR 4: assigned [mem 0xc00000c000-0xc00000ffff 64bit pref]
+[83180.332410] pci 0000:00:06.0: BAR 1: assigned [mem 0xc0000000-0xc0000fff]
+[83180.332447] pci 0000:00:06.0: BAR 0: assigned [io  0x1000-0x107f]
+[83180.334445] virtio-pci 0000:00:06.0: enabling device (0000 -> 0003)
+[83180.386625] virtio_blk virtio3: [vdb] 2097152 512-byte logical blocks (1.07 GB/1.00 GiB)
+[83185.625813] EXT4-fs (vdb): mounted filesystem with ordered data mode. Quota mode: none.
+[83185.775420] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[83185.775453] IPv6: ADDRCONF(NETDEV_CHANGE): 6c17be3355a3244: link becomes ready
+[83185.798858] device 6c17be3355a3244 entered promiscuous mode
+[83656.654631] device 6c17be3355a3244 left promiscuous mode
+[83656.982437] EXT4-fs (vdb): unmounting filesystem.
+[83796.365237] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[83796.365302] IPv6: ADDRCONF(NETDEV_CHANGE): df81b93ee58bfc4: link becomes ready
+[83796.389469] device df81b93ee58bfc4 entered promiscuous mode
+[83798.222853] device df81b93ee58bfc4 left promiscuous mode
+[84070.662375] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[84070.662444] IPv6: ADDRCONF(NETDEV_CHANGE): d7f68ee1f4829e3: link becomes ready
+[84070.686621] device d7f68ee1f4829e3 entered promiscuous mode

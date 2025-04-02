@@ -1,0 +1,499 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    k8s.ovn.org/pod-networks: '{"default":{"ip_addresses":["10.128.0.6/23"],"mac_address":"0a:58:0a:80:00:06","gateway_ips":["10.128.0.1"],"routes":[{"dest":"10.128.0.0/14","nextHop":"10.128.0.1"},{"dest":"172.30.0.0/16","nextHop":"10.128.0.1"},{"dest":"169.254.169.5/32","nextHop":"10.128.0.1"},{"dest":"100.64.0.0/16","nextHop":"10.128.0.1"}],"ip_address":"10.128.0.6/23","gateway_ip":"10.128.0.1"}}'
+    k8s.v1.cni.cncf.io/network-status: |-
+      [{
+          "name": "ovn-kubernetes",
+          "interface": "eth0",
+          "ips": [
+              "10.128.0.6"
+          ],
+          "mac": "0a:58:0a:80:00:06",
+          "default": true,
+          "dns": {}
+      }]
+    kubectl.kubernetes.io/default-container: cluster-autoscaler-operator
+    openshift.io/required-scc: restricted-v2
+    openshift.io/scc: restricted-v2
+    seccomp.security.alpha.kubernetes.io/pod: runtime/default
+  creationTimestamp: "2025-03-31T20:17:20Z"
+  generateName: cluster-autoscaler-operator-59b8486bbb-
+  labels:
+    k8s-app: cluster-autoscaler-operator
+    pod-template-hash: 59b8486bbb
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:kubectl.kubernetes.io/default-container: {}
+          f:openshift.io/required-scc: {}
+          f:target.workload.openshift.io/management: {}
+        f:generateName: {}
+        f:labels:
+          .: {}
+          f:k8s-app: {}
+          f:pod-template-hash: {}
+        f:ownerReferences:
+          .: {}
+          k:{"uid":"8f7519a6-0690-48b4-9fae-548e0a24d05c"}: {}
+      f:spec:
+        f:containers:
+          k:{"name":"cluster-autoscaler-operator"}:
+            .: {}
+            f:args: {}
+            f:command: {}
+            f:env:
+              .: {}
+              k:{"name":"CLUSTER_AUTOSCALER_IMAGE"}:
+                .: {}
+                f:name: {}
+                f:value: {}
+              k:{"name":"CLUSTER_AUTOSCALER_NAMESPACE"}:
+                .: {}
+                f:name: {}
+                f:valueFrom:
+                  .: {}
+                  f:fieldRef: {}
+              k:{"name":"LEADER_ELECTION_NAMESPACE"}:
+                .: {}
+                f:name: {}
+                f:valueFrom:
+                  .: {}
+                  f:fieldRef: {}
+              k:{"name":"METRICS_PORT"}:
+                .: {}
+                f:name: {}
+                f:value: {}
+              k:{"name":"RELEASE_VERSION"}:
+                .: {}
+                f:name: {}
+                f:value: {}
+              k:{"name":"WATCH_NAMESPACE"}:
+                .: {}
+                f:name: {}
+                f:valueFrom:
+                  .: {}
+                  f:fieldRef: {}
+              k:{"name":"WEBHOOKS_CERT_DIR"}:
+                .: {}
+                f:name: {}
+                f:value: {}
+              k:{"name":"WEBHOOKS_PORT"}:
+                .: {}
+                f:name: {}
+                f:value: {}
+            f:image: {}
+            f:imagePullPolicy: {}
+            f:name: {}
+            f:ports:
+              .: {}
+              k:{"containerPort":8443,"protocol":"TCP"}:
+                .: {}
+                f:containerPort: {}
+                f:protocol: {}
+            f:resources:
+              .: {}
+              f:requests:
+                .: {}
+                f:cpu: {}
+                f:memory: {}
+            f:terminationMessagePath: {}
+            f:terminationMessagePolicy: {}
+            f:volumeMounts:
+              .: {}
+              k:{"mountPath":"/etc/cluster-autoscaler-operator/tls"}:
+                .: {}
+                f:mountPath: {}
+                f:name: {}
+                f:readOnly: {}
+          k:{"name":"kube-rbac-proxy"}:
+            .: {}
+            f:args: {}
+            f:image: {}
+            f:imagePullPolicy: {}
+            f:name: {}
+            f:ports:
+              .: {}
+              k:{"containerPort":9192,"protocol":"TCP"}:
+                .: {}
+                f:containerPort: {}
+                f:name: {}
+                f:protocol: {}
+            f:resources:
+              .: {}
+              f:requests:
+                .: {}
+                f:cpu: {}
+                f:memory: {}
+            f:terminationMessagePath: {}
+            f:terminationMessagePolicy: {}
+            f:volumeMounts:
+              .: {}
+              k:{"mountPath":"/etc/kube-rbac-proxy"}:
+                .: {}
+                f:mountPath: {}
+                f:name: {}
+                f:readOnly: {}
+              k:{"mountPath":"/etc/tls/private"}:
+                .: {}
+                f:mountPath: {}
+                f:name: {}
+                f:readOnly: {}
+        f:dnsPolicy: {}
+        f:enableServiceLinks: {}
+        f:nodeSelector: {}
+        f:priorityClassName: {}
+        f:restartPolicy: {}
+        f:schedulerName: {}
+        f:securityContext: {}
+        f:serviceAccount: {}
+        f:serviceAccountName: {}
+        f:terminationGracePeriodSeconds: {}
+        f:tolerations: {}
+        f:volumes:
+          .: {}
+          k:{"name":"auth-proxy-config"}:
+            .: {}
+            f:configMap:
+              .: {}
+              f:defaultMode: {}
+              f:name: {}
+            f:name: {}
+          k:{"name":"cert"}:
+            .: {}
+            f:name: {}
+            f:secret:
+              .: {}
+              f:defaultMode: {}
+              f:items: {}
+              f:secretName: {}
+    manager: kube-controller-manager
+    operation: Update
+    time: "2025-03-31T20:17:20Z"
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        f:conditions:
+          .: {}
+          k:{"type":"PodScheduled"}:
+            .: {}
+            f:lastProbeTime: {}
+            f:lastTransitionTime: {}
+            f:message: {}
+            f:reason: {}
+            f:status: {}
+            f:type: {}
+    manager: kube-scheduler
+    operation: Update
+    subresource: status
+    time: "2025-03-31T20:17:20Z"
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          f:k8s.ovn.org/pod-networks: {}
+    manager: host-10-13-0-150
+    operation: Update
+    subresource: status
+    time: "2025-03-31T20:21:49Z"
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          f:k8s.v1.cni.cncf.io/network-status: {}
+    manager: multus-daemon
+    operation: Update
+    subresource: status
+    time: "2025-03-31T20:22:54Z"
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        f:conditions:
+          k:{"type":"ContainersReady"}:
+            .: {}
+            f:lastProbeTime: {}
+            f:lastTransitionTime: {}
+            f:status: {}
+            f:type: {}
+          k:{"type":"Initialized"}:
+            .: {}
+            f:lastProbeTime: {}
+            f:lastTransitionTime: {}
+            f:status: {}
+            f:type: {}
+          k:{"type":"Ready"}:
+            .: {}
+            f:lastProbeTime: {}
+            f:lastTransitionTime: {}
+            f:status: {}
+            f:type: {}
+        f:containerStatuses: {}
+        f:hostIP: {}
+        f:phase: {}
+        f:podIP: {}
+        f:podIPs:
+          .: {}
+          k:{"ip":"10.128.0.6"}:
+            .: {}
+            f:ip: {}
+        f:startTime: {}
+    manager: kubelet
+    operation: Update
+    subresource: status
+    time: "2025-03-31T20:40:18Z"
+  name: cluster-autoscaler-operator-59b8486bbb-w8gv2
+  namespace: openshift-machine-api
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ReplicaSet
+    name: cluster-autoscaler-operator-59b8486bbb
+    uid: 8f7519a6-0690-48b4-9fae-548e0a24d05c
+  resourceVersion: "72831"
+  uid: 545f6d37-5e25-4c4b-a991-b242ae199077
+spec:
+  containers:
+  - args:
+    - --secure-listen-address=0.0.0.0:9192
+    - --upstream=http://127.0.0.1:9191/
+    - --tls-cert-file=/etc/tls/private/tls.crt
+    - --tls-private-key-file=/etc/tls/private/tls.key
+    - --config-file=/etc/kube-rbac-proxy/config-file.yaml
+    - --tls-cipher-suites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
+    - --logtostderr=true
+    - --v=3
+    image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:fedf41d919edda4f5513a26231124f55d8b6a65fe634b88ad0223fe7b3c26ec1
+    imagePullPolicy: IfNotPresent
+    name: kube-rbac-proxy
+    ports:
+    - containerPort: 9192
+      name: metrics
+      protocol: TCP
+    resources:
+      requests:
+        cpu: 10m
+        memory: 20Mi
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+      runAsNonRoot: true
+      runAsUser: 1000480000
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /etc/kube-rbac-proxy
+      name: auth-proxy-config
+      readOnly: true
+    - mountPath: /etc/tls/private
+      name: cert
+      readOnly: true
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-xmndv
+      readOnly: true
+  - args:
+    - -alsologtostderr
+    command:
+    - cluster-autoscaler-operator
+    env:
+    - name: RELEASE_VERSION
+      value: 4.15.46
+    - name: WATCH_NAMESPACE
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.namespace
+    - name: CLUSTER_AUTOSCALER_NAMESPACE
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.namespace
+    - name: LEADER_ELECTION_NAMESPACE
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.namespace
+    - name: CLUSTER_AUTOSCALER_IMAGE
+      value: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:3b536279334e9dd1d6e94120d5fedbe9622508726206359348c6a7f34e5ba36e
+    - name: WEBHOOKS_CERT_DIR
+      value: /etc/cluster-autoscaler-operator/tls
+    - name: WEBHOOKS_PORT
+      value: "8443"
+    - name: METRICS_PORT
+      value: "9191"
+    image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:b6fcade7c8f8a540c88f2fb0f5635373ecf18dce85e19fd8568439866586d524
+    imagePullPolicy: IfNotPresent
+    name: cluster-autoscaler-operator
+    ports:
+    - containerPort: 8443
+      protocol: TCP
+    resources:
+      requests:
+        cpu: 20m
+        memory: 50Mi
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+      runAsNonRoot: true
+      runAsUser: 1000480000
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: FallbackToLogsOnError
+    volumeMounts:
+    - mountPath: /etc/cluster-autoscaler-operator/tls
+      name: cert
+      readOnly: true
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-xmndv
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: host-10-13-0-150
+  nodeSelector:
+    node-role.kubernetes.io/master: ""
+  preemptionPolicy: PreemptLowerPriority
+  priority: 2000001000
+  priorityClassName: system-node-critical
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext:
+    fsGroup: 1000480000
+    seLinuxOptions:
+      level: s0:c22,c9
+    seccompProfile:
+      type: RuntimeDefault
+  serviceAccount: cluster-autoscaler-operator
+  serviceAccountName: cluster-autoscaler-operator
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/master
+    operator: Exists
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoSchedule
+    key: node.kubernetes.io/memory-pressure
+    operator: Exists
+  volumes:
+  - name: cert
+    secret:
+      defaultMode: 420
+      items:
+      - key: tls.crt
+        path: tls.crt
+      - key: tls.key
+        path: tls.key
+      secretName: cluster-autoscaler-operator-cert
+  - configMap:
+      defaultMode: 420
+      name: kube-rbac-proxy-cluster-autoscaler-operator
+    name: auth-proxy-config
+  - name: kube-api-access-xmndv
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+      - configMap:
+          items:
+          - key: service-ca.crt
+            path: service-ca.crt
+          name: openshift-service-ca.crt
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2025-03-31T20:21:49Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2025-03-31T20:40:18Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2025-03-31T20:40:18Z"
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2025-03-31T20:21:49Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: cri-o://b1a38965337009448f010afc64a487a4ff6bdd6e00c76b681320553d056c2b81
+    image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:b6fcade7c8f8a540c88f2fb0f5635373ecf18dce85e19fd8568439866586d524
+    imageID: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:b6fcade7c8f8a540c88f2fb0f5635373ecf18dce85e19fd8568439866586d524
+    lastState:
+      terminated:
+        containerID: cri-o://78c8f3ca8c7ace9022b498c2ebee035e8576bbf20c7dd44d2e1fb8d43888ec6c
+        exitCode: 255
+        finishedAt: "2025-03-31T20:40:05Z"
+        message: |
+          0331 20:37:50.343734       1 status.go:244] Operator status available: at version 4.15.46
+          E0331 20:39:05.344611       1 status.go:426] failed to get dependency machine-api status: Get "https://172.30.0.1:443/apis/config.openshift.io/v1/clusteroperators/machine-api": stream error: stream ID 191; INTERNAL_ERROR; received from peer
+          W0331 20:39:05.344659       1 status.go:271] Operator status degraded: error checking machine-api status: Get "https://172.30.0.1:443/apis/config.openshift.io/v1/clusteroperators/machine-api": stream error: stream ID 191; INTERNAL_ERROR; received from peer
+          E0331 20:39:13.377272       1 leaderelection.go:332] error retrieving resource lock openshift-machine-api/cluster-autoscaler-operator-leader: the server was unable to return a response in the time allotted, but may still be processing the request (get leases.coordination.k8s.io cluster-autoscaler-operator-leader)
+          E0331 20:40:00.376210       1 leaderelection.go:332] error retrieving resource lock openshift-machine-api/cluster-autoscaler-operator-leader: Get "https://172.30.0.1:443/apis/coordination.k8s.io/v1/namespaces/openshift-machine-api/leases/cluster-autoscaler-operator-leader": context deadline exceeded
+          I0331 20:40:00.376255       1 leaderelection.go:285] failed to renew lease openshift-machine-api/cluster-autoscaler-operator-leader: timed out waiting for the condition
+          E0331 20:40:05.347560       1 status.go:311] status reporting failed: Get "https://172.30.0.1:443/apis/config.openshift.io/v1/clusteroperators/cluster-autoscaler": stream error: stream ID 195; INTERNAL_ERROR; received from peer
+          I0331 20:40:05.372939       1 status.go:450] No ClusterAutoscaler. Reporting available.
+          I0331 20:40:05.372951       1 status.go:244] Operator status available: at version 4.15.46
+          I0331 20:40:05.379557       1 status.go:450] No ClusterAutoscaler. Reporting available.
+          I0331 20:40:05.379569       1 status.go:244] Operator status available: at version 4.15.46
+          F0331 20:40:05.383048       1 main.go:43] Failed to start operator: leader election lost
+        reason: Error
+        startedAt: "2025-03-31T20:32:25Z"
+    name: cluster-autoscaler-operator
+    ready: true
+    restartCount: 2
+    started: true
+    state:
+      running:
+        startedAt: "2025-03-31T20:40:18Z"
+  - containerID: cri-o://cc4bf0d53f605a92e312312928c1b0a43118e6a7165fe627ca0aae793b7c8a36
+    image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:fedf41d919edda4f5513a26231124f55d8b6a65fe634b88ad0223fe7b3c26ec1
+    imageID: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:fedf41d919edda4f5513a26231124f55d8b6a65fe634b88ad0223fe7b3c26ec1
+    lastState: {}
+    name: kube-rbac-proxy
+    ready: true
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2025-03-31T20:22:54Z"
+  hostIP: 10.13.0.150
+  phase: Running
+  podIP: 10.128.0.6
+  podIPs:
+  - ip: 10.128.0.6
+  qosClass: Burstable
+  startTime: "2025-03-31T20:21:49Z"

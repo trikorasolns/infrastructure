@@ -1,0 +1,166 @@
+2025-04-01T08:34:11.221622106Z ++ K8S_NODE=host-10-13-3-120
+2025-04-01T08:34:11.221622106Z ++ [[ -n host-10-13-3-120 ]]
+2025-04-01T08:34:11.221622106Z ++ [[ -f /env/host-10-13-3-120 ]]
+2025-04-01T08:34:11.221622106Z ++ northd_pidfile=/var/run/ovn/ovn-northd.pid
+2025-04-01T08:34:11.221748424Z ++ controller_pidfile=/var/run/ovn/ovn-controller.pid
+2025-04-01T08:34:11.221748424Z ++ controller_logfile=/var/log/ovn/acl-audit-log.log
+2025-04-01T08:34:11.221748424Z ++ vswitch_dbsock=/var/run/openvswitch/db.sock
+2025-04-01T08:34:11.221748424Z ++ nbdb_pidfile=/var/run/ovn/ovnnb_db.pid
+2025-04-01T08:34:11.221748424Z ++ nbdb_sock=/var/run/ovn/ovnnb_db.sock
+2025-04-01T08:34:11.221748424Z ++ nbdb_ctl=/var/run/ovn/ovnnb_db.ctl
+2025-04-01T08:34:11.221748424Z ++ sbdb_pidfile=/var/run/ovn/ovnsb_db.pid
+2025-04-01T08:34:11.221748424Z ++ sbdb_sock=/var/run/ovn/ovnsb_db.sock
+2025-04-01T08:34:11.221748424Z ++ sbdb_ctl=/var/run/ovn/ovnsb_db.ctl
+2025-04-01T08:34:11.223021037Z + start-ovn-controller info
+2025-04-01T08:34:11.223021037Z + local log_level=info
+2025-04-01T08:34:11.223042366Z + [[ 1 -ne 1 ]]
+2025-04-01T08:34:11.223330792Z ++ date -Iseconds
+2025-04-01T08:34:11.225941686Z + echo '2025-04-01T08:34:11+00:00 - starting ovn-controller'
+2025-04-01T08:34:11.225957526Z 2025-04-01T08:34:11+00:00 - starting ovn-controller
+2025-04-01T08:34:11.225996135Z + exec ovn-controller unix:/var/run/openvswitch/db.sock -vfile:off --no-chdir --pidfile=/var/run/ovn/ovn-controller.pid --syslog-method=null --log-file=/var/log/ovn/acl-audit-log.log -vFACILITY:local0 -vconsole:info -vconsole:acl_log:off '-vPATTERN:console:%D{%Y-%m-%dT%H:%M:%S.###Z}|%05N|%c%T|%p|%m' -vsyslog:acl_log:info -vfile:acl_log:info
+2025-04-01T08:34:11.232466814Z 2025-04-01T08:34:11Z|00001|vlog|INFO|opened log file /var/log/ovn/acl-audit-log.log
+2025-04-01T08:34:11.235771028Z 2025-04-01T08:34:11.235Z|00002|reconnect|INFO|unix:/var/run/openvswitch/db.sock: connecting...
+2025-04-01T08:34:11.235771028Z 2025-04-01T08:34:11.235Z|00003|reconnect|INFO|unix:/var/run/openvswitch/db.sock: connected
+2025-04-01T08:34:11.237067030Z 2025-04-01T08:34:11.237Z|00004|main|INFO|OVN internal version is : [23.09.5-20.32.0-71.6]
+2025-04-01T08:34:11.237067030Z 2025-04-01T08:34:11.237Z|00005|main|INFO|OVS IDL reconnected, force recompute.
+2025-04-01T08:34:11.237067030Z 2025-04-01T08:34:11.237Z|00006|main|INFO|OVNSB IDL reconnected, force recompute.
+2025-04-01T08:34:47.401411575Z 2025-04-01T08:34:47.399Z|00007|memory|INFO|12320 kB peak resident set size after 36.2 seconds
+2025-04-01T08:34:47.401411575Z 2025-04-01T08:34:47.399Z|00008|memory|INFO|idl-cells-Open_vSwitch:293
+2025-04-01T08:34:47.401411575Z 2025-04-01T08:34:47.399Z|00009|reconnect|INFO|unix:/var/run/ovn/ovnsb_db.sock: connecting...
+2025-04-01T08:34:47.401411575Z 2025-04-01T08:34:47.399Z|00010|reconnect|INFO|unix:/var/run/ovn/ovnsb_db.sock: connected
+2025-04-01T08:34:47.422369541Z 2025-04-01T08:34:47.422Z|00011|features|INFO|unix:/var/run/openvswitch/br-int.mgmt: connecting to switch
+2025-04-01T08:34:47.422369541Z 2025-04-01T08:34:47.422Z|00012|rconn|INFO|unix:/var/run/openvswitch/br-int.mgmt: connecting...
+2025-04-01T08:34:47.424581867Z 2025-04-01T08:34:47.424Z|00013|rconn|INFO|unix:/var/run/openvswitch/br-int.mgmt: connected
+2025-04-01T08:34:47.424581867Z 2025-04-01T08:34:47.424Z|00014|features|INFO|OVS Feature: ct_zero_snat, state: supported
+2025-04-01T08:34:47.424597076Z 2025-04-01T08:34:47.424Z|00015|features|INFO|OVS Feature: ct_flush, state: supported
+2025-04-01T08:34:47.424597076Z 2025-04-01T08:34:47.424Z|00016|features|INFO|OVS Feature: dp_hash_l4_sym_support, state: supported
+2025-04-01T08:34:47.424597076Z 2025-04-01T08:34:47.424Z|00017|main|INFO|OVS feature set changed, force recompute.
+2025-04-01T08:34:47.424597076Z 2025-04-01T08:34:47.424Z|00018|ofctrl|INFO|unix:/var/run/openvswitch/br-int.mgmt: connecting to switch
+2025-04-01T08:34:47.424597076Z 2025-04-01T08:34:47.424Z|00019|rconn|INFO|unix:/var/run/openvswitch/br-int.mgmt: connecting...
+2025-04-01T08:34:47.426114396Z 2025-04-01T08:34:47.426Z|00020|main|INFO|OVS feature set changed, force recompute.
+2025-04-01T08:34:47.426114396Z 2025-04-01T08:34:47.426Z|00021|rconn|INFO|unix:/var/run/openvswitch/br-int.mgmt: connected
+2025-04-01T08:34:47.426130235Z 2025-04-01T08:34:47.426Z|00022|main|INFO|OVS OpenFlow connection reconnected,force recompute.
+2025-04-01T08:34:47.426277572Z 2025-04-01T08:34:47.426Z|00023|binding|INFO|Claiming lport rtoe-GR_host-10-13-3-120 for this chassis.
+2025-04-01T08:34:47.426277572Z 2025-04-01T08:34:47.426Z|00024|binding|INFO|rtoe-GR_host-10-13-3-120: Claiming fa:16:3e:6b:2e:31 10.13.3.120/16
+2025-04-01T08:34:47.426299382Z 2025-04-01T08:34:47.426Z|00025|binding|INFO|Claiming lport cr-rtos-host-10-13-3-120 for this chassis.
+2025-04-01T08:34:47.426299382Z 2025-04-01T08:34:47.426Z|00026|binding|INFO|cr-rtos-host-10-13-3-120: Claiming 0a:58:0a:80:02:01 10.128.2.1/23
+2025-04-01T08:34:47.426305822Z 2025-04-01T08:34:47.426Z|00027|binding|INFO|Claiming lport k8s-host-10-13-3-120 for this chassis.
+2025-04-01T08:34:47.426305822Z 2025-04-01T08:34:47.426Z|00028|binding|INFO|k8s-host-10-13-3-120: Claiming de:1e:4f:ef:0b:32 10.128.2.2
+2025-04-01T08:34:47.426311852Z 2025-04-01T08:34:47.426Z|00029|binding|INFO|Claiming lport jtor-GR_host-10-13-3-120 for this chassis.
+2025-04-01T08:34:47.426311852Z 2025-04-01T08:34:47.426Z|00030|binding|INFO|jtor-GR_host-10-13-3-120: Claiming router
+2025-04-01T08:34:47.426327371Z 2025-04-01T08:34:47.426Z|00031|binding|INFO|Claiming lport etor-GR_host-10-13-3-120 for this chassis.
+2025-04-01T08:34:47.426327371Z 2025-04-01T08:34:47.426Z|00032|binding|INFO|etor-GR_host-10-13-3-120: Claiming fa:16:3e:6b:2e:31
+2025-04-01T08:34:47.426327371Z 2025-04-01T08:34:47.426Z|00033|binding|INFO|Claiming lport rtoj-GR_host-10-13-3-120 for this chassis.
+2025-04-01T08:34:47.426333981Z 2025-04-01T08:34:47.426Z|00034|binding|INFO|rtoj-GR_host-10-13-3-120: Claiming 0a:58:64:40:00:06 100.64.0.6/16
+2025-04-01T08:34:47.488256891Z 2025-04-01T08:34:47.488Z|00035|physical|WARN|Failed to locate tunnel to reach main chassis 8025bc5c-d535-434b-a67b-4c4780376ca6 for port tstor-host-10-13-0-150.
+2025-04-01T08:34:47.495609222Z 2025-04-01T08:34:47.492Z|00001|statctrl(ovn_statctrl2)|INFO|unix:/var/run/openvswitch/br-int.mgmt: connecting to switch
+2025-04-01T08:34:47.495609222Z 2025-04-01T08:34:47.492Z|00002|rconn(ovn_statctrl2)|INFO|unix:/var/run/openvswitch/br-int.mgmt: connecting...
+2025-04-01T08:34:47.495609222Z 2025-04-01T08:34:47.492Z|00036|binding|INFO|Setting lport jtor-GR_host-10-13-3-120 up in Southbound
+2025-04-01T08:34:47.495609222Z 2025-04-01T08:34:47.492Z|00037|binding|INFO|Setting lport cr-rtos-host-10-13-3-120 up in Southbound
+2025-04-01T08:34:47.495609222Z 2025-04-01T08:34:47.492Z|00038|binding|INFO|Setting lport rtoe-GR_host-10-13-3-120 up in Southbound
+2025-04-01T08:34:47.495609222Z 2025-04-01T08:34:47.492Z|00039|binding|INFO|Setting lport etor-GR_host-10-13-3-120 up in Southbound
+2025-04-01T08:34:47.495609222Z 2025-04-01T08:34:47.492Z|00040|binding|INFO|Setting lport rtoj-GR_host-10-13-3-120 up in Southbound
+2025-04-01T08:34:47.495609222Z 2025-04-01T08:34:47.492Z|00003|rconn(ovn_statctrl2)|INFO|unix:/var/run/openvswitch/br-int.mgmt: connected
+2025-04-01T08:34:47.495661291Z 2025-04-01T08:34:47.495Z|00001|pinctrl(ovn_pinctrl0)|INFO|unix:/var/run/openvswitch/br-int.mgmt: connecting to switch
+2025-04-01T08:34:47.495686310Z 2025-04-01T08:34:47.495Z|00002|rconn(ovn_pinctrl0)|INFO|unix:/var/run/openvswitch/br-int.mgmt: connecting...
+2025-04-01T08:34:47.521458729Z 2025-04-01T08:34:47.521Z|00003|rconn(ovn_pinctrl0)|INFO|unix:/var/run/openvswitch/br-int.mgmt: connected
+2025-04-01T08:34:47.688459306Z 2025-04-01T08:34:47.688Z|00041|binding|INFO|Setting lport k8s-host-10-13-3-120 ovn-installed in OVS
+2025-04-01T08:34:47.688459306Z 2025-04-01T08:34:47.688Z|00042|binding|INFO|Setting lport k8s-host-10-13-3-120 up in Southbound
+2025-04-01T08:35:00.286208070Z 2025-04-01T08:35:00.280Z|00043|binding|INFO|Claiming lport openshift-ingress-canary_ingress-canary-4blmj for this chassis.
+2025-04-01T08:35:00.286208070Z 2025-04-01T08:35:00.280Z|00044|binding|INFO|openshift-ingress-canary_ingress-canary-4blmj: Claiming 0a:58:0a:80:02:06 10.128.2.6
+2025-04-01T08:35:00.304739595Z 2025-04-01T08:35:00.304Z|00045|binding|INFO|Setting lport openshift-ingress-canary_ingress-canary-4blmj ovn-installed in OVS
+2025-04-01T08:35:00.304773265Z 2025-04-01T08:35:00.304Z|00046|binding|INFO|Setting lport openshift-ingress-canary_ingress-canary-4blmj up in Southbound
+2025-04-01T08:35:00.307058739Z 2025-04-01T08:35:00.307Z|00047|binding|INFO|Claiming lport openshift-dns_dns-default-tq6d7 for this chassis.
+2025-04-01T08:35:00.307639806Z 2025-04-01T08:35:00.307Z|00048|binding|INFO|openshift-dns_dns-default-tq6d7: Claiming 0a:58:0a:80:02:05 10.128.2.5
+2025-04-01T08:35:00.332908716Z 2025-04-01T08:35:00.332Z|00049|binding|INFO|Setting lport openshift-dns_dns-default-tq6d7 ovn-installed in OVS
+2025-04-01T08:35:00.332947015Z 2025-04-01T08:35:00.332Z|00050|binding|INFO|Setting lport openshift-dns_dns-default-tq6d7 up in Southbound
+2025-04-01T08:35:14.917016577Z 2025-04-01T08:35:14.912Z|00051|binding|INFO|Claiming lport openshift-network-diagnostics_network-check-target-t7fm9 for this chassis.
+2025-04-01T08:35:14.917016577Z 2025-04-01T08:35:14.912Z|00052|binding|INFO|openshift-network-diagnostics_network-check-target-t7fm9: Claiming 0a:58:0a:80:02:03 10.128.2.3
+2025-04-01T08:35:14.939418944Z 2025-04-01T08:35:14.938Z|00053|binding|INFO|Setting lport openshift-network-diagnostics_network-check-target-t7fm9 ovn-installed in OVS
+2025-04-01T08:35:14.939418944Z 2025-04-01T08:35:14.938Z|00054|binding|INFO|Setting lport openshift-network-diagnostics_network-check-target-t7fm9 up in Southbound
+2025-04-01T08:35:14.940929694Z 2025-04-01T08:35:14.940Z|00055|binding|INFO|Claiming lport openshift-multus_network-metrics-daemon-stgrn for this chassis.
+2025-04-01T08:35:14.940960643Z 2025-04-01T08:35:14.940Z|00056|binding|INFO|openshift-multus_network-metrics-daemon-stgrn: Claiming 0a:58:0a:80:02:04 10.128.2.4
+2025-04-01T08:35:14.966818051Z 2025-04-01T08:35:14.966Z|00057|binding|INFO|Setting lport openshift-multus_network-metrics-daemon-stgrn ovn-installed in OVS
+2025-04-01T08:35:14.966818051Z 2025-04-01T08:35:14.966Z|00058|binding|INFO|Setting lport openshift-multus_network-metrics-daemon-stgrn up in Southbound
+2025-04-01T08:35:48.226323719Z 2025-04-01T08:35:48.226Z|00059|memory_trim|INFO|Detected inactivity (last active 30001 ms ago): trimming memory
+2025-04-01T08:36:52.110828683Z 2025-04-01T08:36:52.110Z|00060|memory_trim|INFO|Detected inactivity (last active 30004 ms ago): trimming memory
+2025-04-01T09:02:29.160678182Z 2025-04-01T09:02:29.160Z|00061|memory_trim|INFO|Detected inactivity (last active 30001 ms ago): trimming memory
+2025-04-01T09:04:08.478185918Z 2025-04-01T09:04:08.478Z|00062|memory_trim|INFO|Detected inactivity (last active 30006 ms ago): trimming memory
+2025-04-01T09:05:26.028083461Z 2025-04-01T09:05:26.028Z|00063|memory_trim|INFO|Detected inactivity (last active 30003 ms ago): trimming memory
+2025-04-01T09:07:05.896118241Z 2025-04-01T09:07:05.896Z|00064|memory_trim|INFO|Detected inactivity (last active 30003 ms ago): trimming memory
+2025-04-01T09:08:23.475803149Z 2025-04-01T09:08:23.475Z|00065|memory_trim|INFO|Detected inactivity (last active 30004 ms ago): trimming memory
+2025-04-01T09:10:06.201190653Z 2025-04-01T09:10:06.201Z|00066|memory_trim|INFO|Detected inactivity (last active 30002 ms ago): trimming memory
+2025-04-01T09:37:28.034890954Z 2025-04-01T09:37:28.034Z|00067|memory_trim|INFO|Detected inactivity (last active 30003 ms ago): trimming memory
+2025-04-01T09:38:27.296770899Z 2025-04-01T09:38:27.296Z|00068|memory_trim|INFO|Detected inactivity (last active 30002 ms ago): trimming memory
+2025-04-01T09:40:09.492503318Z 2025-04-01T09:40:09.492Z|00069|memory_trim|INFO|Detected inactivity (last active 30004 ms ago): trimming memory
+2025-04-01T09:41:27.217116363Z 2025-04-01T09:41:27.217Z|00070|memory_trim|INFO|Detected inactivity (last active 30002 ms ago): trimming memory
+2025-04-01T09:43:04.898207418Z 2025-04-01T09:43:04.898Z|00071|memory_trim|INFO|Detected inactivity (last active 30004 ms ago): trimming memory
+2025-04-01T09:44:22.184625300Z 2025-04-01T09:44:22.184Z|00072|memory_trim|INFO|Detected inactivity (last active 30001 ms ago): trimming memory
+2025-04-01T09:46:01.221841816Z 2025-04-01T09:46:01.221Z|00073|memory_trim|INFO|Detected inactivity (last active 30001 ms ago): trimming memory
+2025-04-01T10:31:57.380824284Z 2025-04-01T10:31:57.380Z|00074|memory_trim|INFO|Detected inactivity (last active 30005 ms ago): trimming memory
+2025-04-01T10:55:22.707899885Z 2025-04-01T10:55:22.707Z|00075|memory_trim|INFO|Detected inactivity (last active 30003 ms ago): trimming memory
+2025-04-01T11:05:49.605748518Z 2025-04-01T11:05:49.605Z|00076|memory_trim|INFO|Detected inactivity (last active 30002 ms ago): trimming memory
+2025-04-01T11:22:32.270214357Z 2025-04-01T11:22:32.270Z|00077|memory_trim|INFO|Detected inactivity (last active 30002 ms ago): trimming memory
+2025-04-01T11:46:12.622865505Z 2025-04-01T11:46:12.622Z|00078|memory_trim|INFO|Detected inactivity (last active 30001 ms ago): trimming memory
+2025-04-01T11:58:56.651216805Z 2025-04-01T11:58:56.651Z|00079|memory_trim|INFO|Detected inactivity (last active 30005 ms ago): trimming memory
+2025-04-01T11:59:53.552778686Z 2025-04-01T11:59:53.552Z|00080|memory_trim|INFO|Detected inactivity (last active 30002 ms ago): trimming memory
+2025-04-01T12:01:32.464375837Z 2025-04-01T12:01:32.464Z|00081|memory_trim|INFO|Detected inactivity (last active 30005 ms ago): trimming memory
+2025-04-01T12:02:53.196831297Z 2025-04-01T12:02:53.196Z|00082|memory_trim|INFO|Detected inactivity (last active 30001 ms ago): trimming memory
+2025-04-01T12:04:31.882939778Z 2025-04-01T12:04:31.882Z|00083|memory_trim|INFO|Detected inactivity (last active 30004 ms ago): trimming memory
+2025-04-01T12:05:50.514653985Z 2025-04-01T12:05:50.514Z|00084|memory_trim|INFO|Detected inactivity (last active 30003 ms ago): trimming memory
+2025-04-01T12:07:35.215207424Z 2025-04-01T12:07:35.215Z|00085|memory_trim|INFO|Detected inactivity (last active 30003 ms ago): trimming memory
+2025-04-01T12:38:50.577743150Z 2025-04-01T12:38:50.575Z|00086|binding|INFO|Claiming lport kube-system_csi-cinder-controllerplugin-5847b67f7b-8l8p4 for this chassis.
+2025-04-01T12:38:50.577743150Z 2025-04-01T12:38:50.575Z|00087|binding|INFO|kube-system_csi-cinder-controllerplugin-5847b67f7b-8l8p4: Claiming 0a:58:0a:80:02:07 10.128.2.7
+2025-04-01T12:38:50.604425469Z 2025-04-01T12:38:50.604Z|00088|binding|INFO|Setting lport kube-system_csi-cinder-controllerplugin-5847b67f7b-8l8p4 ovn-installed in OVS
+2025-04-01T12:38:50.604425469Z 2025-04-01T12:38:50.604Z|00089|binding|INFO|Setting lport kube-system_csi-cinder-controllerplugin-5847b67f7b-8l8p4 up in Southbound
+2025-04-01T12:39:20.577362062Z 2025-04-01T12:39:20.577Z|00090|memory_trim|INFO|Detected inactivity (last active 30002 ms ago): trimming memory
+2025-04-01T12:40:39.750591171Z 2025-04-01T12:40:39.750Z|00091|memory_trim|INFO|Detected inactivity (last active 30001 ms ago): trimming memory
+2025-04-01T12:57:25.459950051Z 2025-04-01T12:57:25.459Z|00092|memory_trim|INFO|Detected inactivity (last active 30002 ms ago): trimming memory
+2025-04-01T12:59:08.458847512Z 2025-04-01T12:59:08.458Z|00093|memory_trim|INFO|Detected inactivity (last active 30003 ms ago): trimming memory
+2025-04-01T13:00:26.130061425Z 2025-04-01T13:00:26.129Z|00094|memory_trim|INFO|Detected inactivity (last active 30001 ms ago): trimming memory
+2025-04-01T13:00:26.658657199Z 2025-04-01T13:00:26.658Z|00095|binding|INFO|Claiming lport openshift-monitoring_prometheus-adapter-74878b69dd-7pqxq for this chassis.
+2025-04-01T13:00:26.658688358Z 2025-04-01T13:00:26.658Z|00096|binding|INFO|openshift-monitoring_prometheus-adapter-74878b69dd-7pqxq: Claiming 0a:58:0a:80:02:08 10.128.2.8
+2025-04-01T13:00:26.685767369Z 2025-04-01T13:00:26.685Z|00097|binding|INFO|Setting lport openshift-monitoring_prometheus-adapter-74878b69dd-7pqxq ovn-installed in OVS
+2025-04-01T13:00:26.685804098Z 2025-04-01T13:00:26.685Z|00098|binding|INFO|Setting lport openshift-monitoring_prometheus-adapter-74878b69dd-7pqxq up in Southbound
+2025-04-01T13:01:09.605986447Z 2025-04-01T13:01:09.605Z|00099|memory_trim|INFO|Detected inactivity (last active 30004 ms ago): trimming memory
+2025-04-01T13:02:04.932531186Z 2025-04-01T13:02:04.932Z|00100|memory_trim|INFO|Detected inactivity (last active 30005 ms ago): trimming memory
+2025-04-01T13:03:22.798577195Z 2025-04-01T13:03:22.798Z|00101|memory_trim|INFO|Detected inactivity (last active 30002 ms ago): trimming memory
+2025-04-01T13:04:59.209427585Z 2025-04-01T13:04:59.209Z|00102|memory_trim|INFO|Detected inactivity (last active 30004 ms ago): trimming memory
+2025-04-01T13:13:06.670238951Z 2025-04-01T13:13:06.670Z|00103|memory_trim|INFO|Detected inactivity (last active 30001 ms ago): trimming memory
+2025-04-01T14:37:15.717357267Z 2025-04-01T14:37:15.717Z|00104|memory_trim|INFO|Detected inactivity (last active 30001 ms ago): trimming memory
+2025-04-01T14:44:34.620970907Z 2025-04-01T14:44:34.616Z|00105|binding|INFO|Releasing lport kube-system_csi-cinder-controllerplugin-5847b67f7b-8l8p4 from this chassis (sb_readonly=0)
+2025-04-01T14:44:34.620970907Z 2025-04-01T14:44:34.616Z|00106|binding|INFO|Setting lport kube-system_csi-cinder-controllerplugin-5847b67f7b-8l8p4 down in Southbound
+2025-04-01T14:45:04.739470295Z 2025-04-01T14:45:04.739Z|00107|memory_trim|INFO|Detected inactivity (last active 30002 ms ago): trimming memory
+2025-04-01T14:48:24.821070233Z 2025-04-01T14:48:24.821Z|00108|binding|INFO|Claiming lport kube-system_csi-cinder-controllerplugin-5847b67f7b-fdzk8 for this chassis.
+2025-04-01T14:48:24.821513786Z 2025-04-01T14:48:24.821Z|00109|binding|INFO|kube-system_csi-cinder-controllerplugin-5847b67f7b-fdzk8: Claiming 0a:58:0a:80:02:09 10.128.2.9
+2025-04-01T14:48:24.850472045Z 2025-04-01T14:48:24.850Z|00110|binding|INFO|Setting lport kube-system_csi-cinder-controllerplugin-5847b67f7b-fdzk8 ovn-installed in OVS
+2025-04-01T14:48:24.850472045Z 2025-04-01T14:48:24.850Z|00111|binding|INFO|Setting lport kube-system_csi-cinder-controllerplugin-5847b67f7b-fdzk8 up in Southbound
+2025-04-01T14:48:54.823345243Z 2025-04-01T14:48:54.823Z|00112|memory_trim|INFO|Detected inactivity (last active 30002 ms ago): trimming memory
+2025-04-01T14:50:32.588665561Z 2025-04-01T14:50:32.588Z|00113|memory_trim|INFO|Detected inactivity (last active 30002 ms ago): trimming memory
+2025-04-01T15:18:38.322925913Z 2025-04-01T15:18:38.322Z|00114|memory_trim|INFO|Detected inactivity (last active 30002 ms ago): trimming memory
+2025-04-01T15:21:02.714105877Z 2025-04-01T15:21:02.714Z|00115|memory_trim|INFO|Detected inactivity (last active 30001 ms ago): trimming memory
+2025-04-01T15:22:35.453504775Z 2025-04-01T15:22:35.453Z|00116|memory_trim|INFO|Detected inactivity (last active 30003 ms ago): trimming memory
+2025-04-01T15:39:11.684057408Z 2025-04-01T15:39:11.683Z|00117|memory_trim|INFO|Detected inactivity (last active 30005 ms ago): trimming memory
+2025-04-01T16:02:08.776600753Z 2025-04-01T16:02:08.776Z|00118|memory_trim|INFO|Detected inactivity (last active 30003 ms ago): trimming memory
+2025-04-01T16:34:11.807984593Z 2025-04-01T16:34:11.807Z|00119|memory_trim|INFO|Detected inactivity (last active 30002 ms ago): trimming memory
+2025-04-01T16:40:51.765180796Z 2025-04-01T16:40:51.765Z|00120|memory_trim|INFO|Detected inactivity (last active 30001 ms ago): trimming memory
+2025-04-01T16:44:38.514972647Z 2025-04-01T16:44:38.514Z|00121|memory_trim|INFO|Detected inactivity (last active 30003 ms ago): trimming memory
+2025-04-01T16:59:53.205290502Z 2025-04-01T16:59:53.205Z|00122|memory_trim|INFO|Detected inactivity (last active 30002 ms ago): trimming memory
+2025-04-01T17:02:39.849282440Z 2025-04-01T17:02:39.849Z|00123|memory_trim|INFO|Detected inactivity (last active 30002 ms ago): trimming memory
+2025-04-01T17:08:08.913179574Z 2025-04-01T17:08:08.913Z|00124|memory_trim|INFO|Detected inactivity (last active 30002 ms ago): trimming memory
+2025-04-01T19:02:24.963143506Z 2025-04-01T19:02:24.963Z|00125|memory_trim|INFO|Detected inactivity (last active 30003 ms ago): trimming memory
+2025-04-01T19:10:33.783065628Z 2025-04-01T19:10:33.783Z|00126|memory_trim|INFO|Detected inactivity (last active 30006 ms ago): trimming memory
+2025-04-01T20:11:52.278219081Z 2025-04-01T20:11:52.278Z|00127|memory_trim|INFO|Detected inactivity (last active 30001 ms ago): trimming memory
+2025-04-01T20:57:16.698912427Z 2025-04-01T20:57:16.698Z|00128|memory_trim|INFO|Detected inactivity (last active 30004 ms ago): trimming memory
+2025-04-01T21:15:56.599282738Z 2025-04-01T21:15:56.599Z|00129|memory_trim|INFO|Detected inactivity (last active 30001 ms ago): trimming memory
+2025-04-01T22:13:07.279326662Z 2025-04-01T22:13:07.279Z|00130|memory_trim|INFO|Detected inactivity (last active 30003 ms ago): trimming memory
+2025-04-01T23:05:58.683044476Z 2025-04-01T23:05:58.682Z|00131|memory_trim|INFO|Detected inactivity (last active 30002 ms ago): trimming memory
+2025-04-01T23:39:17.626024056Z 2025-04-01T23:39:17.625Z|00132|memory_trim|INFO|Detected inactivity (last active 30002 ms ago): trimming memory
+2025-04-02T00:05:21.331890612Z 2025-04-02T00:05:21.331Z|00133|memory_trim|INFO|Detected inactivity (last active 30003 ms ago): trimming memory
+2025-04-02T00:18:31.454899404Z 2025-04-02T00:18:31.454Z|00134|memory_trim|INFO|Detected inactivity (last active 30003 ms ago): trimming memory
+2025-04-02T02:04:45.978840164Z 2025-04-02T02:04:45.978Z|00135|memory_trim|INFO|Detected inactivity (last active 30003 ms ago): trimming memory
+2025-04-02T03:38:18.302660785Z 2025-04-02T03:38:18.302Z|00136|memory_trim|INFO|Detected inactivity (last active 30001 ms ago): trimming memory
+2025-04-02T04:00:00.768072591Z 2025-04-02T04:00:00.768Z|00137|memory_trim|INFO|Detected inactivity (last active 30001 ms ago): trimming memory
+2025-04-02T04:04:47.313767198Z 2025-04-02T04:04:47.313Z|00138|memory_trim|INFO|Detected inactivity (last active 30002 ms ago): trimming memory
+2025-04-02T05:04:42.782087618Z 2025-04-02T05:04:42.782Z|00139|memory_trim|INFO|Detected inactivity (last active 30005 ms ago): trimming memory
+2025-04-02T07:23:16.219698003Z 2025-04-02T07:23:16.219Z|00140|memory_trim|INFO|Detected inactivity (last active 30002 ms ago): trimming memory

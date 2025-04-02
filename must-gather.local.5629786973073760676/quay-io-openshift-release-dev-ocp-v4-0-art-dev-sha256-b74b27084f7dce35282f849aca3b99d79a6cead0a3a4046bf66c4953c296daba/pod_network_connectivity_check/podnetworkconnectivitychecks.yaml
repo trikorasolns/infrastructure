@@ -1,0 +1,1589 @@
+apiVersion: v1
+items:
+- apiVersion: controlplane.operator.openshift.io/v1alpha1
+  kind: PodNetworkConnectivityCheck
+  metadata:
+    creationTimestamp: "2025-04-01T12:58:38Z"
+    generation: 1
+    labels:
+      networking.openshift.io/managedBy: oc-connectivity-check-controller
+    name: network-check-source-host-10-13-0-150-to-kubernetes-apiserver-endpoint-host-10-13-0-150
+    namespace: openshift-network-diagnostics
+    ownerReferences:
+    - apiVersion: v1
+      kind: Node
+      name: host-10-13-0-150
+      uid: aa0ee1a4-f522-492c-9ed4-31e996e0024f
+    resourceVersion: "717224"
+    uid: b25c4d3a-91dd-45e8-9309-49bf5d271018
+  spec:
+    sourcePod: network-check-source-6764c6ff9f-c2z9b
+    targetEndpoint: 10.13.0.150:6443
+  status:
+    conditions:
+    - lastTransitionTime: "2025-04-01T13:05:38Z"
+      message: 'kubernetes-apiserver-endpoint-host-10-13-0-150: tcp connection to
+        10.13.0.150:6443 succeeded'
+      reason: TCPConnectSuccess
+      status: "True"
+      type: Reachable
+    successes:
+    - latency: 848.534µs
+      message: 'kubernetes-apiserver-endpoint-host-10-13-0-150: tcp connection to
+        10.13.0.150:6443 succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:45:38Z"
+    - latency: 1.203028ms
+      message: 'kubernetes-apiserver-endpoint-host-10-13-0-150: tcp connection to
+        10.13.0.150:6443 succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:44:38Z"
+    - latency: 1.417754ms
+      message: 'kubernetes-apiserver-endpoint-host-10-13-0-150: tcp connection to
+        10.13.0.150:6443 succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:43:38Z"
+    - latency: 1.712398ms
+      message: 'kubernetes-apiserver-endpoint-host-10-13-0-150: tcp connection to
+        10.13.0.150:6443 succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:42:38Z"
+    - latency: 825.755µs
+      message: 'kubernetes-apiserver-endpoint-host-10-13-0-150: tcp connection to
+        10.13.0.150:6443 succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:41:38Z"
+    - latency: 1.170298ms
+      message: 'kubernetes-apiserver-endpoint-host-10-13-0-150: tcp connection to
+        10.13.0.150:6443 succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:40:38Z"
+    - latency: 1.462173ms
+      message: 'kubernetes-apiserver-endpoint-host-10-13-0-150: tcp connection to
+        10.13.0.150:6443 succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:39:38Z"
+    - latency: 696.847µs
+      message: 'kubernetes-apiserver-endpoint-host-10-13-0-150: tcp connection to
+        10.13.0.150:6443 succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:38:38Z"
+    - latency: 1.441993ms
+      message: 'kubernetes-apiserver-endpoint-host-10-13-0-150: tcp connection to
+        10.13.0.150:6443 succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:37:38Z"
+    - latency: 910.353µs
+      message: 'kubernetes-apiserver-endpoint-host-10-13-0-150: tcp connection to
+        10.13.0.150:6443 succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:36:38Z"
+- apiVersion: controlplane.operator.openshift.io/v1alpha1
+  kind: PodNetworkConnectivityCheck
+  metadata:
+    creationTimestamp: "2025-04-01T13:01:34Z"
+    generation: 1
+    labels:
+      networking.openshift.io/managedBy: oc-connectivity-check-controller
+    name: network-check-source-host-10-13-0-150-to-kubernetes-apiserver-endpoint-host-10-13-2-160
+    namespace: openshift-network-diagnostics
+    ownerReferences:
+    - apiVersion: v1
+      kind: Node
+      name: host-10-13-0-150
+      uid: aa0ee1a4-f522-492c-9ed4-31e996e0024f
+    resourceVersion: "718148"
+    uid: 7b96e92a-3902-4a3a-abbb-b69ed2c51831
+  spec:
+    sourcePod: network-check-source-6764c6ff9f-c2z9b
+    targetEndpoint: 10.13.2.160:6443
+  status:
+    conditions:
+    - lastTransitionTime: "2025-04-01T13:08:34Z"
+      message: 'kubernetes-apiserver-endpoint-host-10-13-2-160: tcp connection to
+        10.13.2.160:6443 succeeded'
+      reason: TCPConnectSuccess
+      status: "True"
+      type: Reachable
+    successes:
+    - latency: 1.080921ms
+      message: 'kubernetes-apiserver-endpoint-host-10-13-2-160: tcp connection to
+        10.13.2.160:6443 succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:48:34Z"
+    - latency: 1.399624ms
+      message: 'kubernetes-apiserver-endpoint-host-10-13-2-160: tcp connection to
+        10.13.2.160:6443 succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:47:34Z"
+    - latency: 1.021102ms
+      message: 'kubernetes-apiserver-endpoint-host-10-13-2-160: tcp connection to
+        10.13.2.160:6443 succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:46:34Z"
+    - latency: 1.671258ms
+      message: 'kubernetes-apiserver-endpoint-host-10-13-2-160: tcp connection to
+        10.13.2.160:6443 succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:45:34Z"
+    - latency: 1.439693ms
+      message: 'kubernetes-apiserver-endpoint-host-10-13-2-160: tcp connection to
+        10.13.2.160:6443 succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:44:34Z"
+    - latency: 1.455433ms
+      message: 'kubernetes-apiserver-endpoint-host-10-13-2-160: tcp connection to
+        10.13.2.160:6443 succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:43:34Z"
+    - latency: 1.138358ms
+      message: 'kubernetes-apiserver-endpoint-host-10-13-2-160: tcp connection to
+        10.13.2.160:6443 succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:42:34Z"
+    - latency: 1.737577ms
+      message: 'kubernetes-apiserver-endpoint-host-10-13-2-160: tcp connection to
+        10.13.2.160:6443 succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:41:34Z"
+    - latency: 1.370975ms
+      message: 'kubernetes-apiserver-endpoint-host-10-13-2-160: tcp connection to
+        10.13.2.160:6443 succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:40:34Z"
+    - latency: 1.127619ms
+      message: 'kubernetes-apiserver-endpoint-host-10-13-2-160: tcp connection to
+        10.13.2.160:6443 succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:39:34Z"
+- apiVersion: controlplane.operator.openshift.io/v1alpha1
+  kind: PodNetworkConnectivityCheck
+  metadata:
+    creationTimestamp: "2025-04-01T13:04:29Z"
+    generation: 1
+    labels:
+      networking.openshift.io/managedBy: oc-connectivity-check-controller
+    name: network-check-source-host-10-13-0-150-to-kubernetes-apiserver-endpoint-host-10-13-2-89
+    namespace: openshift-network-diagnostics
+    ownerReferences:
+    - apiVersion: v1
+      kind: Node
+      name: host-10-13-0-150
+      uid: aa0ee1a4-f522-492c-9ed4-31e996e0024f
+    resourceVersion: "716760"
+    uid: 9dde0382-068d-4b84-b56f-9cb536e7db2a
+  spec:
+    sourcePod: network-check-source-6764c6ff9f-c2z9b
+    targetEndpoint: 10.13.2.89:6443
+  status:
+    conditions:
+    - lastTransitionTime: "2025-04-01T13:11:29Z"
+      message: 'kubernetes-apiserver-endpoint-host-10-13-2-89: tcp connection to 10.13.2.89:6443
+        succeeded'
+      reason: TCPConnectSuccess
+      status: "True"
+      type: Reachable
+    successes:
+    - latency: 1.63657ms
+      message: 'kubernetes-apiserver-endpoint-host-10-13-2-89: tcp connection to 10.13.2.89:6443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:44:29Z"
+    - latency: 1.211328ms
+      message: 'kubernetes-apiserver-endpoint-host-10-13-2-89: tcp connection to 10.13.2.89:6443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:43:29Z"
+    - latency: 2.121441ms
+      message: 'kubernetes-apiserver-endpoint-host-10-13-2-89: tcp connection to 10.13.2.89:6443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:42:29Z"
+    - latency: 1.406143ms
+      message: 'kubernetes-apiserver-endpoint-host-10-13-2-89: tcp connection to 10.13.2.89:6443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:41:29Z"
+    - latency: 1.499752ms
+      message: 'kubernetes-apiserver-endpoint-host-10-13-2-89: tcp connection to 10.13.2.89:6443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:40:29Z"
+    - latency: 1.756998ms
+      message: 'kubernetes-apiserver-endpoint-host-10-13-2-89: tcp connection to 10.13.2.89:6443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:39:29Z"
+    - latency: 2.081552ms
+      message: 'kubernetes-apiserver-endpoint-host-10-13-2-89: tcp connection to 10.13.2.89:6443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:38:29Z"
+    - latency: 1.325046ms
+      message: 'kubernetes-apiserver-endpoint-host-10-13-2-89: tcp connection to 10.13.2.89:6443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:37:29Z"
+    - latency: 1.618501ms
+      message: 'kubernetes-apiserver-endpoint-host-10-13-2-89: tcp connection to 10.13.2.89:6443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:36:29Z"
+    - latency: 1.67626ms
+      message: 'kubernetes-apiserver-endpoint-host-10-13-2-89: tcp connection to 10.13.2.89:6443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:35:29Z"
+- apiVersion: controlplane.operator.openshift.io/v1alpha1
+  kind: PodNetworkConnectivityCheck
+  metadata:
+    creationTimestamp: "2025-03-31T20:43:24Z"
+    generation: 1
+    labels:
+      networking.openshift.io/managedBy: oc-connectivity-check-controller
+    name: network-check-source-host-10-13-0-150-to-kubernetes-apiserver-service-cluster
+    namespace: openshift-network-diagnostics
+    ownerReferences:
+    - apiVersion: v1
+      kind: Node
+      name: host-10-13-0-150
+      uid: aa0ee1a4-f522-492c-9ed4-31e996e0024f
+    resourceVersion: "716418"
+    uid: da5dcde1-9572-4f0b-bf61-bf2d3c73c190
+  spec:
+    sourcePod: network-check-source-6764c6ff9f-c2z9b
+    targetEndpoint: 172.30.207.18:443
+  status:
+    conditions:
+    - lastTransitionTime: "2025-03-31T20:50:24Z"
+      message: 'kubernetes-apiserver-service-cluster: tcp connection to 172.30.207.18:443
+        succeeded'
+      reason: TCPConnectSuccess
+      status: "True"
+      type: Reachable
+    successes:
+    - latency: 1.821976ms
+      message: 'kubernetes-apiserver-service-cluster: tcp connection to 172.30.207.18:443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:43:24Z"
+    - latency: 2.171929ms
+      message: 'kubernetes-apiserver-service-cluster: tcp connection to 172.30.207.18:443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:42:24Z"
+    - latency: 2.464774ms
+      message: 'kubernetes-apiserver-service-cluster: tcp connection to 172.30.207.18:443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:41:24Z"
+    - latency: 1.318905ms
+      message: 'kubernetes-apiserver-service-cluster: tcp connection to 172.30.207.18:443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:40:24Z"
+    - latency: 2.387296ms
+      message: 'kubernetes-apiserver-service-cluster: tcp connection to 172.30.207.18:443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:39:24Z"
+    - latency: 785.845µs
+      message: 'kubernetes-apiserver-service-cluster: tcp connection to 172.30.207.18:443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:38:24Z"
+    - latency: 2.528154ms
+      message: 'kubernetes-apiserver-service-cluster: tcp connection to 172.30.207.18:443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:37:24Z"
+    - latency: 2.094821ms
+      message: 'kubernetes-apiserver-service-cluster: tcp connection to 172.30.207.18:443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:36:24Z"
+    - latency: 1.69868ms
+      message: 'kubernetes-apiserver-service-cluster: tcp connection to 172.30.207.18:443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:35:24Z"
+    - latency: 3.34228ms
+      message: 'kubernetes-apiserver-service-cluster: tcp connection to 172.30.207.18:443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:34:24Z"
+- apiVersion: controlplane.operator.openshift.io/v1alpha1
+  kind: PodNetworkConnectivityCheck
+  metadata:
+    creationTimestamp: "2025-03-31T20:43:24Z"
+    generation: 1
+    labels:
+      networking.openshift.io/managedBy: oc-connectivity-check-controller
+    name: network-check-source-host-10-13-0-150-to-kubernetes-default-service-cluster-0
+    namespace: openshift-network-diagnostics
+    ownerReferences:
+    - apiVersion: v1
+      kind: Node
+      name: host-10-13-0-150
+      uid: aa0ee1a4-f522-492c-9ed4-31e996e0024f
+    resourceVersion: "716414"
+    uid: 45c6a96c-c4f4-4680-b992-98ff01187773
+  spec:
+    sourcePod: network-check-source-6764c6ff9f-c2z9b
+    targetEndpoint: 172.30.0.1:443
+  status:
+    conditions:
+    - lastTransitionTime: "2025-03-31T20:50:24Z"
+      message: 'kubernetes-default-service-cluster-0: tcp connection to 172.30.0.1:443
+        succeeded'
+      reason: TCPConnectSuccess
+      status: "True"
+      type: Reachable
+    successes:
+    - latency: 2.831398ms
+      message: 'kubernetes-default-service-cluster-0: tcp connection to 172.30.0.1:443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:43:24Z"
+    - latency: 4.461347ms
+      message: 'kubernetes-default-service-cluster-0: tcp connection to 172.30.0.1:443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:42:24Z"
+    - latency: 2.068482ms
+      message: 'kubernetes-default-service-cluster-0: tcp connection to 172.30.0.1:443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:41:24Z"
+    - latency: 4.84357ms
+      message: 'kubernetes-default-service-cluster-0: tcp connection to 172.30.0.1:443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:40:24Z"
+    - latency: 4.557385ms
+      message: 'kubernetes-default-service-cluster-0: tcp connection to 172.30.0.1:443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:39:24Z"
+    - latency: 3.711591ms
+      message: 'kubernetes-default-service-cluster-0: tcp connection to 172.30.0.1:443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:38:24Z"
+    - latency: 7.196836ms
+      message: 'kubernetes-default-service-cluster-0: tcp connection to 172.30.0.1:443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:37:24Z"
+    - latency: 3.422897ms
+      message: 'kubernetes-default-service-cluster-0: tcp connection to 172.30.0.1:443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:36:24Z"
+    - latency: 3.718403ms
+      message: 'kubernetes-default-service-cluster-0: tcp connection to 172.30.0.1:443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:35:24Z"
+    - latency: 6.862207ms
+      message: 'kubernetes-default-service-cluster-0: tcp connection to 172.30.0.1:443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:34:24Z"
+- apiVersion: controlplane.operator.openshift.io/v1alpha1
+  kind: PodNetworkConnectivityCheck
+  metadata:
+    creationTimestamp: "2025-03-31T20:43:23Z"
+    generation: 1
+    labels:
+      networking.openshift.io/managedBy: oc-connectivity-check-controller
+    name: network-check-source-host-10-13-0-150-to-load-balancer-api-external
+    namespace: openshift-network-diagnostics
+    ownerReferences:
+    - apiVersion: v1
+      kind: Node
+      name: host-10-13-0-150
+      uid: aa0ee1a4-f522-492c-9ed4-31e996e0024f
+    resourceVersion: "718455"
+    uid: 4e8a671d-4471-4859-880c-ddf5ec5d1095
+  spec:
+    sourcePod: network-check-source-6764c6ff9f-c2z9b
+    targetEndpoint: api.ovhcpococp.trikorasolutions.net:6443
+  status:
+    conditions:
+    - lastTransitionTime: "2025-03-31T20:49:24Z"
+      message: 'load-balancer-api-external: tcp connection to api.ovhcpococp.trikorasolutions.net:6443
+        succeeded'
+      reason: TCPConnectSuccess
+      status: "True"
+      type: Reachable
+    successes:
+    - latency: 2.566273ms
+      message: 'load-balancer-api-external: tcp connection to api.ovhcpococp.trikorasolutions.net:6443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:49:24Z"
+    - latency: 36.318149ms
+      message: 'load-balancer-api-external: resolved host name api.ovhcpococp.trikorasolutions.net
+        successfully'
+      reason: DNSResolve
+      success: true
+      time: "2025-04-02T07:49:24Z"
+    - latency: 1.312446ms
+      message: 'load-balancer-api-external: tcp connection to api.ovhcpococp.trikorasolutions.net:6443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:48:24Z"
+    - latency: 14.316126ms
+      message: 'load-balancer-api-external: resolved host name api.ovhcpococp.trikorasolutions.net
+        successfully'
+      reason: DNSResolve
+      success: true
+      time: "2025-04-02T07:48:24Z"
+    - latency: 1.899104ms
+      message: 'load-balancer-api-external: tcp connection to api.ovhcpococp.trikorasolutions.net:6443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:47:24Z"
+    - latency: 18.594015ms
+      message: 'load-balancer-api-external: resolved host name api.ovhcpococp.trikorasolutions.net
+        successfully'
+      reason: DNSResolve
+      success: true
+      time: "2025-04-02T07:47:24Z"
+    - latency: 2.13372ms
+      message: 'load-balancer-api-external: tcp connection to api.ovhcpococp.trikorasolutions.net:6443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:46:24Z"
+    - latency: 14.747716ms
+      message: 'load-balancer-api-external: resolved host name api.ovhcpococp.trikorasolutions.net
+        successfully'
+      reason: DNSResolve
+      success: true
+      time: "2025-04-02T07:46:24Z"
+    - latency: 2.314727ms
+      message: 'load-balancer-api-external: tcp connection to api.ovhcpococp.trikorasolutions.net:6443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:45:24Z"
+    - latency: 34.603598ms
+      message: 'load-balancer-api-external: resolved host name api.ovhcpococp.trikorasolutions.net
+        successfully'
+      reason: DNSResolve
+      success: true
+      time: "2025-04-02T07:45:24Z"
+- apiVersion: controlplane.operator.openshift.io/v1alpha1
+  kind: PodNetworkConnectivityCheck
+  metadata:
+    creationTimestamp: "2025-03-31T20:43:23Z"
+    generation: 1
+    labels:
+      networking.openshift.io/managedBy: oc-connectivity-check-controller
+    name: network-check-source-host-10-13-0-150-to-load-balancer-api-internal
+    namespace: openshift-network-diagnostics
+    ownerReferences:
+    - apiVersion: v1
+      kind: Node
+      name: host-10-13-0-150
+      uid: aa0ee1a4-f522-492c-9ed4-31e996e0024f
+    resourceVersion: "718456"
+    uid: 16df5f59-8401-49ed-917e-0f9f9ccb516e
+  spec:
+    sourcePod: network-check-source-6764c6ff9f-c2z9b
+    targetEndpoint: api-int.ovhcpococp.trikorasolutions.net:6443
+  status:
+    conditions:
+    - lastTransitionTime: "2025-03-31T20:49:24Z"
+      message: 'load-balancer-api-internal: tcp connection to api-int.ovhcpococp.trikorasolutions.net:6443
+        succeeded'
+      reason: TCPConnectSuccess
+      status: "True"
+      type: Reachable
+    successes:
+    - latency: 2.036932ms
+      message: 'load-balancer-api-internal: tcp connection to api-int.ovhcpococp.trikorasolutions.net:6443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:49:24Z"
+    - latency: 37.032096ms
+      message: 'load-balancer-api-internal: resolved host name api-int.ovhcpococp.trikorasolutions.net
+        successfully'
+      reason: DNSResolve
+      success: true
+      time: "2025-04-02T07:49:24Z"
+    - latency: 1.410115ms
+      message: 'load-balancer-api-internal: tcp connection to api-int.ovhcpococp.trikorasolutions.net:6443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:48:24Z"
+    - latency: 14.210657ms
+      message: 'load-balancer-api-internal: resolved host name api-int.ovhcpococp.trikorasolutions.net
+        successfully'
+      reason: DNSResolve
+      success: true
+      time: "2025-04-02T07:48:24Z"
+    - latency: 2.343597ms
+      message: 'load-balancer-api-internal: tcp connection to api-int.ovhcpococp.trikorasolutions.net:6443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:47:24Z"
+    - latency: 18.454477ms
+      message: 'load-balancer-api-internal: resolved host name api-int.ovhcpococp.trikorasolutions.net
+        successfully'
+      reason: DNSResolve
+      success: true
+      time: "2025-04-02T07:47:24Z"
+    - latency: 2.461334ms
+      message: 'load-balancer-api-internal: tcp connection to api-int.ovhcpococp.trikorasolutions.net:6443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:46:24Z"
+    - latency: 15.03789ms
+      message: 'load-balancer-api-internal: resolved host name api-int.ovhcpococp.trikorasolutions.net
+        successfully'
+      reason: DNSResolve
+      success: true
+      time: "2025-04-02T07:46:24Z"
+    - latency: 2.027423ms
+      message: 'load-balancer-api-internal: tcp connection to api-int.ovhcpococp.trikorasolutions.net:6443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:45:24Z"
+    - latency: 12.584646ms
+      message: 'load-balancer-api-internal: resolved host name api-int.ovhcpococp.trikorasolutions.net
+        successfully'
+      reason: DNSResolve
+      success: true
+      time: "2025-04-02T07:45:24Z"
+- apiVersion: controlplane.operator.openshift.io/v1alpha1
+  kind: PodNetworkConnectivityCheck
+  metadata:
+    creationTimestamp: "2025-03-31T20:43:24Z"
+    generation: 1
+    labels:
+      networking.openshift.io/managedBy: oc-connectivity-check-controller
+    name: network-check-source-host-10-13-0-150-to-network-check-target-host-10-13-0-150
+    namespace: openshift-network-diagnostics
+    ownerReferences:
+    - apiVersion: v1
+      kind: Node
+      name: host-10-13-0-150
+      uid: aa0ee1a4-f522-492c-9ed4-31e996e0024f
+    resourceVersion: "716412"
+    uid: df96ab20-b47d-46f1-bb22-c6a126d9360b
+  spec:
+    sourcePod: network-check-source-6764c6ff9f-c2z9b
+    targetEndpoint: 10.128.0.3:8080
+  status:
+    conditions:
+    - lastTransitionTime: "2025-03-31T20:50:24Z"
+      message: 'network-check-target-host-10-13-0-150: tcp connection to 10.128.0.3:8080
+        succeeded'
+      reason: TCPConnectSuccess
+      status: "True"
+      type: Reachable
+    successes:
+    - latency: 640.218µs
+      message: 'network-check-target-host-10-13-0-150: tcp connection to 10.128.0.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:43:24Z"
+    - latency: 3.624333ms
+      message: 'network-check-target-host-10-13-0-150: tcp connection to 10.128.0.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:42:24Z"
+    - latency: 1.928523ms
+      message: 'network-check-target-host-10-13-0-150: tcp connection to 10.128.0.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:41:24Z"
+    - latency: 3.872808ms
+      message: 'network-check-target-host-10-13-0-150: tcp connection to 10.128.0.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:40:24Z"
+    - latency: 4.574885ms
+      message: 'network-check-target-host-10-13-0-150: tcp connection to 10.128.0.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:39:24Z"
+    - latency: 3.158752ms
+      message: 'network-check-target-host-10-13-0-150: tcp connection to 10.128.0.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:38:24Z"
+    - latency: 3.418227ms
+      message: 'network-check-target-host-10-13-0-150: tcp connection to 10.128.0.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:37:24Z"
+    - latency: 2.634911ms
+      message: 'network-check-target-host-10-13-0-150: tcp connection to 10.128.0.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:36:24Z"
+    - latency: 3.147824ms
+      message: 'network-check-target-host-10-13-0-150: tcp connection to 10.128.0.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:35:24Z"
+    - latency: 9.968721ms
+      message: 'network-check-target-host-10-13-0-150: tcp connection to 10.128.0.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:34:24Z"
+- apiVersion: controlplane.operator.openshift.io/v1alpha1
+  kind: PodNetworkConnectivityCheck
+  metadata:
+    creationTimestamp: "2025-04-01T08:36:26Z"
+    generation: 1
+    labels:
+      networking.openshift.io/managedBy: oc-connectivity-check-controller
+    name: network-check-source-host-10-13-0-150-to-network-check-target-host-10-13-2-1
+    namespace: openshift-network-diagnostics
+    ownerReferences:
+    - apiVersion: v1
+      kind: Node
+      name: host-10-13-0-150
+      uid: aa0ee1a4-f522-492c-9ed4-31e996e0024f
+    resourceVersion: "718468"
+    uid: c6362729-4df7-4245-846b-489d23a6677b
+  spec:
+    sourcePod: network-check-source-6764c6ff9f-c2z9b
+    targetEndpoint: 10.129.2.3:8080
+  status:
+    conditions:
+    - lastTransitionTime: "2025-04-01T08:43:26Z"
+      message: 'network-check-target-host-10-13-2-1: tcp connection to 10.129.2.3:8080
+        succeeded'
+      reason: TCPConnectSuccess
+      status: "True"
+      type: Reachable
+    successes:
+    - latency: 2.805899ms
+      message: 'network-check-target-host-10-13-2-1: tcp connection to 10.129.2.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:49:26Z"
+    - latency: 2.591692ms
+      message: 'network-check-target-host-10-13-2-1: tcp connection to 10.129.2.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:48:26Z"
+    - latency: 2.582072ms
+      message: 'network-check-target-host-10-13-2-1: tcp connection to 10.129.2.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:47:26Z"
+    - latency: 2.67286ms
+      message: 'network-check-target-host-10-13-2-1: tcp connection to 10.129.2.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:46:26Z"
+    - latency: 1.11161ms
+      message: 'network-check-target-host-10-13-2-1: tcp connection to 10.129.2.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:45:26Z"
+    - latency: 2.749489ms
+      message: 'network-check-target-host-10-13-2-1: tcp connection to 10.129.2.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:44:26Z"
+    - latency: 1.06573ms
+      message: 'network-check-target-host-10-13-2-1: tcp connection to 10.129.2.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:43:26Z"
+    - latency: 2.981684ms
+      message: 'network-check-target-host-10-13-2-1: tcp connection to 10.129.2.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:42:26Z"
+    - latency: 1.12833ms
+      message: 'network-check-target-host-10-13-2-1: tcp connection to 10.129.2.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:41:26Z"
+    - latency: 2.570022ms
+      message: 'network-check-target-host-10-13-2-1: tcp connection to 10.129.2.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:40:26Z"
+- apiVersion: controlplane.operator.openshift.io/v1alpha1
+  kind: PodNetworkConnectivityCheck
+  metadata:
+    creationTimestamp: "2025-03-31T20:43:24Z"
+    generation: 1
+    labels:
+      networking.openshift.io/managedBy: oc-connectivity-check-controller
+    name: network-check-source-host-10-13-0-150-to-network-check-target-host-10-13-2-160
+    namespace: openshift-network-diagnostics
+    ownerReferences:
+    - apiVersion: v1
+      kind: Node
+      name: host-10-13-0-150
+      uid: aa0ee1a4-f522-492c-9ed4-31e996e0024f
+    resourceVersion: "716413"
+    uid: 66112a2f-cca2-49f4-be84-bec153b00613
+  spec:
+    sourcePod: network-check-source-6764c6ff9f-c2z9b
+    targetEndpoint: 10.129.0.4:8080
+  status:
+    conditions:
+    - lastTransitionTime: "2025-03-31T20:50:24Z"
+      message: 'network-check-target-host-10-13-2-160: tcp connection to 10.129.0.4:8080
+        succeeded'
+      reason: TCPConnectSuccess
+      status: "True"
+      type: Reachable
+    successes:
+    - latency: 3.358048ms
+      message: 'network-check-target-host-10-13-2-160: tcp connection to 10.129.0.4:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:43:24Z"
+    - latency: 4.369839ms
+      message: 'network-check-target-host-10-13-2-160: tcp connection to 10.129.0.4:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:42:24Z"
+    - latency: 2.597232ms
+      message: 'network-check-target-host-10-13-2-160: tcp connection to 10.129.0.4:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:41:24Z"
+    - latency: 2.13143ms
+      message: 'network-check-target-host-10-13-2-160: tcp connection to 10.129.0.4:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:40:24Z"
+    - latency: 2.374756ms
+      message: 'network-check-target-host-10-13-2-160: tcp connection to 10.129.0.4:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:39:24Z"
+    - latency: 3.045123ms
+      message: 'network-check-target-host-10-13-2-160: tcp connection to 10.129.0.4:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:38:24Z"
+    - latency: 4.737572ms
+      message: 'network-check-target-host-10-13-2-160: tcp connection to 10.129.0.4:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:37:24Z"
+    - latency: 5.323041ms
+      message: 'network-check-target-host-10-13-2-160: tcp connection to 10.129.0.4:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:36:24Z"
+    - latency: 3.023506ms
+      message: 'network-check-target-host-10-13-2-160: tcp connection to 10.129.0.4:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:35:24Z"
+    - latency: 6.397626ms
+      message: 'network-check-target-host-10-13-2-160: tcp connection to 10.129.0.4:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:34:24Z"
+- apiVersion: controlplane.operator.openshift.io/v1alpha1
+  kind: PodNetworkConnectivityCheck
+  metadata:
+    creationTimestamp: "2025-03-31T20:43:24Z"
+    generation: 1
+    labels:
+      networking.openshift.io/managedBy: oc-connectivity-check-controller
+    name: network-check-source-host-10-13-0-150-to-network-check-target-host-10-13-2-89
+    namespace: openshift-network-diagnostics
+    ownerReferences:
+    - apiVersion: v1
+      kind: Node
+      name: host-10-13-0-150
+      uid: aa0ee1a4-f522-492c-9ed4-31e996e0024f
+    resourceVersion: "716411"
+    uid: f01912cd-7fc4-47ba-b9b5-984859aba6d9
+  spec:
+    sourcePod: network-check-source-6764c6ff9f-c2z9b
+    targetEndpoint: 10.130.0.3:8080
+  status:
+    conditions:
+    - lastTransitionTime: "2025-03-31T20:50:24Z"
+      message: 'network-check-target-host-10-13-2-89: tcp connection to 10.130.0.3:8080
+        succeeded'
+      reason: TCPConnectSuccess
+      status: "True"
+      type: Reachable
+    successes:
+    - latency: 3.050873ms
+      message: 'network-check-target-host-10-13-2-89: tcp connection to 10.130.0.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:43:24Z"
+    - latency: 2.315208ms
+      message: 'network-check-target-host-10-13-2-89: tcp connection to 10.130.0.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:42:24Z"
+    - latency: 2.293638ms
+      message: 'network-check-target-host-10-13-2-89: tcp connection to 10.130.0.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:41:24Z"
+    - latency: 2.303337ms
+      message: 'network-check-target-host-10-13-2-89: tcp connection to 10.130.0.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:40:24Z"
+    - latency: 2.524903ms
+      message: 'network-check-target-host-10-13-2-89: tcp connection to 10.130.0.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:39:24Z"
+    - latency: 1.562592ms
+      message: 'network-check-target-host-10-13-2-89: tcp connection to 10.130.0.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:38:24Z"
+    - latency: 5.810153ms
+      message: 'network-check-target-host-10-13-2-89: tcp connection to 10.130.0.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:37:24Z"
+    - latency: 2.116581ms
+      message: 'network-check-target-host-10-13-2-89: tcp connection to 10.130.0.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:36:24Z"
+    - latency: 4.045257ms
+      message: 'network-check-target-host-10-13-2-89: tcp connection to 10.130.0.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:35:24Z"
+    - latency: 2.782149ms
+      message: 'network-check-target-host-10-13-2-89: tcp connection to 10.130.0.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:34:24Z"
+- apiVersion: controlplane.operator.openshift.io/v1alpha1
+  kind: PodNetworkConnectivityCheck
+  metadata:
+    creationTimestamp: "2025-04-01T08:36:05Z"
+    generation: 1
+    labels:
+      networking.openshift.io/managedBy: oc-connectivity-check-controller
+    name: network-check-source-host-10-13-0-150-to-network-check-target-host-10-13-3-120
+    namespace: openshift-network-diagnostics
+    ownerReferences:
+    - apiVersion: v1
+      kind: Node
+      name: host-10-13-0-150
+      uid: aa0ee1a4-f522-492c-9ed4-31e996e0024f
+    resourceVersion: "718312"
+    uid: cdc91c2e-d184-4bf2-aa6f-1ce45653aae5
+  spec:
+    sourcePod: network-check-source-6764c6ff9f-c2z9b
+    targetEndpoint: 10.128.2.3:8080
+  status:
+    conditions:
+    - lastTransitionTime: "2025-04-01T08:43:05Z"
+      message: 'network-check-target-host-10-13-3-120: tcp connection to 10.128.2.3:8080
+        succeeded'
+      reason: TCPConnectSuccess
+      status: "True"
+      type: Reachable
+    successes:
+    - latency: 2.830499ms
+      message: 'network-check-target-host-10-13-3-120: tcp connection to 10.128.2.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:49:05Z"
+    - latency: 2.228769ms
+      message: 'network-check-target-host-10-13-3-120: tcp connection to 10.128.2.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:48:05Z"
+    - latency: 3.003524ms
+      message: 'network-check-target-host-10-13-3-120: tcp connection to 10.128.2.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:47:05Z"
+    - latency: 3.266199ms
+      message: 'network-check-target-host-10-13-3-120: tcp connection to 10.128.2.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:46:05Z"
+    - latency: 2.404315ms
+      message: 'network-check-target-host-10-13-3-120: tcp connection to 10.128.2.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:45:05Z"
+    - latency: 3.672222ms
+      message: 'network-check-target-host-10-13-3-120: tcp connection to 10.128.2.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:44:05Z"
+    - latency: 2.633172ms
+      message: 'network-check-target-host-10-13-3-120: tcp connection to 10.128.2.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:43:05Z"
+    - latency: 2.952295ms
+      message: 'network-check-target-host-10-13-3-120: tcp connection to 10.128.2.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:42:05Z"
+    - latency: 3.425527ms
+      message: 'network-check-target-host-10-13-3-120: tcp connection to 10.128.2.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:41:05Z"
+    - latency: 2.596912ms
+      message: 'network-check-target-host-10-13-3-120: tcp connection to 10.128.2.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:40:05Z"
+- apiVersion: controlplane.operator.openshift.io/v1alpha1
+  kind: PodNetworkConnectivityCheck
+  metadata:
+    creationTimestamp: "2025-04-01T08:30:19Z"
+    generation: 1
+    labels:
+      networking.openshift.io/managedBy: oc-connectivity-check-controller
+    name: network-check-source-host-10-13-0-150-to-network-check-target-host-10-13-3-78
+    namespace: openshift-network-diagnostics
+    ownerReferences:
+    - apiVersion: v1
+      kind: Node
+      name: host-10-13-0-150
+      uid: aa0ee1a4-f522-492c-9ed4-31e996e0024f
+    resourceVersion: "716393"
+    uid: c1a48a42-9814-496a-ae40-dfefc3d084ca
+  spec:
+    sourcePod: network-check-source-6764c6ff9f-c2z9b
+    targetEndpoint: 10.131.0.3:8080
+  status:
+    conditions:
+    - lastTransitionTime: "2025-04-01T08:37:20Z"
+      message: 'network-check-target-host-10-13-3-78: tcp connection to 10.131.0.3:8080
+        succeeded'
+      reason: TCPConnectSuccess
+      status: "True"
+      type: Reachable
+    successes:
+    - latency: 2.322867ms
+      message: 'network-check-target-host-10-13-3-78: tcp connection to 10.131.0.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:43:20Z"
+    - latency: 2.858457ms
+      message: 'network-check-target-host-10-13-3-78: tcp connection to 10.131.0.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:42:20Z"
+    - latency: 2.523533ms
+      message: 'network-check-target-host-10-13-3-78: tcp connection to 10.131.0.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:41:20Z"
+    - latency: 3.470676ms
+      message: 'network-check-target-host-10-13-3-78: tcp connection to 10.131.0.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:40:20Z"
+    - latency: 3.063943ms
+      message: 'network-check-target-host-10-13-3-78: tcp connection to 10.131.0.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:39:20Z"
+    - latency: 3.229519ms
+      message: 'network-check-target-host-10-13-3-78: tcp connection to 10.131.0.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:38:20Z"
+    - latency: 2.732469ms
+      message: 'network-check-target-host-10-13-3-78: tcp connection to 10.131.0.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:37:20Z"
+    - latency: 2.810637ms
+      message: 'network-check-target-host-10-13-3-78: tcp connection to 10.131.0.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:36:20Z"
+    - latency: 3.256432ms
+      message: 'network-check-target-host-10-13-3-78: tcp connection to 10.131.0.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:35:20Z"
+    - latency: 3.130933ms
+      message: 'network-check-target-host-10-13-3-78: tcp connection to 10.131.0.3:8080
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:34:20Z"
+- apiVersion: controlplane.operator.openshift.io/v1alpha1
+  kind: PodNetworkConnectivityCheck
+  metadata:
+    creationTimestamp: "2025-03-31T20:43:23Z"
+    generation: 1
+    labels:
+      networking.openshift.io/managedBy: oc-connectivity-check-controller
+    name: network-check-source-host-10-13-0-150-to-network-check-target-service-cluster
+    namespace: openshift-network-diagnostics
+    ownerReferences:
+    - apiVersion: v1
+      kind: Node
+      name: host-10-13-0-150
+      uid: aa0ee1a4-f522-492c-9ed4-31e996e0024f
+    resourceVersion: "718454"
+    uid: 1fea204e-bdb1-4d0f-b5ae-27f4150e9288
+  spec:
+    sourcePod: network-check-source-6764c6ff9f-c2z9b
+    targetEndpoint: network-check-target:80
+  status:
+    conditions:
+    - lastTransitionTime: "2025-03-31T20:49:24Z"
+      message: 'network-check-target-service-cluster: tcp connection to network-check-target:80
+        succeeded'
+      reason: TCPConnectSuccess
+      status: "True"
+      type: Reachable
+    successes:
+    - latency: 10.83754ms
+      message: 'network-check-target-service-cluster: tcp connection to network-check-target:80
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:49:24Z"
+    - latency: 17.559276ms
+      message: 'network-check-target-service-cluster: resolved host name network-check-target
+        successfully'
+      reason: DNSResolve
+      success: true
+      time: "2025-04-02T07:49:24Z"
+    - latency: 1.844286ms
+      message: 'network-check-target-service-cluster: tcp connection to network-check-target:80
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:48:24Z"
+    - latency: 3.912317ms
+      message: 'network-check-target-service-cluster: resolved host name network-check-target
+        successfully'
+      reason: DNSResolve
+      success: true
+      time: "2025-04-02T07:48:24Z"
+    - latency: 1.940043ms
+      message: 'network-check-target-service-cluster: tcp connection to network-check-target:80
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:47:24Z"
+    - latency: 4.91972ms
+      message: 'network-check-target-service-cluster: resolved host name network-check-target
+        successfully'
+      reason: DNSResolve
+      success: true
+      time: "2025-04-02T07:47:24Z"
+    - latency: 1.717479ms
+      message: 'network-check-target-service-cluster: tcp connection to network-check-target:80
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:46:24Z"
+    - latency: 5.253662ms
+      message: 'network-check-target-service-cluster: resolved host name network-check-target
+        successfully'
+      reason: DNSResolve
+      success: true
+      time: "2025-04-02T07:46:24Z"
+    - latency: 3.420107ms
+      message: 'network-check-target-service-cluster: tcp connection to network-check-target:80
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:45:24Z"
+    - latency: 4.755651ms
+      message: 'network-check-target-service-cluster: resolved host name network-check-target
+        successfully'
+      reason: DNSResolve
+      success: true
+      time: "2025-04-02T07:45:24Z"
+- apiVersion: controlplane.operator.openshift.io/v1alpha1
+  kind: PodNetworkConnectivityCheck
+  metadata:
+    creationTimestamp: "2025-04-01T11:45:35Z"
+    generation: 1
+    labels:
+      networking.openshift.io/managedBy: oc-connectivity-check-controller
+    name: network-check-source-host-10-13-0-150-to-openshift-apiserver-endpoint-host-10-13-0-150
+    namespace: openshift-network-diagnostics
+    ownerReferences:
+    - apiVersion: v1
+      kind: Node
+      name: host-10-13-0-150
+      uid: aa0ee1a4-f522-492c-9ed4-31e996e0024f
+    resourceVersion: "716155"
+    uid: af74a470-732c-40ac-9478-ff7e7182c48b
+  spec:
+    sourcePod: network-check-source-6764c6ff9f-c2z9b
+    targetEndpoint: 10.128.0.82:8443
+  status:
+    conditions:
+    - lastTransitionTime: "2025-04-01T11:52:35Z"
+      message: 'openshift-apiserver-endpoint-host-10-13-0-150: tcp connection to 10.128.0.82:8443
+        succeeded'
+      reason: TCPConnectSuccess
+      status: "True"
+      type: Reachable
+    successes:
+    - latency: 1.198337ms
+      message: 'openshift-apiserver-endpoint-host-10-13-0-150: tcp connection to 10.128.0.82:8443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:42:35Z"
+    - latency: 1.544411ms
+      message: 'openshift-apiserver-endpoint-host-10-13-0-150: tcp connection to 10.128.0.82:8443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:41:35Z"
+    - latency: 1.183598ms
+      message: 'openshift-apiserver-endpoint-host-10-13-0-150: tcp connection to 10.128.0.82:8443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:40:35Z"
+    - latency: 979.063µs
+      message: 'openshift-apiserver-endpoint-host-10-13-0-150: tcp connection to 10.128.0.82:8443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:39:35Z"
+    - latency: 912.873µs
+      message: 'openshift-apiserver-endpoint-host-10-13-0-150: tcp connection to 10.128.0.82:8443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:38:35Z"
+    - latency: 679.287µs
+      message: 'openshift-apiserver-endpoint-host-10-13-0-150: tcp connection to 10.128.0.82:8443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:37:35Z"
+    - latency: 883.733µs
+      message: 'openshift-apiserver-endpoint-host-10-13-0-150: tcp connection to 10.128.0.82:8443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:36:35Z"
+    - latency: 2.156472ms
+      message: 'openshift-apiserver-endpoint-host-10-13-0-150: tcp connection to 10.128.0.82:8443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:35:35Z"
+    - latency: 936.723µs
+      message: 'openshift-apiserver-endpoint-host-10-13-0-150: tcp connection to 10.128.0.82:8443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:34:35Z"
+    - latency: 1.199369ms
+      message: 'openshift-apiserver-endpoint-host-10-13-0-150: tcp connection to 10.128.0.82:8443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:33:35Z"
+- apiVersion: controlplane.operator.openshift.io/v1alpha1
+  kind: PodNetworkConnectivityCheck
+  metadata:
+    creationTimestamp: "2025-03-31T20:43:23Z"
+    generation: 1
+    labels:
+      networking.openshift.io/managedBy: oc-connectivity-check-controller
+    name: network-check-source-host-10-13-0-150-to-openshift-apiserver-endpoint-host-10-13-2-160
+    namespace: openshift-network-diagnostics
+    ownerReferences:
+    - apiVersion: v1
+      kind: Node
+      name: host-10-13-0-150
+      uid: aa0ee1a4-f522-492c-9ed4-31e996e0024f
+    resourceVersion: "716420"
+    uid: b2fc8954-b66e-4708-bea2-deefaa419e17
+  spec:
+    sourcePod: network-check-source-6764c6ff9f-c2z9b
+    targetEndpoint: 10.129.0.66:8443
+  status:
+    conditions:
+    - lastTransitionTime: "2025-03-31T20:50:24Z"
+      message: 'openshift-apiserver-endpoint-host-10-13-2-160: tcp connection to 10.129.0.66:8443
+        succeeded'
+      reason: TCPConnectSuccess
+      status: "True"
+      type: Reachable
+    successes:
+    - latency: 3.390737ms
+      message: 'openshift-apiserver-endpoint-host-10-13-2-160: tcp connection to 10.129.0.66:8443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:43:24Z"
+    - latency: 4.85275ms
+      message: 'openshift-apiserver-endpoint-host-10-13-2-160: tcp connection to 10.129.0.66:8443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:42:24Z"
+    - latency: 4.512456ms
+      message: 'openshift-apiserver-endpoint-host-10-13-2-160: tcp connection to 10.129.0.66:8443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:41:24Z"
+    - latency: 2.255928ms
+      message: 'openshift-apiserver-endpoint-host-10-13-2-160: tcp connection to 10.129.0.66:8443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:40:24Z"
+    - latency: 2.519362ms
+      message: 'openshift-apiserver-endpoint-host-10-13-2-160: tcp connection to 10.129.0.66:8443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:39:24Z"
+    - latency: 3.663213ms
+      message: 'openshift-apiserver-endpoint-host-10-13-2-160: tcp connection to 10.129.0.66:8443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:38:24Z"
+    - latency: 4.534156ms
+      message: 'openshift-apiserver-endpoint-host-10-13-2-160: tcp connection to 10.129.0.66:8443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:37:24Z"
+    - latency: 3.8106ms
+      message: 'openshift-apiserver-endpoint-host-10-13-2-160: tcp connection to 10.129.0.66:8443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:36:24Z"
+    - latency: 3.644265ms
+      message: 'openshift-apiserver-endpoint-host-10-13-2-160: tcp connection to 10.129.0.66:8443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:35:24Z"
+    - latency: 5.465552ms
+      message: 'openshift-apiserver-endpoint-host-10-13-2-160: tcp connection to 10.129.0.66:8443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:34:24Z"
+- apiVersion: controlplane.operator.openshift.io/v1alpha1
+  kind: PodNetworkConnectivityCheck
+  metadata:
+    creationTimestamp: "2025-03-31T20:43:23Z"
+    generation: 1
+    labels:
+      networking.openshift.io/managedBy: oc-connectivity-check-controller
+    name: network-check-source-host-10-13-0-150-to-openshift-apiserver-endpoint-host-10-13-2-89
+    namespace: openshift-network-diagnostics
+    ownerReferences:
+    - apiVersion: v1
+      kind: Node
+      name: host-10-13-0-150
+      uid: aa0ee1a4-f522-492c-9ed4-31e996e0024f
+    resourceVersion: "716416"
+    uid: e9ef51a7-633f-4ed5-8a43-a62e4c2e921b
+  spec:
+    sourcePod: network-check-source-6764c6ff9f-c2z9b
+    targetEndpoint: 10.130.0.50:8443
+  status:
+    conditions:
+    - lastTransitionTime: "2025-03-31T20:50:24Z"
+      message: 'openshift-apiserver-endpoint-host-10-13-2-89: tcp connection to 10.130.0.50:8443
+        succeeded'
+      reason: TCPConnectSuccess
+      status: "True"
+      type: Reachable
+    successes:
+    - latency: 605.249µs
+      message: 'openshift-apiserver-endpoint-host-10-13-2-89: tcp connection to 10.130.0.50:8443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:43:24Z"
+    - latency: 1.240137ms
+      message: 'openshift-apiserver-endpoint-host-10-13-2-89: tcp connection to 10.130.0.50:8443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:42:24Z"
+    - latency: 1.685599ms
+      message: 'openshift-apiserver-endpoint-host-10-13-2-89: tcp connection to 10.130.0.50:8443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:41:24Z"
+    - latency: 2.13881ms
+      message: 'openshift-apiserver-endpoint-host-10-13-2-89: tcp connection to 10.130.0.50:8443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:40:24Z"
+    - latency: 2.113611ms
+      message: 'openshift-apiserver-endpoint-host-10-13-2-89: tcp connection to 10.130.0.50:8443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:39:24Z"
+    - latency: 2.285718ms
+      message: 'openshift-apiserver-endpoint-host-10-13-2-89: tcp connection to 10.130.0.50:8443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:38:24Z"
+    - latency: 2.977275ms
+      message: 'openshift-apiserver-endpoint-host-10-13-2-89: tcp connection to 10.130.0.50:8443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:37:24Z"
+    - latency: 1.678789ms
+      message: 'openshift-apiserver-endpoint-host-10-13-2-89: tcp connection to 10.130.0.50:8443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:36:24Z"
+    - latency: 3.635495ms
+      message: 'openshift-apiserver-endpoint-host-10-13-2-89: tcp connection to 10.130.0.50:8443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:35:24Z"
+    - latency: 2.956147ms
+      message: 'openshift-apiserver-endpoint-host-10-13-2-89: tcp connection to 10.130.0.50:8443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:34:24Z"
+- apiVersion: controlplane.operator.openshift.io/v1alpha1
+  kind: PodNetworkConnectivityCheck
+  metadata:
+    creationTimestamp: "2025-03-31T20:43:23Z"
+    generation: 1
+    labels:
+      networking.openshift.io/managedBy: oc-connectivity-check-controller
+    name: network-check-source-host-10-13-0-150-to-openshift-apiserver-service-cluster
+    namespace: openshift-network-diagnostics
+    ownerReferences:
+    - apiVersion: v1
+      kind: Node
+      name: host-10-13-0-150
+      uid: aa0ee1a4-f522-492c-9ed4-31e996e0024f
+    resourceVersion: "716417"
+    uid: 091a3094-c5de-4c2a-985e-af0f035d09a0
+  spec:
+    sourcePod: network-check-source-6764c6ff9f-c2z9b
+    targetEndpoint: 172.30.55.237:443
+  status:
+    conditions:
+    - lastTransitionTime: "2025-03-31T20:50:24Z"
+      message: 'openshift-apiserver-service-cluster: tcp connection to 172.30.55.237:443
+        succeeded'
+      reason: TCPConnectSuccess
+      status: "True"
+      type: Reachable
+    successes:
+    - latency: 3.134201ms
+      message: 'openshift-apiserver-service-cluster: tcp connection to 172.30.55.237:443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:43:24Z"
+    - latency: 4.536755ms
+      message: 'openshift-apiserver-service-cluster: tcp connection to 172.30.55.237:443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:42:24Z"
+    - latency: 3.004945ms
+      message: 'openshift-apiserver-service-cluster: tcp connection to 172.30.55.237:443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:41:24Z"
+    - latency: 4.553795ms
+      message: 'openshift-apiserver-service-cluster: tcp connection to 172.30.55.237:443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:40:24Z"
+    - latency: 3.522615ms
+      message: 'openshift-apiserver-service-cluster: tcp connection to 172.30.55.237:443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:39:24Z"
+    - latency: 3.359347ms
+      message: 'openshift-apiserver-service-cluster: tcp connection to 172.30.55.237:443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:38:24Z"
+    - latency: 4.926408ms
+      message: 'openshift-apiserver-service-cluster: tcp connection to 172.30.55.237:443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:37:24Z"
+    - latency: 3.272879ms
+      message: 'openshift-apiserver-service-cluster: tcp connection to 172.30.55.237:443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:36:24Z"
+    - latency: 4.49134ms
+      message: 'openshift-apiserver-service-cluster: tcp connection to 172.30.55.237:443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:35:24Z"
+    - latency: 6.14406ms
+      message: 'openshift-apiserver-service-cluster: tcp connection to 172.30.55.237:443
+        succeeded'
+      reason: TCPConnect
+      success: true
+      time: "2025-04-02T07:34:24Z"
+kind: List
+metadata:
+  resourceVersion: ""

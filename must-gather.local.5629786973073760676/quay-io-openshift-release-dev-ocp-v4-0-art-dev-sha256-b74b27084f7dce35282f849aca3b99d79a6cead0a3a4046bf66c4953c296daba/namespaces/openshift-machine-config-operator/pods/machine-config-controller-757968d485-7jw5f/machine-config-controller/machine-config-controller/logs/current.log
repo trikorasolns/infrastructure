@@ -1,0 +1,167 @@
+2025-03-31T20:40:24.894123589Z I0331 20:40:24.894086       1 start.go:59] Version: v4.15.0-202502171304.p0.g9040a70.assembly.stream.el8-dirty (9040a70ce67b34643aa4fd17dece6a9b65a48d95)
+2025-03-31T20:40:24.894424878Z I0331 20:40:24.894403       1 leaderelection.go:122] The leader election gives 4 retries and allows for 30s of clock skew. The kube-apiserver downtime tolerance is 78s. Worst non-graceful lease acquisition is 2m43s. Worst graceful lease acquisition is {26s}.
+2025-03-31T20:40:24.904768443Z I0331 20:40:24.904741       1 leaderelection.go:250] attempting to acquire leader lease openshift-machine-config-operator/machine-config-controller...
+2025-03-31T20:40:24.909806032Z I0331 20:40:24.909779       1 leaderelection.go:260] successfully acquired lease openshift-machine-config-operator/machine-config-controller
+2025-03-31T20:40:24.920029768Z I0331 20:40:24.919997       1 simple_featuregate_reader.go:171] Starting feature-gate-detector
+2025-03-31T20:40:24.920105118Z I0331 20:40:24.920089       1 metrics.go:92] Registering Prometheus metrics
+2025-03-31T20:40:24.920145097Z I0331 20:40:24.920132       1 metrics.go:99] Starting metrics listener on 127.0.0.1:8797
+2025-03-31T20:40:24.931738366Z I0331 20:40:24.930686       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-03-31T20:40:24.932114053Z I0331 20:40:24.932081       1 start.go:101] FeatureGates initialized: enabled=[AlibabaPlatform AzureWorkloadIdentity BuildCSIVolumes CloudDualStackNodeIPs ExternalCloudProvider ExternalCloudProviderAzure ExternalCloudProviderExternal ExternalCloudProviderGCP NetworkLiveMigration PrivateHostedZoneAWS]  disabled=[AdminNetworkPolicy AutomatedEtcdBackup CSIDriverSharedResource ClusterAPIInstall DNSNameResolver DisableKubeletCloudCredentialProviders DynamicResourceAllocation EventedPLEG GCPClusterHostedDNS GCPLabelsTags GatewayAPI InsightsConfigAPI InstallAlternateInfrastructureAWS MachineAPIOperatorDisableMachineHealthCheckController MachineAPIProviderOpenStack MachineConfigNodes ManagedBootImages MaxUnavailableStatefulSet MetricsServer MixedCPUsAllocation NodeSwap OnClusterBuild OpenShiftPodSecurityAdmission RouteExternalCertificate SignatureStores SigstoreImageVerification VSphereControlPlaneMachineSet VSphereStaticIPs ValidatingAdmissionPolicy]
+2025-03-31T20:40:24.932175393Z I0331 20:40:24.932162       1 event.go:298] Event(v1.ObjectReference{Kind:"Node", Namespace:"openshift-machine-config-operator", Name:"host-10-13-0-150", UID:"aa0ee1a4-f522-492c-9ed4-31e996e0024f", APIVersion:"v1", ResourceVersion:"", FieldPath:""}): type: 'Normal' reason: 'FeatureGatesInitialized' FeatureGates updated to featuregates.Features{Enabled:[]v1.FeatureGateName{"AlibabaPlatform", "AzureWorkloadIdentity", "BuildCSIVolumes", "CloudDualStackNodeIPs", "ExternalCloudProvider", "ExternalCloudProviderAzure", "ExternalCloudProviderExternal", "ExternalCloudProviderGCP", "NetworkLiveMigration", "PrivateHostedZoneAWS"}, Disabled:[]v1.FeatureGateName{"AdminNetworkPolicy", "AutomatedEtcdBackup", "CSIDriverSharedResource", "ClusterAPIInstall", "DNSNameResolver", "DisableKubeletCloudCredentialProviders", "DynamicResourceAllocation", "EventedPLEG", "GCPClusterHostedDNS", "GCPLabelsTags", "GatewayAPI", "InsightsConfigAPI", "InstallAlternateInfrastructureAWS", "MachineAPIOperatorDisableMachineHealthCheckController", "MachineAPIProviderOpenStack", "MachineConfigNodes", "ManagedBootImages", "MaxUnavailableStatefulSet", "MetricsServer", "MixedCPUsAllocation", "NodeSwap", "OnClusterBuild", "OpenShiftPodSecurityAdmission", "RouteExternalCertificate", "SignatureStores", "SigstoreImageVerification", "VSphereControlPlaneMachineSet", "VSphereStaticIPs", "ValidatingAdmissionPolicy"}}
+2025-03-31T20:40:24.932206513Z I0331 20:40:24.932199       1 kubelet_config_controller.go:193] Starting MachineConfigController-KubeletConfigController
+2025-03-31T20:40:25.033003638Z I0331 20:40:25.032964       1 render_controller.go:138] Starting MachineConfigController-RenderController
+2025-03-31T20:40:25.033003638Z I0331 20:40:25.032984       1 drain_controller.go:168] Starting MachineConfigController-DrainController
+2025-03-31T20:40:25.033003638Z I0331 20:40:25.032994       1 template_controller.go:234] Starting MachineConfigController-TemplateController
+2025-03-31T20:40:25.034423549Z I0331 20:40:25.034405       1 node_controller.go:226] Starting MachineConfigController-NodeController
+2025-03-31T20:40:25.034437179Z I0331 20:40:25.034422       1 container_runtime_config_controller.go:216] Starting MachineConfigController-ContainerRuntimeConfigController
+2025-03-31T20:40:25.044970413Z I0331 20:40:25.044941       1 kubelet_config_features.go:120] Applied FeatureSet cluster on MachineConfigPool master
+2025-03-31T20:40:25.084661498Z I0331 20:40:25.084621       1 kubelet_config_nodes.go:156] Applied Node configuration 97-master-generated-kubelet on MachineConfigPool master
+2025-03-31T20:40:25.340632160Z I0331 20:40:25.340561       1 kubelet_config_features.go:120] Applied FeatureSet cluster on MachineConfigPool worker
+2025-03-31T20:40:25.539389388Z I0331 20:40:25.539342       1 kubelet_config_nodes.go:156] Applied Node configuration 97-worker-generated-kubelet on MachineConfigPool worker
+2025-03-31T20:40:26.338530475Z I0331 20:40:26.338485       1 kubelet_config_features.go:120] Applied FeatureSet cluster on MachineConfigPool master
+2025-03-31T20:40:26.940495814Z I0331 20:40:26.940444       1 kubelet_config_features.go:120] Applied FeatureSet cluster on MachineConfigPool worker
+2025-03-31T21:13:56.655773184Z I0331 21:13:56.655676       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-03-31T21:47:28.377540828Z I0331 21:47:28.377455       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-03-31T22:21:00.098859348Z I0331 22:21:00.098780       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-03-31T22:54:31.819742929Z I0331 22:54:31.819639       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-03-31T23:28:03.541893078Z I0331 23:28:03.541819       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T00:01:35.262769538Z I0401 00:01:35.262690       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T00:35:06.984905049Z I0401 00:35:06.984289       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T01:08:38.705587927Z I0401 01:08:38.705532       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T01:42:10.426449997Z I0401 01:42:10.426373       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T02:15:42.149510325Z I0401 02:15:42.149440       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T02:49:13.873985151Z I0401 02:49:13.873948       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T03:22:45.595791454Z I0401 03:22:45.595687       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T03:56:17.316629895Z I0401 03:56:17.316559       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T04:29:49.037477878Z I0401 04:29:49.037408       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T05:03:20.758881409Z I0401 05:03:20.758832       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T05:36:52.480658411Z I0401 05:36:52.480579       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T06:10:24.204938435Z I0401 06:10:24.204875       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T06:43:55.926435950Z I0401 06:43:55.926359       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T07:17:27.648924578Z I0401 07:17:27.648824       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T07:50:59.369722496Z I0401 07:50:59.369661       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T08:13:12.455473759Z E0401 08:13:12.454975       1 render_controller.go:457] Error syncing Generated MCFG: %!w(*errors.StatusError=&{{{ } {   <nil>} Failure Operation cannot be fulfilled on machineconfigpools.machineconfiguration.openshift.io "worker": the object has been modified; please apply your changes to the latest version and try again Conflict 0xc0011ab320 409}})
+2025-04-01T08:13:12.459741180Z E0401 08:13:12.459422       1 render_controller.go:479] Error updating MachineConfigPool worker: Operation cannot be fulfilled on machineconfigpools.machineconfiguration.openshift.io "worker": the object has been modified; please apply your changes to the latest version and try again
+2025-04-01T08:13:12.459741180Z I0401 08:13:12.459446       1 render_controller.go:391] Error syncing machineconfigpool worker: Operation cannot be fulfilled on machineconfigpools.machineconfiguration.openshift.io "worker": the object has been modified; please apply your changes to the latest version and try again
+2025-04-01T08:13:12.466688915Z E0401 08:13:12.466659       1 render_controller.go:457] Error syncing Generated MCFG: %!w(*errors.StatusError=&{{{ } {   <nil>} Failure Operation cannot be fulfilled on machineconfigpools.machineconfiguration.openshift.io "master": the object has been modified; please apply your changes to the latest version and try again Conflict 0xc001102cc0 409}})
+2025-04-01T08:13:12.471059736Z E0401 08:13:12.470994       1 render_controller.go:479] Error updating MachineConfigPool master: Operation cannot be fulfilled on machineconfigpools.machineconfiguration.openshift.io "master": the object has been modified; please apply your changes to the latest version and try again
+2025-04-01T08:13:12.471059736Z I0401 08:13:12.471009       1 render_controller.go:391] Error syncing machineconfigpool master: Operation cannot be fulfilled on machineconfigpools.machineconfiguration.openshift.io "master": the object has been modified; please apply your changes to the latest version and try again
+2025-04-01T08:24:31.093951191Z I0401 08:24:31.090815       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T08:27:29.316861115Z I0401 08:27:29.316205       1 node_controller.go:1010] Updated controlPlaneTopology annotation of node host-10-13-3-78 from  to 
+2025-04-01T08:27:29.335460952Z I0401 08:27:29.334751       1 node_controller.go:1056] No nodes available for updates
+2025-04-01T08:27:34.355555002Z I0401 08:27:34.355481       1 node_controller.go:1056] No nodes available for updates
+2025-04-01T08:27:43.448064296Z I0401 08:27:43.447998       1 node_controller.go:491] Pool worker: node host-10-13-3-78: changed annotation machineconfiguration.openshift.io/currentConfig = rendered-worker-768199bd8edbfb9ef08be9547b3d71f5
+2025-04-01T08:27:43.448179185Z I0401 08:27:43.448160       1 node_controller.go:491] Pool worker: node host-10-13-3-78: changed annotation machineconfiguration.openshift.io/desiredConfig = rendered-worker-768199bd8edbfb9ef08be9547b3d71f5
+2025-04-01T08:27:43.448260075Z I0401 08:27:43.448243       1 node_controller.go:491] Pool worker: node host-10-13-3-78: changed annotation machineconfiguration.openshift.io/state = Done
+2025-04-01T08:27:48.464849718Z I0401 08:27:48.464789       1 node_controller.go:1056] No nodes available for updates
+2025-04-01T08:27:48.465176906Z I0401 08:27:48.465142       1 node_controller.go:491] Pool worker: node host-10-13-3-78: changed taints
+2025-04-01T08:27:53.465288420Z I0401 08:27:53.465232       1 drain_controller.go:182] node host-10-13-3-78: uncordoning
+2025-04-01T08:27:53.465288420Z I0401 08:27:53.465267       1 drain_controller.go:182] node host-10-13-3-78: initiating uncordon (currently schedulable: true)
+2025-04-01T08:27:53.465598078Z I0401 08:27:53.465570       1 node_controller.go:1056] No nodes available for updates
+2025-04-01T08:27:53.469342752Z I0401 08:27:53.469296       1 drain_controller.go:182] node host-10-13-3-78: uncordon succeeded (currently schedulable: true)
+2025-04-01T08:27:53.469373882Z I0401 08:27:53.469359       1 drain_controller.go:182] node host-10-13-3-78: operation successful; applying completion annotation
+2025-04-01T08:27:59.782388895Z I0401 08:27:59.782350       1 node_controller.go:491] Pool worker: node host-10-13-3-78: changed annotation machineconfiguration.openshift.io/reason = 
+2025-04-01T08:28:04.785551756Z I0401 08:28:04.785486       1 node_controller.go:1056] No nodes available for updates
+2025-04-01T08:28:51.561258314Z I0401 08:28:51.560350       1 node_controller.go:491] Pool worker: node host-10-13-3-78: Reporting ready
+2025-04-01T08:28:51.583914833Z I0401 08:28:51.579541       1 node_controller.go:491] Pool worker: node host-10-13-3-78: changed taints
+2025-04-01T08:28:54.293609207Z I0401 08:28:54.293381       1 node_controller.go:491] Pool worker: node host-10-13-3-78: changed taints
+2025-04-01T08:33:02.676478693Z I0401 08:33:02.676443       1 node_controller.go:1010] Updated controlPlaneTopology annotation of node host-10-13-3-120 from  to 
+2025-04-01T08:33:02.686395657Z I0401 08:33:02.686217       1 node_controller.go:1010] Updated controlPlaneTopology annotation of node host-10-13-2-1 from  to 
+2025-04-01T08:33:02.731463988Z I0401 08:33:02.730935       1 node_controller.go:1056] No nodes available for updates
+2025-04-01T08:33:07.745101480Z I0401 08:33:07.745055       1 node_controller.go:1056] No nodes available for updates
+2025-04-01T08:33:45.285381757Z I0401 08:33:45.285325       1 node_controller.go:491] Pool worker: node host-10-13-3-120: changed annotation machineconfiguration.openshift.io/currentConfig = rendered-worker-768199bd8edbfb9ef08be9547b3d71f5
+2025-04-01T08:33:45.285461046Z I0401 08:33:45.285452       1 node_controller.go:491] Pool worker: node host-10-13-3-120: changed annotation machineconfiguration.openshift.io/desiredConfig = rendered-worker-768199bd8edbfb9ef08be9547b3d71f5
+2025-04-01T08:33:45.285480986Z I0401 08:33:45.285474       1 node_controller.go:491] Pool worker: node host-10-13-3-120: changed annotation machineconfiguration.openshift.io/state = Done
+2025-04-01T08:33:49.699623770Z I0401 08:33:49.698793       1 node_controller.go:491] Pool worker: node host-10-13-2-1: changed annotation machineconfiguration.openshift.io/currentConfig = rendered-worker-768199bd8edbfb9ef08be9547b3d71f5
+2025-04-01T08:33:49.699623770Z I0401 08:33:49.699488       1 node_controller.go:491] Pool worker: node host-10-13-2-1: changed annotation machineconfiguration.openshift.io/desiredConfig = rendered-worker-768199bd8edbfb9ef08be9547b3d71f5
+2025-04-01T08:33:49.699623770Z I0401 08:33:49.699503       1 node_controller.go:491] Pool worker: node host-10-13-2-1: changed annotation machineconfiguration.openshift.io/state = Done
+2025-04-01T08:33:50.305840664Z I0401 08:33:50.303256       1 node_controller.go:491] Pool worker: node host-10-13-2-1: changed taints
+2025-04-01T08:33:50.322961250Z I0401 08:33:50.322889       1 node_controller.go:1056] No nodes available for updates
+2025-04-01T08:33:50.323739325Z I0401 08:33:50.323671       1 node_controller.go:491] Pool worker: node host-10-13-3-120: changed taints
+2025-04-01T08:33:55.304117116Z I0401 08:33:55.304054       1 node_controller.go:1056] No nodes available for updates
+2025-04-01T08:34:02.170121244Z I0401 08:34:02.170067       1 drain_controller.go:182] node host-10-13-2-1: uncordoning
+2025-04-01T08:34:02.170121244Z I0401 08:34:02.170104       1 drain_controller.go:182] node host-10-13-2-1: initiating uncordon (currently schedulable: true)
+2025-04-01T08:34:02.176657490Z I0401 08:34:02.176632       1 drain_controller.go:182] node host-10-13-2-1: uncordon succeeded (currently schedulable: true)
+2025-04-01T08:34:02.176716940Z I0401 08:34:02.176693       1 drain_controller.go:182] node host-10-13-2-1: operation successful; applying completion annotation
+2025-04-01T08:34:03.561681511Z I0401 08:34:03.561595       1 drain_controller.go:182] node host-10-13-3-120: uncordoning
+2025-04-01T08:34:03.561681511Z I0401 08:34:03.561667       1 drain_controller.go:182] node host-10-13-3-120: initiating uncordon (currently schedulable: true)
+2025-04-01T08:34:03.572077262Z I0401 08:34:03.572019       1 drain_controller.go:182] node host-10-13-3-120: uncordon succeeded (currently schedulable: true)
+2025-04-01T08:34:03.572077262Z I0401 08:34:03.572051       1 drain_controller.go:182] node host-10-13-3-120: operation successful; applying completion annotation
+2025-04-01T08:34:07.201828445Z I0401 08:34:07.201675       1 node_controller.go:491] Pool worker: node host-10-13-2-1: changed annotation machineconfiguration.openshift.io/reason = 
+2025-04-01T08:34:08.626662622Z I0401 08:34:08.626564       1 node_controller.go:491] Pool worker: node host-10-13-3-120: changed annotation machineconfiguration.openshift.io/reason = 
+2025-04-01T08:34:12.202361453Z I0401 08:34:12.202291       1 node_controller.go:1056] No nodes available for updates
+2025-04-01T08:34:52.983949219Z I0401 08:34:52.982183       1 node_controller.go:491] Pool worker: node host-10-13-2-1: Reporting ready
+2025-04-01T08:34:53.005188888Z I0401 08:34:53.005154       1 node_controller.go:491] Pool worker: node host-10-13-2-1: changed taints
+2025-04-01T08:34:54.376530400Z I0401 08:34:54.376491       1 node_controller.go:491] Pool worker: node host-10-13-2-1: changed taints
+2025-04-01T08:34:57.983173467Z I0401 08:34:57.983035       1 node_controller.go:1056] No nodes available for updates
+2025-04-01T08:34:59.797539367Z I0401 08:34:59.797145       1 node_controller.go:491] Pool worker: node host-10-13-3-120: Reporting ready
+2025-04-01T08:34:59.824039221Z I0401 08:34:59.823950       1 node_controller.go:491] Pool worker: node host-10-13-3-120: changed taints
+2025-04-01T08:35:03.125142697Z E0401 08:35:03.125056       1 render_controller.go:457] Error syncing Generated MCFG: %!w(*errors.StatusError=&{{{ } {   <nil>} Failure Operation cannot be fulfilled on machineconfigpools.machineconfiguration.openshift.io "worker": the object has been modified; please apply your changes to the latest version and try again Conflict 0xc000ff7080 409}})
+2025-04-01T08:35:03.152575635Z E0401 08:35:03.152430       1 render_controller.go:479] Error updating MachineConfigPool worker: Operation cannot be fulfilled on machineconfigpools.machineconfiguration.openshift.io "worker": the object has been modified; please apply your changes to the latest version and try again
+2025-04-01T08:35:03.152575635Z I0401 08:35:03.152456       1 render_controller.go:391] Error syncing machineconfigpool worker: Operation cannot be fulfilled on machineconfigpools.machineconfiguration.openshift.io "worker": the object has been modified; please apply your changes to the latest version and try again
+2025-04-01T08:35:04.397849275Z I0401 08:35:04.397615       1 node_controller.go:491] Pool worker: node host-10-13-3-120: changed taints
+2025-04-01T08:37:26.677135288Z I0401 08:37:26.677077       1 node_controller.go:491] Pool master: node host-10-13-2-89: changed labels
+2025-04-01T08:37:26.677135288Z I0401 08:37:26.677097       1 node_controller.go:491] Pool master: node host-10-13-2-89: changed taints
+2025-04-01T08:37:26.696575948Z I0401 08:37:26.696188       1 node_controller.go:491] Pool master: node host-10-13-0-150: changed labels
+2025-04-01T08:37:26.696575948Z I0401 08:37:26.696213       1 node_controller.go:491] Pool master: node host-10-13-0-150: changed taints
+2025-04-01T08:37:26.707329487Z I0401 08:37:26.707298       1 node_controller.go:491] Pool master: node host-10-13-2-160: changed labels
+2025-04-01T08:37:26.707329487Z I0401 08:37:26.707310       1 node_controller.go:491] Pool master: node host-10-13-2-160: changed taints
+2025-04-01T08:58:02.812668297Z I0401 08:58:02.812591       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T09:31:34.534277958Z I0401 09:31:34.533993       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T09:37:58.854849399Z E0401 09:37:58.854150       1 render_controller.go:457] Error syncing Generated MCFG: %!w(*errors.StatusError=&{{{ } {   <nil>} Failure Operation cannot be fulfilled on machineconfigpools.machineconfiguration.openshift.io "worker": the object has been modified; please apply your changes to the latest version and try again Conflict 0xc001ac47e0 409}})
+2025-04-01T09:37:58.854849399Z E0401 09:37:58.854371       1 render_controller.go:457] Error syncing Generated MCFG: %!w(*errors.StatusError=&{{{ } {   <nil>} Failure Operation cannot be fulfilled on machineconfigpools.machineconfiguration.openshift.io "master": the object has been modified; please apply your changes to the latest version and try again Conflict 0xc001ac4d20 409}})
+2025-04-01T09:37:58.858029568Z E0401 09:37:58.858005       1 render_controller.go:479] Error updating MachineConfigPool master: Operation cannot be fulfilled on machineconfigpools.machineconfiguration.openshift.io "master": the object has been modified; please apply your changes to the latest version and try again
+2025-04-01T09:37:58.858029568Z I0401 09:37:58.858019       1 render_controller.go:391] Error syncing machineconfigpool master: Operation cannot be fulfilled on machineconfigpools.machineconfiguration.openshift.io "master": the object has been modified; please apply your changes to the latest version and try again
+2025-04-01T09:37:58.858515014Z E0401 09:37:58.858493       1 render_controller.go:479] Error updating MachineConfigPool worker: Operation cannot be fulfilled on machineconfigpools.machineconfiguration.openshift.io "worker": the object has been modified; please apply your changes to the latest version and try again
+2025-04-01T09:37:58.858515014Z I0401 09:37:58.858508       1 render_controller.go:391] Error syncing machineconfigpool worker: Operation cannot be fulfilled on machineconfigpools.machineconfiguration.openshift.io "worker": the object has been modified; please apply your changes to the latest version and try again
+2025-04-01T10:05:06.255319028Z I0401 10:05:06.254787       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T10:38:37.976300206Z I0401 10:38:37.976237       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T11:12:09.697423762Z I0401 11:12:09.697344       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T11:45:41.418289537Z I0401 11:45:41.418193       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T12:19:13.139535349Z I0401 12:19:13.139458       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T12:39:00.949783253Z I0401 12:39:00.948686       1 node_controller.go:491] Pool worker: node host-10-13-3-78: changed labels
+2025-04-01T12:39:03.317972625Z I0401 12:39:03.317424       1 node_controller.go:491] Pool worker: node host-10-13-2-1: changed labels
+2025-04-01T12:39:07.320493025Z I0401 12:39:07.320170       1 node_controller.go:491] Pool master: node host-10-13-2-89: changed labels
+2025-04-01T12:39:07.811748630Z I0401 12:39:07.811684       1 node_controller.go:491] Pool worker: node host-10-13-3-120: changed labels
+2025-04-01T12:39:08.318680887Z I0401 12:39:08.318008       1 node_controller.go:491] Pool master: node host-10-13-2-160: changed labels
+2025-04-01T12:39:15.084616899Z I0401 12:39:15.084575       1 node_controller.go:491] Pool master: node host-10-13-0-150: changed labels
+2025-04-01T12:52:44.862952749Z I0401 12:52:44.862868       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T13:01:16.667760569Z E0401 13:01:16.666397       1 render_controller.go:457] Error syncing Generated MCFG: %!w(*errors.StatusError=&{{{ } {   <nil>} Failure Operation cannot be fulfilled on machineconfigpools.machineconfiguration.openshift.io "worker": the object has been modified; please apply your changes to the latest version and try again Conflict 0xc00128a480 409}})
+2025-04-01T13:01:16.683420983Z E0401 13:01:16.677857       1 render_controller.go:479] Error updating MachineConfigPool worker: Operation cannot be fulfilled on machineconfigpools.machineconfiguration.openshift.io "worker": the object has been modified; please apply your changes to the latest version and try again
+2025-04-01T13:01:16.683420983Z I0401 13:01:16.677882       1 render_controller.go:391] Error syncing machineconfigpool worker: Operation cannot be fulfilled on machineconfigpools.machineconfiguration.openshift.io "worker": the object has been modified; please apply your changes to the latest version and try again
+2025-04-01T13:01:16.763539154Z E0401 13:01:16.763494       1 render_controller.go:457] Error syncing Generated MCFG: %!w(*errors.StatusError=&{{{ } {   <nil>} Failure Operation cannot be fulfilled on machineconfigpools.machineconfiguration.openshift.io "master": the object has been modified; please apply your changes to the latest version and try again Conflict 0xc00128af00 409}})
+2025-04-01T13:01:16.771643955Z E0401 13:01:16.770257       1 render_controller.go:479] Error updating MachineConfigPool master: Operation cannot be fulfilled on machineconfigpools.machineconfiguration.openshift.io "master": the object has been modified; please apply your changes to the latest version and try again
+2025-04-01T13:01:16.771643955Z I0401 13:01:16.770276       1 render_controller.go:391] Error syncing machineconfigpool master: Operation cannot be fulfilled on machineconfigpools.machineconfiguration.openshift.io "master": the object has been modified; please apply your changes to the latest version and try again
+2025-04-01T13:26:16.582135355Z I0401 13:26:16.581939       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T13:59:48.315629565Z I0401 13:59:48.315516       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T14:33:20.024855410Z I0401 14:33:20.024780       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T15:06:51.745574197Z I0401 15:06:51.745522       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T15:40:23.467460634Z I0401 15:40:23.467405       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T16:13:55.189144015Z I0401 16:13:55.189088       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T16:47:26.910745773Z I0401 16:47:26.910080       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T17:20:58.631049967Z I0401 17:20:58.630957       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T17:54:30.352306397Z I0401 17:54:30.352266       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T18:28:02.074622324Z I0401 18:28:02.074526       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T19:01:33.797275965Z I0401 19:01:33.797226       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T19:35:05.518140681Z I0401 19:35:05.518058       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T20:08:37.239102557Z I0401 20:08:37.239031       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T20:42:08.969139676Z I0401 20:42:08.966871       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T21:15:40.681989444Z I0401 21:15:40.681919       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T21:49:12.403756321Z I0401 21:49:12.403382       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T22:22:44.124276462Z I0401 22:22:44.124184       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T22:56:15.853863313Z I0401 22:56:15.852025       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-01T23:29:47.568019971Z I0401 23:29:47.567922       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-02T00:03:19.290347568Z I0402 00:03:19.290251       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-02T00:36:51.010156227Z I0402 00:36:51.010083       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-02T01:10:22.731322496Z I0402 01:10:22.731258       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-02T01:43:54.453100906Z I0402 01:43:54.452875       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-02T02:17:26.174047323Z I0402 02:17:26.173990       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-02T02:50:57.895503013Z I0402 02:50:57.895455       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-02T03:24:29.618769225Z I0402 03:24:29.617824       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-02T03:58:01.339015319Z I0402 03:58:01.338939       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-02T04:31:33.064891611Z I0402 04:31:33.064812       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-02T05:05:04.783007972Z I0402 05:05:04.782918       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-02T05:38:36.503874081Z I0402 05:38:36.503789       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-02T06:12:08.226581663Z I0402 06:12:08.226516       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-02T06:45:39.947577498Z I0402 06:45:39.947492       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change
+2025-04-02T07:19:11.669841164Z I0402 07:19:11.669767       1 template_controller.go:133] Re-syncing ControllerConfig due to secret pull-secret change

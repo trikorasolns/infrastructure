@@ -1,0 +1,28 @@
+2025-03-31T20:21:37.821249026Z + [[ -f /env/_master ]]
+2025-03-31T20:21:37.821249026Z + . /ovnkube-lib/ovnkube-lib.sh
+2025-03-31T20:21:37.821249026Z ++ set -x
+2025-03-31T20:21:37.821249026Z ++ K8S_NODE=
+2025-03-31T20:21:37.821249026Z ++ [[ -n '' ]]
+2025-03-31T20:21:37.821249026Z ++ northd_pidfile=/var/run/ovn/ovn-northd.pid
+2025-03-31T20:21:37.821249026Z ++ controller_pidfile=/var/run/ovn/ovn-controller.pid
+2025-03-31T20:21:37.821249026Z ++ controller_logfile=/var/log/ovn/acl-audit-log.log
+2025-03-31T20:21:37.821249026Z ++ vswitch_dbsock=/var/run/openvswitch/db.sock
+2025-03-31T20:21:37.821249026Z ++ nbdb_pidfile=/var/run/ovn/ovnnb_db.pid
+2025-03-31T20:21:37.821249026Z ++ nbdb_sock=/var/run/ovn/ovnnb_db.sock
+2025-03-31T20:21:37.821249026Z ++ nbdb_ctl=/var/run/ovn/ovnnb_db.ctl
+2025-03-31T20:21:37.821249026Z ++ sbdb_pidfile=/var/run/ovn/ovnsb_db.pid
+2025-03-31T20:21:37.821249026Z ++ sbdb_sock=/var/run/ovn/ovnsb_db.sock
+2025-03-31T20:21:37.821249026Z ++ sbdb_ctl=/var/run/ovn/ovnsb_db.ctl
+2025-03-31T20:21:37.822075500Z + trap quit-sbdb TERM INT
+2025-03-31T20:21:37.822107780Z + start-sbdb info
+2025-03-31T20:21:37.822107780Z + local log_level=info
+2025-03-31T20:21:37.822125140Z + [[ 1 -ne 1 ]]
+2025-03-31T20:21:37.822433658Z + wait 5146
+2025-03-31T20:21:37.822458228Z + exec /usr/share/ovn/scripts/ovn-ctl --no-monitor --db-sb-sock=/var/run/ovn/ovnsb_db.sock '--ovn-sb-log=-vconsole:info -vfile:off -vPATTERN:console:%D{%Y-%m-%dT%H:%M:%S.###Z}|%05N|%c%T|%p|%m' run_sb_ovsdb
+2025-03-31T20:21:37.885894532Z /etc/ovn/ovnsb_db.db does not exist ... (warning).
+2025-03-31T20:21:37.899605826Z Creating empty database /etc/ovn/ovnsb_db.db.
+2025-03-31T20:21:37.922155575Z 2025-03-31T20:21:37.922Z|00001|vlog|INFO|opened log file /var/log/ovn/ovsdb-server-sb.log
+2025-03-31T20:21:37.928070328Z 2025-03-31T20:21:37.928Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 3.1.6-137.el9fdp
+2025-03-31T20:21:39.886184480Z 2025-03-31T20:21:39.886Z|00003|ovsdb_server|INFO|memory trimming after compaction enabled.
+2025-03-31T20:21:47.929632306Z 2025-03-31T20:21:47.929Z|00004|memory|INFO|14652 kB peak resident set size after 10.0 seconds
+2025-03-31T20:21:47.930391691Z 2025-03-31T20:21:47.930Z|00005|memory|INFO|atoms:10488 cells:9444 json-caches:2 monitors:5 n-weak-refs:77 sessions:3

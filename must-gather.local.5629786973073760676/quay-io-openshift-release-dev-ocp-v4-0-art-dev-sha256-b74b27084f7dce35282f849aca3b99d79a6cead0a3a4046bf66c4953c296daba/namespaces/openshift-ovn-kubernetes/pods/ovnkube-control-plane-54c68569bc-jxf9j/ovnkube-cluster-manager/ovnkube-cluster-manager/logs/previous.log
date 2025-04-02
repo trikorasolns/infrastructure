@@ -1,0 +1,190 @@
+2025-03-31T20:32:32.469558177Z + [[ -f /env/_master ]]
+2025-03-31T20:32:32.469558177Z + ovn_v4_join_subnet_opt=
+2025-03-31T20:32:32.469558177Z + [[ '' != '' ]]
+2025-03-31T20:32:32.469558177Z + ovn_v6_join_subnet_opt=
+2025-03-31T20:32:32.469558177Z + [[ '' != '' ]]
+2025-03-31T20:32:32.469558177Z + ovn_v4_transit_switch_subnet_opt=
+2025-03-31T20:32:32.469558177Z + [[ '' != '' ]]
+2025-03-31T20:32:32.469558177Z + ovn_v6_transit_switch_subnet_opt=
+2025-03-31T20:32:32.469558177Z + [[ '' != '' ]]
+2025-03-31T20:32:32.469893781Z ++ date '+%m%d %H:%M:%S.%N'
+2025-03-31T20:32:32.473005602Z I0331 20:32:32.470896522 - ovnkube-control-plane - start ovnkube --init-cluster-manager host-10-13-0-150
+2025-03-31T20:32:32.473018621Z + echo 'I0331 20:32:32.470896522 - ovnkube-control-plane - start ovnkube --init-cluster-manager host-10-13-0-150'
+2025-03-31T20:32:32.473018621Z + exec /usr/bin/ovnkube --enable-interconnect --init-cluster-manager host-10-13-0-150 --config-file=/run/ovnkube-config/ovnkube.conf --loglevel 4 --metrics-bind-address 127.0.0.1:29108 --metrics-enable-pprof --metrics-enable-config-duration
+2025-03-31T20:32:32.490862319Z I0331 20:32:32.490810       1 config.go:2171] Parsed config file /run/ovnkube-config/ovnkube.conf
+2025-03-31T20:32:32.490983087Z I0331 20:32:32.490906       1 config.go:2172] Parsed config: {Default:{MTU:1400 RoutableMTU:0 ConntrackZone:64000 HostMasqConntrackZone:0 OVNMasqConntrackZone:0 HostNodePortConntrackZone:0 ReassemblyConntrackZone:0 EncapType:geneve EncapIP: EncapPort:6081 InactivityProbe:100000 OpenFlowProbe:180 OfctrlWaitBeforeClear:0 MonitorAll:true OVSDBTxnTimeout:1m40s LFlowCacheEnable:true LFlowCacheLimit:0 LFlowCacheLimitKb:1048576 RawClusterSubnets:10.128.0.0/14/23 ClusterSubnets:[] EnableUDPAggregation:true Zone:global} Logging:{File: CNIFile: LibovsdbFile:/var/log/ovnkube/libovsdb.log Level:4 LogFileMaxSize:100 LogFileMaxBackups:5 LogFileMaxAge:0 ACLLoggingRateLimit:20} Monitoring:{RawNetFlowTargets: RawSFlowTargets: RawIPFIXTargets: NetFlowTargets:[] SFlowTargets:[] IPFIXTargets:[]} IPFIX:{Sampling:400 CacheActiveTimeout:60 CacheMaxFlows:0} CNI:{ConfDir:/etc/cni/net.d Plugin:ovn-k8s-cni-overlay} OVNKubernetesFeature:{EnableAdminNetworkPolicy:false EnableEgressIP:true EgressIPReachabiltyTotalTimeout:1 EnableEgressFirewall:true EnableEgressQoS:true EnableEgressService:true EgressIPNodeHealthCheckPort:9107 EnableMultiNetwork:true EnableMultiNetworkPolicy:false EnableStatelessNetPol:false EnableInterconnect:false EnableMultiExternalGateway:true} Kubernetes:{BootstrapKubeconfig: CertDir: CertDuration:10m0s Kubeconfig: CACert: CAData:[] APIServer:https://api-int.ovhcpococp.trikorasolutions.net:6443 Token: TokenFile: CompatServiceCIDR: RawServiceCIDRs:172.30.0.0/16 ServiceCIDRs:[] OVNConfigNamespace:openshift-ovn-kubernetes OVNEmptyLbEvents:false PodIP: RawNoHostSubnetNodes: NoHostSubnetNodes:<nil> HostNetworkNamespace:openshift-host-network PlatformType:None HealthzBindAddress:0.0.0.0:10256 CompatMetricsBindAddress: CompatOVNMetricsBindAddress: CompatMetricsEnablePprof:false DNSServiceNamespace:openshift-dns DNSServiceName:dns-default} Metrics:{BindAddress: OVNMetricsBindAddress: ExportOVSMetrics:false EnablePprof:false NodeServerPrivKey: NodeServerCert: EnableConfigDuration:false EnableScaleMetrics:false} OvnNorth:{Address: PrivKey: Cert: CACert: CertCommonName: Scheme: ElectionTimer:0 northbound:false exec:<nil>} OvnSouth:{Address: PrivKey: Cert: CACert: CertCommonName: Scheme: ElectionTimer:0 northbound:false exec:<nil>} Gateway:{Mode:shared Interface: EgressGWInterface: NextHop: VLANID:0 NodeportEnable:true DisableSNATMultipleGWs:false V4JoinSubnet:100.64.0.0/16 V6JoinSubnet:fd98::/64 V4MasqueradeSubnet:169.254.169.0/29 V6MasqueradeSubnet:fd69::/125 MasqueradeIPs:{V4OVNMasqueradeIP:169.254.169.1 V6OVNMasqueradeIP:fd69::1 V4HostMasqueradeIP:169.254.169.2 V6HostMasqueradeIP:fd69::2 V4HostETPLocalMasqueradeIP:169.254.169.3 V6HostETPLocalMasqueradeIP:fd69::3 V4DummyNextHopMasqueradeIP:169.254.169.4 V6DummyNextHopMasqueradeIP:fd69::4 V4OVNServiceHairpinMasqueradeIP:169.254.169.5 V6OVNServiceHairpinMasqueradeIP:fd69::5} DisablePacketMTUCheck:false RouterSubnet: SingleNode:false DisableForwarding:false AllowNoUplink:false} MasterHA:{ElectionLeaseDuration:137 ElectionRenewDeadline:107 ElectionRetryPeriod:26} ClusterMgrHA:{ElectionLeaseDuration:137 ElectionRenewDeadline:107 ElectionRetryPeriod:26} HybridOverlay:{Enabled:false RawClusterSubnets: ClusterSubnets:[] VXLANPort:4789} OvnKubeNode:{Mode:full DPResourceDeviceIdsMap:map[] MgmtPortNetdev: MgmtPortDPResourceName:} ClusterManager:{V4TransitSwitchSubnet:100.88.0.0/16 V6TransitSwitchSubnet:fd97::/64}}
+2025-03-31T20:32:32.493729644Z I0331 20:32:32.493711       1 leaderelection.go:250] attempting to acquire leader lease openshift-ovn-kubernetes/ovn-kubernetes-master...
+2025-03-31T20:32:32.494194085Z I0331 20:32:32.494165       1 metrics.go:487] Starting metrics server to serve at address "127.0.0.1:29108"
+2025-03-31T20:32:32.512366406Z I0331 20:32:32.512235       1 leaderelection.go:260] successfully acquired lease openshift-ovn-kubernetes/ovn-kubernetes-master
+2025-03-31T20:32:32.512366406Z I0331 20:32:32.512347       1 ovnkube.go:386] Won leader election; in active mode
+2025-03-31T20:32:32.512708340Z I0331 20:32:32.512652       1 secondary_network_cluster_manager.go:38] Creating secondary network cluster manager
+2025-03-31T20:32:32.512708340Z I0331 20:32:32.512703       1 egressservice_cluster.go:97] Setting up event handlers for Egress Services
+2025-03-31T20:32:32.512771858Z I0331 20:32:32.512759       1 clustermanager.go:117] Starting the cluster manager
+2025-03-31T20:32:32.512771858Z I0331 20:32:32.512769       1 factory.go:363] Starting watch factory
+2025-03-31T20:32:32.512832358Z I0331 20:32:32.512793       1 event.go:298] Event(v1.ObjectReference{Kind:"Lease", Namespace:"openshift-ovn-kubernetes", Name:"ovn-kubernetes-master", UID:"fca7d777-a344-4a68-89f4-c1ea2657c740", APIVersion:"coordination.k8s.io/v1", ResourceVersion:"66040", FieldPath:""}): type: 'Normal' reason: 'LeaderElection' ovnkube-control-plane-54c68569bc-jxf9j became leader
+2025-03-31T20:32:32.512899216Z I0331 20:32:32.512881       1 reflector.go:289] Starting reflector *v1.Node (0s) from k8s.io/client-go/informers/factory.go:159
+2025-03-31T20:32:32.512899216Z I0331 20:32:32.512889       1 reflector.go:325] Listing and watching *v1.Node from k8s.io/client-go/informers/factory.go:159
+2025-03-31T20:32:32.512918626Z I0331 20:32:32.512884       1 reflector.go:289] Starting reflector *v1.Pod (0s) from k8s.io/client-go/informers/factory.go:159
+2025-03-31T20:32:32.513224360Z I0331 20:32:32.513215       1 reflector.go:325] Listing and watching *v1.Pod from k8s.io/client-go/informers/factory.go:159
+2025-03-31T20:32:32.513313778Z I0331 20:32:32.512884       1 reflector.go:289] Starting reflector *v1.Service (0s) from k8s.io/client-go/informers/factory.go:159
+2025-03-31T20:32:32.513313778Z I0331 20:32:32.513297       1 reflector.go:325] Listing and watching *v1.Service from k8s.io/client-go/informers/factory.go:159
+2025-03-31T20:32:32.513368467Z I0331 20:32:32.513010       1 reflector.go:289] Starting reflector *v1.EndpointSlice (0s) from k8s.io/client-go/informers/factory.go:159
+2025-03-31T20:32:32.513368467Z I0331 20:32:32.513358       1 reflector.go:325] Listing and watching *v1.EndpointSlice from k8s.io/client-go/informers/factory.go:159
+2025-03-31T20:32:32.614776441Z I0331 20:32:32.613490       1 shared_informer.go:341] caches populated
+2025-03-31T20:32:32.614776441Z I0331 20:32:32.613512       1 shared_informer.go:341] caches populated
+2025-03-31T20:32:32.614776441Z I0331 20:32:32.613630       1 shared_informer.go:341] caches populated
+2025-03-31T20:32:32.614776441Z I0331 20:32:32.613635       1 shared_informer.go:341] caches populated
+2025-03-31T20:32:32.614776441Z I0331 20:32:32.613828       1 reflector.go:289] Starting reflector *v1.EgressIP (0s) from github.com/openshift/ovn-kubernetes/go-controller/pkg/crd/egressip/v1/apis/informers/externalversions/factory.go:140
+2025-03-31T20:32:32.614776441Z I0331 20:32:32.613842       1 reflector.go:325] Listing and watching *v1.EgressIP from github.com/openshift/ovn-kubernetes/go-controller/pkg/crd/egressip/v1/apis/informers/externalversions/factory.go:140
+2025-03-31T20:32:32.713833731Z I0331 20:32:32.713795       1 shared_informer.go:341] caches populated
+2025-03-31T20:32:32.713941929Z I0331 20:32:32.713926       1 reflector.go:289] Starting reflector *v1.EgressFirewall (0s) from github.com/openshift/ovn-kubernetes/go-controller/pkg/crd/egressfirewall/v1/apis/informers/externalversions/factory.go:140
+2025-03-31T20:32:32.713941929Z I0331 20:32:32.713935       1 reflector.go:325] Listing and watching *v1.EgressFirewall from github.com/openshift/ovn-kubernetes/go-controller/pkg/crd/egressfirewall/v1/apis/informers/externalversions/factory.go:140
+2025-03-31T20:32:32.814455890Z I0331 20:32:32.814418       1 shared_informer.go:341] caches populated
+2025-03-31T20:32:32.814651707Z I0331 20:32:32.814594       1 reflector.go:289] Starting reflector *v1.EgressService (0s) from github.com/openshift/ovn-kubernetes/go-controller/pkg/crd/egressservice/v1/apis/informers/externalversions/factory.go:140
+2025-03-31T20:32:32.814651707Z I0331 20:32:32.814613       1 reflector.go:325] Listing and watching *v1.EgressService from github.com/openshift/ovn-kubernetes/go-controller/pkg/crd/egressservice/v1/apis/informers/externalversions/factory.go:140
+2025-03-31T20:32:32.914629438Z I0331 20:32:32.914579       1 shared_informer.go:341] caches populated
+2025-03-31T20:32:32.914845654Z I0331 20:32:32.914812       1 reflector.go:289] Starting reflector *v1.AdminPolicyBasedExternalRoute (0s) from github.com/openshift/ovn-kubernetes/go-controller/pkg/crd/adminpolicybasedroute/v1/apis/informers/externalversions/factory.go:140
+2025-03-31T20:32:32.914853054Z I0331 20:32:32.914843       1 reflector.go:325] Listing and watching *v1.AdminPolicyBasedExternalRoute from github.com/openshift/ovn-kubernetes/go-controller/pkg/crd/adminpolicybasedroute/v1/apis/informers/externalversions/factory.go:140
+2025-03-31T20:32:33.015146500Z I0331 20:32:33.015101       1 shared_informer.go:341] caches populated
+2025-03-31T20:32:33.015350866Z I0331 20:32:33.015327       1 node_allocator.go:371] Expected 1 subnets on node host-10-13-2-160, found 1: [10.129.0.0/23]
+2025-03-31T20:32:33.015370956Z I0331 20:32:33.015354       1 node_allocator.go:385] Valid subnet 10.129.0.0/23 allocated on node host-10-13-2-160
+2025-03-31T20:32:33.015378726Z I0331 20:32:33.015372       1 node_allocator.go:407] Allowed existing subnets [10.129.0.0/23] on node host-10-13-2-160
+2025-03-31T20:32:33.015404645Z I0331 20:32:33.015390       1 node_allocator.go:371] Expected 1 subnets on node host-10-13-2-89, found 1: [10.130.0.0/23]
+2025-03-31T20:32:33.015417085Z I0331 20:32:33.015405       1 node_allocator.go:385] Valid subnet 10.130.0.0/23 allocated on node host-10-13-2-89
+2025-03-31T20:32:33.015423245Z I0331 20:32:33.015417       1 node_allocator.go:407] Allowed existing subnets [10.130.0.0/23] on node host-10-13-2-89
+2025-03-31T20:32:33.015452124Z I0331 20:32:33.015438       1 node_allocator.go:371] Expected 1 subnets on node host-10-13-0-150, found 1: [10.128.0.0/23]
+2025-03-31T20:32:33.015458424Z I0331 20:32:33.015452       1 node_allocator.go:385] Valid subnet 10.128.0.0/23 allocated on node host-10-13-0-150
+2025-03-31T20:32:33.015477473Z I0331 20:32:33.015464       1 node_allocator.go:407] Allowed existing subnets [10.128.0.0/23] on node host-10-13-0-150
+2025-03-31T20:32:33.015502623Z I0331 20:32:33.015488       1 zone_cluster_controller.go:244] Node host-10-13-2-160 has the id 4 set
+2025-03-31T20:32:33.015513992Z I0331 20:32:33.015506       1 zone_cluster_controller.go:244] Node host-10-13-2-89 has the id 2 set
+2025-03-31T20:32:33.015519982Z I0331 20:32:33.015513       1 zone_cluster_controller.go:244] Node host-10-13-0-150 has the id 3 set
+2025-03-31T20:32:33.015590211Z I0331 20:32:33.015568       1 kube.go:123] Setting annotations map[k8s.ovn.org/node-gateway-router-lrp-ifaddr:{"ipv4":"100.64.0.4/16"} k8s.ovn.org/node-id:4 k8s.ovn.org/node-transit-switch-port-ifaddr:{"ipv4":"100.88.0.4/16"}] on node host-10-13-2-160
+2025-03-31T20:32:33.027116620Z I0331 20:32:33.027079       1 kube.go:123] Setting annotations map[k8s.ovn.org/node-gateway-router-lrp-ifaddr:{"ipv4":"100.64.0.2/16"} k8s.ovn.org/node-id:2 k8s.ovn.org/node-transit-switch-port-ifaddr:{"ipv4":"100.88.0.2/16"}] on node host-10-13-2-89
+2025-03-31T20:32:33.034927470Z I0331 20:32:33.034865       1 kube.go:123] Setting annotations map[k8s.ovn.org/node-gateway-router-lrp-ifaddr:{"ipv4":"100.64.0.3/16"} k8s.ovn.org/node-id:3 k8s.ovn.org/node-transit-switch-port-ifaddr:{"ipv4":"100.88.0.3/16"}] on node host-10-13-0-150
+2025-03-31T20:32:33.049001770Z I0331 20:32:33.048971       1 secondary_network_cluster_manager.go:65] Starting secondary network cluster manager
+2025-03-31T20:32:33.049036000Z I0331 20:32:33.049018       1 network_attach_def_controller.go:134] Starting cluster-manager NAD controller
+2025-03-31T20:32:33.049076789Z I0331 20:32:33.049056       1 shared_informer.go:311] Waiting for caches to sync for cluster-manager
+2025-03-31T20:32:33.049276345Z I0331 20:32:33.049254       1 reflector.go:289] Starting reflector *v1.NetworkAttachmentDefinition (0s) from github.com/k8snetworkplumbingwg/network-attachment-definition-client/pkg/client/informers/externalversions/factory.go:117
+2025-03-31T20:32:33.049276345Z I0331 20:32:33.049269       1 reflector.go:325] Listing and watching *v1.NetworkAttachmentDefinition from github.com/k8snetworkplumbingwg/network-attachment-definition-client/pkg/client/informers/externalversions/factory.go:117
+2025-03-31T20:32:33.150919794Z I0331 20:32:33.150198       1 shared_informer.go:341] caches populated
+2025-03-31T20:32:33.150919794Z I0331 20:32:33.150223       1 shared_informer.go:318] Caches are synced for cluster-manager
+2025-03-31T20:32:33.150919794Z I0331 20:32:33.150296       1 network_attach_def_controller.go:182] Starting repairing loop for cluster-manager
+2025-03-31T20:32:33.150919794Z I0331 20:32:33.150379       1 network_attach_def_controller.go:184] Finished repairing loop for cluster-manager: 85.119µs err: <nil>
+2025-03-31T20:32:33.150919794Z I0331 20:32:33.150389       1 network_attach_def_controller.go:153] Starting workers for cluster-manager NAD controller
+2025-03-31T20:32:33.150919794Z W0331 20:32:33.150476       1 egressip_healthcheck.go:165] Health checking using insecure connection
+2025-03-31T20:32:33.151996104Z I0331 20:32:33.151852       1 egressip_healthcheck.go:188] Connected to host-10-13-0-150 (10.128.0.2:9107)
+2025-03-31T20:32:33.151996104Z W0331 20:32:33.151924       1 egressip_healthcheck.go:165] Health checking using insecure connection
+2025-03-31T20:32:33.155559896Z I0331 20:32:33.155525       1 egressip_healthcheck.go:188] Connected to host-10-13-2-160 (10.129.0.2:9107)
+2025-03-31T20:32:33.155592335Z W0331 20:32:33.155576       1 egressip_healthcheck.go:165] Health checking using insecure connection
+2025-03-31T20:32:33.160202866Z I0331 20:32:33.160185       1 egressip_healthcheck.go:188] Connected to host-10-13-2-89 (10.130.0.2:9107)
+2025-03-31T20:32:33.160623649Z I0331 20:32:33.160614       1 egressip_controller.go:459] EgressIP node reachability enabled and using gRPC port 9107
+2025-03-31T20:32:33.160658018Z I0331 20:32:33.160645       1 egressservice_cluster.go:170] Starting Egress Services Controller
+2025-03-31T20:32:33.160688297Z I0331 20:32:33.160681       1 shared_informer.go:311] Waiting for caches to sync for egressservices
+2025-03-31T20:32:33.160707167Z I0331 20:32:33.160700       1 shared_informer.go:341] caches populated
+2025-03-31T20:32:33.160723656Z I0331 20:32:33.160717       1 shared_informer.go:318] Caches are synced for egressservices
+2025-03-31T20:32:33.160749376Z I0331 20:32:33.160738       1 shared_informer.go:311] Waiting for caches to sync for egressservices_services
+2025-03-31T20:32:33.160770145Z I0331 20:32:33.160763       1 shared_informer.go:341] caches populated
+2025-03-31T20:32:33.160795815Z I0331 20:32:33.160789       1 shared_informer.go:318] Caches are synced for egressservices_services
+2025-03-31T20:32:33.160820034Z I0331 20:32:33.160813       1 shared_informer.go:311] Waiting for caches to sync for egressservices_endpointslices
+2025-03-31T20:32:33.160850624Z I0331 20:32:33.160843       1 shared_informer.go:341] caches populated
+2025-03-31T20:32:33.160865874Z I0331 20:32:33.160859       1 shared_informer.go:318] Caches are synced for egressservices_endpointslices
+2025-03-31T20:32:33.161975092Z I0331 20:32:33.161963       1 shared_informer.go:311] Waiting for caches to sync for egressservices_nodes
+2025-03-31T20:32:33.162006291Z I0331 20:32:33.161999       1 shared_informer.go:341] caches populated
+2025-03-31T20:32:33.162029031Z I0331 20:32:33.162015       1 shared_informer.go:318] Caches are synced for egressservices_nodes
+2025-03-31T20:32:33.162048771Z I0331 20:32:33.162042       1 egressservice_cluster.go:187] Repairing Egress Services
+2025-03-31T20:32:33.162126010Z I0331 20:32:33.162116       1 kube.go:262] Setting labels map[] on node host-10-13-2-89
+2025-03-31T20:32:33.172446681Z I0331 20:32:33.172402       1 kube.go:262] Setting labels map[] on node host-10-13-0-150
+2025-03-31T20:32:33.189097332Z I0331 20:32:33.188441       1 kube.go:262] Setting labels map[] on node host-10-13-2-160
+2025-03-31T20:32:33.207115417Z I0331 20:32:33.206795       1 status_manager.go:196] Starting StatusManager with typed managers: map[adminpolicybasedexternalroutes:0xc0004973c0 egressfirewalls:0xc000497840]
+2025-03-31T20:32:33.207115417Z I0331 20:32:33.206836       1 controller.go:71] Starting controller zone_tracker with 1 workers
+2025-03-31T20:32:33.207115417Z I0331 20:32:33.206908       1 shared_informer.go:311] Waiting for caches to sync for zone_tracker
+2025-03-31T20:32:33.207115417Z I0331 20:32:33.206924       1 shared_informer.go:341] caches populated
+2025-03-31T20:32:33.207115417Z I0331 20:32:33.206931       1 shared_informer.go:318] Caches are synced for zone_tracker
+2025-03-31T20:32:33.207115417Z I0331 20:32:33.206945       1 status_manager.go:220] StatusManager got zones update: map[host-10-13-0-150:{}]
+2025-03-31T20:32:33.207115417Z I0331 20:32:33.206958       1 controller.go:202] Controller adminpolicybasedexternalroutes_statusmanager: full reconcile
+2025-03-31T20:32:33.207115417Z I0331 20:32:33.206967       1 controller.go:202] Controller egressfirewalls_statusmanager: full reconcile
+2025-03-31T20:32:33.207115417Z I0331 20:32:33.206976       1 status_manager.go:220] StatusManager got zones update: map[host-10-13-0-150:{} host-10-13-2-160:{}]
+2025-03-31T20:32:33.207115417Z I0331 20:32:33.206984       1 controller.go:202] Controller egressfirewalls_statusmanager: full reconcile
+2025-03-31T20:32:33.207115417Z I0331 20:32:33.206990       1 controller.go:202] Controller adminpolicybasedexternalroutes_statusmanager: full reconcile
+2025-03-31T20:32:33.207115417Z I0331 20:32:33.207059       1 status_manager.go:220] StatusManager got zones update: map[host-10-13-0-150:{} host-10-13-2-160:{} host-10-13-2-89:{}]
+2025-03-31T20:32:33.207115417Z I0331 20:32:33.207068       1 controller.go:202] Controller adminpolicybasedexternalroutes_statusmanager: full reconcile
+2025-03-31T20:32:33.207115417Z I0331 20:32:33.207074       1 controller.go:202] Controller egressfirewalls_statusmanager: full reconcile
+2025-03-31T20:32:33.207115417Z I0331 20:32:33.207080       1 status_manager.go:220] StatusManager got zones update: map[host-10-13-0-150:{} host-10-13-2-160:{} host-10-13-2-89:{}]
+2025-03-31T20:32:33.207115417Z I0331 20:32:33.207087       1 controller.go:202] Controller adminpolicybasedexternalroutes_statusmanager: full reconcile
+2025-03-31T20:32:33.207115417Z I0331 20:32:33.207093       1 controller.go:202] Controller egressfirewalls_statusmanager: full reconcile
+2025-03-31T20:32:33.207115417Z I0331 20:32:33.207100       1 controller.go:95] Controller zone_tracker finished initial sync
+2025-03-31T20:32:33.207115417Z I0331 20:32:33.207108       1 controller.go:71] Starting controller adminpolicybasedexternalroutes_statusmanager with 1 workers
+2025-03-31T20:32:33.209688987Z I0331 20:32:33.207726       1 shared_informer.go:311] Waiting for caches to sync for adminpolicybasedexternalroutes_statusmanager
+2025-03-31T20:32:33.209688987Z I0331 20:32:33.209639       1 shared_informer.go:341] caches populated
+2025-03-31T20:32:33.209688987Z I0331 20:32:33.209651       1 shared_informer.go:318] Caches are synced for adminpolicybasedexternalroutes_statusmanager
+2025-03-31T20:32:33.209688987Z I0331 20:32:33.209664       1 controller.go:71] Starting controller egressfirewalls_statusmanager with 1 workers
+2025-03-31T20:32:33.209719466Z I0331 20:32:33.209701       1 shared_informer.go:311] Waiting for caches to sync for egressfirewalls_statusmanager
+2025-03-31T20:32:33.209726756Z I0331 20:32:33.209718       1 shared_informer.go:341] caches populated
+2025-03-31T20:32:33.209733026Z I0331 20:32:33.209724       1 shared_informer.go:318] Caches are synced for egressfirewalls_statusmanager
+2025-03-31T20:32:33.209755546Z I0331 20:32:33.208767       1 egressservice_cluster_node.go:167] Processing sync for Egress Service node host-10-13-0-150
+2025-03-31T20:32:33.209803185Z I0331 20:32:33.209760       1 egressservice_cluster_node.go:170] Finished syncing Egress Service node host-10-13-0-150: 994.011µs
+2025-03-31T20:32:33.209828885Z I0331 20:32:33.209813       1 egressservice_cluster_node.go:167] Processing sync for Egress Service node host-10-13-2-160
+2025-03-31T20:32:33.209835364Z I0331 20:32:33.209825       1 egressservice_cluster_node.go:170] Finished syncing Egress Service node host-10-13-2-160: 16.16µs
+2025-03-31T20:32:33.209858234Z I0331 20:32:33.209843       1 egressservice_cluster_node.go:167] Processing sync for Egress Service node host-10-13-2-89
+2025-03-31T20:32:33.209886943Z I0331 20:32:33.209855       1 egressservice_cluster_node.go:170] Finished syncing Egress Service node host-10-13-2-89: 19.53µs
+2025-03-31T20:32:38.151662107Z I0331 20:32:38.151272       1 egressip_healthcheck.go:197] Closing connection with host-10-13-2-89 (10.130.0.2:9107)
+2025-03-31T20:32:38.151662107Z I0331 20:32:38.151518       1 egressip_healthcheck.go:197] Closing connection with host-10-13-0-150 (10.128.0.2:9107)
+2025-03-31T20:32:38.151662107Z I0331 20:32:38.151613       1 egressip_healthcheck.go:197] Closing connection with host-10-13-2-160 (10.129.0.2:9107)
+2025-03-31T20:32:41.593288183Z I0331 20:32:41.592152       1 node_allocator.go:371] Expected 1 subnets on node host-10-13-0-150, found 1: [10.128.0.0/23]
+2025-03-31T20:32:41.593288183Z I0331 20:32:41.592173       1 node_allocator.go:385] Valid subnet 10.128.0.0/23 allocated on node host-10-13-0-150
+2025-03-31T20:32:41.593288183Z I0331 20:32:41.592180       1 node_allocator.go:407] Allowed existing subnets [10.128.0.0/23] on node host-10-13-0-150
+2025-03-31T20:32:46.614831868Z I0331 20:32:46.614409       1 node_allocator.go:371] Expected 1 subnets on node host-10-13-0-150, found 1: [10.128.0.0/23]
+2025-03-31T20:32:46.614831868Z I0331 20:32:46.614467       1 node_allocator.go:385] Valid subnet 10.128.0.0/23 allocated on node host-10-13-0-150
+2025-03-31T20:32:46.614831868Z I0331 20:32:46.614483       1 node_allocator.go:407] Allowed existing subnets [10.128.0.0/23] on node host-10-13-0-150
+2025-03-31T20:32:51.620825310Z I0331 20:32:51.619913       1 node_allocator.go:371] Expected 1 subnets on node host-10-13-0-150, found 1: [10.128.0.0/23]
+2025-03-31T20:32:51.620825310Z I0331 20:32:51.619949       1 node_allocator.go:385] Valid subnet 10.128.0.0/23 allocated on node host-10-13-0-150
+2025-03-31T20:32:51.620825310Z I0331 20:32:51.619965       1 node_allocator.go:407] Allowed existing subnets [10.128.0.0/23] on node host-10-13-0-150
+2025-03-31T20:33:00.472398843Z I0331 20:33:00.472367       1 node_allocator.go:371] Expected 1 subnets on node host-10-13-0-150, found 1: [10.128.0.0/23]
+2025-03-31T20:33:00.472442922Z I0331 20:33:00.472434       1 node_allocator.go:385] Valid subnet 10.128.0.0/23 allocated on node host-10-13-0-150
+2025-03-31T20:33:00.472463672Z I0331 20:33:00.472456       1 node_allocator.go:407] Allowed existing subnets [10.128.0.0/23] on node host-10-13-0-150
+2025-03-31T20:33:23.647158617Z I0331 20:33:23.647108       1 node_allocator.go:371] Expected 1 subnets on node host-10-13-0-150, found 1: [10.128.0.0/23]
+2025-03-31T20:33:23.647261056Z I0331 20:33:23.647244       1 node_allocator.go:385] Valid subnet 10.128.0.0/23 allocated on node host-10-13-0-150
+2025-03-31T20:33:23.647302265Z I0331 20:33:23.647287       1 node_allocator.go:407] Allowed existing subnets [10.128.0.0/23] on node host-10-13-0-150
+2025-03-31T20:35:29.192183482Z I0331 20:35:29.192150       1 reflector.go:790] k8s.io/client-go/informers/factory.go:159: Watch close - *v1.Pod total 615 items received
+2025-03-31T20:35:29.264741649Z I0331 20:35:29.264708       1 reflector.go:790] k8s.io/client-go/informers/factory.go:159: Watch close - *v1.Node total 8 items received
+2025-03-31T20:35:29.292234044Z I0331 20:35:29.292202       1 reflector.go:790] k8s.io/client-go/informers/factory.go:159: Watch close - *v1.Service total 2 items received
+2025-03-31T20:35:29.299265432Z I0331 20:35:29.299234       1 reflector.go:790] k8s.io/client-go/informers/factory.go:159: Watch close - *v1.EndpointSlice total 164 items received
+2025-03-31T20:35:29.340858341Z I0331 20:35:29.340816       1 reflector.go:790] github.com/openshift/ovn-kubernetes/go-controller/pkg/crd/egressfirewall/v1/apis/informers/externalversions/factory.go:140: Watch close - *v1.EgressFirewall total 2 items received
+2025-03-31T20:35:29.360694979Z I0331 20:35:29.360667       1 reflector.go:790] github.com/openshift/ovn-kubernetes/go-controller/pkg/crd/adminpolicybasedroute/v1/apis/informers/externalversions/factory.go:140: Watch close - *v1.AdminPolicyBasedExternalRoute total 2 items received
+2025-03-31T20:35:29.370612543Z I0331 20:35:29.370583       1 reflector.go:790] github.com/openshift/ovn-kubernetes/go-controller/pkg/crd/egressservice/v1/apis/informers/externalversions/factory.go:140: Watch close - *v1.EgressService total 2 items received
+2025-03-31T20:35:29.377289328Z I0331 20:35:29.377264       1 reflector.go:790] github.com/k8snetworkplumbingwg/network-attachment-definition-client/pkg/client/informers/externalversions/factory.go:117: Watch close - *v1.NetworkAttachmentDefinition total 2 items received
+2025-03-31T20:35:29.400452753Z I0331 20:35:29.400426       1 reflector.go:790] github.com/openshift/ovn-kubernetes/go-controller/pkg/crd/egressip/v1/apis/informers/externalversions/factory.go:140: Watch close - *v1.EgressIP total 2 items received
+2025-03-31T20:35:31.300060516Z I0331 20:35:31.300026       1 reflector.go:445] github.com/openshift/ovn-kubernetes/go-controller/pkg/crd/egressfirewall/v1/apis/informers/externalversions/factory.go:140: watch of *v1.EgressFirewall closed with: too old resource version: 69764 (70231)
+2025-03-31T20:35:31.300136784Z I0331 20:35:31.300128       1 reflector.go:445] github.com/openshift/ovn-kubernetes/go-controller/pkg/crd/adminpolicybasedroute/v1/apis/informers/externalversions/factory.go:140: watch of *v1.AdminPolicyBasedExternalRoute closed with: too old resource version: 69764 (70235)
+2025-03-31T20:35:31.300188113Z I0331 20:35:31.300180       1 reflector.go:445] github.com/openshift/ovn-kubernetes/go-controller/pkg/crd/egressip/v1/apis/informers/externalversions/factory.go:140: watch of *v1.EgressIP closed with: too old resource version: 69764 (70235)
+2025-03-31T20:35:31.300208792Z I0331 20:35:31.300202       1 reflector.go:445] github.com/openshift/ovn-kubernetes/go-controller/pkg/crd/egressservice/v1/apis/informers/externalversions/factory.go:140: watch of *v1.EgressService closed with: too old resource version: 69748 (70235)
+2025-03-31T20:35:31.300234942Z I0331 20:35:31.300228       1 reflector.go:445] github.com/k8snetworkplumbingwg/network-attachment-definition-client/pkg/client/informers/externalversions/factory.go:117: watch of *v1.NetworkAttachmentDefinition closed with: too old resource version: 69764 (70235)
+2025-03-31T20:35:32.153049648Z I0331 20:35:32.149930       1 reflector.go:325] Listing and watching *v1.EgressService from github.com/openshift/ovn-kubernetes/go-controller/pkg/crd/egressservice/v1/apis/informers/externalversions/factory.go:140
+2025-03-31T20:35:32.272800731Z I0331 20:35:32.272047       1 reflector.go:325] Listing and watching *v1.EgressIP from github.com/openshift/ovn-kubernetes/go-controller/pkg/crd/egressip/v1/apis/informers/externalversions/factory.go:140
+2025-03-31T20:35:32.327528383Z I0331 20:35:32.325967       1 reflector.go:325] Listing and watching *v1.EgressFirewall from github.com/openshift/ovn-kubernetes/go-controller/pkg/crd/egressfirewall/v1/apis/informers/externalversions/factory.go:140
+2025-03-31T20:35:32.361126713Z I0331 20:35:32.361083       1 reflector.go:325] Listing and watching *v1.NetworkAttachmentDefinition from github.com/k8snetworkplumbingwg/network-attachment-definition-client/pkg/client/informers/externalversions/factory.go:117
+2025-03-31T20:35:32.658780357Z I0331 20:35:32.647994       1 reflector.go:325] Listing and watching *v1.AdminPolicyBasedExternalRoute from github.com/openshift/ovn-kubernetes/go-controller/pkg/crd/adminpolicybasedroute/v1/apis/informers/externalversions/factory.go:140
+2025-03-31T20:39:10.705787539Z E0331 20:39:10.705737       1 leaderelection.go:332] error retrieving resource lock openshift-ovn-kubernetes/ovn-kubernetes-master: the server was unable to return a response in the time allotted, but may still be processing the request (get leases.coordination.k8s.io ovn-kubernetes-master)
+2025-03-31T20:39:57.703889608Z E0331 20:39:57.703789       1 leaderelection.go:332] error retrieving resource lock openshift-ovn-kubernetes/ovn-kubernetes-master: Get "https://api-int.ovhcpococp.trikorasolutions.net:6443/apis/coordination.k8s.io/v1/namespaces/openshift-ovn-kubernetes/leases/ovn-kubernetes-master": context deadline exceeded
+2025-03-31T20:39:57.703889608Z I0331 20:39:57.703836       1 leaderelection.go:285] failed to renew lease openshift-ovn-kubernetes/ovn-kubernetes-master: timed out waiting for the condition
+2025-03-31T20:40:02.706305772Z I0331 20:40:02.706267       1 with_retry.go:234] Got a Retry-After 5s response for attempt 1 to https://api-int.ovhcpococp.trikorasolutions.net:6443/apis/coordination.k8s.io/v1/namespaces/openshift-ovn-kubernetes/leases/ovn-kubernetes-master
+2025-03-31T20:40:07.715249801Z I0331 20:40:07.715189       1 with_retry.go:234] Got a Retry-After 5s response for attempt 2 to https://api-int.ovhcpococp.trikorasolutions.net:6443/apis/coordination.k8s.io/v1/namespaces/openshift-ovn-kubernetes/leases/ovn-kubernetes-master
+2025-03-31T20:40:12.730648768Z I0331 20:40:12.730574       1 with_retry.go:234] Got a Retry-After 5s response for attempt 3 to https://api-int.ovhcpococp.trikorasolutions.net:6443/apis/coordination.k8s.io/v1/namespaces/openshift-ovn-kubernetes/leases/ovn-kubernetes-master
+2025-03-31T20:40:17.746992356Z I0331 20:40:17.746928       1 with_retry.go:234] Got a Retry-After 5s response for attempt 4 to https://api-int.ovhcpococp.trikorasolutions.net:6443/apis/coordination.k8s.io/v1/namespaces/openshift-ovn-kubernetes/leases/ovn-kubernetes-master
+2025-03-31T20:40:17.762519460Z I0331 20:40:17.762465       1 ovnkube.go:395] No longer leader; exiting
+2025-03-31T20:40:17.762519460Z I0331 20:40:17.762509       1 clustermanager.go:159] Stopping the cluster manager
+2025-03-31T20:40:17.762558309Z I0331 20:40:17.762533       1 secondary_network_cluster_manager.go:100] Stopping secondary network cluster manager
+2025-03-31T20:40:17.762558309Z I0331 20:40:17.762541       1 network_attach_def_controller.go:166] Shutting down cluster-manager NAD controller
+2025-03-31T20:40:17.762579809Z I0331 20:40:17.762567       1 metrics.go:506] Stopping metrics server 127.0.0.1:29108
+2025-03-31T20:40:17.762662977Z I0331 20:40:17.762623       1 event.go:298] Event(v1.ObjectReference{Kind:"Lease", Namespace:"openshift-ovn-kubernetes", Name:"ovn-kubernetes-master", UID:"fca7d777-a344-4a68-89f4-c1ea2657c740", APIVersion:"coordination.k8s.io/v1", ResourceVersion:"72810", FieldPath:""}): type: 'Normal' reason: 'LeaderElection' ovnkube-control-plane-54c68569bc-jxf9j stopped leading
+2025-03-31T20:40:17.762662977Z I0331 20:40:17.762631       1 metrics.go:502] Metrics server has stopped serving at address "127.0.0.1:29108"
+2025-03-31T20:40:17.762913313Z I0331 20:40:17.762686       1 reflector.go:295] Stopping reflector *v1.NetworkAttachmentDefinition (0s) from github.com/k8snetworkplumbingwg/network-attachment-definition-client/pkg/client/informers/externalversions/factory.go:117
+2025-03-31T20:40:17.762913313Z I0331 20:40:17.762718       1 egressservice_cluster.go:218] Shutting down Egress Services controller
+2025-03-31T20:40:17.762934192Z I0331 20:40:17.762867       1 reflector.go:295] Stopping reflector *v1.AdminPolicyBasedExternalRoute (0s) from github.com/openshift/ovn-kubernetes/go-controller/pkg/crd/adminpolicybasedroute/v1/apis/informers/externalversions/factory.go:140
+2025-03-31T20:40:17.762934192Z I0331 20:40:17.762913       1 reflector.go:295] Stopping reflector *v1.EndpointSlice (0s) from k8s.io/client-go/informers/factory.go:159
+2025-03-31T20:40:17.763038120Z I0331 20:40:17.762973       1 reflector.go:295] Stopping reflector *v1.Pod (0s) from k8s.io/client-go/informers/factory.go:159
+2025-03-31T20:40:17.763038120Z I0331 20:40:17.763016       1 reflector.go:295] Stopping reflector *v1.EgressService (0s) from github.com/openshift/ovn-kubernetes/go-controller/pkg/crd/egressservice/v1/apis/informers/externalversions/factory.go:140
+2025-03-31T20:40:17.763164478Z I0331 20:40:17.763061       1 reflector.go:295] Stopping reflector *v1.Node (0s) from k8s.io/client-go/informers/factory.go:159
+2025-03-31T20:40:17.763164478Z I0331 20:40:17.763106       1 reflector.go:295] Stopping reflector *v1.EgressFirewall (0s) from github.com/openshift/ovn-kubernetes/go-controller/pkg/crd/egressfirewall/v1/apis/informers/externalversions/factory.go:140
+2025-03-31T20:40:17.763164478Z I0331 20:40:17.763137       1 reflector.go:295] Stopping reflector *v1.EgressIP (0s) from github.com/openshift/ovn-kubernetes/go-controller/pkg/crd/egressip/v1/apis/informers/externalversions/factory.go:140
+2025-03-31T20:40:17.763318275Z I0331 20:40:17.763284       1 reflector.go:295] Stopping reflector *v1.Service (0s) from k8s.io/client-go/informers/factory.go:159

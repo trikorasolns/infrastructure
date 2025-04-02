@@ -1,0 +1,161 @@
+---
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2025-03-31T20:40:25Z"
+    creationTimestamp: "2025-03-31T14:23:56Z"
+    labels:
+      k8s-app: machine-config-controller
+    managedFields:
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:endpoints.kubernetes.io/last-change-trigger-time: {}
+          f:labels:
+            .: {}
+            f:k8s-app: {}
+        f:subsets: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-03-31T20:40:25Z"
+    name: machine-config-controller
+    namespace: openshift-machine-config-operator
+    resourceVersion: "72980"
+    uid: 9b050f90-4852-4c14-99e2-95c9209bd67d
+  subsets:
+  - addresses:
+    - ip: 10.129.0.10
+      nodeName: host-10-13-2-160
+      targetRef:
+        kind: Pod
+        name: machine-config-controller-757968d485-7jw5f
+        namespace: openshift-machine-config-operator
+        uid: b03cce46-2d46-48d9-916e-7263d1e8f052
+    ports:
+    - name: metrics
+      port: 9001
+      protocol: TCP
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2025-04-01T08:33:48Z"
+    creationTimestamp: "2025-03-31T14:23:56Z"
+    labels:
+      k8s-app: machine-config-daemon
+    managedFields:
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:endpoints.kubernetes.io/last-change-trigger-time: {}
+          f:labels:
+            .: {}
+            f:k8s-app: {}
+        f:subsets: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-04-01T08:33:48Z"
+    name: machine-config-daemon
+    namespace: openshift-machine-config-operator
+    resourceVersion: "259139"
+    uid: c647a362-76de-42c4-89e6-a0495a06d220
+  subsets:
+  - addresses:
+    - ip: 10.13.0.150
+      nodeName: host-10-13-0-150
+      targetRef:
+        kind: Pod
+        name: machine-config-daemon-x56g5
+        namespace: openshift-machine-config-operator
+        uid: 4b04e776-9ec9-4395-878b-d52334af575c
+    - ip: 10.13.2.1
+      nodeName: host-10-13-2-1
+      targetRef:
+        kind: Pod
+        name: machine-config-daemon-9hwff
+        namespace: openshift-machine-config-operator
+        uid: 1838474e-5758-4389-a842-936b4e75eca5
+    - ip: 10.13.2.160
+      nodeName: host-10-13-2-160
+      targetRef:
+        kind: Pod
+        name: machine-config-daemon-xpzqf
+        namespace: openshift-machine-config-operator
+        uid: a9e10b23-25aa-4bd7-b670-81c816c58a7b
+    - ip: 10.13.2.89
+      nodeName: host-10-13-2-89
+      targetRef:
+        kind: Pod
+        name: machine-config-daemon-r5zxd
+        namespace: openshift-machine-config-operator
+        uid: cfac7cf0-b3cd-4a8c-b19f-848a7f71f5e3
+    - ip: 10.13.3.120
+      nodeName: host-10-13-3-120
+      targetRef:
+        kind: Pod
+        name: machine-config-daemon-mkwcm
+        namespace: openshift-machine-config-operator
+        uid: 0628039e-9a87-4f7e-b2f5-907f9cee0847
+    - ip: 10.13.3.78
+      nodeName: host-10-13-3-78
+      targetRef:
+        kind: Pod
+        name: machine-config-daemon-nvqvs
+        namespace: openshift-machine-config-operator
+        uid: cec9bb91-4ddb-4f40-bda2-be5a0f31adfd
+    ports:
+    - name: metrics
+      port: 9001
+      protocol: TCP
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2025-03-31T20:40:29Z"
+    creationTimestamp: "2025-03-31T14:23:55Z"
+    labels:
+      k8s-app: machine-config-operator
+    managedFields:
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:endpoints.kubernetes.io/last-change-trigger-time: {}
+          f:labels:
+            .: {}
+            f:k8s-app: {}
+        f:subsets: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-03-31T20:40:29Z"
+    name: machine-config-operator
+    namespace: openshift-machine-config-operator
+    resourceVersion: "73099"
+    uid: e5544685-2990-44c0-9c3d-5393e387346e
+  subsets:
+  - addresses:
+    - ip: 10.128.0.33
+      nodeName: host-10-13-0-150
+      targetRef:
+        kind: Pod
+        name: machine-config-operator-77d6b5fcff-w25k7
+        namespace: openshift-machine-config-operator
+        uid: ab9ebb33-faf6-4edd-b5c2-672ffa15b2ef
+    ports:
+    - name: metrics
+      port: 9001
+      protocol: TCP
+kind: EndpointsList
+metadata:
+  resourceVersion: "718263"

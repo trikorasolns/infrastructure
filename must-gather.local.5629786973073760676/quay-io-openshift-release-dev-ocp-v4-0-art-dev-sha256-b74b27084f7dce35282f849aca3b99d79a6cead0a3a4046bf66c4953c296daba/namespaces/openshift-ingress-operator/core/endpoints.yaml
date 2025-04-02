@@ -1,0 +1,41 @@
+---
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    creationTimestamp: "2025-03-31T14:24:07Z"
+    labels:
+      name: ingress-operator
+    managedFields:
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:labels:
+            .: {}
+            f:name: {}
+        f:subsets: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-03-31T20:33:07Z"
+    name: metrics
+    namespace: openshift-ingress-operator
+    resourceVersion: "68132"
+    uid: 3ab97da8-d7a5-4401-88f0-2f2b7343da1c
+  subsets:
+  - addresses:
+    - ip: 10.128.0.21
+      nodeName: host-10-13-0-150
+      targetRef:
+        kind: Pod
+        name: ingress-operator-7f6dfdddc-hmtzr
+        namespace: openshift-ingress-operator
+        uid: 06bd39e4-94fa-4514-9771-0d247beb51de
+    ports:
+    - name: metrics
+      port: 9393
+      protocol: TCP
+kind: EndpointsList
+metadata:
+  resourceVersion: "718148"

@@ -1,0 +1,38 @@
+2025-03-31T20:23:04.470980494Z W0331 20:23:04.470886       1 cmd.go:237] Using insecure, self-signed certificates
+2025-03-31T20:23:04.679781993Z I0331 20:23:04.679732       1 observer_polling.go:159] Starting file observer
+2025-03-31T20:23:04.696548130Z I0331 20:23:04.696528       1 builder.go:271] check-endpoints version 4.15.0-202502170147.p0.gd69278e.assembly.stream.el9-d69278e-d69278e76edaa4fcde0c9c78edd686fecad16a95
+2025-03-31T20:23:04.906611274Z I0331 20:23:04.906570       1 secure_serving.go:57] Forcing use of http/1.1 only
+2025-03-31T20:23:04.906611274Z W0331 20:23:04.906585       1 secure_serving.go:69] Use of insecure cipher 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256' detected.
+2025-03-31T20:23:04.906611274Z W0331 20:23:04.906589       1 secure_serving.go:69] Use of insecure cipher 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256' detected.
+2025-03-31T20:23:04.910302104Z I0331 20:23:04.910279       1 secure_serving.go:213] Serving securely on [::]:17698
+2025-03-31T20:23:04.910314863Z I0331 20:23:04.910309       1 requestheader_controller.go:169] Starting RequestHeaderAuthRequestController
+2025-03-31T20:23:04.910361722Z I0331 20:23:04.910321       1 shared_informer.go:311] Waiting for caches to sync for RequestHeaderAuthRequestController
+2025-03-31T20:23:04.910361722Z I0331 20:23:04.910348       1 dynamic_serving_content.go:132] "Starting controller" name="serving-cert::/tmp/serving-cert-699172846/tls.crt::/tmp/serving-cert-699172846/tls.key"
+2025-03-31T20:23:04.910423081Z I0331 20:23:04.910406       1 tlsconfig.go:240] "Starting DynamicServingCertificateController"
+2025-03-31T20:23:04.910506619Z I0331 20:23:04.910490       1 configmap_cafile_content.go:202] "Starting controller" name="client-ca::kube-system::extension-apiserver-authentication::client-ca-file"
+2025-03-31T20:23:04.910506619Z I0331 20:23:04.910497       1 shared_informer.go:311] Waiting for caches to sync for client-ca::kube-system::extension-apiserver-authentication::client-ca-file
+2025-03-31T20:23:04.910517489Z I0331 20:23:04.910504       1 configmap_cafile_content.go:202] "Starting controller" name="client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file"
+2025-03-31T20:23:04.910517489Z I0331 20:23:04.910508       1 shared_informer.go:311] Waiting for caches to sync for client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file
+2025-03-31T20:23:04.912385754Z I0331 20:23:04.912362       1 base_controller.go:67] Waiting for caches to sync for CheckEndpointsTimeToStart
+2025-03-31T20:23:05.011069192Z I0331 20:23:05.010945       1 shared_informer.go:318] Caches are synced for client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file
+2025-03-31T20:23:05.011069192Z I0331 20:23:05.010979       1 shared_informer.go:318] Caches are synced for RequestHeaderAuthRequestController
+2025-03-31T20:23:05.011069192Z I0331 20:23:05.011036       1 shared_informer.go:318] Caches are synced for client-ca::kube-system::extension-apiserver-authentication::client-ca-file
+2025-03-31T20:23:05.121848789Z I0331 20:23:05.113783       1 base_controller.go:73] Caches are synced for CheckEndpointsTimeToStart 
+2025-03-31T20:23:05.121848789Z I0331 20:23:05.113803       1 base_controller.go:110] Starting #1 worker of CheckEndpointsTimeToStart controller ...
+2025-03-31T20:32:17.053028060Z E0331 20:32:17.052523       1 authentication.go:73] "Unable to authenticate the request" err="[invalid bearer token, context canceled]"
+2025-03-31T20:32:17.054125129Z E0331 20:32:17.054052       1 writers.go:122] apiserver was unable to write a JSON response: http: Handler timeout
+2025-03-31T20:32:17.054125129Z E0331 20:32:17.054090       1 status.go:71] apiserver received an error that is not an metav1.Status: &errors.errorString{s:"http: Handler timeout"}: http: Handler timeout
+2025-03-31T20:32:17.055362465Z E0331 20:32:17.055326       1 writers.go:135] apiserver was unable to write a fallback JSON response: http: Handler timeout
+2025-03-31T20:32:17.055428743Z E0331 20:32:17.055397       1 timeout.go:142] post-timeout activity - time-elapsed: 1.429702ms, GET "/metrics" result: <nil>
+2025-03-31T20:32:17.062973250Z E0331 20:32:17.062942       1 webhook.go:154] Failed to make webhook authenticator request: client rate limiter Wait returned an error: context deadline exceeded
+2025-03-31T20:43:23.480191439Z I0331 20:43:23.479544       1 base_controller.go:67] Waiting for caches to sync for CheckEndpointsStop
+2025-03-31T20:43:23.480191439Z I0331 20:43:23.479579       1 base_controller.go:73] Caches are synced for CheckEndpointsStop 
+2025-03-31T20:43:23.480191439Z I0331 20:43:23.479589       1 base_controller.go:110] Starting #1 worker of CheckEndpointsStop controller ...
+2025-03-31T20:43:23.480191439Z I0331 20:43:23.479609       1 base_controller.go:172] Shutting down CheckEndpointsTimeToStart ...
+2025-03-31T20:43:23.484024766Z I0331 20:43:23.483993       1 base_controller.go:114] Shutting down worker of CheckEndpointsTimeToStart controller ...
+2025-03-31T20:43:23.484024766Z I0331 20:43:23.484014       1 base_controller.go:104] All CheckEndpointsTimeToStart workers have been terminated
+2025-03-31T20:43:23.484190812Z I0331 20:43:23.484173       1 base_controller.go:67] Waiting for caches to sync for check-endpoints
+2025-03-31T20:43:23.497328681Z W0331 20:43:23.497288       1 reflector.go:535] k8s.io/client-go@v0.28.4/tools/cache/reflector.go:229: failed to list *v1alpha1.PodNetworkConnectivityCheck: the server could not find the requested resource (get podnetworkconnectivitychecks.controlplane.operator.openshift.io)
+2025-03-31T20:43:23.497349900Z E0331 20:43:23.497324       1 reflector.go:147] k8s.io/client-go@v0.28.4/tools/cache/reflector.go:229: Failed to watch *v1alpha1.PodNetworkConnectivityCheck: failed to list *v1alpha1.PodNetworkConnectivityCheck: the server could not find the requested resource (get podnetworkconnectivitychecks.controlplane.operator.openshift.io)
+2025-03-31T20:43:24.885321432Z I0331 20:43:24.885252       1 base_controller.go:73] Caches are synced for check-endpoints 
+2025-03-31T20:43:24.885321432Z I0331 20:43:24.885277       1 base_controller.go:110] Starting #1 worker of check-endpoints controller ...

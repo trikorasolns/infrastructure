@@ -1,0 +1,7 @@
+2025-04-01T08:27:25.823369386Z Flag --logtostderr has been deprecated, will be removed in a future release, see https://github.com/kubernetes/enhancements/tree/master/keps/sig-instrumentation/2845-deprecate-klog-specific-flags-in-k8s-components
+2025-04-01T08:27:25.823591202Z I0401 08:27:25.823518       1 kube-rbac-proxy.go:578] Reading config file: /etc/kubernetes/crio-metrics-proxy.cfg
+2025-04-01T08:27:25.824760613Z I0401 08:27:25.824747       1 kube-rbac-proxy.go:285] Valid token audiences: 
+2025-04-01T08:27:25.824966559Z I0401 08:27:25.824956       1 kube-rbac-proxy.go:399] Reading certificate files
+2025-04-01T08:27:25.825008889Z I0401 08:27:25.824985       1 dynamic_cafile_content.go:157] "Starting controller" name="client-ca::/etc/kubernetes/kubelet-ca.crt"
+2025-04-01T08:27:25.825015479Z I0401 08:27:25.825009       1 dynamic_cafile_content.go:171] "Shutting down controller" name="client-ca::/etc/kubernetes/kubelet-ca.crt"
+2025-04-01T08:27:25.825040728Z E0401 08:27:25.825033       1 run.go:74] "command failed" err="failed to initialize certificate reloader: error loading certificates: error loading certificate: open /var/lib/kubelet/pki/kubelet-server-current.pem: no such file or directory"

@@ -1,0 +1,34 @@
+2025-03-31T20:31:21.829621814Z + [[ -f /env/_master ]]
+2025-03-31T20:31:21.829873263Z ++ date '+%m%d %H:%M:%S.%N'
+2025-03-31T20:31:21.831613964Z + echo 'I0331 20:31:21.831339546 - network-node-identity - start approver'
+2025-03-31T20:31:21.831628934Z I0331 20:31:21.831339546 - network-node-identity - start approver
+2025-03-31T20:31:21.831647944Z + exec /usr/bin/ovnkube-identity --k8s-apiserver=https://api-int.ovhcpococp.trikorasolutions.net:6443 --disable-webhook --csr-acceptance-conditions=/var/run/ovnkube-identity-config/additional-cert-acceptance-cond.json --loglevel=4
+2025-03-31T20:31:21.851750230Z I0331 20:31:21.851657       1 ovnkubeidentity.go:131] Config: {kubeconfig: apiServer:https://api-int.ovhcpococp.trikorasolutions.net:6443 logLevel:4 port:9443 host:localhost certDir: metricsAddress:0 leaseNamespace: enableInterconnect:false enableHybridOverlay:false disableWebhook:true disableApprover:false waitForKAPIDuration:0 localKAPIPort:6443 extraAllowedUsers:{slice:[] hasBeenSet:false} csrAcceptanceConditionFile:/var/run/ovnkube-identity-config/additional-cert-acceptance-cond.json csrAcceptanceConditions:[] podAdmissionConditionFile: podAdmissionConditions:[]}
+2025-03-31T20:31:21.851750230Z W0331 20:31:21.851738       1 client_config.go:618] Neither --kubeconfig nor --master was specified.  Using the inClusterConfig.  This might not work.
+2025-03-31T20:31:21.852320947Z I0331 20:31:21.852303       1 ovnkubeidentity.go:468] Starting certificate signing request approver
+2025-03-31T20:31:21.852364397Z I0331 20:31:21.852350       1 shared_informer.go:341] caches populated
+2025-03-31T20:31:21.852398976Z I0331 20:31:21.852384       1 leaderelection.go:250] attempting to acquire leader lease openshift-network-node-identity/ovnkube-identity...
+2025-03-31T20:31:21.868714912Z I0331 20:31:21.868665       1 leaderelection.go:354] lock is held by host-10-13-2-160_b8e2c708-d9fe-4eb2-adfe-1c98bdefb70c and has not yet expired
+2025-03-31T20:31:21.868714912Z I0331 20:31:21.868683       1 leaderelection.go:255] failed to acquire lease openshift-network-node-identity/ovnkube-identity
+2025-03-31T20:31:55.328803632Z I0331 20:31:55.328752       1 leaderelection.go:354] lock is held by host-10-13-2-160_b8e2c708-d9fe-4eb2-adfe-1c98bdefb70c and has not yet expired
+2025-03-31T20:31:55.328803632Z I0331 20:31:55.328764       1 leaderelection.go:255] failed to acquire lease openshift-network-node-identity/ovnkube-identity
+2025-03-31T20:32:23.640820853Z I0331 20:32:23.640179       1 leaderelection.go:260] successfully acquired lease openshift-network-node-identity/ovnkube-identity
+2025-03-31T20:32:23.640820853Z I0331 20:32:23.640396       1 recorder.go:104] "events: host-10-13-2-160_f4501d88-c492-48f6-812d-1fb82a28d05b became leader" type="Normal" object={"kind":"Lease","namespace":"openshift-network-node-identity","name":"ovnkube-identity","uid":"eddc620d-52bf-40e7-8355-946ffee8eb1e","apiVersion":"coordination.k8s.io/v1","resourceVersion":"65850"} reason="LeaderElection"
+2025-03-31T20:32:23.640820853Z I0331 20:32:23.640513       1 controller.go:177] "Starting EventSource" controller="certificatesigningrequest" controllerGroup="certificates.k8s.io" controllerKind="CertificateSigningRequest" source="kind source: *v1.CertificateSigningRequest"
+2025-03-31T20:32:23.640820853Z I0331 20:32:23.640525       1 controller.go:185] "Starting Controller" controller="certificatesigningrequest" controllerGroup="certificates.k8s.io" controllerKind="CertificateSigningRequest"
+2025-03-31T20:32:23.642534470Z I0331 20:32:23.641970       1 reflector.go:289] Starting reflector *v1.CertificateSigningRequest (10h46m27.564031182s) from sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:233
+2025-03-31T20:32:23.642534470Z I0331 20:32:23.641981       1 reflector.go:325] Listing and watching *v1.CertificateSigningRequest from sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:233
+2025-03-31T20:32:23.742963035Z I0331 20:32:23.742902       1 shared_informer.go:341] caches populated
+2025-03-31T20:32:23.743035874Z I0331 20:32:23.742992       1 shared_informer.go:341] caches populated
+2025-03-31T20:32:23.743052474Z I0331 20:32:23.743017       1 controller.go:219] "Starting workers" controller="certificatesigningrequest" controllerGroup="certificates.k8s.io" controllerKind="CertificateSigningRequest" worker count=1
+2025-03-31T20:32:23.743350382Z I0331 20:32:23.743291       1 approver.go:230] Finished syncing CSR csr-7zfvb for unknown node in 174.318µs
+2025-03-31T20:32:23.743420351Z I0331 20:32:23.743397       1 approver.go:230] Finished syncing CSR csr-zqlbz for unknown node in 11.27µs
+2025-03-31T20:32:23.743432891Z I0331 20:32:23.743418       1 approver.go:230] Finished syncing CSR csr-khhmz for unknown node in 10.68µs
+2025-03-31T20:32:23.743526890Z I0331 20:32:23.743499       1 approver.go:230] Finished syncing CSR csr-9nbwd for unknown node in 9.289µs
+2025-03-31T20:32:23.743570510Z I0331 20:32:23.743543       1 approver.go:230] Finished syncing CSR csr-nc4gq for unknown node in 7.67µs
+2025-03-31T20:32:23.743620899Z I0331 20:32:23.743600       1 approver.go:230] Finished syncing CSR csr-lnd5d for unknown node in 19.42µs
+2025-03-31T20:35:29.297023442Z I0331 20:35:29.296987       1 reflector.go:790] sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:233: Watch close - *v1.CertificateSigningRequest total 3 items received
+2025-03-31T20:38:33.894796596Z E0331 20:38:33.894668       1 leaderelection.go:332] error retrieving resource lock openshift-network-node-identity/ovnkube-identity: Get "https://api-int.ovhcpococp.trikorasolutions.net:6443/apis/coordination.k8s.io/v1/namespaces/openshift-network-node-identity/leases/ovnkube-identity": context deadline exceeded
+2025-03-31T20:38:33.894796596Z I0331 20:38:33.894763       1 leaderelection.go:285] failed to renew lease openshift-network-node-identity/ovnkube-identity: timed out waiting for the condition
+2025-03-31T20:39:07.900660789Z E0331 20:39:07.900590       1 leaderelection.go:308] Failed to release lock: Timeout: request did not complete within requested timeout - context deadline exceeded
+2025-03-31T20:39:07.900757268Z error running approver: leader election lost

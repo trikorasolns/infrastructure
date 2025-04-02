@@ -1,0 +1,79 @@
+2025-04-01T08:33:43.673937396Z I0401 08:33:43.673368    2980 start.go:62] Version: v4.15.0-202502171304.p0.g9040a70.assembly.stream.el8-dirty (9040a70ce67b34643aa4fd17dece6a9b65a48d95)
+2025-04-01T08:33:43.673937396Z I0401 08:33:43.673466    2980 update.go:2349] Running: mount --rbind /run/secrets /rootfs/run/secrets
+2025-04-01T08:33:43.677754243Z I0401 08:33:43.677735    2980 update.go:2349] Running: mount --rbind /usr/bin /rootfs/run/machine-config-daemon-bin
+2025-04-01T08:33:43.679687165Z I0401 08:33:43.679668    2980 daemon.go:472] container is rhel8, target is rhel9
+2025-04-01T08:33:43.732614222Z I0401 08:33:43.732561    2980 daemon.go:540] Invoking re-exec /run/bin/machine-config-daemon
+2025-04-01T08:33:43.761938530Z I0401 08:33:43.761901    2980 start.go:62] Version: v4.15.0-202502171304.p0.g9040a70.assembly.stream.el8-dirty (9040a70ce67b34643aa4fd17dece6a9b65a48d95)
+2025-04-01T08:33:43.762268556Z I0401 08:33:43.762255    2980 update.go:2349] Running: systemctl daemon-reload
+2025-04-01T08:33:44.123240684Z I0401 08:33:44.123210    2980 rpm-ostree.go:88] Enabled workaround for bug 2111817
+2025-04-01T08:33:44.124783122Z I0401 08:33:44.124171    2980 rpm-ostree.go:263] Linking ostree authfile to /etc/mco/internal-registry-pull-secret.json
+2025-04-01T08:33:44.226884857Z I0401 08:33:44.226835    2980 daemon.go:280] Booted osImageURL: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:da668dd26a52bb8b1e8a047550590f1b7d1270c5e0a6b49eb8ee7852ea6ccfbb (415.92.202502141247-0) bef672ba85e1d7684a625390e292b7f25be34d09dde22145ec14c19a2fcb4ab3
+2025-04-01T08:33:44.227575547Z I0401 08:33:44.227559    2980 start.go:125] overriding kubernetes api to https://api-int.ovhcpococp.trikorasolutions.net:6443
+2025-04-01T08:33:44.228115640Z I0401 08:33:44.228099    2980 metrics.go:92] Registering Prometheus metrics
+2025-04-01T08:33:44.228192719Z I0401 08:33:44.228180    2980 metrics.go:99] Starting metrics listener on 127.0.0.1:8797
+2025-04-01T08:33:44.250040132Z I0401 08:33:44.250011    2980 simple_featuregate_reader.go:171] Starting feature-gate-detector
+2025-04-01T08:33:44.251059838Z I0401 08:33:44.251031    2980 writer.go:88] NodeWriter initialized with credentials from /var/lib/kubelet/kubeconfig
+2025-04-01T08:33:44.263185118Z I0401 08:33:44.263150    2980 event.go:298] Event(v1.ObjectReference{Kind:"Node", Namespace:"openshift-machine-config-operator", Name:"host-10-13-0-150", UID:"aa0ee1a4-f522-492c-9ed4-31e996e0024f", APIVersion:"v1", ResourceVersion:"", FieldPath:""}): type: 'Normal' reason: 'FeatureGatesInitialized' FeatureGates updated to featuregates.Features{Enabled:[]v1.FeatureGateName{"AlibabaPlatform", "AzureWorkloadIdentity", "BuildCSIVolumes", "CloudDualStackNodeIPs", "ExternalCloudProvider", "ExternalCloudProviderAzure", "ExternalCloudProviderExternal", "ExternalCloudProviderGCP", "NetworkLiveMigration", "PrivateHostedZoneAWS"}, Disabled:[]v1.FeatureGateName{"AdminNetworkPolicy", "AutomatedEtcdBackup", "CSIDriverSharedResource", "ClusterAPIInstall", "DNSNameResolver", "DisableKubeletCloudCredentialProviders", "DynamicResourceAllocation", "EventedPLEG", "GCPClusterHostedDNS", "GCPLabelsTags", "GatewayAPI", "InsightsConfigAPI", "InstallAlternateInfrastructureAWS", "MachineAPIOperatorDisableMachineHealthCheckController", "MachineAPIProviderOpenStack", "MachineConfigNodes", "ManagedBootImages", "MaxUnavailableStatefulSet", "MetricsServer", "MixedCPUsAllocation", "NodeSwap", "OnClusterBuild", "OpenShiftPodSecurityAdmission", "RouteExternalCertificate", "SignatureStores", "SigstoreImageVerification", "VSphereControlPlaneMachineSet", "VSphereStaticIPs", "ValidatingAdmissionPolicy"}}
+2025-04-01T08:33:44.263205937Z I0401 08:33:44.263186    2980 start.go:199] FeatureGates initialized: knownFeatureGates=[AdminNetworkPolicy AlibabaPlatform AutomatedEtcdBackup AzureWorkloadIdentity BuildCSIVolumes CSIDriverSharedResource CloudDualStackNodeIPs ClusterAPIInstall DNSNameResolver DisableKubeletCloudCredentialProviders DynamicResourceAllocation EventedPLEG ExternalCloudProvider ExternalCloudProviderAzure ExternalCloudProviderExternal ExternalCloudProviderGCP GCPClusterHostedDNS GCPLabelsTags GatewayAPI InsightsConfigAPI InstallAlternateInfrastructureAWS MachineAPIOperatorDisableMachineHealthCheckController MachineAPIProviderOpenStack MachineConfigNodes ManagedBootImages MaxUnavailableStatefulSet MetricsServer MixedCPUsAllocation NetworkLiveMigration NodeSwap OnClusterBuild OpenShiftPodSecurityAdmission PrivateHostedZoneAWS RouteExternalCertificate SignatureStores SigstoreImageVerification VSphereControlPlaneMachineSet VSphereStaticIPs ValidatingAdmissionPolicy]
+2025-04-01T08:33:44.263205937Z I0401 08:33:44.263197    2980 update.go:2364] Starting to manage node: host-10-13-3-120
+2025-04-01T08:33:44.266776857Z I0401 08:33:44.266720    2980 rpm-ostree.go:308] Running captured: rpm-ostree status
+2025-04-01T08:33:44.302913089Z I0401 08:33:44.302879    2980 daemon.go:1601] State: idle
+2025-04-01T08:33:44.302913089Z Deployments:
+2025-04-01T08:33:44.302913089Z * ostree-unverified-registry:quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:da668dd26a52bb8b1e8a047550590f1b7d1270c5e0a6b49eb8ee7852ea6ccfbb
+2025-04-01T08:33:44.302913089Z                    Digest: sha256:da668dd26a52bb8b1e8a047550590f1b7d1270c5e0a6b49eb8ee7852ea6ccfbb
+2025-04-01T08:33:44.302913089Z                   Version: 415.92.202502141247-0 (2025-02-14T12:51:57Z)
+2025-04-01T08:33:44.302913089Z 
+2025-04-01T08:33:44.302913089Z   9d8015f543dc60600d0c9dba3fe686ac3bdf146fdf367867c9186a3235964153
+2025-04-01T08:33:44.302913089Z                   Version: 415.92.202407091355-0 (2024-07-09T14:00:10Z)
+2025-04-01T08:33:44.303198745Z I0401 08:33:44.303177    2980 coreos.go:53] CoreOS aleph version: mtime=2024-07-09 14:04:32.663 +0000 UTC
+2025-04-01T08:33:44.303198745Z {
+2025-04-01T08:33:44.303198745Z    "build": "415.92.202407091355-0",
+2025-04-01T08:33:44.303198745Z    "imgid": "rhcos-415.92.202407091355-0-qemu.x86_64.qcow2",
+2025-04-01T08:33:44.303198745Z    "ostree-commit": "9d8015f543dc60600d0c9dba3fe686ac3bdf146fdf367867c9186a3235964153",
+2025-04-01T08:33:44.303198745Z    "ref": ""
+2025-04-01T08:33:44.303198745Z }
+2025-04-01T08:33:44.303234865Z I0401 08:33:44.303222    2980 coreos.go:70] Ignition provisioning: time=2025-04-01T08:24:51Z
+2025-04-01T08:33:44.303234865Z I0401 08:33:44.303229    2980 rpm-ostree.go:308] Running captured: journalctl --list-boots
+2025-04-01T08:33:44.309040913Z I0401 08:33:44.309012    2980 daemon.go:1610] journalctl --list-boots:
+2025-04-01T08:33:44.309040913Z IDX BOOT ID                          FIRST ENTRY                 LAST ENTRY
+2025-04-01T08:33:44.309040913Z  -1 c850b33a52864098be2e9be650d890fa Tue 2025-04-01 08:24:46 UTC Tue 2025-04-01 08:28:38 UTC
+2025-04-01T08:33:44.309040913Z   0 09f6da2c0b74440091794013188a7a34 Tue 2025-04-01 08:28:42 UTC Tue 2025-04-01 08:33:44 UTC
+2025-04-01T08:33:44.309040913Z I0401 08:33:44.309022    2980 rpm-ostree.go:308] Running captured: systemctl list-units --state=failed --no-legend
+2025-04-01T08:33:44.314694013Z I0401 08:33:44.314652    2980 daemon.go:1625] systemd service state: OK
+2025-04-01T08:33:44.314694013Z I0401 08:33:44.314676    2980 daemon.go:1243] Starting MachineConfigDaemon
+2025-04-01T08:33:44.314735873Z I0401 08:33:44.314721    2980 daemon.go:1250] Enabling Kubelet Healthz Monitor
+2025-04-01T08:33:44.348259012Z I0401 08:33:44.348223    2980 daemon.go:2639] Found 0 requested local packages in the booted deployment
+2025-04-01T08:33:45.263786258Z I0401 08:33:45.263683    2980 daemon.go:627] Node host-10-13-3-120 is not labeled node-role.kubernetes.io/master
+2025-04-01T08:33:45.264691316Z I0401 08:33:45.264659    2980 daemon.go:1773] Running: /run/machine-config-daemon-bin/nmstatectl persist-nic-names --root / --kargs-out /tmp/nmstate-kargs640459540 --cleanup
+2025-04-01T08:33:45.275209218Z [2025-04-01T08:33:45Z INFO  nmstatectl] Nmstate version: 2.2.27
+2025-04-01T08:33:45.275655902Z [2025-04-01T08:33:45Z INFO  nmstatectl::persist_nic] /etc/systemd/network does not exist, no need to clean up
+2025-04-01T08:33:45.275714231Z 
+2025-04-01T08:33:45.277199780Z I0401 08:33:45.276901    2980 node.go:23] No machineconfiguration.openshift.io/currentConfig annotation on node host-10-13-3-120: map[k8s.ovn.org/network-ids:{"default":"0"} k8s.ovn.org/node-gateway-router-lrp-ifaddr:{"ipv4":"100.64.0.6/16"} k8s.ovn.org/node-id:6 k8s.ovn.org/node-subnets:{"default":["10.128.2.0/23"]} k8s.ovn.org/node-transit-switch-port-ifaddr:{"ipv4":"100.88.0.6/16"} machineconfiguration.openshift.io/controlPlaneTopology:HighlyAvailable volumes.kubernetes.io/controller-managed-attach-detach:true], in cluster bootstrap, loading initial node annotation from /etc/machine-config-daemon/node-annotations.json
+2025-04-01T08:33:45.277324618Z I0401 08:33:45.277302    2980 node.go:52] Setting initial node config: rendered-worker-768199bd8edbfb9ef08be9547b3d71f5
+2025-04-01T08:33:45.286754946Z I0401 08:33:45.286718    2980 daemon.go:1498] In bootstrap mode
+2025-04-01T08:33:45.306706525Z I0401 08:33:45.306616    2980 daemon.go:1436] Previous boot ostree-finalize-staged.service appears successful
+2025-04-01T08:33:45.306706525Z I0401 08:33:45.306644    2980 daemon.go:1553] Current+desired config: rendered-worker-768199bd8edbfb9ef08be9547b3d71f5
+2025-04-01T08:33:45.306706525Z I0401 08:33:45.306654    2980 daemon.go:1569] state: Done
+2025-04-01T08:33:45.306706525Z I0401 08:33:45.306679    2980 update.go:2349] Running: rpm-ostree cleanup -r
+2025-04-01T08:33:45.769999666Z Bootloader updated; bootconfig swap: yes; bootversion: boot.1.1, deployment count change: -1
+2025-04-01T08:33:47.623569974Z Freed: 1.4?GB (pkgcache branches: 0)
+2025-04-01T08:33:56.637050920Z I0401 08:33:56.637007    2980 update.go:2364] No bootstrap pivot required; unlinking bootstrap node annotations
+2025-04-01T08:33:56.645142837Z I0401 08:33:56.644762    2980 daemon.go:1969] Validating against current config rendered-worker-768199bd8edbfb9ef08be9547b3d71f5
+2025-04-01T08:33:56.645520081Z I0401 08:33:56.645504    2980 daemon.go:1859] SSH key location update required. Moving SSH keys from "/home/core/.ssh/authorized_keys" to "/home/core/.ssh/authorized_keys.d/ignition".
+2025-04-01T08:33:56.651890112Z I0401 08:33:56.651874    2980 update.go:2070] updating SSH keys
+2025-04-01T08:33:56.652169337Z I0401 08:33:56.652157    2980 update.go:1971] Writing SSH keys to "/home/core/.ssh/authorized_keys.d/ignition"
+2025-04-01T08:33:56.652210427Z I0401 08:33:56.652203    2980 update.go:1936] Creating missing SSH key dir at /home/core/.ssh/authorized_keys.d
+2025-04-01T08:33:58.485183450Z I0401 08:33:58.484935    2980 rpm-ostree.go:308] Running captured: rpm-ostree kargs
+2025-04-01T08:33:58.539447408Z I0401 08:33:58.539396    2980 update.go:2364] Validated on-disk state
+2025-04-01T08:33:58.554629065Z I0401 08:33:58.554579    2980 daemon.go:2066] Completing update to target MachineConfig: rendered-worker-768199bd8edbfb9ef08be9547b3d71f5
+2025-04-01T08:34:08.610998565Z I0401 08:34:08.610950    2980 update.go:2364] Update completed for config rendered-worker-768199bd8edbfb9ef08be9547b3d71f5 and node has been successfully uncordoned
+2025-04-01T08:34:08.626615996Z I0401 08:34:08.626581    2980 daemon.go:2091] In desired state MachineConfig: rendered-worker-768199bd8edbfb9ef08be9547b3d71f5
+2025-04-01T08:34:08.641088263Z I0401 08:34:08.641061    2980 config_drift_monitor.go:246] Config Drift Monitor started
+2025-04-01T08:34:44.371833612Z I0401 08:34:44.371782    2980 certificate_writer.go:187] Certificate was synced from controllerconfig resourceVersion 250861
+2025-04-01T09:36:52.221167214Z I0401 09:36:52.221116    2980 certificate_writer.go:187] Certificate was synced from controllerconfig resourceVersion 277986
+2025-04-01T09:36:52.288251205Z I0401 09:36:52.288194    2980 certificate_writer.go:187] Certificate was synced from controllerconfig resourceVersion 277987
+2025-04-01T09:36:52.358452096Z I0401 09:36:52.358131    2980 certificate_writer.go:187] Certificate was synced from controllerconfig resourceVersion 277995
+2025-04-01T09:36:53.462298423Z I0401 09:36:53.462250    2980 certificate_writer.go:187] Certificate was synced from controllerconfig resourceVersion 278021
+2025-04-01T12:55:41.110181429Z I0401 12:55:41.109853    2980 certificate_writer.go:187] Certificate was synced from controllerconfig resourceVersion 336766
+2025-04-01T12:55:41.209689848Z I0401 12:55:41.209625    2980 certificate_writer.go:187] Certificate was synced from controllerconfig resourceVersion 336776
+2025-04-01T12:55:42.149121738Z I0401 12:55:42.149065    2980 certificate_writer.go:187] Certificate was synced from controllerconfig resourceVersion 336791

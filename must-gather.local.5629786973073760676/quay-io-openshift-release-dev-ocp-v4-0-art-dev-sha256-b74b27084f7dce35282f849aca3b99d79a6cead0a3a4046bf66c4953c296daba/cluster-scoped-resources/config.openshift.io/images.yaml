@@ -1,0 +1,44 @@
+---
+apiVersion: config.openshift.io/v1
+items:
+- apiVersion: config.openshift.io/v1
+  kind: Image
+  metadata:
+    annotations:
+      include.release.openshift.io/ibm-cloud-managed: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+      include.release.openshift.io/single-node-developer: "true"
+      release.openshift.io/create-only: "true"
+    creationTimestamp: "2025-03-31T14:23:51Z"
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:include.release.openshift.io/ibm-cloud-managed: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+            f:include.release.openshift.io/single-node-developer: {}
+            f:release.openshift.io/create-only: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"5052a10d-b0db-474e-b63d-8e02132cf28b"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: "2025-03-31T14:23:51Z"
+    name: cluster
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      kind: ClusterVersion
+      name: version
+      uid: 5052a10d-b0db-474e-b63d-8e02132cf28b
+    resourceVersion: "1174"
+    uid: 3bc37561-47c1-467b-8b16-fcb0018cc98b
+  spec: {}
+kind: ImageList
+metadata:
+  continue: ""
+  resourceVersion: "718084"
