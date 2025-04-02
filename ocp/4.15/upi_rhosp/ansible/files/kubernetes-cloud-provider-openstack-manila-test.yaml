@@ -8,7 +8,7 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: csi-sc-cinderplugin
+  storageClassName: csi-manila-nfs
 ---
 apiVersion: v1
 kind: Pod
