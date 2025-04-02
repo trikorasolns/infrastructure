@@ -1,7 +1,0 @@
-2025-03-31T20:22:54.833410639Z Flag --logtostderr has been deprecated, will be removed in a future release, see https://github.com/kubernetes/enhancements/tree/master/keps/sig-instrumentation/2845-deprecate-klog-specific-flags-in-k8s-components
-2025-03-31T20:22:54.833483308Z I0331 20:22:54.833419       1 kube-rbac-proxy.go:578] Reading config file: /etc/kube-rbac-proxy/config-file.yaml
-2025-03-31T20:22:54.833881450Z I0331 20:22:54.833853       1 kube-rbac-proxy.go:285] Valid token audiences: 
-2025-03-31T20:22:54.833916809Z I0331 20:22:54.833904       1 kube-rbac-proxy.go:399] Reading certificate files
-2025-03-31T20:22:54.834980719Z I0331 20:22:54.834961       1 kube-rbac-proxy.go:447] Starting TCP socket on 0.0.0.0:9001
-2025-03-31T20:22:54.835396600Z I0331 20:22:54.835270       1 kube-rbac-proxy.go:454] Listening securely on 0.0.0.0:9001
-2025-03-31T20:40:24.490303101Z I0331 20:40:24.490241       1 log.go:194] http: proxy error: dial tcp 127.0.0.1:8797: connect: connection refused

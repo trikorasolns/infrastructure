@@ -1,5 +1,0 @@
-2025-03-31T20:20:26.325864962Z 2025-03-31T20:20:26+00:00 [cnibincopy] Successfully copied files in /usr/src/multus-cni/rhel9/bin/ to /host/opt/cni/bin/upgrade_9b2985d9-4031-41c5-8e95-fe88d7cbe29e
-2025-03-31T20:20:26.330313296Z 2025-03-31T20:20:26+00:00 [cnibincopy] Successfully moved files in /host/opt/cni/bin/upgrade_9b2985d9-4031-41c5-8e95-fe88d7cbe29e to /host/opt/cni/bin/
-2025-03-31T20:20:26.350651814Z 2025-03-31T20:20:26Z [verbose] multus-daemon started
-2025-03-31T20:20:26.350837830Z 2025-03-31T20:20:26Z [verbose] Readiness Indicator file check
-2025-03-31T20:21:11.352115417Z 2025-03-31T20:21:11Z [error] have you checked that your default network is ready? still waiting for readinessindicatorfile @ /host/run/multus/cni/net.d/10-ovn-kubernetes.conf. pollimmediate error: timed out waiting for the condition

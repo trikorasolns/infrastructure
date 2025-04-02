@@ -1,8 +1,0 @@
-2025-03-31T20:32:59.333212115Z I0331 20:32:59.330097       1 main.go:56] starting net-attach-def-admission-controller webhook server
-2025-03-31T20:32:59.340556174Z W0331 20:32:59.340293       1 client_config.go:618] Neither --kubeconfig nor --master was specified.  Using the inClusterConfig.  This might not work.
-2025-03-31T20:32:59.347433283Z W0331 20:32:59.347413       1 client_config.go:618] Neither --kubeconfig nor --master was specified.  Using the inClusterConfig.  This might not work.
-2025-03-31T20:32:59.348009142Z I0331 20:32:59.347780       1 localmetrics.go:51] UPdating net-attach-def metrics for any with value 0
-2025-03-31T20:32:59.348073890Z I0331 20:32:59.348063       1 localmetrics.go:51] UPdating net-attach-def metrics for sriov with value 0
-2025-03-31T20:32:59.348093100Z I0331 20:32:59.348086       1 localmetrics.go:51] UPdating net-attach-def metrics for ib-sriov with value 0
-2025-03-31T20:32:59.348722138Z I0331 20:32:59.348704       1 controller.go:202] Starting net-attach-def-admission-controller
-2025-03-31T20:32:59.449466094Z I0331 20:32:59.449384       1 controller.go:211] net-attach-def-admission-controller synced and ready

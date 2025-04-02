@@ -1,6 +1,0 @@
-2025-03-31T20:25:25.204912071Z I0331 20:25:25.204774      21 cmd.go:331] Waiting for process with process name "cluster-samples-operator" ...
-2025-03-31T20:25:25.205628687Z I0331 20:25:25.205610      21 cmd.go:341] Watching for changes in: ([]string) (len=2 cap=2) {
-2025-03-31T20:25:25.205628687Z  (string) (len=32) "/proc/7/root/etc/secrets/tls.crt",
-2025-03-31T20:25:25.205628687Z  (string) (len=32) "/proc/7/root/etc/secrets/tls.key"
-2025-03-31T20:25:25.205628687Z }
-2025-03-31T20:25:25.209406145Z I0331 20:25:25.209391      21 observer_polling.go:159] Starting file observer

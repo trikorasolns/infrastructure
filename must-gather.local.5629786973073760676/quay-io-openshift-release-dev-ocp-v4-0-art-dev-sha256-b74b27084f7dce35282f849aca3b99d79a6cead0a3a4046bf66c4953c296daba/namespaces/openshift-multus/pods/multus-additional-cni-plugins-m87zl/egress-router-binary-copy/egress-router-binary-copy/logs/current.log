@@ -1,2 +1,0 @@
-2025-03-31T20:18:20.525997844Z 2025-03-31T20:18:20+00:00 [cnibincopy] Successfully copied files in /usr/src/egress-router-cni/rhel9/bin/ to /host/opt/cni/bin/upgrade_46d56875-a3bc-4b96-bf8d-9b18f8d25507
-2025-03-31T20:18:20.529469173Z 2025-03-31T20:18:20+00:00 [cnibincopy] Successfully moved files in /host/opt/cni/bin/upgrade_46d56875-a3bc-4b96-bf8d-9b18f8d25507 to /host/opt/cni/bin/

@@ -1,3 +1,0 @@
-2025-03-31T20:33:16.924539673Z level=info ts=2025-03-31T20:33:16.924470603Z caller=main.go:137 msg="Starting prometheus-config-reloader" version="(version=0.70.0, branch=rhaos-4.15-rhel-9, revision=548aa2e)"
-2025-03-31T20:33:16.924643522Z level=info ts=2025-03-31T20:33:16.924625732Z caller=main.go:138 build_context="(go=go1.20.12 X:strictfipsruntime, platform=linux/amd64, user=root, date=20250217-04:17:22, tags=strictfipsruntime)"
-2025-03-31T20:33:16.925529766Z level=info ts=2025-03-31T20:33:16.925486746Z caller=reloader.go:246 msg="reloading via HTTP"

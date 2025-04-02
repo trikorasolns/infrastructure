@@ -1,3 +1,0 @@
-2025-04-02T05:04:07.696144668Z time="2025-04-02T05:04:07Z" level=info msg="starting pprof endpoint" address="localhost:6060"
-2025-04-02T05:04:09.548818843Z time="2025-04-02T05:04:09Z" level=info msg="serving registry" configs=/extracted-catalog/catalog port=50051
-2025-04-02T05:04:09.548818843Z time="2025-04-02T05:04:09Z" level=info msg="stopped caching cpu profile data" address="localhost:6060"

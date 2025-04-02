@@ -1,6 +1,0 @@
-2025-04-01T14:48:25.411893815Z I0401 14:48:25.411813       1 main.go:108] "Version" version="v1.12.0"
-2025-04-01T14:48:27.347019174Z I0401 14:48:27.346966       1 common.go:143] "Probing CSI driver for readiness"
-2025-04-01T14:48:27.353903158Z I0401 14:48:27.353858       1 common.go:143] "Probing CSI driver for readiness"
-2025-04-01T14:48:27.356861892Z I0401 14:48:27.356820       1 leaderelection.go:254] attempting to acquire leader lease kube-system/external-resizer-cinder-csi-openstack-org...
-2025-04-01T14:48:27.373364215Z I0401 14:48:27.373288       1 leaderelection.go:268] successfully acquired lease kube-system/external-resizer-cinder-csi-openstack-org
-2025-04-01T14:48:27.373634530Z I0401 14:48:27.373593       1 controller.go:272] "Starting external resizer" controller="cinder.csi.openstack.org"

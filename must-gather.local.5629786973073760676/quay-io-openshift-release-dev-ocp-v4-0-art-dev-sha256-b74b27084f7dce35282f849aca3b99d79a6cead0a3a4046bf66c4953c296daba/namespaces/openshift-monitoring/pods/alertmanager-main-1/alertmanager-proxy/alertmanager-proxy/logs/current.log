@@ -1,9 +1,0 @@
-2025-03-31T20:33:12.362906467Z 2025/03/31 20:33:12 provider.go:129: Defaulting client-id to system:serviceaccount:openshift-monitoring:alertmanager-main
-2025-03-31T20:33:12.362906467Z 2025/03/31 20:33:12 provider.go:134: Defaulting client-secret to service account token /var/run/secrets/kubernetes.io/serviceaccount/token
-2025-03-31T20:33:12.363025987Z 2025/03/31 20:33:12 provider.go:358: Delegation of authentication and authorization to OpenShift is enabled for bearer tokens and client certificates.
-2025-03-31T20:33:12.389484735Z 2025/03/31 20:33:12 oauthproxy.go:210: mapping path "/" => upstream "http://localhost:9093/"
-2025-03-31T20:33:12.389484735Z 2025/03/31 20:33:12 oauthproxy.go:237: OAuthProxy configured for  Client ID: system:serviceaccount:openshift-monitoring:alertmanager-main
-2025-03-31T20:33:12.389484735Z 2025/03/31 20:33:12 oauthproxy.go:247: Cookie settings: name:_oauth_proxy secure(https):true httponly:true expiry:168h0m0s domain:<default> samesite: refresh:disabled
-2025-03-31T20:33:12.390047390Z 2025/03/31 20:33:12 http.go:110: HTTPS: listening on [::]:9095
-2025-03-31T20:33:12.390064170Z I0331 20:33:12.390046       1 dynamic_serving_content.go:132] "Starting controller" name="serving::/etc/tls/private/tls.crt::/etc/tls/private/tls.key"
-2025-03-31T20:40:06.957606155Z 2025/03/31 20:40:06 reverseproxy.go:667: http: proxy error: context canceled

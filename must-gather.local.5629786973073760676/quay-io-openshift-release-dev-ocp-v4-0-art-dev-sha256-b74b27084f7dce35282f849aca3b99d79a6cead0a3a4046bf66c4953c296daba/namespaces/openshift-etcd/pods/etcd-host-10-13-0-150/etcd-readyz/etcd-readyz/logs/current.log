@@ -1,5 +1,0 @@
-2025-03-31T20:40:15.353273205Z I0331 20:40:15.353169       1 readyz.go:155] Listening on 0.0.0.0:9980
-2025-03-31T20:40:18.543176132Z I0331 20:40:18.543127       1 etcdcli_pool.go:70] creating a new cached client
-2025-03-31T20:40:59.353224739Z I0331 20:40:59.353187       1 etcdcli_pool.go:70] creating a new cached client
-2025-04-01T07:07:14.358554526Z I0401 07:07:14.358483       1 etcdcli_pool.go:70] creating a new cached client
-2025-04-01T07:07:18.544427597Z I0401 07:07:18.544341       1 etcdcli_pool.go:70] creating a new cached client

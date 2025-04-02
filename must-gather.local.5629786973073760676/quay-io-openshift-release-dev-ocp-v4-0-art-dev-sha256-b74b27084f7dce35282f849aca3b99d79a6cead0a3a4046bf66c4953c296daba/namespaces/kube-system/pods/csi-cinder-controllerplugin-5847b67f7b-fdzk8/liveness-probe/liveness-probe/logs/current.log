@@ -1,3 +1,0 @@
-2025-04-01T14:48:27.295722716Z I0401 14:48:27.295654       1 main.go:135] "Calling CSI driver to discover driver name"
-2025-04-01T14:48:27.298392384Z I0401 14:48:27.298355       1 main.go:143] "CSI driver name" driver="cinder.csi.openstack.org"
-2025-04-01T14:48:27.298454174Z I0401 14:48:27.298444       1 main.go:172] "ServeMux listening" address="0.0.0.0:9808"

@@ -1,2 +1,0 @@
-2025-03-31T20:19:55.144848028Z 2025-03-31T20:19:55+00:00 [cnibincopy] Successfully copied files in /bondcni/rhel9/ to /host/opt/cni/bin/upgrade_f3ed8a1e-de6f-43e7-bb1a-f6909f584cea
-2025-03-31T20:19:55.147784242Z 2025-03-31T20:19:55+00:00 [cnibincopy] Successfully moved files in /host/opt/cni/bin/upgrade_f3ed8a1e-de6f-43e7-bb1a-f6909f584cea to /host/opt/cni/bin/

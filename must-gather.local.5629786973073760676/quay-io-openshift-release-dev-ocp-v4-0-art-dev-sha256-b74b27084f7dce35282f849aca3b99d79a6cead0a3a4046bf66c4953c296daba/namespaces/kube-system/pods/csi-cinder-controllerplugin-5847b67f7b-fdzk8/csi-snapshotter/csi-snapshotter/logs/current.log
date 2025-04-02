@@ -1,5 +1,0 @@
-2025-04-01T14:48:25.338171395Z I0401 14:48:25.338084       1 main.go:108] Version: v8.1.0
-2025-04-01T14:48:27.454588508Z I0401 14:48:27.454536       1 common.go:143] "Probing CSI driver for readiness"
-2025-04-01T14:48:27.457616010Z I0401 14:48:27.457589       1 leaderelection.go:254] attempting to acquire leader lease kube-system/external-snapshotter-leader-cinder-csi-openstack-org...
-2025-04-01T14:48:27.483325000Z I0401 14:48:27.483296       1 leaderelection.go:268] successfully acquired lease kube-system/external-snapshotter-leader-cinder-csi-openstack-org
-2025-04-01T14:48:27.483992908Z I0401 14:48:27.483966       1 snapshot_controller_base.go:169] Starting CSI snapshotter

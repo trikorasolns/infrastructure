@@ -1,9 +1,0 @@
-2025-03-31T20:33:35.523195566Z level=info ts=2025-03-31T20:33:35.523108888Z caller=main.go:137 msg="Starting prometheus-config-reloader" version="(version=0.70.0, branch=rhaos-4.15-rhel-9, revision=548aa2e)"
-2025-03-31T20:33:35.523195566Z level=info ts=2025-03-31T20:33:35.523163597Z caller=main.go:138 build_context="(go=go1.20.12 X:strictfipsruntime, platform=linux/amd64, user=root, date=20250217-04:17:22, tags=strictfipsruntime)"
-2025-03-31T20:33:35.523903133Z level=info ts=2025-03-31T20:33:35.523859894Z caller=reloader.go:246 msg="reloading via HTTP"
-2025-03-31T20:33:35.523936502Z level=info ts=2025-03-31T20:33:35.523855734Z caller=main.go:193 msg="Starting web server for metrics" listen=localhost:8080
-2025-03-31T20:33:35.549045162Z level=info ts=2025-03-31T20:33:35.548975054Z caller=tls_config.go:274 msg="Listening on" address=127.0.0.1:8080
-2025-03-31T20:33:35.549068712Z level=info ts=2025-03-31T20:33:35.549025443Z caller=tls_config.go:277 msg="TLS is disabled." http2=false address=127.0.0.1:8080
-2025-03-31T20:33:35.852022041Z level=info ts=2025-03-31T20:33:35.851971053Z caller=reloader.go:424 msg="Reload triggered" cfg_in=/etc/prometheus/config/prometheus.yaml.gz cfg_out=/etc/prometheus/config_out/prometheus.env.yaml watched_dirs=/etc/prometheus/rules/prometheus-k8s-rulefiles-0
-2025-03-31T20:33:35.852117539Z level=info ts=2025-03-31T20:33:35.8521023Z caller=reloader.go:282 msg="started watching config file and directories for changes" cfg=/etc/prometheus/config/prometheus.yaml.gz out=/etc/prometheus/config_out/prometheus.env.yaml dirs=/etc/prometheus/rules/prometheus-k8s-rulefiles-0
-2025-03-31T20:36:23.326963096Z level=info ts=2025-03-31T20:36:23.326901538Z caller=reloader.go:424 msg="Reload triggered" cfg_in=/etc/prometheus/config/prometheus.yaml.gz cfg_out=/etc/prometheus/config_out/prometheus.env.yaml watched_dirs=/etc/prometheus/rules/prometheus-k8s-rulefiles-0

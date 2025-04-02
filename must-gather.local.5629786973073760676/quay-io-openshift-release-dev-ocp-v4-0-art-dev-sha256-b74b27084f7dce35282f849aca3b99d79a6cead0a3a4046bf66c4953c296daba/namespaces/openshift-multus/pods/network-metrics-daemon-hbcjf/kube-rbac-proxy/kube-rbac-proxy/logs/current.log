@@ -1,5 +1,0 @@
-2025-04-01T08:29:46.012535962Z Flag --logtostderr has been deprecated, will be removed in a future release, see https://github.com/kubernetes/enhancements/tree/master/keps/sig-instrumentation/2845-deprecate-klog-specific-flags-in-k8s-components
-2025-04-01T08:29:46.013035415Z I0401 08:29:46.012985       1 kube-rbac-proxy.go:285] Valid token audiences: 
-2025-04-01T08:29:46.013083694Z I0401 08:29:46.013075       1 kube-rbac-proxy.go:399] Reading certificate files
-2025-04-01T08:29:46.013422128Z I0401 08:29:46.013404       1 kube-rbac-proxy.go:447] Starting TCP socket on :8443
-2025-04-01T08:29:46.013601817Z I0401 08:29:46.013591       1 kube-rbac-proxy.go:454] Listening securely on :8443

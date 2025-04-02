@@ -1,8 +1,0 @@
-2025-03-31T20:23:30.636420164Z level=warn ts=2025-03-31T20:23:30.636362855Z caller=server.go:158 msg="server TLS client verification disabled" err="stat /etc/tls/private/tls-ca.crt: no such file or directory" client_ca_file=/etc/tls/private/tls-ca.crt
-2025-03-31T20:23:30.637248398Z level=info ts=2025-03-31T20:23:30.637206719Z caller=server.go:259 msg="starting secure server" address=[::]:8443 http2=false
-2025-03-31T23:23:15.059449053Z ts=2025-03-31T23:23:15.058070039Z caller=stdlib.go:105 caller=server.go:3220 msg="http: TLS handshake error from 10.129.0.2:33262: EOF"
-2025-04-01T02:55:43.043220456Z ts=2025-04-01T02:55:43.042926052Z caller=stdlib.go:105 caller=server.go:3220 msg="http: TLS handshake error from 10.129.0.2:54194: EOF"
-2025-04-01T08:31:45.682738718Z ts=2025-04-01T08:31:45.681102529Z caller=stdlib.go:105 caller=server.go:3220 msg="http: TLS handshake error from 10.128.0.2:49054: EOF"
-2025-04-01T09:53:15.138953384Z ts=2025-04-01T09:53:15.138880985Z caller=stdlib.go:105 caller=server.go:3220 msg="http: TLS handshake error from 10.129.0.2:48352: EOF"
-2025-04-01T11:55:59.679866604Z ts=2025-04-01T11:55:59.678897123Z caller=stdlib.go:105 caller=server.go:3220 msg="http: TLS handshake error from 10.129.0.2:37484: EOF"
-2025-04-02T03:33:51.614823803Z ts=2025-04-02T03:33:51.613407821Z caller=stdlib.go:105 caller=server.go:3220 msg="http: TLS handshake error from 10.128.0.2:39550: EOF"

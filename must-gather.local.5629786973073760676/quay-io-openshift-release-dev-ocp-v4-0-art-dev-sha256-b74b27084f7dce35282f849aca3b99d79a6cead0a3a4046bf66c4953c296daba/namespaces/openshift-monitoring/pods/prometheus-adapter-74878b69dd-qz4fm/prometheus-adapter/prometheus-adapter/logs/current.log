@@ -1,8 +1,0 @@
-2025-04-01T13:00:29.138928912Z I0401 13:00:29.138799       1 adapter.go:115] successfully using in-cluster auth
-2025-04-01T13:00:29.521929313Z I0401 13:00:29.521885       1 handler.go:232] Adding GroupVersion metrics.k8s.io v1beta1 to ResourceManager
-2025-04-01T13:00:29.524053349Z I0401 13:00:29.524037       1 secure_serving.go:57] Forcing use of http/1.1 only
-2025-04-01T13:00:29.525005335Z I0401 13:00:29.524991       1 secure_serving.go:210] Serving securely on [::]:6443
-2025-04-01T13:00:29.525092194Z I0401 13:00:29.525081       1 dynamic_cafile_content.go:157] "Starting controller" name="request-header::/etc/tls/private/requestheader-client-ca-file"
-2025-04-01T13:00:29.525175882Z I0401 13:00:29.525163       1 dynamic_serving_content.go:132] "Starting controller" name="serving-cert::/etc/tls/private/tls.crt::/etc/tls/private/tls.key"
-2025-04-01T13:00:29.525245981Z I0401 13:00:29.525237       1 dynamic_cafile_content.go:157] "Starting controller" name="client-ca-bundle::/etc/tls/private/client-ca-file"
-2025-04-01T13:00:29.525291560Z I0401 13:00:29.525266       1 tlsconfig.go:240] "Starting DynamicServingCertificateController"
