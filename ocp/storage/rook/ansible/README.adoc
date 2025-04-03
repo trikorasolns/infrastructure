@@ -1,0 +1,68 @@
+= Rook on OpenShift
+Antonio C. <ac (at) trikorasolutions (dot) com>
+:revdate: {docdate}
+:icons: font
+:toc: left
+:toclevels: 3
+:toc-title: Table of Contents
+:description: Rook on OpenShift
+
+== Introduction
+
+[.lead]
+This document is WIP and describes the deployment of the OpenShift Data 
+ Foundation operator and a Ceph storage.
+
+== Storage
+
+References:
+
+* https://rook.io/docs/rook/latest-release/Getting-Started/quickstart/#storage
+
+=== Block Storage
+
+
+[source,bash]
+----
+oc create -f ocp/storage/rook/ansible/files/rook-ceph-blockstore.yaml
+----
+
+* Block Storage: https://rook.io/docs/rook/latest-release/Storage-Configuration/Block-Storage-RBD/block-storage/
+
+=== Shared File System
+
+[source,bash]
+----
+oc create -f ocp/storage/rook/ansible/files/rook-ceph-filesystem.yaml
+----
+
+Shared File System Storage class.
+
+[source,bash]
+----
+oc create -f ocp/storage/rook/ansible/files/rook-ceph-filesystem-sc.yaml
+----
+
+
+* Shared FS: https://rook.io/docs/rook/latest-release/Storage-Configuration/Shared-Filesystem-CephFS/filesystem-storage/
+
+
+=== Object Storage
+
+[source,bash]
+----
+oc create -f ocp/storage/rook/ansible/files/rook-ceph-objectstore.yaml
+----
+
+* Object Storage: https://rook.io/docs/rook/latest-release/Storage-Configuration/Object-Storage-RGW/object-storage/
+
+
+== References
+
+* https://rook.io/docs/rook/latest-release/Getting-Started/ceph-openshift/
+* https://rook.io/docs/rook/latest-release/Getting-Started/quickstart/
+* Dashboard: https://rook.io/docs/rook/latest-release/Getting-Started/quickstart/#ceph-dashboard
+Toolbox: https://rook.io/docs/rook/latest-release/Getting-Started/quickstart/#tools
+
+
+== Troubleshooting

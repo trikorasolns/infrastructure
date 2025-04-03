@@ -336,6 +336,18 @@ References:
 * https://docs.redhat.com/en/documentation/openshift_container_platform/4.15/html/operators/cluster-operators-ref#cluster-storage-operator_cluster-operators-ref
 * https://github.com/openshift/cluster-storage-operator/tree/release-4.15
 
+== Maintenance
+
+*Restart node*
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi_rhosp/ansible/restart-node.yaml \
+  -e nodename=node-name \
+  -e rhosp_instance_name=rhosp-instance
+----
+[source,bash]
+----
 == References
 
 * https://docs.redhat.com/en/documentation/openshift_container_platform/4.11/html/installing/installing-on-openstack

@@ -29,7 +29,10 @@
       auto_floating_ip: false
       # nics:
       # - port-name: "{{ os_port_controlplane }}"
-      meta: "{{ ocp_cluster_id_tag }}"
+      # meta: "{{ ocp_cluster_id_tag }}"
+      meta: 
+        openshiftClusterID: "{{ ocp_infra_id }}"
+        hostname: "{{ rhosp_compute_node_server_prefix }}-{{ item }}"
       # wait: false # due to TypeError: 'NoneType' object is not subscriptable
       security_groups:
       - default
@@ -120,4 +123,16 @@
   #       group: "{{ server_group_id }}"
   #     meta: "{{ ocp_cluster_id_tag }}"
   #   with_indexed_items: "{{ [os_cp_server_name] * os_cp_nodes_number }}"
+
+# Load Balancer
+  - name: "Add compute node to load balancer"
+    include_tasks: tasks/rhosp-loadbalancer-member.yaml
+    vars:
+      rhosp_lb_member_address: "{{ rhosp_public_lb_pool_members_item.addr }}"
+      rhosp_lb_member_name: "{{ rhosp_public_lb_pool_members_item.name }}"
+      rhosp_lb_member_pool: "{{ rhosp_loadbalancer_pool_name }}-public"
+      rhosp_lb_member_ports: "{{ rhosp_lb_public_ports }}"
+    loop: "{{ rhosp_instance_cp_array + rhosp_instance_bootstrap_array }}"
+    loop_control:
+      loop_var: rhosp_public_lb_pool_members_item
 ...

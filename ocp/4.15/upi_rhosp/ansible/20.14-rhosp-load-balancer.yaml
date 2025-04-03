@@ -140,7 +140,7 @@
   #   vars:
   #     ipv4_fixed_address: "servers[0].addresses.{{ rhosp_network }}[?\"OS-EXT-IPS:type\" == 'fixed'].addr"
 
-  - name: "Collect ControlPlane host private IPV4 "
+  - name: "Collect ControlPlane host private IPV4"
     ansible.builtin.set_fact:
       # openstack_vm_ipv4_address: "{{ item.servers[0].addresses[rhosp_network] | community.general.json_query(ipv4_fixed_address) }}"
       rhosp_instance_cp_array: "{{ (rhosp_instance_cp_array | default([])) + [item.servers[0].addresses[rhosp_network] | community.general.json_query(ipv4_fixed_address) | combine ({ 'name' : item.servers[0].name })] }}"
