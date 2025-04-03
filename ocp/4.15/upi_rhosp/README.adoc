@@ -301,12 +301,11 @@ RHOSP Manila
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi_rhosp/ansible/50-ocp-storage-manila.yaml \
+ansible-playbook ocp/4.15/upi_rhosp/ansible/95-ocp-storage-manila-cleanup.yaml \
   -e @_local_config/network.yaml \
   -e @ocp/4.15/ansible/defaults/main.yaml \
   -e @ocp/4.15/upi_rhosp/ansible/defaults/main.yaml \
-  -e @_local_config/${OCP_CLUSTER_NAME}/${OCP_CLUSTER_NAME}.yaml \
-  -e rhosp_os_password="${RHOSP_OS_PASSWORD}"
+  -e @_local_config/${OCP_CLUSTER_NAME}/${OCP_CLUSTER_NAME}.yaml
 ----
 
 To test the configuration execute the following configuration that will deploy 
@@ -316,6 +315,24 @@ To test the configuration execute the following configuration that will deploy
 [source,bash]
 ----
 oc apply -f ocp/4.15/upi_rhosp/ansible/files/kubernetes-cloud-provider-openstack-manila-test.yaml
+----
+
+Delete manila test.
+
+[source,bash]
+----
+oc delete -f ocp/4.15/upi_rhosp/ansible/files/kubernetes-cloud-provider-openstack-manila-test.yaml
+----
+
+Delete manila configuration.
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi_rhosp/ansible/95-ocp-storage-manila-cleanup.yaml \
+  -e @_local_config/network.yaml \
+  -e @ocp/4.15/ansible/defaults/main.yaml \
+  -e @ocp/4.15/upi_rhosp/ansible/defaults/main.yaml \
+  -e @_local_config/${OCP_CLUSTER_NAME}/${OCP_CLUSTER_NAME}.yaml
 ----
 
 References: 

@@ -56,12 +56,52 @@ oc create -f ocp/storage/rook/ansible/files/rook-ceph-objectstore.yaml
 
 * Object Storage: https://rook.io/docs/rook/latest-release/Storage-Configuration/Object-Storage-RGW/object-storage/
 
+== Test
 
+=== Block Storage
+
+[source,bash]
+----
+oc create -f ocp/storage/rook/ansible/files/test-rook-bs.yaml
+----
+
+[source,bash]
+----
+oc delete -f ocp/storage/rook/ansible/files/test-rook-bs.yaml
+----
+
+=== CephFS
+To test the configuration execute the following configuration that will deploy 
+ an nginx pod with a volume attached to a PVC. The PVC should provision a PV
+ automatically.
+
+[source,bash]
+----
+oc apply -f ocp/storage/rook/ansible/files/test-rook-fs.yaml
+----
+
+[source,bash]
+----
+oc get pvc
+----
+
+[source,]
+----
+NAME                   STATUS    VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+pvc-rook-cephfs-test   Pending                                      rook-cephfs    11s
+----
+
+Delete manila test.
+
+[source,bash]
+----
+oc delete -f ocp/storage/rook/ansible/files/test-rook-fs.yaml
+----
 == References
 
 * https://rook.io/docs/rook/latest-release/Getting-Started/ceph-openshift/
 * https://rook.io/docs/rook/latest-release/Getting-Started/quickstart/
-* Dashboard: https://rook.io/docs/rook/latest-release/Getting-Started/quickstart/#ceph-dashboard
+* Dashboard: https://rook.io/docs/rook/latest-release/Storage-Configuration/Monitoring/ceph-dashboard/
 Toolbox: https://rook.io/docs/rook/latest-release/Getting-Started/quickstart/#tools
 
 

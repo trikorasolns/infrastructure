@@ -28,4 +28,8 @@ rhosp_compute_node:
   6:
     flavor: b3-16
   7:
-    flavor: b3-16
+    flavor: c3-16
+  # 8:
+  #   flavor: b3-16
+  # 9:
+  #   flavor: b3-16

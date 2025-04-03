@@ -30,10 +30,10 @@
     register: ocp_manila_resource_res
     loop: "{{ manila_resource_templates }}"
 
-  - name: "Create Manila Config Map"
-    ansible.builtin.command: |
-      oc apply -f /tmp/kubernetes-cloud-provider-openstack-manila-secret.yaml
-    register: ocp_cinder_secret
+  # - name: "Create Manila Config Map"
+  #   ansible.builtin.command: |
+  #     oc apply -f /tmp/kubernetes-cloud-provider-openstack-manila-secret.yaml
+  #   register: ocp_cinder_secret
 
   - name: "Create Manila Storage Class"
     ansible.builtin.command: |
