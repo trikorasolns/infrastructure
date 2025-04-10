@@ -261,7 +261,6 @@ oc -n rook-ceph get rs -w
 
 == driver name rook-ceph.cephfs.csi.ceph.com not found
 
-
 *Problem*
 
 POD stays on Container Creating or Init and doesn't start.
@@ -294,8 +293,27 @@ host-10-13-0-13    1         3h41m
 
 *Cause*
 
+[source,bash]
+----
+ oc logs deploy/csi-cephfsplugin-provisioner -n rook-ceph -c csi-provisioner -f
+----
+
+[source,]
+----
+Found 2 pods, using pod/csi-cephfsplugin-provisioner-6668bdd9b-6d72f
+I0407 10:41:39.504835       1 csi-provisioner.go:154] Version: v5.1.0
+I0407 10:41:39.504917       1 csi-provisioner.go:177] Building kube configs for running in cluster...
+I0407 10:41:40.507079       1 common.go:143] "Probing CSI driver for readiness"
+I0407 10:41:40.512167       1 csi-provisioner.go:302] CSI driver does not support PUBLISH_UNPUBLISH_VOLUME, not watching VolumeAttachments
+I0407 10:41:40.512856       1 leaderelection.go:254] attempting to acquire leader lease rook-ceph/rook-ceph-cephfs-csi-ceph-com...
+----
+
 *Solution*
 
+References:
 
+*  CSI-Plugin pods are not running on all OCP nodes: https://access.redhat.com/solutions/6760291
+* Chapter 10. Managing container storage interface (CSI) component placements: https://docs.redhat.com/en/documentation/red_hat_openshift_container_storage/4.7/html-single/managing_and_allocating_storage_resources/index#managing-container-storage-interface-component-placements_rhocs
+* Labeling OpenShift Data Foundation (ODF) nodes as infra nodes: https://access.redhat.com/solutions/4827161
 
 == Node missing rook pod (crashcollector, ceph-exporter)
