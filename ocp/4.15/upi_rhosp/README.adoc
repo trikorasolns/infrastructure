@@ -355,16 +355,33 @@ References:
 
 == Maintenance
 
+*Stop node*
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi_rhosp/ansible/node-stop.yaml \
+  -e nodename=node-name \
+  -e rhosp_instance_name=rhosp-instance
+----
+
+*Start node*
+
+[source,bash]
+----
+ansible-playbook ocp/4.15/upi_rhosp/ansible/node-start.yaml \
+  -e nodename=node-name \
+  -e rhosp_instance_name=rhosp-instance
+----
+
 *Restart node*
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi_rhosp/ansible/restart-node.yaml \
+ansible-playbook ocp/4.15/upi_rhosp/ansible/node-restart.yaml \
   -e nodename=node-name \
   -e rhosp_instance_name=rhosp-instance
 ----
-[source,bash]
-----
+
 == References
 
 * https://docs.redhat.com/en/documentation/openshift_container_platform/4.11/html/installing/installing-on-openstack

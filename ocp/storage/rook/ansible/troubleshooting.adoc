@@ -293,24 +293,103 @@ host-10-13-0-13    1         3h41m
 
 *Cause*
 
+The csi-cephfsplugin and/or csi-rbdplugin _DaemonSet_ aren't deploying it's 
+ pods.
+
 [source,bash]
 ----
- oc logs deploy/csi-cephfsplugin-provisioner -n rook-ceph -c csi-provisioner -f
+oc -n rook-ceph get ds
 ----
 
 [source,]
 ----
-Found 2 pods, using pod/csi-cephfsplugin-provisioner-6668bdd9b-6d72f
-I0407 10:41:39.504835       1 csi-provisioner.go:154] Version: v5.1.0
-I0407 10:41:39.504917       1 csi-provisioner.go:177] Building kube configs for running in cluster...
-I0407 10:41:40.507079       1 common.go:143] "Probing CSI driver for readiness"
-I0407 10:41:40.512167       1 csi-provisioner.go:302] CSI driver does not support PUBLISH_UNPUBLISH_VOLUME, not watching VolumeAttachments
-I0407 10:41:40.512856       1 leaderelection.go:254] attempting to acquire leader lease rook-ceph/rook-ceph-cephfs-csi-ceph-com...
+NAME               DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+csi-cephfsplugin   9         0         0       0            0           <none>          7d21h
+csi-rbdplugin      9         0         0       0            0           <none>          7d21h
+----
+
+Check the problem by checking de _DaemonSet_ events.
+
+[source,bash]
+----
+oc  -n rook-ceph describe ds csi-cephfsplugin
+----
+
+[source,]
+----
+  Type     Reason        Age                    From                  Message
+  ----     ------        ----                   ----                  -------
+  Warning  FailedCreate  4m42s (x1003 over 4d)  daemonset-controller  Error creating: pods "csi-cephfsplugin-" is forbidden: unable to validate against any security context constraint: [provider "anyuid": Forbidden: not usable by user or serviceaccount, provider "pipelines-scc": Forbidden: not usable by user or serviceaccount, provider "db2u-c-mas-masovh-system-scc": Forbidden: not usable by user or serviceaccount, provider restricted-v2: .spec.securityContext.hostNetwork: Invalid value: true: Host network is not allowed to be used, spec.volumes[0]: Invalid value: "hostPath": hostPath volumes are not allowed to be used, spec.volumes[1]: Invalid value: "hostPath": hostPath volumes are not allowed to be used, spec.volumes[2]: Invalid value: "hostPath": hostPath volumes are not allowed to be used, spec.volumes[3]: Invalid value: "hostPath": hostPath volumes are not allowed to be used, spec.volumes[4]: Invalid value: "hostPath": hostPath volumes are not allowed to be used, spec.volumes[5]: Invalid value: "hostPath": hostPath volumes are not allowed to be used, spec.volumes[6]: Invalid value: "hostPath": hostPath volumes are not allowed to be used, spec.volumes[7]: Invalid value: "hostPath": hostPath volumes are not allowed to be used, spec.volumes[10]: Invalid value: "hostPath": hostPath volumes are not allowed to be used, spec.volumes[11]: Invalid value: "hostPath": hostPath volumes are not allowed to be used, provider restricted-v2: .containers[0].privileged: Invalid value: true: Privileged containers are not allowed, provider restricted-v2: .containers[0].hostNetwork: Invalid value: true: Host network is not allowed to be used, provider restricted-v2: .containers[1].privileged: Invalid value: true: Privileged containers are not allowed, provider restricted-v2: .containers[1].capabilities.add: Invalid value: "SYS_ADMIN": capability may not be added, provider restricted-v2: .containers[1].hostNetwork: Invalid value: true: Host network is not allowed to be used, provider restricted-v2: .containers[1].allowPrivilegeEscalation: Invalid value: true: Allowing privilege escalation for containers is not allowed, provider restricted-v2: .containers[2].privileged: Invalid value: true: Privileged containers are not allowed, provider restricted-v2: .containers[2].hostNetwork: Invalid value: true: Host network is not allowed to be used, provider "restricted": Forbidden: not usable by user or serviceaccount, provider "nonroot-v2": Forbidden: not usable by user or serviceaccount, provider "nonroot": Forbidden: not usable by user or serviceaccount, provider "noobaa": Forbidden: not usable by user or serviceaccount, provider "hostmount-anyuid": Forbidden: not usable by user or serviceaccount, provider "machine-api-termination-handler": Forbidden: not usable by user or serviceaccount, provider "hostnetwork-v2": Forbidden: not usable by user or serviceaccount, provider "hostnetwork": Forbidden: not usable by user or serviceaccount, provider "hostaccess": Forbidden: not usable by user or serviceaccount, provider "rook-ceph": Forbidden: not usable by user or serviceaccount, provider "node-exporter": Forbidden: not usable by user or serviceaccount, provider "rook-ceph-csi": Forbidden: not usable by user or serviceaccount, provider "privileged": Forbidden: not usable by user or serviceaccount]
 ----
 
 *Solution*
 
-References:
+[.lead]
+For CephFS.
+
+[source,bash]
+----
+oc -n rook-ceph get ds csi-cephfsplugin -oyaml | grep serviceAccount
+----
+
+[source,]
+----
+serviceAccount: rook-csi-cephfs-plugin-sa
+serviceAccountName: rook-csi-cephfs-plugin-sa
+----
+
+[source,bash]
+----
+oc -n rook-ceph get ds csi-cephfsplugin -oyaml | oc adm policy scc-subject-review  --filename -
+----
+
+[source,]
+----
+RESOURCE                     ALLOWED BY   
+DaemonSet/csi-cephfsplugin   privileged
+----
+
+[source,bash]
+----
+oc adm policy add-scc-to-user privileged -z rook-csi-cephfs-plugin-sa -n rook-ceph
+----
+
+[.lead]
+For RBD.
+
+[source,bash]
+----
+oc -n rook-ceph get ds csi-rbdplugin -oyaml | grep serviceAccount
+----
+
+[source,]
+----
+serviceAccount: rook-csi-rbd-plugin-sa
+serviceAccountName: rook-csi-rbd-plugin-sa
+----
+
+[source,bash]
+----
+oc -n rook-ceph get ds csi-rbdplugin -oyaml | oc adm policy scc-subject-review  --filename -
+----
+
+[source,]
+----
+RESOURCE                  ALLOWED BY   
+DaemonSet/csi-rbdplugin   privileged
+----
+
+[source,bash]
+----
+oc adm policy add-scc-to-user privileged -z rook-csi-rbd-plugin-sa -n rook-ceph
+----
+
+
+*References*
+
+* csi-driver registration: https://rook.io/docs/rook/v1.12/Troubleshooting/ceph-csi-common-issues/#csi-driver-registration
+
+Other references:
 
 *  CSI-Plugin pods are not running on all OCP nodes: https://access.redhat.com/solutions/6760291
 * Chapter 10. Managing container storage interface (CSI) component placements: https://docs.redhat.com/en/documentation/red_hat_openshift_container_storage/4.7/html-single/managing_and_allocating_storage_resources/index#managing-container-storage-interface-component-placements_rhocs

@@ -21,7 +21,6 @@ References:
 
 === Block Storage
 
-
 [source,bash]
 ----
 oc create -f ocp/storage/rook/ansible/files/rook-ceph-blockstore.yaml
@@ -71,6 +70,7 @@ oc delete -f ocp/storage/rook/ansible/files/test-rook-bs.yaml
 ----
 
 === CephFS
+
 To test the configuration execute the following configuration that will deploy 
  an nginx pod with a volume attached to a PVC. The PVC should provision a PV
  automatically.
