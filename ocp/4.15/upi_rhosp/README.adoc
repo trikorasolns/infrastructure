@@ -10,7 +10,7 @@ Antonio C. <ac (at) trikorasolutions (dot) com>
 == Introduction
 
 [.lead]
-This document describes the installation process for deploying OCP on a UOI 
+This document describes the installation process for deploying OCP on a UPI 
  RHOSP platform.
 
 == Prepare
