@@ -50,7 +50,7 @@ Considerations regarding DNS: https://docs.redhat.com/en/documentation/openshift
 
 The following platforms are available:
 
-* link:upi_proxmox//[OCP UPI Installation on Proxmox]
+* link:upi_proxmox/[OCP UPI Installation on Proxmox]
 * link:upi_rhosp/[OCP Installation on UPI RHOSP]
 
 == Installation Process
