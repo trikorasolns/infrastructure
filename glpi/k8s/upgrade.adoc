@@ -1,6 +1,6 @@
 = Upgrade GLPI
 :author:    Antonio C.
-:email:     <sp38af (at) trikorasolutions (dot) com>
+:email:     <ac (at) trikorasolutions (dot) com>
 :Date:      20220502
 :revdate: {docdate}
 :toc:       left

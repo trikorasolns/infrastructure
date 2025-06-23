@@ -1,0 +1,153 @@
+= Keycloak Deploy Guide (Helm)
+:author:    Antonio C.
+:email:     <ac (at) trikorasolutions (dot) com>
+:Date:      2022/05/02
+:revdate: {docdate}
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: This section describes the GLPI deployment procedure.
+
+== Bare in mind
+
+This guide uses the https://github.com/trikorasolns/helm-charts[trikorasolns/helm-charts] repository helm charts.
+
+All commands assume the shell is connected to the correct k8s instance.
+
+[source,bash]
+----
+$ export KUBECONFIG=~/.kube/my-config-file
+----
+
+
+=== Required information
+
+Required variables.
+
+.Helm install prepare parameters
+[cols="20%,80%"]
+|===
+|Field name |Description
+
+| `app_namespace`
+
+[.fuchsia]#string# / [.red]#required# 
+
+a| Namespace used in kubernetes for deploying the application.
+
+| `app_name`
+
+[.fuchsia]#string# / [.red]#required# 
+
+a| Name of the application.
+
+| `db_name`
+
+[.fuchsia]#string# / [.red]#required# 
+
+a| Database name
+
+| `db_user`
+
+[.fuchsia]#string# / [.red]#required# 
+
+a| Database user
+
+| `db_password`
+
+[.fuchsia]#string# / [.red]#required# 
+
+a| Database password
+
+| `db_root_password`
+
+[.fuchsia]#string# / [.red]#required# 
+
+a| Database root password
+
+| `trikora_helm_project_dir`
+
+[.fuchsia]#string#
+
+[.red]#required# 
+
+a| Folder, on the host system, with a clone of the link:https://github.com/trikorasolns/helm-charts[TrikoraSolutions Helm Charts] Github repository.
+
+|===
+
+Create a yaml file with the values for each of the required variables.
+
+.Sample data values file
+[source,yaml]
+----
+app_namespace: keycloak
+db_name: keycloak
+db_user: keycloak
+db_password: keycloak
+glpi_url: glpi.localdomain
+glpi_version: "10.0.9"
+k8s_host: myhost
+trikora_helm_project_dir: /tmp/trikora-helm-charts
+----
+
+== Prepare
+
+Set environment variables.
+
+[source,bash]
+----
+DB_PASSWORD=<1>
+TRIKORA_HELM_PROJECT_DIR=<2>
+----
+<1> Password to be used on the PostgreSQL database
+<2> Path to the directory containing a clone of the 
+ link:https://github.com/trikorasolns/helm-charts[Trikora Helm Chards] 
+ repository
+
+== Install
+
+Create Namespace, install PostgreSQL and deploy Keycloak.
+
+[source,bash]
+----
+ansible-playbook keycloak/k8s/helm/ansible/keycloak-install-playbook.yaml \
+  -e @keycloak/k8s/ansible/defaults/main.yaml \
+  -e @_local_config/network.yaml \
+  -e trikora_helm_project_dir=${TRIKORA_HELM_PROJECT_DIR} \
+  -e db_password=${DB_PASSWORD}
+----
+
+
+== Uninstallation
+
+This is the procedure to uninstall Keycloak.
+
+[source,bash]
+----
+ansible-playbook keycloak/k8s/helm/ansible/keycloak-uninstall-playbook.yaml \
+  -e @keycloak/k8s/ansible/defaults/main.yaml
+----
+
+[source,bash]
+----
+helm uninstall --namespace glpi mariadb mariadb
+----
+
+Finally delete the PVs...
+
+[source,bash]
+----
+$ kubectl -n glpi delete -f glpi/helm/glpi-pv-hostPath.yaml
+warning: deleting cluster-scoped resources, not scoped to the provided namespace
+persistentvolume "glpi-mariadb-data" deleted
+persistentvolume "glpi-glpi-files" deleted
+persistentvolume "glpi-glpi-plugins" deleted
+----
+
+...and it's folders.
+
+[source,bash]
+----
+$ cd /data/k8s/pv
+$ sudo rm -Rf {glpi-mariadb,glpi-glpi-files,glpi-glpi-plugins}
+----

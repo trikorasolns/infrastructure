@@ -1,0 +1,98 @@
+= Kubernetes
+:toc: left
+:icons: image
+
+== Requirements
+
+Python modules.
+
+[source, bash]
+----
+python -m pip install -r requirements.txt
+----
+
+Ansible collections.
+
+References: https://galaxy.ansible.com/kubernetes/core
+
+[source, bash]
+----
+ansible-galaxy collection install -r requirements.yml
+----
+
+== Install k8s
+
+[source,bash]
+----
+ansible-playbook kubernetes/k8s-1.29/install.yml --limit ${PLAYBOOK_HOST_NAME} \
+  -e @kubernetes/k8s-1.29/defaults/main.yaml \
+  -e k8s_host=${PLAYBOOK_HOST_NAME} \
+  -e firewalld_enabled=false
+----
+
+== Uninstall k8s
+
+[source,bash]
+----
+ansible-playbook kubernetes/k8s-1.29/remove.yml --limit ${PLAYBOOK_HOST_NAME} \
+  -e @kubernetes/k8s-1.29/defaults/main.yaml \
+  -e k8s_host=${PLAYBOOK_HOST_NAME}
+----
+
+== Application
+
+Application related playbooks are located at the `apps` folder.
+
+=== Backup Playbooks
+
+Backup playbooks for each of the k8s applications.
+
+
+
+The backup playbooks have the following parameters.
+
+.Backup playbook parameters
+[cols="1m,1,2",options="header"]
+|===
+
+| Parameter
+| Values
+| Description
+
+| k8s_ns
+|
+| Kubernetes namespace to execute the backup on
+
+| k8s_config_file
+|
+| Kubernetes config file location
+
+| backup_root_folder
+|
+| Root folder the backup files will be created on.
+
+|===
+
+NOTE: Backup files will be separated in a `namespace` sub-folder.
+
+[source, bash]
+----
+$ ansible-playbook kubernetes/k8s-backup.yml -e k8s_ns=<namespace> -e k8s_config_file=<k8s config file> -e backup_root_folder=<root folder for k8s backups>
+----
+
+Backup GLPI.
+
+[source, bash]
+----
+ansible-playbook kubernetes/apps/glpi-backup.yml -e k8s_ns=glpi -e k8s_config_file=~/.kube/trikora-srvvmk8sp01-config -e backup_root_folder=/backup/k8s
+----
+
+Backup GITLAB.
+
+[source, bash]
+----
+$ ansible-playbook kubernetes/gitlab-backup.yml -e k8s_ns=gitlab -e k8s_config_file=~/.kube/config -e backup_root_folder=/backup/k8s
+----
+
+=== Restore
+

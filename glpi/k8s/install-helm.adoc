@@ -1,6 +1,6 @@
 = GLPI Deploy Guide (Helm)
 :author:    Antonio C.
-:email:     <sp38af (at) trikorasolutions (dot) com>
+:email:     <ac (at) trikorasolutions (dot) com>
 :Date:      2022/05/02
 :revdate: {docdate}
 :toc:       left

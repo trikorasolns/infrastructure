@@ -1,0 +1,72 @@
+---
+- name: "Install Metal Load Balancer"
+  hosts: "localhost"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+
+    - name: "Validate variables"
+      assert:
+        that:
+          - "app_namespace is defined and (app_namespace | length > 0)"
+          - "app_name is defined and (app_name | length > 0)"
+        fail_msg: 
+          - "app_namespace must be defined with the kubernetes namespace"
+          - "app_name must be defined with the application name"
+
+  tasks:
+  - name: "Print information"
+    ansible.builtin.debug:
+      msg:
+      - "app_namespace: {{ app_namespace }}"
+      - "app_name: {{ app_name }}"
+
+  - name: "Add metallb helm repository"
+    ansible.builtin.shell: |
+      helm repo add metallb https://metallb.github.io/metallb
+
+  # - name: "Create k8s namespace for Keycloak"
+  #   kubernetes.core.k8s:
+  #     name: "{{ app_namespace }}"
+  #     api_version: v1
+  #     kind: Namespace
+  #     state: present
+
+  # - name: "Label metallb namespace as privileged"
+  #   ansible.builtin.shell: |
+  #     kubectl label namespaces {{ app_namespace }} pod-security.kubernetes.io/enforce=privileged --overwrite=true
+  #     kubectl label namespaces {{ app_namespace }} pod-security.kubernetes.io/audit=privileged
+  #     kubectl label namespaces {{ app_namespace }} pod-security.kubernetes.io/warn=privileged
+
+  # - name: "Deploy MetalLB with Helm"
+  #   ansible.builtin.shell: |
+  #     helm upgrade --install  metallb metallb/metallb --namespace metallb-system
+  #   register: metallb_helm_res 
+
+  # - name: "Deploy MetalLB with Helm"
+  #   kubernetes.core.helm:
+  #     name: "{{ app_name }}"
+  #     chart_ref: "metallb/metallb"
+  #     release_namespace: "{{ app_namespace }}"
+  #     wait: true
+  #     replace: true
+  #   register: metallb_helm_res
+
+  # - name: "Print Helm chart result"
+  #   ansible.builtin.debug:
+  #     msg:
+  #     - "metallb_helm_res: {{ metallb_helm_res }}"
+
+  - name: "Template IP Address Pools"
+    ansible.builtin.template:
+      src: helm-IPAddressPool-resources-values.yaml.j2
+      dest: /tmp/helm-IPAddressPool-resources-values.yaml
+
+  - name: "Apply IP Address Pools"
+    kubernetes.core.k8s:
+      src: /tmp/helm-IPAddressPool-resources-values.yaml
+      state: present
+
+  #helm install --namespace keycloak  phpmyadmin phpmyadmin
+
+...

@@ -1,7 +1,7 @@
 = Troubleshoting
 :author: Antonio C.
 :description: AWX administration.
-:email: <sp38af (at) trikorasolutions (dot) com>
+:email: <ac (at) trikorasolutions (dot) com>
 :icons: font
 :toc: left
 :toclevels: 1

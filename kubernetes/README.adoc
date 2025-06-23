@@ -5,7 +5,11 @@
 :description: This document describes the implementation of different applications.
 :source-highlighter: highlight.js
 
-== Storate Classes
+== Storage
+
+* link:./storage/ceph[Ceph]
+* link:./storage/host_path[TODO: Host Path]
+* link:./storage/iscsi[TODO: iSCSI]
 
 === Local
 Create.

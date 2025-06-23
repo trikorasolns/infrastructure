@@ -1,6 +1,6 @@
 = GLPI for Kubernetes
 :Author:    Antonio Costa
-:Email:     a dot costa at trikorasolutions dot com
+:Email:     <ac (at) trikorasolutions (dot) com>
 :Date:      20210205
 :revdate: {docdate}
 :table-caption: Table

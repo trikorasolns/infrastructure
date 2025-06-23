@@ -1,6 +1,6 @@
 = Gitlab Runner on Kubernetes with Helm
 :author:    Antonio C.
-:email:     <sp38af (at) trikorasolutions (dot) com>
+:email:     <ac (at) trikorasolutions (dot) com>
 :Date:      20230119
 :revdate: {docdate}
 :toc:       left
