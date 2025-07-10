@@ -263,7 +263,7 @@ To install `openupgradelib` from the master branch check the
 
 [source,bash]
 ----
-python -m pip install git+https://github.com/OCA/openupgradelib.git@3.7.2#egg=openupgradelib
+python -m pip install git+https://github.com/OCA/openupgradelib.git@3.11.1#egg=openupgradelib
 ----
 
 Generate pip `requirements.txt` file for the `openupgradelib` version.
@@ -374,11 +374,11 @@ podman stop odoo_upg_web
 podman rm odoo_upg_web
 ----
 
-Start the container using the correct odoo version.
+Start the container using the correct odoo version and the upgraded database.
 
 [source,bash]
 ----
-podman run --name odoo_upg_web --privileged --pod odoo -d -v "odoo_upg_web_data:/var/lib/odoo:z" -v "odoo_upg_web_configs:/etc/odoo:Z"  -v "odoo_upg_web_addons:/mnt/extra-addons:Z" -e POSTGRES_DB=postgres -e USER=odoo -e PASSWORD=1234  -e HOST=odoo_pgsql -e USER=odoo  --label "name=odoo,component=web,part-of=odoo" odoo:17.0
+podman run --name odoo_upg_web --privileged --pod odoo_upg -d -v "odoo_upg_web_data:/var/lib/odoo:z" -v "odoo_upg_web_configs:/etc/odoo:Z"  -v "odoo_upg_web_addons:/mnt/extra-addons:Z" -e POSTGRES_DB=postgres -e USER=odoo -e PASSWORD=1234  -e HOST=odoo_upg_pgsql -e USER=odoo  --label "name=odoo,component=web,part-of=odoo" odoo:17.0
 ----
 
 == Appendix
