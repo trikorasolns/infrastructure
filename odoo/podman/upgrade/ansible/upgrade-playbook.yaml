@@ -1,0 +1,254 @@
+---
+- name: "Install openupgradelib"
+  hosts: "localhost"
+  gather_facts: false
+  vars:
+    to_python_version: "3.10"
+    temporary_folder: /z/_tmp
+    openupgradelib_tag: 3.11.1
+
+  pre_tasks:
+    - name: "Check variables"
+      ansible.builtin.assert:
+        that:
+          # - "k8s_config_file is defined"
+          - "from_version is defined"
+          - "to_version is defined"
+
+    # - name: "Set variables"
+    #   ansible.builtin.set_fact:
+    #     odoo_old_pod_name: "{{ odoo_old_pod_name_prefix }}{{ from_version }}"
+
+  tasks:
+
+    - name: "Check if openupgradelib directory exists"
+      ansible.builtin.stat:
+        path: "{{ temporary_folder }}/openupgradelib"
+      register: oud_dir_stat 
+
+    # - name: "Cleanup any existing upgrade installation."
+    #   ansible.builtin.shell: |
+    #     python{{ to_python_version }} -m venv {{ temporary_foldweb/database/selector#action=109&cids=1er }}/venv_python_{{ to_python_version }}
+    - name: "Create openupgradelib directory"
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: '1775'
+      loop:
+      - "{{ temporary_folder }}/openupgradelib"
+      - "{{ temporary_folder }}/openupgradelib/pip-reqs"
+      when: not oud_dir_stat.stat.exists
+
+    - name: "Install openupgradelib from GitHub branch"
+      ansible.builtin.shell: |
+        source {{ temporary_folder }}/venv_python_{{ to_python_version }}/bin/activate
+        python -m ensurepip --upgrade
+        python -m pip install git+https://github.com/OCA/openupgradelib.git@{{ openupgradelib_tag }}#egg=openupgradelib
+        python -m pip freeze | grep openupgradelib > {{ temporary_folder }}/openupgradelib/requirements.txt
+        python -m pip download -r {{ temporary_folder }}/openupgradelib/requirements.txt -d {{ temporary_folder }}/openupgradelib/pip-reqs/
+        deactivate
+      when: not oud_dir_stat.stat.exists
+
+- name: "Instantiate upgrade infrastructure Playbook"
+  hosts: "localhost"
+  gather_facts: yes
+  vars:
+    odoo_upg_pod_name_prefix: odoo_upg
+    pgsql_version: "13"
+#    from_version: 16
+#    to_version: 17
+    published_http_port: "28069"
+
+  pre_tasks:
+    - name: "Check variables"
+      ansible.builtin.assert:
+        that:
+          # - "k8s_config_file is defined"
+          - "from_version is defined"
+
+  tasks:
+
+    - name: "Cleanup any existing upgrade installation."
+      ansible.builtin.shell: |
+        podman pod rm -f {{ odoo_upg_pod_name_prefix }}
+
+        podman volume rm {{ odoo_upg_pod_name_prefix }}_db_data
+        podman volume rm {{ odoo_upg_pod_name_prefix }}_web_data
+        podman volume rm {{ odoo_upg_pod_name_prefix }}_web_addons
+        podman volume rm {{ odoo_upg_pod_name_prefix }}_web_configs
+
+        podman stop {{ odoo_upg_pod_name_prefix }}_web
+        podman rm {{ odoo_upg_pod_name_prefix }}_web
+        podman stop {{ odoo_upg_pod_name_prefix }}_pgsql
+        podman rm {{ odoo_upg_pod_name_prefix }}_pgsql
+      failed_when: false
+
+
+    - name: "Create the podman volumes to be used by Odoo to persist data."
+      ansible.builtin.shell: |
+        podman volume create {{ odoo_upg_pod_name_prefix }}_db_data --label "part-of=odoo_upgrade_{{ from_version }}_{{ to_version }}"
+        podman volume create {{ odoo_upg_pod_name_prefix }}_web_data --label "part-of=odoo_upgrade_{{ from_version }}_{{ to_version }}"
+        podman volume create {{ odoo_upg_pod_name_prefix }}_web_addons --label "part-of=odoo_upgrade_{{ from_version }}_{{ to_version }}"
+        podman volume create {{ odoo_upg_pod_name_prefix }}_web_configs --label "part-of=odoo_upgrade_{{ from_version }}_{{ to_version }}"
+
+    - name: "Create the upgrade pod"
+      ansible.builtin.shell: |
+        podman pod create --name {{ odoo_upg_pod_name_prefix }} --publish {{ published_http_port }}:8069,25432:5432 --label "name=odoo_upgrade_{{ from_version }}_{{ to_version }}"
+
+    - name: "Start the upgrade PostgreSQL database"
+      ansible.builtin.shell: |
+        podman run -d --name {{ odoo_upg_pod_name_prefix }}_pgsql --pod {{ odoo_upg_pod_name_prefix }} -v "{{ odoo_upg_pod_name_prefix }}_db_data:/var/lib/postgresql/data/pgdata:Z" -e POSTGRES_DB=postgres -e POSTGRES_USER=odoo -e POSTGRES_PASSWORD=1234 -e "PGDATA=/var/lib/postgresql/data/pgdata"  --label "name=postgresql,component=database,part-of=odoo_upgrade_{{ from_version }}_{{ to_version }}" postgres:13
+
+    - name: "Instantiate a new Podman container on the current Odoo version"
+      ansible.builtin.shell: |
+        podman run -d --name {{ odoo_upg_pod_name_prefix }}_web --privileged --pod {{ odoo_upg_pod_name_prefix }} -e POSTGRES_DB=postgres -e USER=odoo -e PASSWORD=1234  -e HOST={{ odoo_upg_pod_name_prefix }}_pgsql -e USER=odoo  --label "name=odoo,component=web,part-of=odoo" odoo:{{ from_version }}.0
+
+    - name: "Wait for podman to be available"
+      ansible.builtin.wait_for:
+        port: "{{ published_http_port }}"
+        delay: 5
+        timeout: 300
+
+    - name: "While restoring the database follow the process"
+      ansible.builtin.debug:
+        msg: 
+        - "Follow the restore process using: "
+        - "podman logs -f {{ odoo_upg_pod_name_prefix }}_web"
+        - "     A message similar to this one should be shown: None odoo.service.db: RESTORING DB: xxxxxxxxxxxxxxx"
+
+    - name: "Restore the database"
+      ansible.builtin.shell: |
+        curl -F 'master_pwd={{ odoo_master_pw }}' -F backup_file=@{{ odoo_bk_file }} -F 'copy=true' -F 'name={{ odoo_db_name }}' http://localhost:{{ published_http_port }}/web/database/restore
+
+    # - name: "Import the database to be upgraded"
+    #   ansible.builtin.debug:
+    #     msg: 
+    #     - "### Import the Odoo database previously backed up."
+    #     # - "  1. Open Odoo using the Web page at http://localhost:{{ published_http_port }}/."
+    #     # - "  2. Execute the `or restore database` link."
+    #     # - "  3. Select the backup file to import, set the appropriate Master Password and database name and execute the restoration procedure."
+    #     # - "  4. Follow the import process using: podman logs -f {{ odoo_upg_pod_name_prefix }}_web"
+    #     # - "     A message similar to this one should be shown: None odoo.service.db: RESTORING DB: xxxxxxxxxxxxxxx"
+    #     # - "     A message similar to this one should be shown: None odoo.service.db: RESTORING DB: xxxxxxxxxxxxxxx"
+    #     - "  5. When the restore finishes the web page will be redirected to the database selection page, check the result message."
+    #     - "  6. If successfull, select the imported database link."
+    #     - "  7. Log into the application to make sure it works correctly"
+
+# Check the restore
+# curl http://localhost:{{ published_http_port }}/web?db={{ odoo_db_name }}
+
+    - name: Check if odoo is available and returning status 200/303
+      ansible.builtin.uri:
+        url: "http://localhost:{{ published_http_port }}/web?db={{ odoo_db_name }}"
+      register: result
+      until: "result.status == 200"
+      retries: 5
+      delay: 10
+
+    - name: "Functionally check odoo"
+      ansible.builtin.debug:
+        msg: 
+        - "  1. Open Oddo at: http://localhost:{{ published_http_port }}/web?db={{ odoo_db_name }}"
+        - "  2. Log into the application to make sure it works correctly"
+
+    - name: "Check everything is OK"
+      ansible.builtin.pause:
+      when: skip_fuctional_check is undefined or not (skip_fuctional_check | bool)
+
+    - name: "Stop the running `{{ odoo_upg_pod_name_prefix }}_web` Odoo container and remove it"
+      ansible.builtin.shell: |
+        podman stop {{ odoo_upg_pod_name_prefix }}_web
+        podman rm {{ odoo_upg_pod_name_prefix }}_web
+
+    - name: "Start Odoo 17.0"
+      ansible.builtin.shell: |
+        #podman run --name {{ odoo_upg_pod_name_prefix }}_web --privileged --pod {{ odoo_upg_pod_name_prefix }} -v "{{ odoo_upg_pod_name_prefix }}_web_data:/var/lib/odoo:z" -v "{{ odoo_upg_pod_name_prefix }}_web_configs:/etc/odoo:Z"  -v "{{ odoo_upg_pod_name_prefix }}_web_addons:/mnt/extra-addons:Z" -e POSTGRES_DB=postgres -e USER=odoo -e PASSWORD=1234  -e HOST={{ odoo_upg_pod_name_prefix }}_pgsql -e USER=odoo  --label "name=odoo,component=web,part-of=odoo" odoo:17.0 /bin/bash
+        podman run -d --name {{ odoo_upg_pod_name_prefix }}_web --privileged --pod {{ odoo_upg_pod_name_prefix }} -v "{{ odoo_upg_pod_name_prefix }}_web_data:/var/lib/odoo:z" -v "{{ odoo_upg_pod_name_prefix }}_web_configs:/etc/odoo:Z"  -v "{{ odoo_upg_pod_name_prefix }}_web_addons:/mnt/extra-addons:Z" -e POSTGRES_DB=postgres -e USER=odoo -e PASSWORD=1234  -e HOST={{ odoo_upg_pod_name_prefix }}_pgsql -e USER=odoo  --label "name=odoo,component=web,part-of=odoo" odoo:17.0
+
+- name: "Install OpenUpgrade"
+  hosts: "localhost"
+  gather_facts: yes
+  vars:
+    odoo_upg_pod_name_prefix: odoo_upg
+    temporary_folder: /z/_tmp
+
+  pre_tasks:
+    - name: "Check variables"
+      ansible.builtin.assert:
+        that:
+          # - "k8s_config_file is defined"
+          - "from_version is defined"
+          - "to_version is defined"
+
+  tasks:
+    - name: "Check if OpenUpgrade directory exists at {{ temporary_folder }}/OpenUpgrade-{{ to_version }}.0"
+      ansible.builtin.stat:
+        path: "{{ temporary_folder }}/OpenUpgrade-{{ to_version }}.0"
+      register: oupg_dir_stat 
+
+    - name: "Clone the OpenUpgrade version for Odoo {{ to_version }}.0"
+      ansible.builtin.shell: |
+        git clone --branch={{ to_version }}.0 --depth=1 --single-branch git@github.com:OCA/OpenUpgrade.git {{ temporary_folder }}/OpenUpgrade-{{ to_version }}.0
+      when: not oupg_dir_stat.stat.exists
+
+    - name: "Remove existing openupgrade folders from the upgrade container, if they exist."
+      ansible.builtin.shell: |
+        podman exec {{ odoo_upg_pod_name_prefix }}_web rm -Rf /mnt/extra-addons/openupgrade_scripts/
+        podman exec {{ odoo_upg_pod_name_prefix }}_web rm -Rf /mnt/extra-addons/openupgrade_framework/
+
+    - name: "Copy OpenUpgrade 17.0 files"
+      ansible.builtin.shell: |
+        podman cp {{ temporary_folder }}/OpenUpgrade-{{ to_version }}.0/openupgrade_scripts/ {{ odoo_upg_pod_name_prefix }}_web:/mnt/extra-addons/
+        podman cp {{ temporary_folder }}/OpenUpgrade-{{ to_version }}.0/openupgrade_framework/ {{ odoo_upg_pod_name_prefix }}_web:/mnt/extra-addons/
+
+    - name: "Copy the requirements to Odoo container"
+      ansible.builtin.shell: |
+        podman cp {{ temporary_folder }}/openupgradelib/pip-reqs/ {{ odoo_upg_pod_name_prefix }}_web:/opt/
+
+    - name: "On the Odoo container, install `openupgradelib` from the requirements folder."
+      ansible.builtin.shell: |
+        podman exec {{ odoo_upg_pod_name_prefix }}_web pip3 uninstall -y openupgradelib
+        podman exec {{ odoo_upg_pod_name_prefix }}_web pip3 install openupgradelib --find-links=/opt/pip-reqs/
+
+    - name: "Download the file Odoo config file"
+      ansible.builtin.shell: |
+        podman cp odoo_upg_web:/etc/odoo/odoo.conf {{ temporary_folder }}/odoo.upg.conf
+
+    - name: "Update odoo.conf configuration for the upgrade"
+      ansible.builtin.lineinfile:
+        path: "{{ temporary_folder }}/odoo.upg.conf"
+        regexp: "{{ item.prefix }}"
+        line: "{{ item.line }}"
+      loop:
+      - {prefix: "^db_host = ", line: "db_host = odoo_upg_pgsql"}
+      - {prefix: "^db_port = ", line: "db_port = 5432"}
+      - {prefix: "^db_user = ", line: "db_user = odoo"}
+      - {prefix: "^db_password = ", line: "db_password = 1234"}
+      - {prefix: "^upgrade_path = ", line: "upgrade_path = /mnt/extra-addons/openupgrade_scripts/"}
+      - {prefix: "^server_wide_modules = ", line: "server_wide_modules = web,openupgrade_framework"}
+
+    - name: "Push the configuration into the odoo container."
+      ansible.builtin.shell: |
+        podman cp {{ temporary_folder }}/odoo.upg.conf odoo_upg_web:/etc/odoo/
+
+    - name: "Upgrade"
+      ansible.builtin.shell: |
+        podman exec {{ odoo_upg_pod_name_prefix }}_web odoo -c /etc/odoo/odoo.upg.conf --database={{ odoo_db_name }} --upgrade-path=/mnt/extra-addons/openupgrade_scripts/scripts --load=base,web,openupgrade_framework --update all --stop-after-init --i18n-overwrite
+      register: upgrade_res
+    
+    - name: "Print the upgrade result"
+      ansible.builtin.debug:
+        var: upgrade_res
+
+    - name: "Remove the container used by the upgrade"
+      ansible.builtin.shell: |
+        podman stop {{ odoo_upg_pod_name_prefix }}_web
+        podman rm {{ odoo_upg_pod_name_prefix }}_web
+
+    - name: "Start the container using the correct odoo version and the upgraded database"
+      ansible.builtin.shell: |
+        podman run --name {{ odoo_upg_pod_name_prefix }}_web --privileged --pod {{ odoo_upg_pod_name_prefix }} -d -v "{{ odoo_upg_pod_name_prefix }}_web_data:/var/lib/odoo:z" -v "{{ odoo_upg_pod_name_prefix }}_web_configs:/etc/odoo:Z"  -v "{{ odoo_upg_pod_name_prefix }}_web_addons:/mnt/extra-addons:Z" -e POSTGRES_DB=postgres -e USER=odoo -e PASSWORD=1234  -e HOST={{ odoo_upg_pod_name_prefix }}_pgsql -e USER=odoo  --label "name=odoo,component=web,part-of=odoo" odoo:17.0
+
+# Backup the resulting database
+# wget --post-data 'master_pwd=ADMIN_PASSWORD&name=DB_NAME&backup_format=zip' -O back_up_filename.zip http://localhost:8069/web/database/backup
+...

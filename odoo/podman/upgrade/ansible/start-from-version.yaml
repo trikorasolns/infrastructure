@@ -1,0 +1,57 @@
+---
+- name: "Start From version Odoo Playbook"
+  hosts: "localhost"
+  gather_facts: yes
+  vars:
+    odoo_upg_pod_name: odoo_upg_web
+    odoo_old_pod_name_prefix: odoo_
+    pgsql_version: 13
+    published_http_port: 18069
+
+  pre_tasks:
+    - name: "Check variables"
+      ansible.builtin.assert:
+        that:
+          # - "k8s_config_file is defined"
+          - "from_version is defined"
+          # - "to_version is defined"
+
+    - name: "Set variables"
+      ansible.builtin.set_fact:
+        odoo_old_pod_name: "{{ odoo_old_pod_name_prefix }}{{ from_version }}"
+
+  tasks:
+    - name: "Cleanup the source installation"
+      ansible.builtin.shell: |
+        podman pod rm -f {{ odoo_old_pod_name }}
+        podman stop {{ odoo_old_pod_name }}_web
+        podman stop {{ odoo_old_pod_name }}_pgsql
+        podman rm {{ odoo_old_pod_name }}_web 
+        podman rm {{ odoo_old_pod_name }}_pgsql
+      failed_when: false
+
+    - name: "Create POD for old version"
+      ansible.builtin.shell: |
+        podman pod create --name {{ odoo_old_pod_name }} --publish {{ published_http_port }}:8069,15432:5432 --label "name={{ odoo_old_pod_name }}_upgrade_{{ from_version }}"
+
+    - name: "Start the PostgreSQL database for the from version"
+      ansible.builtin.shell: |
+        podman run --name {{ odoo_old_pod_name }}_pgsql -d --pod {{ odoo_old_pod_name }} -e POSTGRES_DB=postgres -e POSTGRES_USER=odoo -e POSTGRES_PASSWORD=1234 -e "PGDATA=/var/lib/postgresql/data/pgdata"  --label "name=postgresql,component=database,part-of=odoo" postgres:{{ pgsql_version }}
+
+    - name: "Start the Odoo for the from version"
+      ansible.builtin.shell: |
+        podman run --name {{ odoo_old_pod_name }}_web -d --privileged --pod {{ odoo_old_pod_name }} -e POSTGRES_DB=postgres -e USER=odoo -e PASSWORD=1234  -e HOST={{ odoo_old_pod_name }}_pgsql -e USER=odoo  --label "name=odoo,component=web,part-of=odoo" odoo:{{ from_version }}.0
+
+    - name: "Import the database to be upgraded"
+      ansible.builtin.debug:
+        msg: 
+        - Import the Odoo database previously backed up.
+        - Open Odoo using the Web page at http://localhost:{{ published_http_port }}/.
+        - Open the `or restore database` link.
+        - Select the backup file to import and set the appropriate Master Password and database name.
+        - When the restore finishes the web page will be redirected to the database selection page and the database will be populated with the database to be upgraded.
+        - Log into the application to make sure it works correctly
+
+    - name: "MANUALLY Import the database and check everything is OK"
+      ansible.builtin.pause:
+...
