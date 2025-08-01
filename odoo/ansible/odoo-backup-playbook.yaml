@@ -29,4 +29,14 @@
       ansible.builtin.shell: |
         unzip -t {{ backup_folder }}/{{ odoo_file_name }}
 
+    - name: "Get file stats"
+      ansible.builtin.stat:
+        path: "{{ backup_folder }}/{{ odoo_file_name }}"
+      register: odoo_bk_file_stat
+
+    - name: "Backup finished"
+      ansible.builtin.debug:
+        msg: 
+        - "File: {{ backup_folder }}/{{ odoo_file_name }}"
+        - "Size: {{ odoo_bk_file_stat.stat.size | human_readable(unit='M') }}"
 ...
