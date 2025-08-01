@@ -15,3 +15,89 @@ Edit the `/etc/odoo/odoo.conf` file.
 Comment the `admin_passwd`.
 
 Restart odoo.
+
+== Backup Odoo database
+
+Set the environment variables for the required parameters.
+
+[source,bash]
+----
+BACKUP_ROOT_FOLDER=/z/backup/odoo
+ODOO_MASTER_PW=xxxxxxxxxxxxx
+ODOO_DB=database
+ODOO_WEB_HOST=http://odoo.localdomain:8069
+----
+
+[source,bash]
+----
+ansible-playbook odoo/ansible/odoo-backup-playbook.yaml \
+  -e odoo_master_pw=${ODOO_MASTER_PW} \
+  -e odoo_db_name=${ODOO_DB} \
+  -e odoo_web_host=${ODOO_WEB_HOST} \
+  -e backup_folder=${BACKUP_ROOT_FOLDER}/odoo
+----
+
+Optional parameters.
+
+.Helm install prepare parameters
+[cols="20%,80%"]
+|===
+|Field name |Description
+
+| `odoo_master_pw`
+
+[.fuchsia]#string#
+
+[.red]#required# 
+
+a| Odoo Master password for the selected database.
+
+| `odoo_web_host`
+
+[.fuchsia]#string#
+
+[.red]#required# 
+
+a| FQDN hostname
+
+Hostname that will be accessed using http/https.
+
+| `backup_folder`
+
+[.fuchsia]#string#
+
+[.red]#required# 
+
+a| Backup folder
+
+Folder where the backup zip file will be stored.
+
+| `odoo_web_protocol`
+
+[.fuchsia]#string#
+
+a| Protocol to access the odoo web page.
+
+Default: `http`
+
+| `odoo_web_port`
+
+[.fuchsia]#string#
+
+a| Port for the web URL
+
+Default: `8069`
+
+|===
+
+
+[source,bash]
+----
+ansible-playbook odoo/ansible/odoo-backup-playbook.yaml \
+  -e odoo_master_pw=${ODOO_MASTER_PW} \
+  -e odoo_db_name=${ODOO_DB} \
+  -e odoo_web_host=${ODOO_WEB_HOST} \
+  -e backup_folder=${BACKUP_ROOT_FOLDER}/odoo \
+  -e odoo_web_protocol=http \
+  -e odoo_web_port=80
+----

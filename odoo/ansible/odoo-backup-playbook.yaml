@@ -24,4 +24,9 @@
     - name: "Backup the database"
       ansible.builtin.shell: |
         curl -X POST -F 'master_pwd={{ odoo_master_pw }}' -F 'name={{ odoo_db_name }}' -F 'backup_format=zip' -o {{ backup_folder }}/{{ odoo_file_name }} {{ odoo_web_protocol | default('http') }}://{{ odoo_web_host }}:{{ odoo_web_port | default('8069')}}/web/database/backup
+
+    - name: "Test the backup file"
+      ansible.builtin.shell: |
+        unzip -t {{ backup_folder }}/{{ odoo_file_name }}
+
 ...
