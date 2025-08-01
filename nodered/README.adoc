@@ -1,0 +1,15 @@
+= NodeRED
+:author:    Antonio C.
+:email:     <ac (at) trikorasolutions (dot) com>
+:revdate:   {{docdate}}
+:toc:       left
+:toc-title: Table of Contents
+:icons:     font
+:description: NodeRed
+:source-highlighter: highlight.js
+
+== Introduction
+
+[.lead]
+This section describes the nodered deployment and maintenance tasks.
+
