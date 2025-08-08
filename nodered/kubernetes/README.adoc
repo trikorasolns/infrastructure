@@ -1,0 +1,59 @@
+= NodeRED on Kubernetes
+:author:    Antonio C.
+:email:     <ac (at) trikorasolutions (dot) com>
+:revdate:   {{docdate}}
+:toc:       left
+:toc-title: Table of Contents
+:icons:     font
+:description: NodeRed on Podman
+:source-highlighter: highlight.js
+
+== Introduction
+
+[.lead]
+This section describes the nodered deployment and maintenance tasks on Kubernetes.
+
+== Deploy
+
+Create the `nodered` _Namespace_.
+
+[source,bash]
+----
+kubectl apply -f nodered/kubernetes/05-namespace.yaml 
+----
+
+Create _PVC_.
+
+[source,bash]
+----
+kubectl apply -f nodered/kubernetes/10-pvc.yaml 
+----
+
+Deploy the NodeRed application.
+
+[source,bash]
+----
+kubectl apply -f nodered/kubernetes/20-deployment.yaml
+----
+
+Create the service to access the NodeRed application.
+
+[source,bash]
+----
+kubectl apply -f nodered/kubernetes/30-service.yaml
+----
+
+Create the ingress for the application.
+
+[source,bash]
+----
+kubectl apply -f nodered/kubernetes/40-ingress.yaml
+----
+
+== Undeploy
+
+[source,bash]
+----
+podman pod rm nodered
+podman volume rm node_red_data
+----
