@@ -22,11 +22,7 @@ Check if the source Odoo is correct by importing it to a new instance.
 [source,bash]
 ----
 ansible-playbook odoo/podman/upgrade/ansible/start-from-version.yaml -e from_version=16
-ansible-playbook odoo/podman/upgrade/ansible/upgrade-playbook.yaml -e from_version=16 -e to_version=17 \
-  -e odoo_master_pw="xxxx-xxxx-xxxx" \
-  -e odoo_bk_file=/z/_dw/trikorasolns_2025-07-11_23-52-48.zip \
-  -e odoo_db_name=dbname
-
+ansible-playbook odoo/podman/upgrade/ansible/upgrade-playbook.yaml -e from_version=16 -e to_version=17
 ----
 
 Or do the process manually.

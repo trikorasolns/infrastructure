@@ -1,0 +1,42 @@
+---
+- name: "Odoo Backup Playbook"
+  hosts: "localhost"
+  gather_facts: false
+
+  pre_tasks:
+    - name: "Check variables"
+      ansible.builtin.assert:
+        that:
+          # - "k8s_config_file is defined"
+          - "odoo_master_pw is defined"
+          - "odoo_db_name is defined"
+          - "odoo_web_host is defined"
+          - "backup_folder is defined"
+    
+    - name: "Set some variables"
+      ansible.builtin.set_fact:
+        odoo_file_name: "{{ odoo_db_name }}_{{ '%Y-%m-%d_%H-%M-%S' | strftime }}.zip"
+
+  tasks:
+    #curl -X POST -F 'master_pwd={{ odoo_master_pw }}' -F 'name={{ odoo_db_name }}' -F backup_file=@{{ odoo_bk_file }} -F 'copy=true' http://{{ odoo_web_host }}:{{ odoo_web_port }}/web/database/restore
+    #curl -X POST -F 'master_pwd={{ odoo_master_pw }}' -F 'name={{ odoo_db_name }}' -F 'backup_format=zip' -o {{ backup_folder }}/back_up_filename.zip http://{{ odoo_web_host }}:{{ odoo_web_port | default('8069')}}/web/database/backup
+    #curl -X POST -F 'master_pwd={{ odoo_master_pw }}' -F 'name={{ odoo_db_name }}' -F 'backup_format=zip' -O {{ odoo_web_protocol | default('http') }}://{{ odoo_web_host }}:{{ odoo_web_port | default('8069')}}/web/database/backup
+    - name: "Backup the database"
+      ansible.builtin.shell: |
+        curl -X POST -F 'master_pwd={{ odoo_master_pw }}' -F 'name={{ odoo_db_name }}' -F 'backup_format=zip' -o {{ backup_folder }}/{{ odoo_file_name }} {{ odoo_web_protocol | default('http') }}://{{ odoo_web_host }}:{{ odoo_web_port | default('8069')}}/web/database/backup
+
+    - name: "Test the backup file"
+      ansible.builtin.shell: |
+        unzip -t {{ backup_folder }}/{{ odoo_file_name }}
+
+    - name: "Get file stats"
+      ansible.builtin.stat:
+        path: "{{ backup_folder }}/{{ odoo_file_name }}"
+      register: odoo_bk_file_stat
+
+    - name: "Backup finished"
+      ansible.builtin.debug:
+        msg: 
+        - "File: {{ backup_folder }}/{{ odoo_file_name }}"
+        - "Size: {{ odoo_bk_file_stat.stat.size | human_readable(unit='M') }}"
+...
