@@ -2,8 +2,8 @@
 :toc:       left
 :toc-title: Table of Contents
 :icons: font
-:description: This document describes the implementation of different applications.
 :source-highlighter: highlight.js
+:description: Kubernetes installation guide
 
 == Storage
 
