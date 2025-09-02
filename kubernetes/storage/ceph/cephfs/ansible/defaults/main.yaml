@@ -1,6 +1,10 @@
 # ceph_ns: cephfs
-ceph_ns: ceph-csi-cephfs
+ceph_ns: cephfs-csi
 ceph_csi_cephfs_provisioner_replicacount: 1
 ceph_admin_id: admin
 ceph_filesystem: cephfs
 ceph_storage_class: csi-cephfs-sc # from https://github.com/ceph/ceph-csi/blob/devel/examples/cephfs/storageclass.yaml
+cephfs_user_id: k8sprd_cephfs
+cephfs_fs_name: k8sprd_cephfs
+cephfs_fs_data_pool: k8sprd_cephfs_data
+cephfs_fs_metadata_pool: k8sprd_cephfs_metadata

@@ -138,16 +138,25 @@ sudo kubeadm join 192.168.1.10:6443 --token yyyyyy.xxxxxxxxxxxxxxxx  --discovery
 
 ==== Control plane
 
+[source,bash]
+----
 kubectl taint nodes k8sprdcp1 node-role.kubernetes.io/control-plane:NoSchedule
 kubectl taint nodes k8sprdcp2 node-role.kubernetes.io/control-plane:NoSchedule
+----
 
 ==== Worker node
 
-kubectl label node k8sprdwrk1 node-role.kubernetes.io/worker=worker
+[source,bash]
+----
+kubectl label node <node-name> node-role.kubernetes.io/worker=worker
+----
 
 Remove Control plane.
 
-kubectl label node k8sprdwrk1.trikorasolutions.net node-role.kubernetes.io/worker-
+[source,bash]
+----
+kubectl label node <node-name> node-role.kubernetes.io/worker-
+----
 
 === Lock the Kubernetes major.minor version
 

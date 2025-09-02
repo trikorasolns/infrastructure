@@ -1,0 +1,189 @@
+---
+- name: "Setup ceph/csi-cephfs"
+  hosts: "{{ k8s_host | default('localhost') }}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  tasks:
+  - name: Create a k8s namespace
+    kubernetes.core.k8s:
+      name: "{{ ceph_ns }}"
+      api_version: v1
+      kind: Namespace
+      state: present
+
+  - name: "Create CephFS CSIDriver"
+    kubernetes.core.k8s:
+      src: 'files/csidriver.yaml'
+      state: present
+
+  # - name: "Create CephFS CSIDriver"
+  #   ansible.builtin.shell: |
+  #     kubectl apply -f files/csidriver.yaml
+  #   register: kc_apply_csidriver
+  #   failed_when: kc_apply_csidriver.rc != 0 and 'already exists' not in kc_apply_csidriver.stderr
+
+  - name: "Test the CSIDriver information and wait for API to be found"
+    kubernetes.core.k8s_info:
+      api_version: v1
+      kind: CSIDriver
+      name: cephfs.csi.ceph.com
+      namespace: "{{ ceph_ns }}"
+    register: csi_cephfs_driver_status
+    until: "csi_cephfs_driver_status.api_found | bool"
+    retries: 40
+    delay: 3
+
+  - name: "Deploy CSI Provisioner RBACs"
+    kubernetes.core.k8s:
+      state: present
+      template: 'csi-provisioner-rbac.yaml.j2'
+      force: true
+
+#  - name: "Template the CSI Provisionar RBAC file"
+#    ansible.builtin.template:
+#      src: "csi-provisioner-rbac.yaml.j2"
+#      dest: "/tmp/csi-provisioner-rbac.yaml"
+#
+#  - name: "Deploy CSI Provisioner RBACs"
+#    ansible.builtin.shell: |
+#      kubectl apply -f /tmp/csi-provisioner-rbac.yaml
+#    register: kc_apply_csiprovrbac
+#    failed_when: kc_apply_csiprovrbac.rc != 0 and 'already exists' not in kc_apply_csiprovrbac.stderr
+#
+#  - name: "Delete templated CSI Provisionar RBAC file"
+#    ansible.builtin.file:
+#      path: "/tmp/csi-provisioner-rbac.yaml"
+#      state: absent
+#    when: keep_templates is not defined or not keep_templates
+
+  - name: "Deploy CSI NodePlugin RBACs"
+    kubernetes.core.k8s:
+      state: present
+      template: 'csi-nodeplugin-rbac.yaml.j2'
+
+  # - name: "Template the CSI NodePlugin RBAC file"
+  #   ansible.builtin.template:
+  #     src: "csi-nodeplugin-rbac.yaml.j2"
+  #     dest: "/tmp/csi-nodeplugin-rbac.yaml"
+
+  # - name: "Deploy CSI NodePlugin RBACs"
+  #   ansible.builtin.shell: |
+  #     kubectl apply -f /tmp/csi-nodeplugin-rbac.yaml 
+  #   register: kc_apply_csinodeplugrbac
+  #   failed_when: kc_apply_csinodeplugrbac.rc != 0 and 'already exists' not in kc_apply_csinodeplugrbac.stderr
+
+  # - name: "Delete templated CSI NodePlugin RBAC file"
+  #   ansible.builtin.file:
+  #     path: "/tmp/csi-nodeplugin-rbac.yaml "
+  #     state: absent
+  #   when: keep_templates is not defined or not keep_templates
+
+  - name: "Deploy CSI Plugin"
+    kubernetes.core.k8s:
+      state: present
+      template: 'csi-cephfsplugin-provisioner.yaml.j2'
+
+  # - name: "Template the CSI Plugin"
+  #   ansible.builtin.template:
+  #     src: "csi-cephfsplugin-provisioner.yaml.j2"
+  #     dest: "/tmp/csi-cephfsplugin-provisioner.yaml"
+
+  # - name: "Deploy CSI Plugin"
+  #   ansible.builtin.shell: |
+  #     kubectl apply -f /tmp/csi-cephfsplugin-provisioner.yaml 
+  #   register: kc_apply_csinodeplugrbac
+  #   failed_when: kc_apply_csinodeplugrbac.rc != 0 and 'already exists' not in kc_apply_csinodeplugrbac.stderr
+
+  # - name: "Delete templated CSI Plugin file"
+  #   ansible.builtin.file:
+  #     path: "/tmp/csi-cephfsplugin-provisioner.yaml "
+  #     state: absent
+  #   when: keep_templates is not defined or not keep_templates
+
+  - name: "Deploy CSI CephFS driver"
+    kubernetes.core.k8s:
+      state: present
+      template: 'csi-cephfsplugin.yaml.j2'
+
+  # - name: "Template the CSI CephFS driver"
+  #   ansible.builtin.template:
+  #     src: "csi-cephfsplugin.yaml.j2"
+  #     dest: "/tmp/csi-cephfsplugin.yaml"
+
+  # - name: "Deploy CSI CephFS driver"
+  #   ansible.builtin.shell: |
+  #     kubectl apply -f /tmp/csi-cephfsplugin.yaml 
+  #   register: kc_apply_csinodeplugrbac
+  #   failed_when: kc_apply_csinodeplugrbac.rc != 0 and 'already exists' not in kc_apply_csinodeplugrbac.stderr
+
+  # - name: "Delete templated CSI CephFS driver file"
+  #   ansible.builtin.file:
+  #     path: "/tmp/csi-cephfsplugin.yaml "
+  #     state: absent 
+  #   when: keep_templates is not defined or not keep_templates
+
+  - name: "Deploy CMs"
+    kubernetes.core.k8s:
+      state: present
+      template: "{{ item }}"
+      force: true
+    loop:
+    - cephfs-config-cm.yaml.j2
+    - ceph-conf.yaml.j2
+
+  - name: "Deploy Secret"
+    kubernetes.core.k8s:
+      state: present
+      template: 'secret.yaml.j2'
+
+  - name: "Delete Storage Class"
+    kubernetes.core.k8s:
+      state: absent
+      template: 'storageclass.yaml.j2'
+
+  - name: "Create Storage Class"
+    kubernetes.core.k8s:
+      state: present
+      template: 'storageclass.yaml.j2'
+
+# Test the deployment
+  - name: "Deploy Test"
+    kubernetes.core.k8s:
+      state: present
+      template: "{{ item }}"
+    register: test_reg
+    loop:
+    - test-cephfs-pvc.yaml.j2
+    - test-cepfs-csi-pod.yaml.j2
+
+  - name: "Check the test PVC is Bound"
+    kubernetes.core.k8s_info:
+      api_version: v1
+      kind: pvc
+      name: csi-cephfs-pvc
+      namespace: "{{ ceph_ns }}"
+    register: test_pvc_status
+    until: "test_pvc_status.resources[0].status.phase == 'Bound'"
+    retries: 20
+    delay: 3
+
+  - name: "Check the test POD is running"
+    kubernetes.core.k8s_info:
+      api_version: v1
+      kind: pod
+      name: csi-cephfs-demo-pod
+      namespace: "{{ ceph_ns }}"
+    register: test_pod_status
+    until: "test_pod_status.resources[0].status.phase == 'Running'"
+    retries: 20
+    delay: 3
+
+  - name: "Delete Test"
+    kubernetes.core.k8s:
+      state: absent
+      template: "{{ item }}"
+    loop:
+    - test-cephfs-pvc.yaml.j2
+    - test-cepfs-csi-pod.yaml.j2
+
+...
