@@ -235,6 +235,13 @@ ansible-playbook mariadb/k8s/ansible/playbooks/restore-database-playbook.yaml \
   -e db_dump_file=${GLPI_DB_FILE_LOCATION}
 ----
 
+Start the application.
+
+[source,bash]
+----
+kubectl -n glpi scale deployment glpi --replicas=1
+----
+
 Restore the application files.
 
 [source,bash]
@@ -243,7 +250,6 @@ ansible-playbook glpi/k8s/ansible/glpi-restore-files-playbook.yaml \
   -e "@_local_config/glpi.yaml" \
   -e glpi_bk_file=${GLPI_BK_FILES_LOCATION}
 ----
-
 
 === Manually 
 

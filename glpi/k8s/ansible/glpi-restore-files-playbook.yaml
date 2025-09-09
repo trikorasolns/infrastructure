@@ -64,7 +64,7 @@
         namespace: "{{ app_namespace }}"
         pod: "{{ glpi_pod_name }}"
         command: |
-          tar -xzvm -no-overwrite-dir -C / -f /tmp/files.tgz
+          tar -xzvm --no-overwrite-dir -C / -f /tmp/files.tgz
       register: files_extract_res
 
     - name: "Print extract result"

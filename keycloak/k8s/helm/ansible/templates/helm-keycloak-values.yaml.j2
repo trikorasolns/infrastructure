@@ -20,3 +20,15 @@ persistence:
   dbName: {{ db_name }}
   dbUser: {{ db_user }}}
   dbPassword: {{ db_password }}
+{% if storage_class_rwo is defined or storage_class is defined %}
+  storageClassName: "{{ storage_class_rwo | default(storage_class) }}"
+{% endif %}
+
+volumes:
+- name: nodered-data
+  persistentVolumeClaim:
+    claimName: nodered-data
+    readOnly: false
+{% if storage_class_rwo is defined or storage_class is defined %}
+    storageClassName: "{{ storage_class_rwo | default(storage_class) }}"
+{% endif %}

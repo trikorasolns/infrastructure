@@ -202,7 +202,27 @@ If deploying the application to restore an existing backup consider adding
  the `GLPICRYPT` environment variable so the `glpycrypt.key` file is restored 
  instead of GLPI having a new one generated.
 
-  -e "@glpi/k8s/ansible/defaults/main.yaml" \
+[NOTE]
+====
+To generate the base64 encoding perform the following steps.
+
+Tar the glpicrypt file. The name of the file inside the TAR GZ must be 
+ `glpicrypt.key`.
+
+[source,bash]
+----
+tar czvf glpicrypt.key.tgz glpicrypt.key
+----
+
+Base64 encode the file.
+
+[source,bash]
+----
+cat /tmp/glpicrypt.key.tgz | base64 -w 0
+----
+
+These are the contents to be passed to the `glpicrypt_targz_file`.
+====
 
 [source,bash]
 ----

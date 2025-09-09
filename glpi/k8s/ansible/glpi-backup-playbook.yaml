@@ -76,12 +76,9 @@
     - name: "Backup GLPI database"
       kubernetes.core.k8s_exec:
         command: "mysqldump --defaults-extra-file=/tmp/.sqlpwd -u {{ db_bk_user }}  glpi"
-        # kubeconfig: "{{ k8s_config_file }}"
         namespace: "{{ k8s_ns }}"
         pod: "{{ mariadb_pod_name }}"
       register: mysqldump_res
-      # environment:
-      #   MYSQL_PWD: "{{ db_bk_pw }}"
 
     - name: "Remove password file"
       kubernetes.core.k8s_exec:
@@ -112,7 +109,6 @@
     - name: "Backup GLPI files"
       kubernetes.core.k8s_exec:
         command: "tar --warning=no-file-changed -czvf /tmp/{{ backup_file_prefix }}.files.tgz /var/lib/glpi"
-        # kubeconfig: "{{ k8s_config_file }}"
         namespace: "{{ k8s_ns }}"
         pod: "{{ glpi_pod_name }}"
       register: glpi_file_bk_res
@@ -120,7 +116,6 @@
   # kubectl -n glpi cp ${GLPI_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz
     - name: "Download file backup"
       kubernetes.core.k8s_cp:
-        # kubeconfig: "{{ k8s_config_file }}"
         namespace: "{{ k8s_ns }}"
         pod: "{{ glpi_pod_name }}"
         state: from_pod
@@ -150,8 +145,8 @@
   # kubectl -n glpi exec -it ${GLPI_POD} -- tar --warning=no-file-changed -czvf /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz /var/www/html/plugins
     - name: "Backup GLPI config"
       kubernetes.core.k8s_exec:
-        command: "tar --warning=no-file-changed -czvf /tmp/{{ backup_file_prefix }}.config.tgz /var/www/html/glpi/config"
-        # kubeconfig: "{{ k8s_config_file }}"
+        #command: "tar --warning=no-file-changed -czvf /tmp/{{ backup_file_prefix }}.config.tgz /var/www/html/glpi/config"
+        command: "tar --warning=no-file-changed -czvf /tmp/{{ backup_file_prefix }}.config.tgz /etc/glpi"
         namespace: "{{ k8s_ns }}"
         pod: "{{ glpi_pod_name }}"
       register: glpi_config_bk_res

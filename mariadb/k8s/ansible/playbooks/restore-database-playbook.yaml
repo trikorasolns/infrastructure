@@ -40,14 +40,6 @@
         namespace: "{{ app_namespace }}"
       register: mariadb_secret_res
 
-    - name: "Print mariadb_secret_res result"
-      ansible.builtin.debug: 
-        msg: 
-          - "mariadb_secret_res: {{ mariadb_secret_res }}"
-          - "mariadb_secret_res: {{ mariadb_secret_res.resources[0] }}"
-          - "mariadb_secret_res: {{ mariadb_secret_res.resources[0].data }}"
-          - "mariadb_secret_res: {{ mariadb_secret_res.resources[0].data.MYSQL_ROOT_PASSWORD }}"
-          - "mariadb_secret_res: {{ mariadb_secret_res.resources[0].data.MYSQL_ROOT_PASSWORD | b64decode }}"
     - name: "Set variable with mariadb root password"
       ansible.builtin.set_fact:
         mariadb_root_pw: "{{ mariadb_secret_res.resources[0].data.MYSQL_ROOT_PASSWORD | b64decode }}"
@@ -68,7 +60,7 @@
         command: |
           ls -la /tmp
       environment:
-        MYSQL_PWD: mariadb_root_pw
+        MYSQL_PWD: "{{ mariadb_root_pw }}"
       register: print_res
 
     - name: "Print print_res result"
