@@ -84,10 +84,10 @@ app_namespace: keycloak
 db_name: keycloak
 db_user: keycloak
 db_password: keycloak
-glpi_url: glpi.localdomain
+#glpi_url: glpi.localdomain
 glpi_version: "10.0.9"
 k8s_host: myhost
-trikora_helm_project_dir: /tmp/trikora-helm-charts
+#trikora_helm_project_dir: /tmp/trikora-helm-charts
 ----
 
 == Prepare

@@ -14,16 +14,65 @@ Upgrade instructions.
 
 All upgrades require an export file with the database on the starting version.
 
-== Before starting
-
-[.lead]
-Check if the source Odoo is correct by importing it to a new instance.
 
 [source,bash]
 ----
-ansible-playbook odoo/podman/upgrade/ansible/start-from-version.yaml -e from_version=16
-ansible-playbook odoo/podman/upgrade/ansible/upgrade-playbook.yaml -e from_version=16 -e to_version=17
+ansible-playbook odoo/podman/upgrade/ansible/python-venv.yaml \
+  -e temporary_folder=/z/_tmp
 ----
+
+
+== Upgrade with Ansible
+
+ansible-playbook odoo/podman/upgrade/ansible/start-from-version.yaml -e from_version=16
+
+[source,bash]
+----
+ansible-playbook odoo/podman/upgrade/ansible/upgrade-playbook.yaml \
+  -e from_version=16 -e to_version=17 \
+  -e odoo_master_pw=${ODOO_MASTER_PW} \
+  -e odoo_bk_file=${ODOO_BK_FILE} \
+  -e perform_manual_upgrade=true
+----
+
+Other options.
+
+[%header, cols="1, 4"]
+|===
+
+| Option
+| Description
+
+| `openupgradelib_tag`
+
+[.fuchsia]#string#
+
+| Specify the openupgradelib tag to use on the upgrade.
+
+Default: `3.11.1`
+
+Known options:
+
+* `master`
+
+| skip_fuctional_check
+
+[.fuchsia]#bool#
+
+| Description
+
+| openupgrade_commit
+
+[.fuchsia]#string#
+
+| Description
+
+* 95c496e7e1824287ab9031f5f066440d8fb48a1b
+
+|===
+
+
+== Upgrade manually 
 
 Or do the process manually.
 
@@ -282,7 +331,7 @@ Generate pip `requirements.txt` file for the `openupgradelib` version.
 [source,bash]
 ----
 python -m pip freeze | grep openupgradelib > requirements.txt
-----odoo/podman/upgrade/ansible/upgrade-playbook.yaml
+----
 
 Generate a requirements folder with the downloaded `openupgradelib` library.
 
@@ -476,6 +525,139 @@ Odoo Server 17.0-20240429
 
 ==== Solution
 
-Remove the Onboarding and Offobarding activities using the Odoo UI.
+Remove the Onboarding and Offboarding activities and the Onboarding as well as 
+ the Offboarding plans, using the Odoo UI.
 
 Remove the image and restart the upgrade process.
+
+=== ValueError: Wrong value for account.report.filter_account_type: 'false'
+
+*Problem*
+
+Upgrade fails with the following error.
+
+[source,]
+----
+2025-09-04 11:53:40,681 23 ERROR trikorasolns odoo.modules.registry: Failed to load registry 
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/odoo/modules/registry.py", line 110, in new
+    odoo.modules.load_modules(registry, force_demo, status, update_module)
+  File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 477, in load_modules
+    processed_modules += load_marked_modules(env, graph,
+  File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 365, in load_marked_modules
+    loaded, processed = load_module_graph(
+  File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 237, in load_module_graph
+    module._update_translations(overwrite=overwrite)
+  File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_module.py", line 846, in _update_translations
+    self.env['ir.module.module']._load_module_terms(mod_names, filter_lang, overwrite)
+  File "/usr/lib/python3/dist-packages/odoo/addons/account/models/ir_module.py", line 76, in _load_module_terms
+    super()._load_module_terms(modules, langs, overwrite)
+  File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_module.py", line 942, in _load_module_terms
+    translation_importer.save(overwrite=overwrite)
+  File "/usr/lib/python3/dist-packages/odoo/tools/translate.py", line 1448, in save
+    env.flush_all()
+  File "/usr/lib/python3/dist-packages/odoo/api.py", line 721, in flush_all
+    self._recompute_all()
+  File "/usr/lib/python3/dist-packages/odoo/api.py", line 717, in _recompute_all
+    self[field.model_name]._recompute_field(field)
+  File "/usr/lib/python3/dist-packages/odoo/models.py", line 6949, in _recompute_field
+    field.recompute(records)
+  File "/usr/lib/python3/dist-packages/odoo/fields.py", line 1367, in recompute
+    apply_except_missing(self.compute_value, recs)
+  File "/usr/lib/python3/dist-packages/odoo/fields.py", line 1340, in apply_except_missing
+    func(records)
+  File "/usr/lib/python3/dist-packages/odoo/fields.py", line 1389, in compute_value
+    records._compute_field_value(self)
+  File "/usr/lib/python3/dist-packages/odoo/models.py", line 4913, in _compute_field_value
+    fields.determine(field.compute, self)
+  File "/usr/lib/python3/dist-packages/odoo/fields.py", line 105, in determine
+    return needle(records, *args)
+  File "/usr/lib/python3/dist-packages/odoo/addons/account/models/account_report.py", line 130, in <lambda>
+    compute=lambda x: x._compute_report_option_filter('filter_account_type', 'disabled'), readonly=False, store=True, depends=['root_report_id'],
+  File "/usr/lib/python3/dist-packages/odoo/addons/account/models/account_report.py", line 154, in _compute_report_option_filter
+    report[field_name] = report.root_report_id[field_name]
+  File "/usr/lib/python3/dist-packages/odoo/models.py", line 6678, in __setitem__
+    return self._fields[key].__set__(self, value)
+  File "/usr/lib/python3/dist-packages/odoo/fields.py", line 1302, in __set__
+    self.write(protected_records, value)
+  File "/usr/lib/python3/dist-packages/odoo/fields.py", line 1121, in write
+    cache_value = self.convert_to_cache(value, records)
+  File "/usr/lib/python3/dist-packages/odoo/fields.py", line 2838, in convert_to_cache
+    raise ValueError("Wrong value for %s: %r" % (self, value))
+ValueError: Wrong value for account.report.filter_account_type: 'false'
+----
+
+*Symptom*
+
+*Cause*
+
+Queried the `account_report` table to get the contents of the `filter_account_type`.
+
+[source,sql]
+----
+select ar.filter_account_type  
+from account_report ar ;
+----
+
+The `filter_account_type` is boolean and probably should have a different type.
+
+*Solution*
+
+Set the field to null.
+
+[source,sql]
+----
+update account_report
+set filter_account_type = null;
+----
+
+Delete records as they don't seem to be used.
+
+[source,sql]
+----
+delete from account_report;
+----
+
+=== KeyError: 'planned_hours'
+
+*Problem*
+
+Upgrade fails with the following error.
+
+[source,]
+----
+2025-09-04 13:10:10,971 22 WARNING trikorasolns OpenUpgrade: Module Unknown: Not dropping the column of field subtask_planned_hours of model project.task 
+2025-09-04 13:10:11,013 22 INFO trikorasolns odoo.models.unlink: User #1 deleted ir.model.data records with IDs: [17006] 
+2025-09-04 13:10:11,013 22 INFO trikorasolns odoo.models.unlink: User #1 deleted ir.model.fields records with IDs: [6391] 
+2025-09-04 13:10:11,014 22 INFO trikorasolns odoo.addons.base.models.ir_model: Deleting 6390@ir.model.fields (project.field_project_task__planned_hours) 
+2025-09-04 13:10:11,098 22 WARNING trikorasolns odoo.modules.loading: Transient module states were reset 
+2025-09-04 13:10:11,099 22 ERROR trikorasolns odoo.modules.registry: Failed to load registry 
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/odoo/modules/registry.py", line 110, in new
+    odoo.modules.load_modules(registry, force_demo, status, update_module)
+  File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 537, in load_modules
+    env['ir.model.data']._process_end(processed_modules)
+  File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_model.py", line 2588, in _process_end
+    self._process_end_unlink_record(record)
+  File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_model.py", line 2517, in _process_end_unlink_record
+    record.unlink()
+  File "/usr/lib/python3/dist-packages/odoo/addons/mail/models/ir_model_fields.py", line 52, in unlink
+    'sequence': self.env[field.model_id.model]._mail_track_get_field_sequence(field.name),
+  File "/usr/lib/python3/dist-packages/odoo/addons/mail/models/models.py", line 181, in _mail_track_get_field_sequence
+    self._fields[fname], 'tracking',
+KeyError: 'planned_hours'
+----
+
+*Symptom*
+
+*Cause*
+
+*Solution*
+
+Delete all `planned_hours` on `project_task`.
+
+[source,sql]
+----
+update project_task set planned_hours = null;
+----
+

@@ -7,16 +7,9 @@
     - name: "Validate app_namespace"
       assert:
         that:
-          - "app_namespace is defined and (trikora_helm_project_dir | length > 0)"
+          - "app_namespace is defined"
         fail_msg: "app_namespace must be defined"
         success_msg: "Deploying into {{ app_namespace }} namespace"
-
-    - name: "Validate trikora_helm_project_dir"
-      assert:
-        that:
-          - "trikora_helm_project_dir is defined and (trikora_helm_project_dir | length > 0)"
-        fail_msg: "trikora_helm_project_dir must be defined"
-        success_msg: "Using Trikora Helm from {{ trikora_helm_project_dir }}"
 
     - name: "Validate gitlab_version"
       assert:
@@ -46,10 +39,10 @@
     - name: "Deploy Gitlab version {{ app_version }}"
       kubernetes.core.helm:
         name: gitlab
-        chart_ref: "{{ trikora_helm_project_dir }}/charts/gitlab"
+        chart_ref: "{% if trikora_helm_project_dir is defined %}{{ trikora_helm_project_dir }}/charts/gitlab{% else %}trikorasolns/gitlab{% endif %}"
         release_namespace: "{{ app_namespace }}"
         wait: true
-        replace: true
+        replace: false
         values_files:
           - "{{ target_values_file}}"
       register: gitlab_helm_res 

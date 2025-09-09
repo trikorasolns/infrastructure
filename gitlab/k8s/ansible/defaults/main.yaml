@@ -1,11 +1,21 @@
 app_name: gitlab
 app_namespace: gitlab
-app_version: "15.11.13"
-app_image_tag: "15.11.13-ee.0"
+app_version: "18.3.1"
+app_image_tag: "18.3.1-ee.0"
+#gitlab_version: "15.4.0"
+
+# https://docs.gitlab.com/ee/administration/package_information/postgresql_versions.html
+#db_image_tag: 13.11
+#db_image_tag: 14.11
+db_image_tag: 16.8
 
 db_name: gitlab
 db_user: gitlab
-storage_class: local-storage
+
+# Storage is defined on it's own kubernetes file.
+#storage_class_rwo: csi-rbd-sc
+#storage_class_rwx: csi-cephfs-sc
+#storage_class: local-storage
 
 volumes:
   - name: gitlab-var-opt-local
@@ -22,8 +32,3 @@ volumes:
     owner_user: 26
     owner_group: 26
     component: database
-
-# https://docs.gitlab.com/ee/administration/package_information/postgresql_versions.html
-db_image_tag: 13.11
-
-#gitlab_version: "15.4.0"

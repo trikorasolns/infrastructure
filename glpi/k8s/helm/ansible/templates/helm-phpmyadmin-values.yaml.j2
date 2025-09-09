@@ -3,7 +3,7 @@ ingress:
   className: "nginx"
   annotations: {}
   hosts:
-    - host: {% if glpi_url is defined %}phpmyadmin.{{ glpi_url }}{% else %}UNDEFINED_HOST{% endif %}
+    - host: phpmyadmin.{{ app_name }}.{{ local_domain }}
       paths:
         - path: /
           pathType: Prefix
@@ -13,3 +13,4 @@ ingress:
 
 phpmyadmin:
   rootPassword: {{ phpmyadmin_root_pw }}
+  

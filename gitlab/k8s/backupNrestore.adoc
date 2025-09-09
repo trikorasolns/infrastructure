@@ -23,7 +23,7 @@ Reference:
 Set the root location of the backup folder.
 [source,bash]
 ----
-$ BACKUP_ROOT_FOLDER=/z/_backup
+BACKUP_ROOT_FOLDER=/z/_backup
 ----
 
 == Backup

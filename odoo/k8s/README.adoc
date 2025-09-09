@@ -13,7 +13,7 @@
 [.lead]
 Odoo on a Kubernetes cluster.
 
-This document describes ths Odoo deployement and maintenance tasks on a 
+This document describes ths Odoo deployment and maintenance tasks on a 
  Kubernetes cluster.
 
 == Considerations

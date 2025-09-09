@@ -1,5 +1,5 @@
 ---
-- name: "Install PostgreSQL"
+- name: "Install PostgreSQL - {{ db_image_tag }}"
   hosts: "{{ k8s_host | default ('localhost') }}"
   gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
 
@@ -37,10 +37,10 @@
     - name: "Deploy PostgreSQL with Helm"
       kubernetes.core.helm:
         name: postgresql
-        chart_ref: "{{ trikora_helm_project_dir }}/charts/postgresql"
+        chart_ref: "{% if trikora_helm_project_dir is defined %}{{ trikora_helm_project_dir }}/charts/postgresql{% else %}trikorasolns/postgresql{% endif %}"
         release_namespace: "{{ app_namespace }}"
         wait: true
-        replace: true
+        replace: false
         values_files:
           - /tmp/helm-pgsql-values.yaml
       register: pgsql_helm_res 

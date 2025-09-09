@@ -1,5 +1,5 @@
 ---
-- name: "Uninstall Odoo"
+- name: "Uninstall Odoo - {{ app_version }}"
   hosts: "localhost"
   gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
 
@@ -22,7 +22,7 @@
         release_namespace: "{{ app_namespace }}"
       register: odoo_helm_res 
 
-    - name: "Free the GLPI PV so they become available"
+    - name: "Free the Odoo PV so they become available"
       ansible.builtin.shell: |
         kubectl patch pv {{ app_namespace }}-{{ item }}-pv -p '{"spec":{"claimRef": null}}'
       # kubernetes.core.k8s:
@@ -36,8 +36,11 @@
         - odoo-web-configs
         - odoo-web-data
         # - postgresql
+      register: patch_pv_claimref_null
+      failed_when: patch_pv_claimref_null.rc > 0 and "NotFound" not in patch_pv_claimref_null.stderr
+      changed_when: patch_pv_claimref_null.rc == 0 and "NotFound" not in patch_pv_claimref_null.stderr
 
-    - name: "Patch the GLPI PV so they will be bound to the correct PVC"
+    - name: "Patch the Odoo PV so they will be bound to the correct PVC"
       ansible.builtin.shell: |
         kubectl patch pv {{ app_namespace }}-{{ item }}-pv -p '{"spec":{"claimRef": {"name": "{{ item }}", "namespace": "{{ app_namespace }}"}}}'
       loop:
@@ -45,4 +48,7 @@
         - odoo-web-configs
         - odoo-web-data
         # - postgresql
+      register: patch_pv
+      failed_when: patch_pv.rc > 0 and "NotFound" not in patch_pv.stderr
+      changed_when: patch_pv.rc == 0 and "NotFound" not in patch_pv.stderr
 ...

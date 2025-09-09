@@ -14,6 +14,7 @@
 
 == Prepare
 
+=== Host Path
 Create the namespace.
 
 [source,bash]
@@ -35,7 +36,14 @@ ansible-playbook -e k8s_host=${K8S_HOST} kubernetes/ansible/host_path/app-pv-pre
 
 == Install 
 
-== PostgreSQL
+Create namespace.
+
+[source,bash]
+----
+kc create namespace $(cat gitlab/k8s/ansible/defaults/main.yaml | yq -r .app_namespace)
+----
+
+=== PostgreSQL
 
 Install PostgreSQL. The PV have already been provisioned in the preparation 
  steps.
@@ -45,18 +53,17 @@ This will deploy a PostgreSQL database on the application namespace.
 [source,bash]
 ----
 ansible-playbook pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml \
+  -e "@kubernetes/storage/ceph/ansible/defaults/main.yaml" \
   -e "@gitlab/k8s/ansible/defaults/main.yaml" \
-  -e trikora_helm_project_dir=${TRIKORA_HELM} \
   -e db_password=${DB_PASSWORD}
 ----
 
-== Redis
+=== Redis
 
 [source,bash]
 ----
 ansible-playbook gitlab/k8s/helm/ansible/redis-install-playbook.yaml \
-  -e "@gitlab/k8s/ansible/defaults/main.yaml" \
-  -e trikora_helm_project_dir=${TRIKORA_HELM}
+  -e "@gitlab/k8s/ansible/defaults/main.yaml"
 ----
 
 Installing manually with Helm would be.
@@ -75,16 +82,16 @@ ansible-playbook gitlab/k8s/helm/ansible/redis-install-playbook.yaml \
   -e trikora_helm_project_dir=${TRIKORA_HELM}
 ----
 
-== GitLab
+=== GitLab
 
 Deploy the `gitlab` application using the `trikorasolns/gitlab` helm chart.
 
 [source,bash]
 ----
 ansible-playbook gitlab/k8s/helm/ansible/gitlab-install-playbook.yaml \
+  -e "@kubernetes/storage/ceph/ansible/defaults/main.yaml" \
   -e "@gitlab/k8s/ansible/defaults/main.yaml" \
   -e "@_local_config/network.yaml" \
-  -e trikora_helm_project_dir=${TRIKORA_HELM} \
   -e db_password=${DB_PASSWORD} 
 ----
 

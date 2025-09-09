@@ -7,16 +7,9 @@
     - name: "Validate app_namespace"
       assert:
         that:
-          - "app_namespace is defined and (trikora_helm_project_dir | length > 0)"
+          - "app_namespace is defined"
         fail_msg: "app_namespace must be defined"
         success_msg: "Deploying into {{ app_namespace }} namespace"
-
-    - name: "Validate trikora_helm_project_dir"
-      assert:
-        that:
-          - "trikora_helm_project_dir is defined and (trikora_helm_project_dir | length > 0)"
-        fail_msg: "trikora_helm_project_dir must be defined"
-        success_msg: "Using Trikora Helm from {{ trikora_helm_project_dir }}"
 
   tasks:
 

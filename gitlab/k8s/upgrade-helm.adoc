@@ -12,85 +12,91 @@
 References: 
 
 * https://docs.gitlab.com/ee/update/plan_your_upgrade.html
-* Upgrade paths: https://docs.gitlab.com/ee/update/#upgrade-paths
+* Upgrade paths: https://docs.gitlab.com/update/upgrade_paths/
+* https://docs.gitlab.com/administration/package_information/postgresql_versions/
 
-== Pre-upgrade tasks
+== Upgrade
 
-Either generate the correct `values.yaml` file...
+[.lead]
+Instructions to upgrade Gitlab.
+
+The system must be up and running.
+
+* PostgreSQL database
+* Redis
+* Gitlab
+
+Update the helm values file with the target version and container image tag 
+ for that version.
+
+[source,yaml]
+----
+app_version: "18.3.1"
+app_image_tag: "18.3.1-ee.0"
+----
+
+Execute the link:./install-helm.adoc[GitLab installation Ansible Playbook].
+
+Follow the upgrade process by tailing the GitLab pod.
 
 [source,bash]
 ----
-$ jinja2 --format=yaml -DGITLAB_URL=${GITLAB_URL} -DGITLAB_VERSION=15.8.0 gitlab/k8s/helm/helm-gitlab-values.yaml > /tmp/helm-gitlab-values.yaml
+kubectl -n gitlab logs -f $(kubectl get pods -n gitlab -o json | jq -r '.items.[] | select( (.metadata.name | startswith("gitlab")) and .status.phase == "Running")'.metadata.name)
 ----
 
-...or extract the existing helm values for the application
+After it's finished, check status...
 
 [source,bash]
 ----
-helm get values -n gitlab gitlab > /tmp/gitlab_values.yaml
+kubectl -n gitlab exec -it $(kubectl get pods -n gitlab -o json | jq -r '.items.[] | select( (.metadata.name | startswith("gitlab")) and .status.phase == "Running")'.metadata.name) -- gitlab-ctl status
 ----
 
-Check the gitlab upgrade path to identify the required stops.
+[source,]
+----
+run: alertmanager: (pid 723) 2968s; run: log: (pid 513) 2981s
+run: gitaly: (pid 529) 2979s; run: log: (pid 309) 3194s
+run: gitlab-exporter: (pid 707) 2969s; run: log: (pid 473) 2991s
+run: gitlab-kas: (pid 678) 2970s; run: log: (pid 342) 3184s
+run: gitlab-workhorse: (pid 689) 2970s; run: log: (pid 423) 3005s
+run: logrotate: (pid 271) 3202s; run: log: (pid 279) 3201s
+run: nginx: (pid 445) 3000s; run: log: (pid 464) 2997s
+run: prometheus: (pid 709) 2969s; run: log: (pid 495) 2985s
+run: puma: (pid 365) 3018s; run: log: (pid 372) 3017s
+run: sidekiq: (pid 380) 3012s; run: log: (pid 388) 3011s
+run: sshd: (pid 27) 3219s; run: log: (pid 268) 3206s
+----
 
-== Upgrade procedure
-
-Get the gitlab pod ID.
+...and also check gitlab version.
 
 [source,bash]
 ----
-GITLAB_POD=$(kubectl get pods --namespace gitlab -l "app.kubernetes.io/name=gitlab,app.kubernetes.io/instance=gitlab" -o jsonpath="{.items[0].metadata.name}")
+kubectl -n gitlab exec -it $(kubectl get pods -n gitlab -o json | jq -r '.items.[] | select( (.metadata.name | startswith("gitlab")) and .status.phase == "Running")'.metadata.name) -- gitlab-rake gitlab:env:info
 ----
 
-Check the status of batched background migrations.
-
-[source,bash]
+[source,]
 ----
-kc -n gitlab exec -it ${GITLAB_POD} -- gitlab-psql -c "SELECT job_class_name, table_name, column_name, job_arguments FROM batched_background_migrations WHERE status NOT IN(3, 6);"
-----
-
-Reconfigure gitlab.
-
-[source,bash]
-----
-kc -n gitlab exec -it ${GITLAB_POD} -- gitlab-ctl reconfigure
-----
-
-Update the APP_VERSION on the helm chart.
-
-Upgrade gitlab by executing `helm upgrade`.
-
-[source,bash]
-----
-$ helm upgrade --install --namespace gitlab -f /tmp/gitlab_values.yaml gitlab gitlab
-----
-
-Check gitlab version.
-
-[source,bash]
-----
-kc -n gitlab exec -it ${GITLAB_POD} -- gitlab-rake gitlab:env:info
 System information
 System:		
 Proxy:		no
 Current User:	git
 Using RVM:	no
-Ruby Version:	2.7.7p221
-Gem Version:	3.1.6
-Bundler Version:2.3.15
+Ruby Version:	3.0.6p216
+Gem Version:	3.4.18
+Bundler Version:2.4.18
 Rake Version:	13.0.6
-Redis Version:	6.2.8
+Redis Version:	7.0.12
 Sidekiq Version:6.5.7
 Go Version:	unknown
 
 GitLab information
-Version:	15.7.5-ee
-Revision:	677cf66582b
+Version:	16.3.9-ee
+Revision:	75488cc22f5
 Directory:	/opt/gitlab/embedded/service/gitlab-rails
 DB Adapter:	PostgreSQL
-DB Version:	12.5
-URL:		http://gitlab.localdomain
-HTTP Clone URL:	http://gitlab.localdomain/some-group/some-project.git
-SSH Clone URL:	ssh://git@gitlab.localdomain:30022/some-group/some-project.git
+DB Version:	13.11
+URL:		http://gitlab.trikorasolutions.net
+HTTP Clone URL:	http://gitlab.trikorasolutions.net/some-group/some-project.git
+SSH Clone URL:	ssh://git@gitlab.trikorasolutions.net:30022/some-group/some-project.git
 Elasticsearch:	no
 Geo:		no
 Using LDAP:	no
@@ -98,33 +104,72 @@ Using Omniauth:	yes
 Omniauth Providers: 
 
 GitLab Shell
-Version:	14.14.0
+Version:	14.26.0
 Repository storages:
 - default: 	unix:/var/opt/gitlab/gitaly/gitaly.socket
 GitLab Shell path:		/opt/gitlab/embedded/service/gitlab-shell
 
+Gitaly
+- default Address: 	unix:/var/opt/gitlab/gitaly/gitaly.socket
+- default Version: 	16.3.9
+- default Git Version: 	2.41.0.gl1
 ----
 
-Reference: 
-  * https://docs.gitlab.com/charts/installation/migration/index.html
+Log into the application and check it works correctly.
 
+Finally, backup you upgraded system using the backup Ansible Playbook.
 
-Copy the backup tar file to the `var/opt/gitlab/backups/` folder.
+== Upgrading the database
 
+If an upgrade requires upgrading the database version perform the following 
+ steps.
+
+Backup the GitLab installation using the GitLab backup Ansible Playbook.
+
+Uninstall all components:
+
+* GitLab
+* Redis
+* PostgreSQL
+
+Update the database version variable (`db_image_tag`) on the helm variables 
+ file.
+
+[source,yaml]
+----
+db_image_tag: 16.8
+----
+
+Install the new PostgreSQL database.
+
+Install Redis.
+
+Install GitLab with the version backed up.
+
+Restore the backup.
 
 == Execution history
 
+[%header,cols="1m,1m"]
+|===
 
-* 15.11.13 <=
-* 16.0.10 (PG >= 13.6)
-* 16.1.8
-* 16.2.11
-* 16.3.9
-* 16.7.10
-* 16.11.10
-* 17.1.8
-* 17.3.7
-* 17.5.4
-* 17.7.1
-* 17.8.z
-* 17.11.z
+| GitLab Version
+| PostgreSQL Version
+
+|  18.3.1 | 16.8
+|  18.2.5 | 16.8
+|  17.11.7 | 16.8
+|  17.8.7 | 16.8
+2+| Backup GitLab 17.5.5, upgrade PostgreSQL to 16.8 and restore GitLab
+|  17.5.5 | 14.11
+|  17.3.7 | 14.11
+|  17.1.8 | 14.11
+2+| Backup GitLab 16.11.10, upgrade PostgreSQL to 14.11 and restore GitLab
+|  16.11.10 | 13.11
+|  16.7.10 | 13.11
+|  16.3.9 | 13.11
+| 15.11.13 | 13.11
+2+| PostgreSQL version 13.11
+
+
+|===
