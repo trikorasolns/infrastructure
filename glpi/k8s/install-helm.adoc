@@ -81,16 +81,6 @@ a| Database password
 
 a| Database root password
 
-| `glpi_url`
-
-[.fuchsia]#string#
-
-[.red]#required# 
-
-a| URL to be assigned to the host on the Ingress controller.
-
-_e.g._: `glpi.localdomain`
-
 | `glpi_version`
 
 [.fuchsia]#string#
@@ -116,15 +106,11 @@ a| Kubernetes node
 
 [.fuchsia]#string#
 
-[.red]#required# 
-
 a| Folder, on the host system, with a clone of the link:https://github.com/trikorasolns/helm-charts[TrikoraSolutions Helm Charts] Github repository.
 
 | `k8s.pv_root_folder`
 
 [.fuchsia]#string#
-
-[.red]#required# 
 
 a| Root folder on the node FS where the required PV sub-folders will be created.
 
@@ -160,6 +146,8 @@ trikora_helm_project_dir: /tmp/trikora-helm-charts
 
 Create the namespace.
 
+=== Host Path
+
 [source,bash]
 ----
 ansible-playbook kubernetes/ansible/host_path/app-prepare-playbook.yaml \
@@ -182,16 +170,14 @@ ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-prepare
 
 === MariaDB
 
-Install MariaDB. The PV have already been provisioned in the preparation 
- steps.
-
 This will deploy a MariaDB database on the application namespace.
+
+  -e "@glpi/k8s/ansible/defaults/main.yaml" \
 
 [source,bash]
 ----
 ansible-playbook mariadb/k8s/helm/ansible/mariadb-install-playbook.yaml \
-  -e "@glpi/k8s/ansible/defaults/main.yaml" \
-  -e trikora_helm_project_dir=${TRIKORA_HELM} \
+  -e "@_local_config/glpi.yaml" \
   -e db_password=${DB_PASSWORD}
 ----
 
@@ -216,12 +202,13 @@ If deploying the application to restore an existing backup consider adding
  the `GLPICRYPT` environment variable so the `glpycrypt.key` file is restored 
  instead of GLPI having a new one generated.
 
+  -e "@glpi/k8s/ansible/defaults/main.yaml" \
+
 [source,bash]
 ----
 ansible-playbook glpi/k8s/helm/ansible/glpi-install-playbook.yaml \
-  -e "@glpi/k8s/ansible/defaults/main.yaml" \
+  -e "@_local_config/glpi.yaml" \
   -e "@_local_config/network.yaml" \
-  -e trikora_helm_project_dir=${TRIKORA_HELM} \
   -e db_password=${DB_PASSWORD} \
   -e glpicrypt_targz_file="${GLPICRYPT_TARGZ_FILE}"
 ----

@@ -1,6 +1,7 @@
 db_name: postgres
 db_user: odoo
-# storage_class: local-storage
+storage_class_rwo: csi-rbd-sc
+storage_class_rwx: csi-cephfs-sc
 
 volumes:
   - name: odoo-web-addons

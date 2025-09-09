@@ -27,3 +27,9 @@ persistence:
   dbUser: odoo
   dbPassword: {{ db_password }}
   dbHost: postgresql.{{ app_name }}.svc.cluster.local
+{% if storage_class_rwo is defined or storage_class is defined %}
+  storageClassName: "{{ storage_class_rwo | default(storage_class) }}"
+{% endif %}
+
+podSecurityContext: 
+  fsGroup: 101

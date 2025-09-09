@@ -2,20 +2,8 @@
   hosts: "localhost"
   gather_facts: false
   vars:
-    to_python_version: 3.10
-    temporary_folder: /z/_tmp
-
-  pre_tasks:
-    - name: "Check variables"
-      ansible.builtin.assert:
-        that:
-          # - "k8s_config_file is defined"
-          - "from_version is defined"
-          - "to_version is defined"
-
-    - name: "Set variables"
-      ansible.builtin.set_fact:
-        odoo_old_pod_name: "{{ odoo_old_pod_name_prefix }}{{ from_version }}"
+    to_python_version: "3.10"
+    temporary_folder: /tmp
 
   tasks:
 

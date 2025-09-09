@@ -27,34 +27,35 @@ DB_PASSWORD=admin123
 ODOO_VERSION=18
 ----
 
-
 === Create kubernetes namespace
-
-[.lead]
-Create the PV and it's FS folders on the kubernetes node.
-
-This task will be performed by Ansible.
 
 Create the namespace.
 
 [source,bash]
 ----
-ansible-playbook kubernetes/ansible/host_path/app-prepare-playbook.yaml \
+kubectl create ns odoo-${ODOO_VERSION}
+----
+
+=== Host Path storage
+
+[.lead]
+Create the PV and it's FS folders on the kubernetes node.
+
+[source,bash]
+----
+ansible-playbook kubernetes/storage/host_path/host_path/app-prepare-playbook.yaml \
   -e "@odoo/k8s/ansible/defaults/main.yaml" \
   -e "@odoo/k8s/ansible/defaults/odoo-${ODOO_VERSION}.yaml"
 ----
-
-=== Prepare PV
 
 Create HostPath PVs and their supporting folders.
 
 [source,bash]
 ----
-ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-prepare-playbook.yaml -K \
+ansible-playbook --limit ${K8S_HOST} kubernetes/storage/host_path/app-pv-prepare-playbook.yaml -K \
   -e "@odoo/k8s/ansible/defaults/main.yaml" \
   -e "@odoo/k8s/ansible/defaults/odoo-${ODOO_VERSION}.yaml"
 ----
-
 
 == Install
 
@@ -63,8 +64,15 @@ ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-prepare
 The name of the database must be `postgres`.
 ====
 
+[NOTE]
+====
+Optionally, add the trikora_helm_project_dir with a local copy of the 
+link:https://github.com/trikorasolns/helm-charts[trikorasolns/helm-charts GitHub project].
+====
+
 === PostgreSQL
 
+[.lead]
 Install PostgreSQL using the Helm Chart.
 
 [source,bash]
@@ -72,21 +80,22 @@ Install PostgreSQL using the Helm Chart.
 ansible-playbook pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml \
   -e "@odoo/k8s/ansible/defaults/main.yaml" \
   -e "@odoo/k8s/ansible/defaults/odoo-${ODOO_VERSION}.yaml" \
-  -e trikora_helm_project_dir=${TRIKORA_HELM} \
   -e db_password=${DB_PASSWORD}
 ----
 
+
 === Odoo
 
+[.lead]
 Install Odoo using the Helm Chart.
 
 [source,bash]
 ----
 ansible-playbook odoo/k8s/helm/ansible/odoo-install-playbook.yaml \
+  -e "@_local_config/network.yaml" \
   -e "@odoo/k8s/ansible/defaults/main.yaml" \
   -e "@odoo/k8s/ansible/defaults/odoo-${ODOO_VERSION}.yaml" \
   -e "@_local_config/network.yaml" \
-  -e trikora_helm_project_dir=${TRIKORA_HELM} \
   -e db_password=${DB_PASSWORD} 
 ----
 

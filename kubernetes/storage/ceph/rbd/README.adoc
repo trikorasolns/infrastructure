@@ -1,0 +1,85 @@
+= Ceph RBD Storage on Kubernetes
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: Ceph Storage on Kubernetes
+:source-highlighter: highlight.js
+
+== Introduction
+
+[.lead]
+This section describes deploying Ceph Rados Block Device (RBD) storage on Kubernetes.
+
+== Ceph
+
+[.lead]
+Ceph configuration to create and init a RBD pool and the access user.
+
+Create pool.
+
+[source,bash]
+----
+ceph osd pool create k8sprd_rbd
+----
+
+Init pool
+
+[source,bash]
+----
+rbd pool init k8sprd_rbd
+----
+
+Create user to access the pool.
+
+[source,bash]
+----
+ceph auth get-or-create client.k8sprd \
+  mon 'profile rbd' \
+  osd 'profile rbd pool=k8sprd_rbd' \
+  mgr 'profile rbd pool=k8sprd_rbd'
+----
+
+
+== Deployment
+
+References:
+
+* https://docs.ceph.com/en/latest/rbd/rbd-kubernetes/
+
+
+== Troubleshooting
+
+=== POD in Pending status
+
+*Problem*
+
+A POD that uses a PVC stays in _Pending_ status.
+
+*Symptom*
+
+POD shows a _FailedScheduling_ Warning stating `pod has unbound immediate PersistentVolumeClaims`.
+
+[source,]
+----
+Warning  FailedScheduling  100s (x2 over 6m55s)  default-scheduler  0/3 nodes are available: pod has unbound immediate PersistentVolumeClaims. preemption: 0/3 nodes are available: 3 Preemption is not helpful for scheduling.
+----
+
+And the PVC is on _Pending_ state.
+
+*Cause*
+
+The provisioner doesn't seem to be provisioning the volume, check the provisioner POD logs for the problem.
+
+[source,bash]
+----
+kubectl logs -f csi-rbdplugin-provisioner-6fdbc55585-w5rr5 csi-provisioner
+----
+
+[source,]
+----
+E0901 20:04:16.026480       1 controller.go:974] "Unhandled Error" err="error syncing claim \"d617efb2-f04d-4721-9e87-a4f1a2030e12\": failed to provision volume with StorageClass \"csi-rbd-sc\": rpc error: code = Internal desc = pool not found: pool (kubernetes) not found in Ceph cluster" logger="UnhandledError"
+----
+
+*Solution*
+
+Apply the fix for the logged message, in this case the pool name was incorrect.

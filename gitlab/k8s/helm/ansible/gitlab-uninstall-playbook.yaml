@@ -7,24 +7,16 @@
     - name: "Validate app_namespace"
       assert:
         that:
-          - "app_namespace is defined and (trikora_helm_project_dir | length > 0)"
+          - "app_namespace is defined"
         fail_msg: "app_namespace must be defined"
         success_msg: "Deploying into {{ app_namespace }} namespace"
-
-    - name: "Validate trikora_helm_project_dir"
-      assert:
-        that:
-          - "trikora_helm_project_dir is defined and (trikora_helm_project_dir | length > 0)"
-        fail_msg: "trikora_helm_project_dir must be defined"
-        success_msg: "Using Trikora Helm from {{ trikora_helm_project_dir }}"
-
 
   tasks:
 
     - name: "Uninstall Gitlab using Helm"
       kubernetes.core.helm:
         name: gitlab
-        chart_ref: "{{ trikora_helm_project_dir }}/charts/gitlab"
+        chart_ref: "{% if trikora_helm_project_dir is defined %}{{ trikora_helm_project_dir }}/charts/gitlab{% else %}trikorasolns/gitlab{% endif %}"
         release_namespace: "{{ app_namespace }}"
         state: absent
 
@@ -35,6 +27,7 @@
         - gitlab-var-opt-local
         - gitlab-var-log-local
         - gitlab-etc-local
+      when: storage_class is defined and storage_class == 'local-storage'
 
     - name: "Patch the GLPI PV so they will be bound to the correct PVC"
       ansible.builtin.shell: |
@@ -43,4 +36,5 @@
         - gitlab-var-opt-local
         - gitlab-var-log-local
         - gitlab-etc-local
+      when: storage_class is defined and storage_class == 'local-storage'
 ...

@@ -10,16 +10,9 @@
         that:
           - "app_namespace is defined and (app_namespace | length > 0)"
           - "app_version is defined and (app_version | length > 0)"
-          - "trikora_helm_project_dir is defined and (trikora_helm_project_dir | length > 0)"
         fail_msg: 
           - "app_namespace must be defined with the kubernetes namespace"
           - "app_version must be defined with the GLPI version"
-          - "trikora_helm_project_dir must be defined with the location for the trikorasolns/helm project"
-
-    # - name: Set facts from k8s host
-    #   ansible.builtin.set_fact:
-    #     k8s:
-    #       pv_root_folder: "{{ hostvars[k8s_host]['k8s']['pv_root_folder'] }}"
 
   tasks:
 
@@ -44,7 +37,7 @@
     - name: "Deploy GLPI with Helm"
       kubernetes.core.helm:
         name: glpi
-        chart_ref: "{{ trikora_helm_project_dir }}/charts/glpi"
+        chart_ref: "{% if trikora_helm_project_dir is defined %}{{ trikora_helm_project_dir }}/charts/odoo{% else %}trikorasolns/glpi{% endif %}"
         release_namespace: "{{ app_namespace }}"
         wait: true
         # replace: true

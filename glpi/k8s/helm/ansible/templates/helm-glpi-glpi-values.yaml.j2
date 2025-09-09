@@ -25,7 +25,12 @@ persistence:
   dbUser: {{ db_user }}
   dbPassword: {{ db_password }}
   dbHost: mariadb.{{ app_name }}.svc.cluster.local
-  storageClassName: local-storage
+{% if storage_class_rwo is defined or storage_class is defined %}
+  storageClassName: "{{ storage_class_rwo | default(storage_class) }}"
+{% endif %}
+
+podSecurityContext:
+  fsGroup: 33
 
 #mountPaths:
 #  config: /etc/glpi:Z

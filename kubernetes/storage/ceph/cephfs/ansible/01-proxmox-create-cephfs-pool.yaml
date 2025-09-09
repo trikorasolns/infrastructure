@@ -1,0 +1,38 @@
+---
+- name: "Create LVM DaemonSet"
+  hosts: "{{ proxmox_host }}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+
+  tasks:
+
+  - name: "Create ceph OSD pools"
+    ansible.builtin.shell: |
+      ceph osd pool create {{ ceph_filesystem }}_data 128 128
+      ceph osd pool create {{ ceph_filesystem }}_metadata 64 64
+
+  - name: "Create ceph file system"
+    ansible.builtin.shell: |
+      ceph fs new {{ ceph_filesystem }} {{ ceph_filesystem }}_metadata {{ ceph_filesystem }}_data
+
+  - name: "Lisf Ceph FS"
+    ansible.builtin.shell: |
+      ceph fs ls
+    register: cepht_fs_confirm
+
+  - name: "Print ceph FS"
+    ansible.builtin.debug:
+      msg: 
+      - "cepht_fs_confirm: {{ cepht_fs_confirm }}"
+      # - "cepht_fs_confirm yaml: {{ cepht_fs_confirm | from_yaml }}"
+
+  # - name: "Confirm the FS has been created"
+  # TODO
+  
+  - name: "Create subvolume group"
+    ansible.builtin.shell: |
+      ceph fs subvolumegroup create {{ ceph_filesystem }} csi      
+    register: cepht_fs_confirm
+...
+

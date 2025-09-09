@@ -218,23 +218,29 @@ WIP
 [.lead]
 Restore GLPI using ansible playbooks.
 
-Start the database without the application running.
+If the application is running, stop it, so that the database is running 
+ without the application.
+
+[source,bash]
+----
+kubectl -n glpi scale deployment glpi --replicas=0
+----
 
 Restore the database.
 
 [source,bash]
 ----
-ansible-playbook glpi/k8s/ansible/glpi-restore-database-playbook.yaml \
-  -e "@glpi/k8s/ansible/defaults/main.yaml" \
-  -e glpi_bk_file=${GLPI_DB_FILE_LOCATION}
+ansible-playbook mariadb/k8s/ansible/playbooks/restore-database-playbook.yaml \
+  -e "@_local_config/glpi.yaml" \
+  -e db_dump_file=${GLPI_DB_FILE_LOCATION}
 ----
 
-Restore the application.
+Restore the application files.
 
 [source,bash]
 ----
 ansible-playbook glpi/k8s/ansible/glpi-restore-files-playbook.yaml \
-  -e "@glpi/k8s/ansible/defaults/main.yaml" \
+  -e "@_local_config/glpi.yaml" \
   -e glpi_bk_file=${GLPI_BK_FILES_LOCATION}
 ----
 
