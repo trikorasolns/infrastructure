@@ -49,6 +49,21 @@
         db_bk_pw: "{{ mariadb_secret_res.resources[0].data.MYSQL_PASSWORD | b64decode }}"
       when: db_bk_pw is undefined
 
+    # - name: "print stuff..."
+    #   kubernetes.core.k8s_exec:
+    #     namespace: "{{ app_namespace }}"
+    #     pod: "{{ database_pod_name }}"
+    #     # command: ["bash","-c","MYSQL_PWD={{ db_bk_pw }} ; echo ${MYSQL_PWD}"]
+    #     command: "ls -la ; export"
+    #   # environment:
+    #   #   MYSQL_PWD: "{{ db_bk_pw }}"
+    #   register: print_res
+
+    # - name: "Print print_res result"
+    #   ansible.builtin.debug: 
+    #     msg: 
+    #       - "print_res: {{ print_res }}"
+
     # - name: "Create temporary password file"
     #   kubernetes.core.k8s_cp:
     #     namespace: "{{ app_namespace }}"
@@ -68,30 +83,23 @@
         local_path: "{{ db_dump_file }}"
         no_preserve: True
         state: to_pod
+      when: skip_copy is undefined or not (skip_copy | bool)
 
-    - name: "print stuff..."
-      kubernetes.core.k8s_exec:
-        namespace: "{{ app_namespace }}"
-        pod: "{{ database_pod_name }}"
-        command: |
-          ls -la /tmp
-      # environment:
-      #   MYSQL_PWD: "{{ mariadb_root_pw }}"
-      register: print_res
-
-    - name: "Print print_res result"
-      ansible.builtin.debug: 
-        msg: 
-          - "print_res: {{ print_res }}"
+    # - name: "Restore the database"
+    #   kubernetes.core.k8s_exec:
+    #     namespace: "{{ app_namespace }}"
+    #     pod: "{{ database_pod_name }}"
+    #     command: |
+    #       mysql -u {{ db_bk_user }} {{ db_name }} < /tmp/{{ bk_file_name }}
+    #   environment:
+    #     MYSQL_PWD: "{{ db_bk_pw }}"
+    #   register: restore_res
 
     - name: "Restore the database"
-      kubernetes.core.k8s_exec:
-        namespace: "{{ app_namespace }}"
-        pod: "{{ database_pod_name }}"
-        command: |
-          mysql -u {{ db_bk_user }} {{ db_name }} < /tmp/{{ bk_file_name }}
-      environment:
-        MYSQL_PWD: "{{ db_bk_pw }}"
+      ansible.builtin.shell: |
+        kubectl -n {{ app_namespace }} exec "{{ database_pod_name }}" --env=MYSQL_PWD="{{ db_bk_pw }}" -- mysql -u {{ db_bk_user }} {{ db_name }} -e "SOURCE /tmp/{{ bk_file_name }};"
+      # environment:
+      #   MYSQL_PWD: "{{ db_bk_pw }}"
       register: restore_res
 
     # - name: "Remove temporary password file"
