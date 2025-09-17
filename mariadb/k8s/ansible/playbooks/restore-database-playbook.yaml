@@ -49,6 +49,11 @@
         db_bk_pw: "{{ mariadb_secret_res.resources[0].data.MYSQL_PASSWORD | b64decode }}"
       when: db_bk_pw is undefined
 
+    - name: "Print print_res result"
+      ansible.builtin.debug: 
+        msg: 
+          - "db_bk_pw: {{ db_bk_pw }}"
+
     # - name: "print stuff..."
     #   kubernetes.core.k8s_exec:
     #     namespace: "{{ app_namespace }}"
@@ -97,7 +102,7 @@
 
     - name: "Restore the database"
       ansible.builtin.shell: |
-        kubectl -n {{ app_namespace }} exec "{{ database_pod_name }}" --env=MYSQL_PWD="{{ db_bk_pw }}" -- mysql -u {{ db_bk_user }} {{ db_name }} -e "SOURCE /tmp/{{ bk_file_name }};"
+        kubectl -n {{ app_namespace }} exec "{{ database_pod_name }}" -- bash -c 'MYSQL_PWD="{{ db_bk_pw }}" mysql -u root {{ db_name }} -e "SOURCE /tmp/{{ bk_file_name }};"'
       # environment:
       #   MYSQL_PWD: "{{ db_bk_pw }}"
       register: restore_res

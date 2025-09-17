@@ -25,9 +25,8 @@ Install python requirements.
 
 [source,bash]
 ----
-$ pip install -r glpi/k8s/ansible/requirements.txt
+pip install -r glpi/k8s/ansible/requirements.txt
 ----
-
 
 === Required information
 
@@ -177,8 +176,11 @@ This will deploy a MariaDB database on the application namespace.
 [source,bash]
 ----
 ansible-playbook mariadb/k8s/helm/ansible/mariadb-install-playbook.yaml \
+  -e "@glpi/k8s/ansible/defaults/main.yaml" \
+  -e "@kubernetes/storage/ceph/ansible/defaults/main.yaml" \
   -e "@_local_config/glpi.yaml" \
-  -e db_password=${DB_PASSWORD}
+  -e db_password=${DB_PASSWORD} \
+  -e db_root_password=${DB_PASSWORD}
 ----
 
 If you want to Restore a previous GLPI backup check the 
@@ -192,6 +194,7 @@ Deploy the `glpi` application using the `trikorasolns/glpi` helm chart.
 [source,bash]
 ----
 ansible-playbook glpi/k8s/helm/ansible/glpi-install-playbook.yaml \
+  -e @kubernetes/storage/ceph/ansible/defaults/main.yaml \
   -e "@glpi/k8s/ansible/defaults/main.yaml" \
   -e "@_local_config/network.yaml" \
   -e trikora_helm_project_dir=${TRIKORA_HELM} \
@@ -229,6 +232,7 @@ These are the contents to be passed to the `glpicrypt_targz_file`.
 ansible-playbook glpi/k8s/helm/ansible/glpi-install-playbook.yaml \
   -e "@_local_config/glpi.yaml" \
   -e "@_local_config/network.yaml" \
+  -e "@glpi/k8s/ansible/defaults/main.yaml" \
   -e db_password=${DB_PASSWORD} \
   -e glpicrypt_targz_file="${GLPICRYPT_TARGZ_FILE}"
 ----
@@ -319,7 +323,16 @@ ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-cleanup
   -e "@glpi/k8s/ansible/defaults/main.yaml"
 ----
 
+=== MariaDB
 
+This will uninstall the MariaDB database chart on the application namespace.
+
+[source,bash]
+----
+ansible-playbook mariadb/k8s/helm/ansible/mariadb-uninstall-playbook.yaml \
+  -e "@_local_config/glpi.yaml" \
+  -e db_password=${DB_PASSWORD}
+----
 
 
 
