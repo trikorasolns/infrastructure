@@ -1,0 +1,110 @@
+= Jenkins Helm Deployment Guide
+:author:    Antonio C.
+:email:     <ac (at) trikorasolutions (dot) com>
+:Date:      2022/05/02
+:revdate: {docdate}
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: Jenkins installation procedure with Helm.
+
+== Preparation 
+
+=== Environment variables.
+
+
+== PV
+
+[source,bash]
+----
+$ ansible-playbook jenkins/helm/ansible/playbook-jenkins-prepare.yaml -e jenkins_url="${JENKINS_URL}" -e k8s_host=${K8S_MASTER} -e @jenkins/helm/ansible/defaults/main.yaml -K
+----
+
+[source,bash]
+----
+$ helm upgrade --install jenkins ./jenkins --namespace jenkins -f /tmp/jenkins-helm-values.yaml
+----
+
+== Install
+
+[source,bash]
+----
+ansible-playbook jenkins/helm/ansible/jenkins-install-playbook.yaml \
+  -e "@_local_config/network.yaml" \
+  -e "@kubernetes/storage/ceph/ansible/defaults/main.yaml" \
+  -e "@jenkins/helm/ansible/defaults/main.yaml" \
+  -e jenkins_casc_config_file=${JENKINS_CASC_CONFIG_FILE}
+----
+
+== Keycloak
+
+|===
+
+| Attribute
+| Value
+
+| Authorization
+| *Off*
+
+|===
+
+Add the `sub` (Subject) mapper th the `jenkins-dedicated` Scope.
+
+=== Patch Keycloak configuration
+
+Download the Keycloak Jenkins client adaptor configuration in 
+ `keycloak-oidc-keycloak-json` format.
+
+[WARNING]
+====
+Make sure the `verify-token-audience` attribute as `false` value otherwise 
+ Jenkins will fail to authenticate.
+
+Make sure there is no `policy-enforcer.credentials attribute, otherwise 
+ Jenkins will fail to authenticate with `Unrecognized field "credentials"` error.
+ 
+[source,]
+----
+ Unrecognized field "credentials" (class org.keycloak.representations.adapters.config.PolicyEnforcerConfig), not marked as ignorable (8 known properties: "enforcement-mode", "user-managed-access", "on-deny-redirect-to", "path-cache", "paths", "lazy-load-paths", "claim-information-point", "http-method-as-scope"])
+----
+
+====
+
+[source,json]
+----
+{
+  "realm": "<realm>",
+  "auth-server-url": "<keycloak_url>",
+  "ssl-required": "external",
+  "resource": "<cliend_id>",
+  "verify-token-audience": false,
+  "credentials": {
+    "secret": "<client_secret>"
+  },
+  "confidential-port": 0
+}
+----
+
+Encode in _base64_.
+
+[source,bash]
+----
+echo '{
+  "realm": "<realm>",
+  "auth-server-url": "<keycloak_url>",
+  "ssl-required": "external",
+  "resource": "<cliend_id>",
+  "verify-token-audience": false,
+  "credentials": {
+    "secret": "<client_secret>"
+  },
+  "confidential-port": 0
+}' | base64 -w 0
+----
+
+Patch the Jenkins secret.
+
+[source,bash]
+----
+kubectl -n jenkins patch secret casc-secret -p '{"data": {"keycloak_json": "${BASE64ENCODEDKEYCLOAKCLIENTADAPTORCONFIG"}}'
+----
