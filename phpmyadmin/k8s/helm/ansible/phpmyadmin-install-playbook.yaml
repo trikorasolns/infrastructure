@@ -1,0 +1,48 @@
+---
+- name: "Install phpMyAdmin"
+  hosts: "localhost"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+
+    # - name: "Include project default vars"
+    #   ansible.builtin.include_vars: "{{ file_to_include }}"
+    #   loop:
+    #     - defaults/main.yaml
+    #   loop_control:
+    #     loop_var: file_to_include
+
+    - name: "Validate variables"
+      assert:
+        that:
+          - "app_namespace is defined"
+          - "app_name is defined"
+          - "local_domain is defined"
+          - "phpmyadmin_root_pw is defined"
+        fail_msg: 
+          - "app_namespace must be defined with the kubernetes namespace"
+          - "app_name must be defined with the kubernetes namespace"
+          - "local_domain must be defined with the kubernetes namespace"
+          - "phpmyadmin_root_pw must be defined with the kubernetes namespace"
+
+  tasks:
+
+    - name: "Template database values file"
+      ansible.builtin.template:
+        src: helm-phpmyadmin-values.yaml.j2
+        dest: /tmp/helm-phpmyadmin-values.yaml
+
+    - name: "Deploy phpMyAdmin with Helm"
+      kubernetes.core.helm:
+        name: phpmyadmin
+        chart_ref: "{% if trikora_helm_project_dir is defined %}{{ trikora_helm_project_dir }}/charts/phpmyadmin{% else %}trikorasolns/phpmyadmin{% endif %}"
+        release_namespace: "{{ app_namespace }}"
+        wait: true
+        replace: false
+        values_files:
+          - /tmp/helm-phpmyadmin-values.yaml
+      register: phpmyadmin_helm_res 
+
+    #helm install --namespace glpi phpmyadmin phpmyadmin
+
+...

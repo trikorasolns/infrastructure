@@ -1,0 +1,27 @@
+---
+- name: "Install PostgreSQL"
+  hosts: "{{ k8s_host }}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+
+  tasks:
+
+    - name: "PostgreSQL: Create Config folder"
+      ansible.builtin.file:
+        state: directory
+        path: "/tmp/pgsql-config"
+
+    - include_tasks: tasks/template-pgsql.yaml
+
+    - name: "PostgreSQL: Apply Config"
+      ansible.builtin.shell: "kubectl create -f /tmp/pgsql-config/{{ item }}"
+      loop:
+        - 01-postgres-serviceaccount.yaml
+        - 05-postgres-secret.yaml
+        - 10-postgres-configmap.yaml
+        - 25-postgres-pvc.yaml
+        - 30-postgres-statefulset.yaml
+        - 40-postgres-service.yaml
+
+...

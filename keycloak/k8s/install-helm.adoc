@@ -123,6 +123,19 @@ ansible-playbook pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml \
   -e db_password=${DB_PASSWORD}
 ----
 
+Install phpMyAdmin.
+
+.Playbook command to install the phpMyAdmin console.
+[source,bash]
+----
+ansible-playbook phpmyadmin/k8s/helm/ansible/phpmyadmin-install-playbook.yaml \
+  -e @_local_config/network.yaml \
+  -e @keycloak/k8s/ansible/defaults/main.yaml \
+  -e phpmyadmin_root_pw=${DB_PASSWORD}
+----
+
+Install Keycloak.
+
 [source,bash]
 ----
 ansible-playbook keycloak/k8s/helm/ansible/keycloak-install-playbook.yaml \

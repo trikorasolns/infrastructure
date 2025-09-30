@@ -1,5 +1,5 @@
 ---
-- name: "Install GLPI"
+- name: "Cleanup keycloak"
   hosts: "localhost"
   gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
 
@@ -20,20 +20,20 @@
         release_namespace: "{{ app_namespace }}"
         state: absent
         wait: true
-      register: glpi_helm_res 
+      register: keycloak_helm_res 
 
-    # - name: "Uninstall PostgreSQL chart"
-    #   kubernetes.core.helm:
-    #     name: "postgresql"
-    #     release_namespace: "{{ app_namespace }}"
-    #     state: absent
-    #     wait: true
-    #   register: glpi_helm_res
+    - name: "Uninstall PostgreSQL chart"
+      kubernetes.core.helm:
+        name: "postgresql"
+        release_namespace: "{{ app_namespace }}"
+        state: absent
+        wait: true
+      register: keycloak_helm_res
 
-    # - name: "Remove keycloak namespace"
-    #   kubernetes.core.k8s:
-    #     name: "{{ app_namespace }}"
-    #     api_version: v1
-    #     kind: Namespace
-    #     state: absent
+    - name: "Remove keycloak namespace"
+      kubernetes.core.k8s:
+        name: "{{ app_namespace }}"
+        api_version: v1
+        kind: Namespace
+        state: absent
 ...

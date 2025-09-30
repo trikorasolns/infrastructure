@@ -1,5 +1,5 @@
 ---
-- name: "Install KEYCLOAK"
+- name: "Init Keyclok namespace"
   hosts: "localhost"
   gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
 

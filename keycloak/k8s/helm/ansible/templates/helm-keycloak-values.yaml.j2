@@ -18,7 +18,7 @@ persistence:
   dbType: {{ db_type }}
   dbPort: {{ db_port }}
   dbName: {{ db_name }}
-  dbUser: {{ db_user }}}
+  dbUser: {{ db_user }}
   dbPassword: {{ db_password }}
 {% if storage_class_rwo is defined or storage_class is defined %}
   storageClassName: "{{ storage_class_rwo | default(storage_class) }}"
