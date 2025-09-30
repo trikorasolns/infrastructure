@@ -9,8 +9,8 @@
         that:
           - "pod_name is defined"
           - "db_name is defined"
-          - "db_user is defined"
-          - "db_password is defined"
+          # - "db_user is defined"
+          # - "db_password is defined"
           # - "pgsql_version is defined"
     
   tasks:
