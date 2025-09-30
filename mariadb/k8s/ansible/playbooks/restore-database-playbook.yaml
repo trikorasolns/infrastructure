@@ -11,6 +11,10 @@
         fail_msg: "Backup file location must be defined under the db_dump_file variable (-e db_dump_file=...)"
         success_msg: "Backup file is {{ db_dump_file }}"
 
+    - name: "Set variables"
+      ansible.builtin.set_fact:
+        db_bk_user: "{{ db_user | default('root') }}"
+
   tasks:
 
     - name: "Set the database POD name"
@@ -40,17 +44,41 @@
         namespace: "{{ app_namespace }}"
       register: mariadb_secret_res
 
-    - name: "Print mariadb_secret_res result"
-      ansible.builtin.debug: 
-        msg: 
-          - "mariadb_secret_res: {{ mariadb_secret_res }}"
-          - "mariadb_secret_res: {{ mariadb_secret_res.resources[0] }}"
-          - "mariadb_secret_res: {{ mariadb_secret_res.resources[0].data }}"
-          - "mariadb_secret_res: {{ mariadb_secret_res.resources[0].data.MYSQL_ROOT_PASSWORD }}"
-          - "mariadb_secret_res: {{ mariadb_secret_res.resources[0].data.MYSQL_ROOT_PASSWORD | b64decode }}"
     - name: "Set variable with mariadb root password"
       ansible.builtin.set_fact:
-        mariadb_root_pw: "{{ mariadb_secret_res.resources[0].data.MYSQL_ROOT_PASSWORD | b64decode }}"
+        db_bk_pw: "{{ mariadb_secret_res.resources[0].data.MYSQL_PASSWORD | b64decode }}"
+      when: db_bk_pw is undefined
+
+    - name: "Print print_res result"
+      ansible.builtin.debug: 
+        msg: 
+          - "db_bk_pw: {{ db_bk_pw }}"
+
+    # - name: "print stuff..."
+    #   kubernetes.core.k8s_exec:
+    #     namespace: "{{ app_namespace }}"
+    #     pod: "{{ database_pod_name }}"
+    #     # command: ["bash","-c","MYSQL_PWD={{ db_bk_pw }} ; echo ${MYSQL_PWD}"]
+    #     command: "ls -la ; export"
+    #   # environment:
+    #   #   MYSQL_PWD: "{{ db_bk_pw }}"
+    #   register: print_res
+
+    # - name: "Print print_res result"
+    #   ansible.builtin.debug: 
+    #     msg: 
+    #       - "print_res: {{ print_res }}"
+
+    # - name: "Create temporary password file"
+    #   kubernetes.core.k8s_cp:
+    #     namespace: "{{ app_namespace }}"
+    #     pod: "{{ database_pod_name }}"
+    #     remote_path: /tmp/.sqlpwd
+    #     content: |
+    #       [mysqldump]
+    #       user="{{ db_bk_user }}"
+    #       password="{{ db_bk_pw }}"
+    #   when: db_bk_pw is defined
 
     - name: "Copy the backup file to the kubernetes pod"
       kubernetes.core.k8s_cp:
@@ -60,31 +88,31 @@
         local_path: "{{ db_dump_file }}"
         no_preserve: True
         state: to_pod
+      when: skip_copy is undefined or not (skip_copy | bool)
 
-    - name: "print stuff..."
-      kubernetes.core.k8s_exec:
-        namespace: "{{ app_namespace }}"
-        pod: "{{ database_pod_name }}"
-        command: |
-          ls -la /tmp
-      environment:
-        MYSQL_PWD: mariadb_root_pw
-      register: print_res
-
-    - name: "Print print_res result"
-      ansible.builtin.debug: 
-        msg: 
-          - "print_res: {{ print_res }}"
+    # - name: "Restore the database"
+    #   kubernetes.core.k8s_exec:
+    #     namespace: "{{ app_namespace }}"
+    #     pod: "{{ database_pod_name }}"
+    #     command: |
+    #       mysql -u {{ db_bk_user }} {{ db_name }} < /tmp/{{ bk_file_name }}
+    #   environment:
+    #     MYSQL_PWD: "{{ db_bk_pw }}"
+    #   register: restore_res
 
     - name: "Restore the database"
-      kubernetes.core.k8s_exec:
-        namespace: "{{ app_namespace }}"
-        pod: "{{ database_pod_name }}"
-        command: |
-          mysql -uroot glpi < /tmp/{{ bk_file_name }}
-      environment:
-        MYSQL_PWD: mariadb_root_pw
+      ansible.builtin.shell: |
+        kubectl -n {{ app_namespace }} exec "{{ database_pod_name }}" -- bash -c 'MYSQL_PWD="{{ db_bk_pw }}" mysql -u root {{ db_name }} -e "SOURCE /tmp/{{ bk_file_name }};"'
+      # environment:
+      #   MYSQL_PWD: "{{ db_bk_pw }}"
       register: restore_res
+
+    # - name: "Remove temporary password file"
+    #   kubernetes.core.k8s_exec:
+    #     command: "rm -f /tmp/.sqlpwd"
+    #     namespace: "{{ k8s_ns }}"
+    #     pod: "{{ mariadb_pod_name }}"
+    #   ignore_errors: true
 
     - name: "Print restore result"
       ansible.builtin.debug: 

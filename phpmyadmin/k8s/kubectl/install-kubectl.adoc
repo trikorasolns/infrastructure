@@ -1,0 +1,449 @@
+= Gitlab Deployment Guide (manually with kubectl)
+:author:    Antonio C.
+:email:     <ac (at) trikorasolutions (dot) com>
+// :Date:      20210222
+:revdate: {docdate}
+:toc:       left
+:toclevels: 3
+:toc-title: Table of Contents
+:icons: font
+:description: This document describes the k8s installation process for GitLab
+
+Reference: 
+  * https://piotrminkowski.com/2020/10/19/gitlab-ci-cd-on-kubernetes/
+  * https://mattymo.io/deploying-gitlab-on-microk8s/
+
+== Implement
+
+Password
+
+== Prepare
+
+=== Persistent Storage 
+
+==== NFS
+
+===== Postgre SQL
+
+Create the folders on the NFS server...
+[source,bash]
+----
+$ mkdir -p /mnt/data/k8s-nfs/${VM_NAME}/gitlab/pgsql
+----
+
+...and export them...
+
+[source]
+----
+/mnt/data/k8s-nfs/${VM_NAME}/gitlab/pgsql ${VM_NAME}.localdomain(rw,sync,no_subtree_check,no_all_squash)
+----
+
+Change the folder owner to 999, otherwise the container won't be enabled to manage the folder.
+
+[source,bash]
+----
+$ sudo chown 999 -R pgsql/
+$ ll
+drwxrwxrwx. 2 polkitd root 10 feb  8 23:39 pgsql
+----
+
+===== Gitlab
+
+Reference: https://docs.gitlab.com/omnibus/docker/#install-gitlab-using-docker-engine
+
+> NOTE: If you are on SELinux, then add :Z to the container folders, e.g. /etc/gitlab:Z to ensure that the process has enough permissions to create the config files in the mounted volumes. 
+
+[source,bash]
+----
+sudo mkdir -p /mnt/data/k8s-nfs/${VM_NAME}/gitlab/gitlab-etc
+sudo mkdir -p /mnt/data/k8s-nfs/${VM_NAME}/gitlab/gitlab-var-log
+sudo mkdir -p /mnt/data/k8s-nfs/${VM_NAME}/gitlab/gitlab-var-opt
+
+/mnt/data/k8s-nfs/${VM_NAME}/gitlab/gitlab-etc ${VM_NAME}.localdomain(rw,sync,no_subtree_check,no_root_squash)
+/mnt/data/k8s-nfs/${VM_NAME}/gitlab/gitlab-var-log ${VM_NAME}.localdomain(rw,sync,no_subtree_check,no_root_squash)
+/mnt/data/k8s-nfs/${VM_NAME}/gitlab/gitlab-var-opt ${VM_NAME}.localdomain(rw,sync,no_subtree_check,no_root_squash)
+----
+
+The gitlab folders must be owned by user id 1000.
+
+[source,bash]
+----
+$ chown 1000 -R gitlab-*
+----
+
+==== Local
+
+Set the root of the Gitlab K8s folders.
+
+[source,bash]
+----
+GITLAB_K8S_ROOT_FOLDER=/data/k8s/pv/gitlab
+----
+
+Create the required folders.
+
+[source,bash]
+----
+# mkdir -p ${GITLAB_K8S_ROOT_FOLDER}/{gitlab-var-opt,gitlab-var-log,gitlab-etc,pgsql}
+----
+
+Change the permissions of the folder.
+
+[source,bash]
+----
+# chmod 777 -R ${GITLAB_K8S_ROOT_FOLDER}/pgsql
+# chmod 777 -R ${GITLAB_K8S_ROOT_FOLDER}/gitlab-*
+----
+
+== Deploy
+
+TIP: Before executing the `kubectl` statements confirm that the context being used is the correct one.
+
+Reference:
+* https://aws.amazon.com/blogs/containers/introducing-security-groups-for-pods/
+
+Create gitlab namespace
+
+[source,bash]
+----
+$ kubectl create namespace gitlab
+----
+
+To remove the gitlab namespace.
+
+[source,bash]
+----
+kubectl delete -f gitlab/00-gitlab-namespace.yaml
+----
+
+== PostgreSQL
+
+=== Persistent Storage
+
+==== NFS
+
+NFS Persistence storage.
+
+[source,bash]
+----
+kubectl create -f gitlab/kubectl/postgresql/24-postgres-pv-nfs.yaml
+kubectl create -f gitlab/kubectl/postgresql/25-postgres-pvc-nfs.yaml
+----
+
+==== Local
+
+Local Persistence storage.
+
+WARNING: Requires local storage class be created.
+
+Deploy local persistence storage.
+
+[source,bash]
+----
+kubectl create -f gitlab/kubectl/postgresql/24-postgres-pv-local.yaml
+kubectl create -f gitlab/kubectl/postgresql/25-postgres-pvc-local.yaml
+----
+
+Delete local Persistence storage.
+
+[source,bash]
+----
+kubectl delete -f gitlab/kubectl/postgresql/25-postgres-pvc-local.yaml
+kubectl delete -f gitlab/kubectl/postgresql/24-postgres-pv-local.yaml
+----
+
+==== Local - Gluster Mount
+
+Local Persistence storage using a glusterfs mount point.
+
+WARNING: Requires local storage class be created.
+
+Persistence storage.
+
+[source,bash]
+----
+kubectl delete -f gitlab/kubectl/postgresql/25-postgres-pvc-local.yaml
+kubectl delete -f gitlab/kubectl/postgresql/24-postgres-pv-local-gluster-mount.yaml
+
+kubectl create -f gitlab/kubectl/postgresql/24-postgres-pv-local-gluster-mount.yaml
+kubectl create -f gitlab/kubectl/postgresql/25-postgres-pvc-local.yaml
+----
+
+
+==== HostPath
+
+Deploy local persistence storage.
+
+[source,bash]
+----
+kubectl create -f gitlab/kubectl/postgresql/24-postgres-pv-hostpath.yaml
+kubectl create -f gitlab/kubectl/postgresql/25-postgres-pvc-hostpath.yaml
+----
+
+Delete local Persistence storage.
+
+[source,bash]
+----
+kubectl delete -f gitlab/kubectl/postgresql/25-postgres-pvc-hostpath.yaml
+kubectl delete -f gitlab/kubectl/postgresql/24-postgres-pv-hostpath.yaml
+----
+
+== Install
+
+=== PostgreSQL
+
+Deploy the postgreSQL database.
+
+.Apply the yaml files for deploying the gitlab postgreSQL infrastructure
+[source,bash]
+----
+kubectl create -f gitlab/kubectl/postgresql/05-postgres-secret.yaml
+kubectl create -f gitlab/kubectl/postgresql/10-postgres-configmap.yaml
+kubectl create -f gitlab/kubectl/postgresql/30-postgres-statefulset.yaml
+kubectl create -f gitlab/kubectl/postgresql/40-postgres-service.yaml
+----
+
+Get information from the service.
+
+[source,bash]
+----
+$ kubectl -n gitlab get pod gitlab-postgres-0
+NAME                READY   STATUS    RESTARTS   AGE
+gitlab-postgres-0   1/1     Running   0          11m
+----
+
+[source,bash]
+----
+$ kubectl -n gitlab get svc postgres
+NAME       TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+postgres   NodePort   10.111.52.248   <none>        5432:30759/TCP   14s
+----
+
+==== Connecting to postgresql
+
+To connect from inside the cluster use the following host `service.namespace.svc.cluster.local`.
+
+`postgres.gitlab.svc.cluster.local`
+
+=== pgAdmin - PostgreSQL Tools
+
+Deploy the pgAdmin PostgreSQL administration tool.
+
+[source,bash]
+----
+kubectl create -f gitlab/kubectl/pgadmin/05-pgadmin-secret.yaml
+kubectl create -f gitlab/kubectl/pgadmin/10-pgadmin-configmap.yaml 
+kubectl create -f gitlab/kubectl/pgadmin/20-pgadmin-deployment.yaml 
+kubectl create -f gitlab/kubectl/pgadmin/30-pgadmin-service.yaml 
+kubectl create -f gitlab/kubectl/pgadmin/40-pgadmin-ingress.yaml 
+----
+
+Open the pgadmin webpage - http://gitlab-pgadmin.${VM_NAME}.localdomain/
+
+== Redis
+
+Reference: 
+* https://www.jasonmars.org/2020/04/28/deploy-gitlab-service-in-kubernetes-quick-without-the-fuss-4-mins-or-less/
+* https://docs.gitlab.com/12.10/omnibus/settings/redis.html
+
+Deploy the redis infrastructure.
+
+[source,bash]
+----
+kubectl create -f gitlab/redis/20-redis-deployment.yaml
+kubectl create -f gitlab/redis/30-gitlab-service.yaml
+----
+
+Delete the redis infrastructure.
+
+[source,bash]
+----
+kubectl delete -f gitlab/redis/30-gitlab-service.yaml
+kubectl delete -f gitlab/redis/20-redis-deployment.yaml
+----
+
+
+== GitLab
+
+Deploy and delete instructions for the GitLab application.
+
+=== Persistent Storage
+
+Persistence storage.
+
+==== NFS
+
+NFS Persistence storage.
+
+[source,bash]
+----
+$ kubectl delete -f gitlab/kubectl/gitlab/16-gitlab-pvc-nfs.yaml
+$ kubectl delete -f gitlab/kubectl/gitlab/15-gitlab-pv-nfs.yaml
+
+$ kubectl create -f gitlab/kubectl/gitlab/15-gitlab-pv-nfs.yaml
+$ kubectl create -f gitlab/kubectl/gitlab/16-gitlab-pvc-nfs.yaml
+----
+
+==== Local
+
+Local Persistence storage.
+
+WARNING: Requires local storage class be created.
+
+*Deploy* the gitlab PV and PVC for *LOCAL FS*.
+
+[source,bash]
+----
+kubectl create -f gitlab/kubectl/gitlab/15-gitlab-pv-local.yaml
+kubectl create -f gitlab/kubectl/gitlab/16-gitlab-pvc-local.yaml
+----
+
+*Delete* the gitlab PV and PVC for *LOCAL FS*.
+
+[source,bash]
+----
+kubectl delete -f gitlab/kubectl/gitlab/16-gitlab-pvc-local.yaml
+kubectl delete -f gitlab/kubectl/gitlab/15-gitlab-pv-local.yaml
+----
+
+==== Local - Gluster Mount
+
+Local Persistence storage with glusterfs mount.
+
+WARNING: Requires local storage class be created.
+
+*Deploy* gitlab PV and PVC for *LOCAL GLUSTER FS*.
+
+[source,bash]
+----
+kubectl create -f gitlab/kubectl/gitlab/15-gitlab-pv-local-gluster-mount.yaml
+kubectl create -f gitlab/kubectl/gitlab/16-gitlab-pvc-local.yaml
+----
+
+*Delete* gitlab PV and PVC for *LOCAL GLUSTER FS*.
+
+[source,bash]
+----
+kubectl delete -f gitlab/kubectl/gitlab/16-gitlab-pvc-local.yaml
+kubectl delete -f gitlab/kubectl/gitlab/15-gitlab-pv-local-gluster-mount.yaml
+----
+
+==== HostPath
+
+Host Path.
+
+WARNING: Requires local storage class be created.
+
+*Deploy* the gitlab PV and PVC for *LOCAL FS*.
+
+[source,bash]
+----
+kubectl create -f gitlab/kubectl/gitlab/16-gitlab-pvc-hostPath.yaml
+----
+
+*Delete* the gitlab PV and PVC for *LOCAL FS*.
+
+[source,bash]
+----
+kubectl delete -f gitlab/kubectl/gitlab/16-gitlab-pvc-hostPath.yaml
+----
+
+=== GitLab Application
+
+The configmap and ingress services are different from the development and production environments.
+
+==== Development 
+
+Deploy
+
+[source,bash]
+----
+kubectl create -f gitlab/kubectl/gitlab/04-gitlab-configmap-dev.yaml
+kubectl create -f gitlab/kubectl/gitlab/40-gitlab-ingress-dev.yaml
+----
+
+Delete
+
+[source,bash]
+----
+kubectl delete -f gitlab/kubectl/gitlab/40-gitlab-ingress-dev.yaml
+kubectl delete -f gitlab/kubectl/gitlab/04-gitlab-configmap-dev.yaml
+----
+
+==== Production
+
+Deploy.
+
+[source,bash]
+----
+kubectl create -f gitlab/kubectl/gitlab/04-gitlab-configmap-prod.yaml
+kubectl create -f gitlab/kubectl/gitlab/40-gitlab-ingress-prod.yaml
+----
+
+WARNING: The `ingress` dependes on the host IP.
+
+Delete.
+
+[source,bash]
+----
+kubectl delete -f gitlab/kubectl/gitlab/40-gitlab-ingress-prod.yaml
+kubectl delete -f gitlab/kubectl/gitlab/04-gitlab-configmap-prod.yaml
+----
+
+==== Common
+
+*Deploy* the gitlab infrastructure.
+
+[source,bash]
+----
+kubectl create -f gitlab/kubectl/gitlab/01-gitlab-rbac.yaml
+kubectl create -f gitlab/kubectl/gitlab/20-gitlab-deployment.yaml
+kubectl create -f gitlab/kubectl/gitlab/30-gitlab-service.yaml
+----
+
+*Delete* the gitlab infrastructure.
+
+[source,bash]
+----
+kubectl delete -f gitlab/kubectl/gitlab/30-gitlab-service.yaml
+kubectl delete -f gitlab/kubectl/gitlab/20-gitlab-deployment.yaml
+kubectl delete -f gitlab/kubectl/gitlab/01-gitlab-rbac.yaml
+----
+
+=== ssh
+
+TBD
+
+References: 
+
+* https://github.com/kubernetes/ingress-nginx/issues/1823
+* https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/exposing-tcp-udp-services.md
+
+== GitLab - k8s Integration
+
+== Uninstall
+
+== pgAdmin - PostgreSQL Tools
+
+[source,bash]
+----
+kubectl delete -f gitlab/kubectl/pgadmin/40-pgadmin-ingress.yaml 
+kubectl delete -f gitlab/kubectl/pgadmin/30-pgadmin-service.yaml 
+kubectl delete -f gitlab/kubectl/pgadmin/20-pgadmin-deployment.yaml 
+kubectl delete -f gitlab/kubectl/pgadmin/10-pgadmin-configmap.yaml 
+kubectl delete -f gitlab/kubectl/pgadmin/05-pgadmin-secret.yaml
+----
+
+=== PostgreSQL
+
+Delete the postgreSQL database.
+
+.Apply the yaml files for deleting the gitlab postgreSQL infrastructure
+[source,bash]
+----
+kubectl delete -f gitlab/kubectl/postgresql/40-postgres-service.yaml
+kubectl delete -f gitlab/kubectl/postgresql/30-postgres-statefulset.yaml
+kubectl delete -f gitlab/kubectl/postgresql/10-postgres-configmap.yaml
+kubectl delete -f gitlab/kubectl/postgresql/05-postgres-secret.yaml
+----
+

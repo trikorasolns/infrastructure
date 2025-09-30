@@ -1,11 +1,16 @@
 app_name: glpi
 app_namespace: glpi
-app_version: "10.0.9"
-app_image_tag: "0.0.10"
+app_version: "10.0.19"
+app_image_tag: "0.1.3"
 
 db_name: glpi
 db_user: glpi
-storage_class: local-storage
+glpi_version: "10.0.19"
+#db_image_tag: 10.11.14
+mariadb_version: 10.11.14
+#mariadb_version: 11.8.3
+
+# storage_class: local-storage
 
 volumes:
   - name: glpi-config
@@ -32,7 +37,3 @@ volumes:
     capacity: 1Gi
     component: analytics
 
-db_image_tag: 10.10.2
-
-# glpi_version: 10.0.9
-# mariadb_version: 10.10.2

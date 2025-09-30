@@ -10,7 +10,7 @@ image:
   # repository: quay.io/centos7/mariadb-103-centos7
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  # tag: "10.2.14"
+  # tag: "10.11.14"
   tag: "{{ mariadb_version }}"
 
 imagePullSecrets: []
@@ -28,8 +28,9 @@ serviceAccount:
 
 podAnnotations: {}
 
-podSecurityContext:
-  fsGroup: 999
+podSecurityContext: {}
+#  fsGroup: 911
+#  fsUser: 1029
 
 securityContext: {}
   # capabilities:
@@ -74,7 +75,7 @@ persistence:
   dbUser: {{ db_user | default('glpi') }}
   dbPassword: {{ db_password }}
   mysqlDataSize: 10Gi
-  mountPath: "/var/lib/mysql:Z"
+  #mountPath: "/var/lib/mysql:Z"
   dbName: {{ db_name | default('glpi') }}
   dbPassword: {{ db_password }}
 {% if db_root_password is defined %}

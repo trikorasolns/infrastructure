@@ -1,0 +1,27 @@
+---
+- name: "Remove PostgreSQL"
+  hosts: "{{ k8s_host }}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+
+  tasks:
+
+    - name: "PostgreSQL: Create Config folder"
+      ansible.builtin.file:
+        state: directory
+        path: "/tmp/pgsql-config"
+
+    - include_tasks: tasks/template-pgsql.yaml
+
+    - name: "PostgreSQL: Apply Config"
+      ansible.builtin.shell: "kubectl delete -f /tmp/pgsql-config/{{ item }}"
+      loop:
+        - 40-postgres-service.yaml
+        - 30-postgres-statefulset.yaml
+        - 25-postgres-pvc.yaml
+        - 10-postgres-configmap.yaml
+        - 05-postgres-secret.yaml
+        - 01-postgres-serviceaccount.yaml
+      ignore_errors: true
+...

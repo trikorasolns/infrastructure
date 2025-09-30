@@ -12,18 +12,18 @@
   tasks:
   - name: "Read Openshift Install State"
     ansible.builtin.shell: |
-      dnf update
+      dnf update -y
     become: true
 
   - name: "Read Openshift Install State"
     ansible.builtin.shell: |
-      systemctl stop swap-create@zram0
+      sudo systemctl stop swap-create@zram0
+      sudo dnf remove zram-generator-defaults
     become: true
     failed_when: false
 
-  - name: "Read Openshift Install State"
+  - name: "Restart"
     ansible.builtin.shell: |
-      dnf remove zram-generator-defaults
       reboot now
     become: true
 
