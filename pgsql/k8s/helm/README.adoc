@@ -25,7 +25,7 @@ ansible-playbook pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml \
   -e "@kubernetes/storage/<storage>/ansible/defaults/main.yaml" \
   -e "@<app>/k8s/ansible/defaults/main.yaml" \
   -e db_password=${DB_PASSWORD}
-  ----
+----
 
 
 Template the helm file.

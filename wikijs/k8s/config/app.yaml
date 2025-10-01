@@ -1,0 +1,9 @@
+app_name: wikijs
+app_namespace: wikijs
+app_version: "2"
+
+url_prefix: wiki
+
+db_image_tag: "17.6"
+db_name: wikijs
+db_user: wikijs

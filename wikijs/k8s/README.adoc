@@ -1,0 +1,54 @@
+= Wiki.js on Kubernetes
+:author:    Antonio C.
+:email:     <ac (at) trikorasolutions (dot) com>
+:Revision:  1
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:source-highlighter: highlight.js
+
+
+== Installation
+
+[.lead]
+Installation instructions.
+
+Create the namespace.
+
+[source,bash]
+----
+ansible-playbook wikijs/k8s/ansible/wikijs-prepare.yaml \
+  -e "@wikijs/k8s/config/app.yaml"
+----
+
+Deploy PostgreSQL.
+
+[source,bash]
+----
+ansible-playbook pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml \
+  -e "@kubernetes/storage/ceph/ansible/defaults/main.yaml" \
+  -e "@wikijs/k8s/config/app.yaml" \
+  -e db_password=${DB_PASSWORD}
+----
+
+Deploy Wiki.js.
+
+[source,bash]
+----
+ansible-playbook wikijs/k8s/ansible/wikijs-install.yaml \
+  -e "@_local_config/network.yaml" \
+  -e "@wikijs/k8s/config/app.yaml" \
+  -e db_password=${DB_PASSWORD} 
+----
+== Uninstall
+
+[source,bash]
+----
+ansible-playbook wikijs/k8s/ansible/wikijs-uninstall.yaml \
+  -e "@wikijs/k8s/config/app.yaml"
+----
+
+[source,bash]
+----
+podman pod rm wiki.js 
+----
