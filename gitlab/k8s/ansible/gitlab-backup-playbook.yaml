@@ -107,4 +107,9 @@
         no_preserve: True
         state: from_pod
 
+    - name: "Remove backup file from POD"
+      kubernetes.core.k8s_exec:
+        namespace: "{{ k8s_ns }}"
+        pod: "{{ gitlab_pod_name }}"
+        command: "rm -f /var/opt/gitlab/backups/{{ bk_file_name }}"
 ...

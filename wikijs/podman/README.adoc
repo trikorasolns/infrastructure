@@ -49,3 +49,56 @@ podman run --pod wiki.js -d --name wiki --restart unless-stopped -e "DB_TYPE=pos
 ----
 podman pod rm wiki.js 
 ----
+
+== Backup
+
+== Restore
+
+Copy the database dump to the PostgreSQL POD.
+
+[source,bash]
+----
+kc cp -n wikijs /<backup_folder>/wikibackup.dump postgresql-0:/tmp/wikibackup.dump
+----
+
+Stop Wiki.js.
+
+[source,bash]
+----
+kubectl -n wikijs scale deployment wikijs --replicas=0
+----
+
+Connect to the database POD.
+
+[source,bash]
+----
+kubectl exec -it -n wikijs postgresql-0 -- bash
+----
+
+Drop the database
+
+[source,bash]
+----
+dropdb wikijs -U wikijs
+----
+
+Create the database
+
+[source,bash]
+----
+createdb -U wikijs wikijs
+----
+
+Restore the database.
+
+[source,bash]
+----
+cat /tmp/wikibackup.dump | pg_restore -U wikijs -d wikijs
+----
+
+Start Wiki.js.
+
+[source,bash]
+----
+kubectl -n wikijs scale deployment wikijs --replicas=1
+----
