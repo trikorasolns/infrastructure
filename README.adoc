@@ -52,6 +52,12 @@ Install the Ansible requirements.
 ansible-galaxy collection install -r requirements.yml
 ----
 
+=== Helm
+
+Install the following repositories:
+
+* trikorasolns: `helm repo add trikorasolns https://trikorasolns.github.io/helm-charts`
+
 == Infrastructure
 
 * link:./kubernetes[Kubernetes]
