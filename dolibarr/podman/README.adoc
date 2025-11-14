@@ -37,12 +37,12 @@ Deploy the database
 
 [source,bash]
 ----
-  ansible-playbook pgsql/podman/ansible/podman-install-playbook.yaml \
-    -e pod_name=dolibarr \
-    -e db_name=dolibarr \
-    -e db_user=dolibarr \
-    -e pgsql_version="17.1" \
-    -e db_password="${DB_PASSWORD:-dolibarr}"
+ansible-playbook pgsql/podman/ansible/podman-install-playbook.yaml \
+  -e pod_name=dolibarr \
+  -e db_name=dolibarr \
+  -e db_user=dolibarr \
+  -e pgsql_version="17.1" \
+  -e db_password="${DB_PASSWORD:-dolibarr}"
 ----
 
 [source,bash]
