@@ -58,6 +58,7 @@
           DOLI_COMPANY_COUNTRYCODE: "{{doli_company_countrycode | default('ES') }}"
           WWW_USER_ID: "{{www_user_id | default('1000') }}"
           WWW_GROUP_ID: "{{www_group_id | default('1000') }}"
+          DOLI_AUTH: "dolibarr,openid_connect"
         label:
           app.kubernetes.io/name: "dolibarr"
           app.kubernetes.io/instance: "{{ pod_name }}"

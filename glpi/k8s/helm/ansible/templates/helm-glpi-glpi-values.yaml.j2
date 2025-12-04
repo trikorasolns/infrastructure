@@ -42,3 +42,11 @@ application:
 {% if app_image_tag is defined %}
   glpicrypt: {{ glpi_crypt_targz_base64 }}
 {% endif %}
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi
