@@ -1,0 +1,89 @@
+= Deploy Apache Nifi on Kubernetes
+:author:    Antonio C.
+:email:     <ac (at) trikorasolutions (dot) com>
+:revdate:   {{docdate}}
+:toc:       left
+:toc-title: Table of Contents
+:icons:     font
+:description: Deploy Apache Nifi on a Kubernetes cluster
+:source-highlighter: highlight.js
+
+== Introduction
+
+[.lead]
+This document describes having Apache Nifi deployed on a Kubernetes cluster using Helm.
+
+== Install Apache Nifi Registry
+
+=== Namespace
+
+[.lead]
+Create the namespace.
+
+[source,bash]
+----
+ansible-playbook kubernetes/ansible/create-namespace-playbook.yaml \
+  -e @apache-nifi/k8s/ansible/defaults/nifi-registry.yaml
+----
+
+=== PostgreSQL
+
+[.lead]
+Install PostgreSQL using the Helm Chart.
+
+[source,bash]
+----
+ansible-playbook pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml \
+  -e @apache-nifi/k8s/ansible/defaults/nifi-registry.yaml \
+  -e @kubernetes/storage/ceph/ansible/defaults/main.yaml \
+  -e db_password=${DB_PASSWORD} \
+  -e trikora_helm_project_dir=${TRIKORA_HELM}
+----
+
+=== Apache Nifi Registry
+
+[.lead]
+Deploy Apache Nifi Registry using the trikorasolns/apache-nifi-registry helm
+ chart.
+
+[source,bash]
+----
+ansible-playbook apache-nifi/k8s/helm/ansible/apache-nifi-install-playbook.yaml \
+  -e @apache-nifi/k8s/ansible/defaults/nifi-registry.yaml \
+  -e @_local_config/network.yaml \
+  -e @kubernetes/storage/ceph/ansible/defaults/main.yaml \
+  -e trikora_helm_project_dir=${TRIKORA_HELM}
+----
+
+== Install Apache Nifi
+
+=== Namespace
+
+[.lead]
+Create the namespace.
+
+[source,bash]
+----
+ansible-playbook kubernetes/ansible/create-namespace-playbook.yaml \
+  -e @apache-nifi/k8s/ansible/defaults/main.yaml
+----
+
+Deploy Apache Nifi
+
+.Command to deploy Apache Nifi
+[source,bash]
+----
+ansible-playbook apache-nifi/k8s/helm/ansible/apache-nifi-install-playbook.yaml \
+  -e @apache-nifi/k8s/ansible/defaults/main.yaml \
+  -e @_local_config/network.yaml \
+  -e @kubernetes/storage/ceph/ansible/defaults/main.yaml \
+  -e trikora_helm_project_dir=${TRIKORA_HELM}
+----
+
+== Uninstall
+
+[source,bash]
+----
+ansible-playbook apache-nifi/k8s/helm/ansible/apache-nifi-uninstall-playbook.yaml \
+  -e @apache-nifi/k8s/ansible/defaults/main.yaml
+----
