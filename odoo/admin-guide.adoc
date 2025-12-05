@@ -31,10 +31,11 @@ ODOO_WEB_HOST=http://odoo.localdomain:8069
 [source,bash]
 ----
 ansible-playbook odoo/ansible/odoo-backup-playbook.yaml \
+  -e @odoo/k8s/ansible/defaults/odoo-17.yaml \
+  -e backup_folder=${BACKUP_ROOT_FOLDER}/odoo \
   -e odoo_master_pw=${ODOO_MASTER_PW} \
   -e odoo_db_name=${ODOO_DB} \
-  -e odoo_web_host=${ODOO_WEB_HOST} \
-  -e backup_folder=${BACKUP_ROOT_FOLDER}/odoo
+  -e odoo_web_host=${ODOO_WEB_HOST}
 ----
 
 Optional parameters.
