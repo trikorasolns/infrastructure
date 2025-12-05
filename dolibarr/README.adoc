@@ -1,0 +1,23 @@
+= Dolibarr Application
+:author:    Antonio C.
+:email:     <ac (at) trikorasolutions (dot) com>
+:Revision:  1
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: Dolibarr Application guide
+:source-highlighter: highlight.js
+
+== Introduction
+
+[.lead]
+Dolibarr deployment and administration.
+
+== Systems
+
+This project is available for Kubernetes and Podman. Follow the links to match
+ the platform.
+
+* link:kubernetes/README.adoc[Kubernetes]
+
+* link:podman/README.adoc[Podman]
