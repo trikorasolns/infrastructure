@@ -1,0 +1,23 @@
+app_name: apache-superset
+app_namespace: apache-superset
+app_version: "22"
+
+db_name: apachesuperset
+db_user: apachesuperset
+db_image_tag: 16
+
+namespace_resources:
+  limits:
+    cpu: "2000m"
+    memory: "4Gi"
+  requests:
+    cpu: "1000m"
+    memory: "2000Mi"
+
+app_resources:
+  limits:
+    cpu: "1500m"
+    memory: "3Gi"
+  requests:
+    cpu: "500m"
+    memory: "1000Mi"

@@ -32,13 +32,13 @@
         definition:
           spec:
             hard:
-              limits.cpu: "{{ resources.limits.cpu }}"
-              limits.memory: "{{ resources.limits.memory }}"
-              requests.cpu: "{{ resources.requests.cpu }}"
-              requests.memory: "{{ resources.requests.memory }}"
+              limits.cpu: "{{ namespace_resources.limits.cpu }}"
+              limits.memory: "{{ namespace_resources.limits.memory }}"
+              requests.cpu: "{{ namespace_resources.requests.cpu }}"
+              requests.memory: "{{ namespace_resources.requests.memory }}"
       when: >
-        resources is defined and resources.limits is defined and resources.requests is defined 
-        and resources.limits.cpu is defined and resources.limits.memory is defined
-        and resources.requests.cpu is defined and resources.requests.memory is defined
+        namespace_resources is defined and namespace_resources.limits is defined and namespace_resources.requests is defined 
+        and namespace_resources.limits.cpu is defined and namespace_resources.limits.memory is defined
+        and namespace_resources.requests.cpu is defined and namespace_resources.requests.memory is defined
 
 ...
