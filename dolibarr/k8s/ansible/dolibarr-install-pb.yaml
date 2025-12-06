@@ -1,15 +1,5 @@
 ---
-
-- name: Create namespace
-  import_playbook: ../../../kubernetes/ansible/create-namespace-playbook.yaml
-
-- name: Install database
-  import_playbook: ../../pgsql/podman/ansible/podman-install-playbook.yaml
-  vars: 
-    db_user: "{{ db_name }}"
-    db_password: "{{ db_pw | default(db_name) }}"
-
-- name: "Install Dolibarr - {{ app_version }}"
+- name: "Install Dolibarr"
   hosts: "{{ k8s_host | default('localhost') }}"
   gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
 
@@ -23,20 +13,22 @@
         fail_msg: "Missing required parameters"
 
   tasks:
-    - name: "Template Odoo deployment files"
-      ansible.builtin.template:
-        src: "helm-odoo-odoo-values.yaml.j2"
-        dest: "/tmp/helm-odoo-odoo-values.yaml"
-        mode: '0600'
+    - name: "Create deployment"
+      kubernetes.core.k8s:
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: example
+            namespace: testing
+            "app.kubernetes.io/name": "{{ app_name }}"
+            "app.kubernetes.io/version": "{{ app_version }}"
+          spec:
+            paused: True
+        wait: yes
+        wait_condition:
+          type: Progressing
+          status: Unknown
+          reason: DeploymentPaused
 
-    - name: "Deploy Odoo with Helm"
-      kubernetes.core.helm:
-        name: odoo
-        chart_ref: "{% if trikora_helm_project_dir is defined %}{{ trikora_helm_project_dir }}/charts/odoo{% else %}trikorasolns/odoo{% endif %}"
-        release_namespace: "{{ app_namespace }}"
-        wait: true
-        replace: true
-        values_files:
-          - /tmp/helm-odoo-odoo-values.yaml
-      register: odoo_helm_res 
 ...
