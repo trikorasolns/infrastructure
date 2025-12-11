@@ -6,4 +6,4 @@ persistence:
   storageClassName: "{{ storage_class_rwx | default(storage_class) }}"
 {% endif %}
 image:
-  tag: {{ db_image_tag | default('14') }}
+  tag: {{ db_image_tag | default('16') }}
