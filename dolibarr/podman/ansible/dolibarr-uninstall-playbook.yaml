@@ -1,0 +1,23 @@
+---
+- name: "Uninstall Dolibarr on Podman container"
+  hosts: "{{ _host | default('localhost') }}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+    
+  tasks:
+    - name: Remove Dolibarr container
+      containers.podman.podman_container:
+        name: "{{ pod_name }}_dolibarr_{{ app_name | default('dolibarr') }}"
+        pod: "{{ pod_name }}"
+        state: absent
+
+    - name: Remove Dolibarr volumes
+      containers.podman.podman_volume:
+        state: absent
+        name: "{{ dolibarr_volume_item }}"
+      loop:
+        - "{{ pod_name }}_dolibarr_{{ app_name | default('dolibarr') }}_documents"
+        - "{{ pod_name }}_dolibarr_{{ app_name | default('dolibarr') }}_custom"
+      loop_control:
+        loop_var: dolibarr_volume_item
+...
