@@ -28,7 +28,7 @@ Create the namespace.
 [source,bash]
 ----
 ansible-playbook kubernetes/ansible/create-namespace-playbook.yaml \
-  -e @dolibarr/k8s/ansible/defaults/main.yaml
+  -e @dolibarr/k8s/helm/ansible/defaults/main.yaml
 ----
 
 === PostgreSQL
@@ -39,7 +39,8 @@ Install PostgreSQL using the Helm Chart.
 [source,bash]
 ----
 ansible-playbook pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml \
-  -e @dolibarr/k8s/ansible/defaults/main.yaml \
+  -e "@kubernetes/storage/ceph/ansible/defaults/main.yaml" \
+  -e @dolibarr/k8s/helm/ansible/defaults/main.yaml \
   -e db_password=${DB_PASSWORD}
 ----
 
@@ -48,13 +49,41 @@ ansible-playbook pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml \
 [.lead]
 Deploy the Dolibarr container.
 
+Set the environment variables.
+
 [source,bash]
 ----
-ansible-playbook kubernetes/ansible/create-namespace-playbook.yaml \
-  -e @dolibarr/k8s/ansible/defaults/main.yaml
+DB_PASSWORD=
+APP_ADMIN_PASSWORD=
+CRON_KEY=
+ROOT_URL=
 ----
 
-Deploy the PostgreSQL Database.
+
+== Uninstall
+
+[NOTE]
+====
+Optionally set the trikora_helm_project_dir variable if deploying local helm chart project.
+
+[source,bash]
+----
+ansible-playbook dolibarr/k8s/helm/ansible/dolibarr-install-pb.yaml \
+  -e "@_local_config/network.yaml" \
+  -e "@kubernetes/storage/ceph/ansible/defaults/main.yaml" \
+  -e @dolibarr/k8s/helm/ansible/defaults/main.yaml \
+  -e db_assword="${DB_PASSWORD}" \
+  -e app_admin_password="${APP_ADMIN_PASSWORD}" \
+  -e cron_key="${CRON_KEY}" \
+  -e root_url="${ROOT_URL}" \
+  -e trikora_helm_project_dir=....
+----
 
 
-docker.io/dolibarr/dolibarr:22
+PostgreSQL
+
+[source,bash]
+----
+ansible-playbook pgsql/k8s/helm/ansible/pgsql-uninstall-playbook.yaml \
+  -e @dolibarr/k8s/helm/ansible/defaults/main.yaml
+----
