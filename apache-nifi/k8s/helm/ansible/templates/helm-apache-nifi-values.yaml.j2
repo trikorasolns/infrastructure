@@ -9,14 +9,23 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-send-timeout: "180"
     nginx.ingress.kubernetes.io/proxy-body-size: 50m
     nginx.ingress.kubernetes.io/client-body-buffer-size: 50m
+    kubernetes.io/tls-acme: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
   hosts:
     - host: "{{ app_name }}.{{ local_domain }}"
       paths:
         - path: /
           pathType: Prefix
           backend:
-            serviceName: https
-            servicePort: 8443
+            serviceName: {{ app_name }}
+            servicePort: 443
+    - host: "{{ app_name }}-0.{{ local_domain }}"
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            serviceName: {{ app_name }}
+            servicePort: 443
 
 persistence:
 {% if storage_class_rwo is defined or storage_class is defined %}
