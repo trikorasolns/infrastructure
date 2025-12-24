@@ -1,0 +1,15 @@
+app_name: apache-nifi-registry
+app_namespace: apache-nifi-registry
+app_version: "2.7.0"
+
+db_name: nifireg
+db_user: nifireg
+db_image_tag: "17.6"
+
+namespace_quotas:
+  limits:
+    cpu: "2000m"
+    memory: "4Gi"
+  requests:
+    cpu: "500m"
+    memory: "100Mi"
