@@ -11,5 +11,5 @@ namespace_quotas:
     cpu: "2000m"
     memory: "4Gi"
   requests:
-    cpu: "500m"
-    memory: "100Mi"
+    cpu: "1000m"
+    memory: "2000Mi"

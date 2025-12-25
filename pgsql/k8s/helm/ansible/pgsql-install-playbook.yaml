@@ -34,15 +34,33 @@
         mode: '0644'
       when: custom_helm_values_file is defined      
 
-    - name: "Deploy PostgreSQL with Helm"
+    - name: "Deploy PostgreSQL with deployed Helm chart"
       kubernetes.core.helm:
         name: postgresql
-        chart_ref: "{% if trikora_helm_project_dir is defined %}{{ trikora_helm_project_dir }}/charts/postgresql{% else %}trikorasolns/postgresql{% endif %}"
+        chart_ref: "trikorasolns/postgresql"
         release_namespace: "{{ app_namespace }}"
         wait: true
         replace: false
         values_files:
-          - files/helm-pgsql-values.yaml
           - /tmp/helm-pgsql-values.yaml
-      register: pgsql_helm_res 
+          - files/helm-pgsql-values.yaml
+      when: trikora_helm_project_dir is not defined
+      register: pgsql_helm_install_res 
+
+    - name: "Deploy PostgreSQL with local Helm chart"
+      kubernetes.core.helm:
+        name: postgresql
+        chart_ref: "{{ trikora_helm_project_dir }}/charts/postgresql"
+        release_namespace: "{{ app_namespace }}"
+        wait: true
+        replace: false
+        values_files:
+          - /tmp/helm-pgsql-values.yaml
+          - files/helm-pgsql-values.yaml
+      when: trikora_helm_project_dir is defined
+      register: pgsql_helm_install_res
+
+    - name: "Print installation result"
+      ansible.builtin.debug:
+        var: pgsql_helm_install_res
 ...

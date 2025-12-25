@@ -48,12 +48,34 @@ Deploy Apache Nifi Registry using the trikorasolns/apache-nifi-registry helm
 
 [source,bash]
 ----
-ansible-playbook apache-nifi/k8s/helm/ansible/apache-nifi-install-playbook.yaml \
+ansible-playbook apache-nifi/k8s/helm/ansible/apache-nifi-registry-install-playbook.yaml \
   -e @apache-nifi/k8s/ansible/defaults/nifi-registry.yaml \
   -e @_local_config/network.yaml \
   -e @kubernetes/storage/ceph/ansible/defaults/main.yaml \
+  -e db_password=${DB_PASSWORD} \
   -e trikora_helm_project_dir=${TRIKORA_HELM}
 ----
+
+=== Uninstall
+
+[.lead]
+Uninstall Apache Nifi Registry.
+
+[source,bash]
+----
+ansible-playbook apache-nifi/k8s/helm/ansible/apache-nifi-registry-uninstall-playbook.yaml \
+  -e @apache-nifi/k8s/ansible/defaults/nifi-registry.yaml
+----
+
+[.lead]
+Uninstall PostgreSQL.
+
+[source,bash]
+----
+ansible-playbook apache-nifi/k8s/helm/ansible/apache-nifi-uninstall-playbook.yaml \
+  -e @apache-nifi/k8s/ansible/defaults/main.yaml
+----
+
 
 == Install Apache Nifi
 
@@ -80,7 +102,7 @@ ansible-playbook apache-nifi/k8s/helm/ansible/apache-nifi-install-playbook.yaml 
   -e trikora_helm_project_dir=${TRIKORA_HELM}
 ----
 
-== Uninstall
+=== Uninstall
 
 [source,bash]
 ----
