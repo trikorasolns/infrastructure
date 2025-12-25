@@ -1,0 +1,25 @@
+---
+- name: "Install Redis"
+  hosts: "localhost"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+    - name: "Validate app_namespace"
+      assert:
+        that:
+          - "app_namespace is defined"
+        fail_msg: "app_namespace must be defined"
+        success_msg: "Deploying into {{ app_namespace }} namespace"
+
+  tasks:
+
+    - name: "Deploy Redis using Helm"
+      kubernetes.core.helm:
+        name: redis
+        chart_ref: "{% if trikora_helm_project_dir is defined %}{{ trikora_helm_project_dir }}/charts/redis{% else %}trikorasolns/redis{% endif %}"
+        release_namespace: "{{ app_namespace }}"
+        wait: true
+        #replace: false
+        values_files:
+          - "files/helm-redis-values.yaml"
+...

@@ -1,0 +1,21 @@
+---
+- name: "Uninstall Apache Nifi"
+  hosts: "{{ k8s_host | default ('localhost') }}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+  - name: "Validate variables"
+    assert:
+      that:
+        - "app_namespace is defined and (app_namespace | length > 0)"
+        - "app_name is defined and (app_name | length > 0)"
+      fail_msg: "Missing variables"
+
+  tasks:
+  - name: "Uninstall Apache Nifi Helm Chart"
+    kubernetes.core.helm:
+      name: "{{ app_name }}"
+      state: absent
+      release_namespace: "{{ app_namespace }}"
+    register: pgsql_helm_res 
+...

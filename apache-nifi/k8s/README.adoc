@@ -1,0 +1,34 @@
+= Deploy Apache Nifi on Kubernetes
+:author:    Antonio C.
+:email:     <ac (at) trikorasolutions (dot) com>
+:revdate:   {{docdate}}
+:toc:       left
+:toc-title: Table of Contents
+:icons:     font
+:description: Deploy Apache Nifi on a Kubernetes cluster
+:source-highlighter: highlight.js
+
+== Introduction
+
+[.lead]
+This document describes having Apache Nifi deployed on a Kubernetes cluster using Helm.
+
+== Backup
+
+[source,bash]
+----
+BACKUP_ROOT_FOLDER=
+DATE_PREFIX=$(date +%Y-%m-%d-%H-%M-%S)
+
+[source,bash]
+----
+mkdir ${BACKUP_ROOT_FOLDER}/apache-nifi/${DATE_PREFIX}
+FOLDER_NAME=conf ; kubectl -n apache-nifi cp  apache-nifi-0:/opt/nifi/nifi-current/${FOLDER_NAME}/ /z/_backup/apache-nifi/${DATE_PREFIX}/${FOLDER_NAME}/
+FOLDER_NAME=content_repository ; kubectl -n apache-nifi cp  apache-nifi-0:/opt/nifi/nifi-current/${FOLDER_NAME}/ /z/_backup/apache-nifi/${DATE_PREFIX}/${FOLDER_NAME}/
+FOLDER_NAME=flowfile_repository ; kubectl -n apache-nifi cp  apache-nifi-0:/opt/nifi/nifi-current/${FOLDER_NAME}/ /z/_backup/apache-nifi/${DATE_PREFIX}/${FOLDER_NAME}/
+FOLDER_NAME=provenance_repository ; kubectl -n apache-nifi cp  apache-nifi-0:/opt/nifi/nifi-current/${FOLDER_NAME}/ /z/_backup/apache-nifi/${DATE_PREFIX}/${FOLDER_NAME}/
+FOLDER_NAME=database_repository ; kubectl -n apache-nifi cp  apache-nifi-0:/opt/nifi/nifi-current/${FOLDER_NAME}/ /z/_backup/apache-nifi/${DATE_PREFIX}/${FOLDER_NAME}/
+----
+
+
+== Restore
