@@ -24,6 +24,72 @@ Create the POD.
 [source,bash]
 ----
 podman pod create --label app=dolibarr \
+  -p 7180:80 -p 7432:5432 \
+  dolibarr 
+----
+
+Deploy the database
+
+[source,bash]
+----
+ansible-playbook pgsql/podman/ansible/podman-install-playbook.yaml \
+  -e pod_name=dolibarr \
+  -e db_name=dolibarr \
+  -e db_user=dolibarr \
+  -e pgsql_version="17.1" \
+  -e db_password="${DB_PASSWORD:-dolibarr}"
+----
+
+[source,bash]
+----
+ansible-playbook dolibarr/podman/ansible/dolibarr-install-playbook.yaml \
+  -e pod_name=dolibarr
+----
+
+
+== Uninstall
+
+[source,bash]
+----
+ansible-playbook dolibarr/podman/ansible/dolibarr-uninstall-playbook.yaml \
+  -e pod_name=dolibarr
+----
+
+[source,bash]
+----
+ansible-playbook pgsql/podman/ansible/podman-uninstall-playbook.yaml \
+  -e pod_name=dolibarr \
+  -e db_name=dolibarr
+----
+
+== Upgrade
+
+= Deploy Dolibarr on Podman
+:author:    Antonio C.
+:email:     <ac (at) trikorasolutions (dot) com>
+:revdate:   {{docdate}}
+:toc:       left
+:toc-title: Table of Contents
+:icons:     font
+:description: Deploy Dolibarr on a Podman
+:source-highlighter: highlight.js
+
+== Introduction
+
+[.lead]
+This document describes how to deploy a PostgreSQL database with Podman.
+
+== Preparation
+
+TBD
+
+== Install
+
+Create the POD.
+
+[source,bash]
+----
+podman pod create --label app=dolibarr \
   --label app.kubernetes.io/name="dolibarr" \
   --label app.kubernetes.io/instance="dolibarr" \
   --label app.kubernetes.io/version="22" \

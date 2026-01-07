@@ -1,0 +1,40 @@
+image:
+{% if app_image_tag is defined %}
+  tag: "{{ app_image_tag }}"
+{% else %}
+  tag: "{{ app_version }}"
+{% endif %}
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 100m
+  hosts:
+    - host: "{{ app_name }}.{{ local_domain }}"
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            serviceName: http
+            servicePort: 80
+
+persistence:
+  dbName: {{ db_name }}
+  dbUser: {{ db_user }}
+  dbPassword: {{ db_password }}
+  dbHost: postgresql.{{ app_name }}.svc.cluster.local
+{% if storage_class_rwo is defined or storage_class is defined %}
+  storageClassName: "{{ storage_class_rwo | default(storage_class) }}"
+{% endif %}
+
+# https://docs.gitlab.com/charts/installation/command-line-options.html#outgoing-email-configuration
+gitlab:
+  global:
+    smtp: 
+    email: 
+      from: 
+    hosts: 
+      domain: {{ app_name }}.{{ local_domain }}
+      externalIP: {{ external_ip }}

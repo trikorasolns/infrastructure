@@ -1,0 +1,71 @@
+= Apache Superset on Kubernetes
+:author:    Antonio C.
+:email:     <ac (at) trikorasolutions (dot) com>
+:revdate:   {{docdate}}
+:toc:       left
+:toc-title: Table of Contents
+:icons:     font
+:description: Apache Superset on a Kubernetes cluster.
+:source-highlighter: highlight.js
+
+== Introduction
+
+[.lead]
+Apache Superset on a Kubernetes cluster.
+
+This document describes ths Apache Superset deployment and maintenance tasks 
+ on a Kubernetes cluster.
+
+
+== Installation Guide
+
+=== Namespace
+
+[.lead]
+Create the namespace.
+
+[source,bash]
+----
+ansible-playbook kubernetes/ansible/create-namespace-playbook.yaml \
+  -e @apache-superset/k8s/ansible/defaults/main.yaml
+----
+
+=== Redis
+
+[.lead]
+Install Redis using the Helm Chart.
+
+[source,bash]
+----
+ansible-playbook redis/k8s/ansible/redis-install-playbook.yaml \
+  -e @apache-superset/k8s/ansible/defaults/main.yaml
+----
+
+=== PostgreSQL
+
+[.lead]
+Install PostgreSQL using the Helm Chart.
+
+[source,bash]
+----
+ansible-playbook pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml \
+  -e @kubernetes/storage/ceph/ansible/defaults/main.yaml \
+  -e @apache-superset/k8s/ansible/defaults/main.yaml \
+  -e @_local_config/apache-superset.yaml
+----
+
+=== Dolibarr
+
+[.lead]
+Deploy the Dolibarr container.
+
+[source,bash]
+----
+ansible-playbook kubernetes/ansible/create-namespace-playbook.yaml \
+  -e @dolibarr/k8s/ansible/defaults/main.yaml
+----
+
+Deploy the PostgreSQL Database.
+
+
+docker.io/dolibarr/dolibarr:22
