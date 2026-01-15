@@ -22,41 +22,42 @@ Set the environment variables for the required parameters.
 
 [source,bash]
 ----
-BACKUP_ROOT_FOLDER=/z/backup/odoo
-ODOO_MASTER_PW=xxxxxxxxxxxxx
+BACKUP_ROOT_FOLDER=/z/backup
 ODOO_DB=database
-ODOO_WEB_HOST=http://odoo.localdomain:8069
 ----
 
 [source,bash]
 ----
 ansible-playbook odoo/ansible/odoo-backup-playbook.yaml \
-  -e odoo_master_pw=${ODOO_MASTER_PW} \
+  -e @odoo/k8s/ansible/defaults/odoo-17.yaml \
   -e odoo_db_name=${ODOO_DB} \
-  -e odoo_web_host=${ODOO_WEB_HOST} \
   -e backup_folder=${BACKUP_ROOT_FOLDER}/odoo
 ----
 
-Optional parameters.
+Playbook parameters.
 
 .Helm install prepare parameters
 [cols="20%,80%"]
 |===
 |Field name |Description
 
-| `odoo_master_pw`
+| `odoo_db`
 
 [.fuchsia]#string#
 
 [.red]#required# 
+
+a| Odoo database to be backed up.
+
+| `odoo_master_pw`
+
+[.fuchsia]#string#
 
 a| Odoo Master password for the selected database.
 
 | `odoo_web_host`
 
 [.fuchsia]#string#
-
-[.red]#required# 
 
 a| FQDN hostname
 
@@ -90,14 +91,30 @@ Default: `8069`
 
 |===
 
+[source,bash]
+----
+BACKUP_ROOT_FOLDER=/z/backup
+ODOO_DB=database
+ODOO_MASTER_PW=xxxxxxxxxxxxx
+ODOO_WEB_HOST=http://odoo.localdomain:8069
+----
+
 
 [source,bash]
 ----
 ansible-playbook odoo/ansible/odoo-backup-playbook.yaml \
+  -e @odoo/k8s/ansible/defaults/odoo-17.yaml
   -e odoo_master_pw=${ODOO_MASTER_PW} \
   -e odoo_db_name=${ODOO_DB} \
   -e odoo_web_host=${ODOO_WEB_HOST} \
   -e backup_folder=${BACKUP_ROOT_FOLDER}/odoo \
   -e odoo_web_protocol=http \
   -e odoo_web_port=80
+----
+
+If the master password is stored as a secret you can fetch it by using the following command.
+
+[source,bash]
+----
+kubectl -n odoo get secret odoo-custom -o jsonpath="{.data.ODOO_${ODOO_DB^^}_MASTER_PW}" | base64 -d
 ----
