@@ -1,0 +1,38 @@
+= Deploy Apache Nifi on Kubernetes
+:author:    Antonio C.
+:email:     <ac (at) trikorasolutions (dot) com>
+:revdate:   {{docdate}}
+:toc:       left
+:toc-title: Table of Contents
+:icons:     font
+:description: Deploy Apache Nifi on a Kubernetes cluster
+:source-highlighter: highlight.js
+
+== Introduction
+
+[.lead]
+This document describes having Apache Nifi deployed on a Kubernetes cluster using Helm.
+
+== Backup
+
+[source,bash]
+----
+BACKUP_ROOT_FOLDER=
+DATE_PREFIX=$(date +%Y-%m-%d-%H-%M-%S)
+----
+
+[source,bash]
+----
+mkdir ${BACKUP_ROOT_FOLDER}/apache-nifi/${DATE_PREFIX}
+chmod 700 ${BACKUP_ROOT_FOLDER}/apache-nifi/${DATE_PREFIX}
+for FOLDER_NAME in {'custom_conf','conf','content_repository','flowfile_repository','provenance_repository','database_repository'}
+do
+    echo "Backing up ${FOLDER_NAME}..."
+    kubectl -n apache-nifi cp apache-nifi-0:/opt/nifi/nifi-current/${FOLDER_NAME}/ ${BACKUP_ROOT_FOLDER}/apache-nifi/${DATE_PREFIX}/${FOLDER_NAME}/
+done
+----
+
+== Restore
+
+[.lead]
+TBD
