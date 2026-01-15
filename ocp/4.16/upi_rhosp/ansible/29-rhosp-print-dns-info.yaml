@@ -37,6 +37,7 @@
     ansible.builtin.set_fact:
       api_dns_name: "api.{{ ocp_cluster_name }}.{{ local_domain}}"
       apps_dns_name: "console.apps.{{ ocp_cluster_name }}.{{ local_domain}}"
+      bootstrap_dns_name: "bootstrap.{{ ocp_cluster_name }}.{{ local_domain}}"
 
   - name: "Fetch DNS for API and APPS"
     ansible.builtin.set_fact:
@@ -119,8 +120,11 @@
   - name: "Waiting for DNS propagation"
     ansible.builtin.debug:
       msg: 
-      - "{{ api_dns_name }} must be {{ openstack_fip_api_address }}"
-      - "{{ apps_dns_name }} must be {{ openstack_fip_apps_address }}"
+      # - "{{ api_dns_name }} must be {{ openstack_fip_api_address }}"
+      # - "{{ apps_dns_name }} must be {{ openstack_fip_apps_address }}"
+      - "{{ api_dns_name }} must be {{ rhosp_lb_public_res.load_balancer.vip_address }}"
+      - "{{ apps_dns_name }} must be {{ rhosp_lb_public_res.load_balancer.vip_address }}"
+      - "{{ bootstrap_dns_name }} must be {{ openstack_fip_bootstrap_address }}"
 
   - name: "Wait for DNS propagation"
     # ansible.builtin.debug:
@@ -128,7 +132,10 @@
     ansible.builtin.set_fact:
       resolved_api_dns_name: "{{ lookup('community.general.dig', api_dns_name) }}"
       resolved_apps_dns_name: "{{ lookup('community.general.dig', apps_dns_name) }}"
-    until: (lookup('community.general.dig', api_dns_name) == openstack_fip_api_address) and (lookup('community.general.dig', apps_dns_name) == openstack_fip_apps_address)
+    until: >
+      (lookup('community.general.dig', api_dns_name) == rhosp_lb_public_res.load_balancer.vip_address) and 
+      (lookup('community.general.dig', apps_dns_name) == rhosp_lb_public_res.load_balancer.vip_address) and
+      (lookup('community.general.dig', bootstrap_dns_name) == openstack_fip_bootstrap_address) 
     retries: 900
     delay: 10
     when: skip_dns is undefined or not (skip_dns | bool)

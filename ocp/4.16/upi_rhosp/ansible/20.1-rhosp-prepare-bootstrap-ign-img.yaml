@@ -85,7 +85,9 @@
         - openshift
         - "{{ ocp_cluster_id_tag }}"
     register: openstack_image_bootstrap_ign_upload_res
-    when: openstack_image_bootstrap_ign_res.failed or openstack_image_bootstrap_ign_res.images | length == 0
+    when: >
+      openstack_image_bootstrap_ign_res.failed or 
+      openstack_image_bootstrap_ign_res.images | length == 0
 
   - name: "Check if the Boostrap Ignition image exists"
     openstack.cloud.image_info:

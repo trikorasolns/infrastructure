@@ -1,5 +1,5 @@
 ---
-- name: "Openshift Install"
+- name: "Install Openshift Install"
   hosts: "{{ ocp_services | default('localhost')}}"
   gather_facts: true
 
@@ -33,7 +33,7 @@
       state: absent
     failed_when: false
 
-  - name: "Create v install directory"
+  - name: "Create install directory"
     ansible.builtin.file:
       path: "{{ openshift_cluster_install_dir }}"
       state: directory

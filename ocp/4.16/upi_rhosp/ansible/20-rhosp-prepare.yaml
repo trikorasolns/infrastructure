@@ -24,7 +24,8 @@
     ansible.builtin.debug:
       msg: 
       - "CoreOS ISO disk location (coreos_image_location): {{ coreos_image_location }}"
-      - "CoreOS ISO disk file name: {{ coreos_image_filename }}"
+      - "CoreOS compressed ISO disk file name: {{ coreos_image_filename }}"
+      - "CoreOS ISO disk file name: {{ coreos_image_filename | splitext | first }}"
 
   tasks:
 
@@ -49,8 +50,17 @@
       openstack_image_coreos_res.failed or 
       (openstack_image_coreos_res.images | length == 0) 
       or (openstack_image_force_upload is defined and openstack_image_force_upload | bool)
+
+  - name: "Extract RHCOS image archive" 
+    # ansible.builtin.unarchive:
+    #   src: "{{ openshift_install_dir }}/{{ coreos_image_filename }}"
+    #   dest: "{{ openshift_install_dir }}/"
+    ansible.builtin.shell: |
+      gzip -d -f {{ openshift_install_dir }}/{{ coreos_image_filename }}
+    args:
+      chdir: "{{ openshift_install_dir }}"
       
-  - name: "Upload RHCOS image (TODO)"
+  - name: "Upload RHCOS image"
     openstack.cloud.image:
       name: "{{ rhosp_rhcoreos_image_name }}"
       # image: "{{ rhosp_rhcoreos_image_name }}"
@@ -58,7 +68,7 @@
       disk_format: qcow2
       state: present
       # filename: "{{ coreos_image_location }}"
-      filename: "{{ openshift_install_dir }}/{{ coreos_image_filename }}"
+      filename: "{{ openshift_install_dir }}/{{ coreos_image_filename | splitext | first }}"
       # kernel: cirros-vmlinuz
       # ramdisk: cirros-initrd
       tags:
