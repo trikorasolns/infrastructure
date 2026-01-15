@@ -36,15 +36,29 @@
 
   - name: "RHCOS output"
     ansible.builtin.debug:
-      var: openstack_image_coreos_res
+      msg: 
+      - "openstack_image_coreos_res: {{ openstack_image_coreos_res }}"
+      - "openstack_image_coreos_res.images: {{ openstack_image_coreos_res.images }}"
+      - "openstack_image_coreos_res.images: {{ openstack_image_coreos_res.images | length == 0 }}"
 
+  - name: "Download the RHCOS image"
+    ansible.builtin.get_url:
+      url: "{{ coreos_image_location }}"
+      dest: "{{ openshift_install_dir }}/{{ coreos_image_filename }}"
+    when: >
+      openstack_image_coreos_res.failed or 
+      (openstack_image_coreos_res.images | length == 0) 
+      or (openstack_image_force_upload is defined and openstack_image_force_upload | bool)
+      
   - name: "Upload RHCOS image (TODO)"
     openstack.cloud.image:
-      image: "{{ rhosp_rhcoreos_image_name }}"
+      name: "{{ rhosp_rhcoreos_image_name }}"
+      # image: "{{ rhosp_rhcoreos_image_name }}"
       container_format: bare
       disk_format: qcow2
       state: present
-      filename: "{{ coreos_image_location }}"
+      # filename: "{{ coreos_image_location }}"
+      filename: "{{ openshift_install_dir }}/{{ coreos_image_filename }}"
       # kernel: cirros-vmlinuz
       # ramdisk: cirros-initrd
       tags:
@@ -55,7 +69,10 @@
         cpu_arch: x86_64
         distro: rhcos
     register: openstack_image_coreos_upload_res
-    when: openstack_image_coreos_res.failed or (openstack_image_force_upload is defined and openstack_image_force_upload | bool)
+    when: >
+      openstack_image_coreos_res.failed or 
+      (openstack_image_coreos_res.images | length == 0) 
+      or (openstack_image_force_upload is defined and openstack_image_force_upload | bool)
 
 - name: "Setup OpenStack Network"
   import_playbook: 20.3-rhosp-prepare-network.yaml

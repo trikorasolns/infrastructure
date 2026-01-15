@@ -1,6 +1,6 @@
 ---
 - name: "Read installation info from openshift installation"
-  hosts: "ocp_installer"
+  hosts: "{{ ocp_installer | default('localhost')}}"
   gather_facts: true
 
   pre_tasks:

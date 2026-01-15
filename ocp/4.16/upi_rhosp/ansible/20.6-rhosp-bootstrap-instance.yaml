@@ -50,7 +50,8 @@
   - name: 'Create the bootstrap server'
     openstack.cloud.server:
       name: "{{ rhosp_bootstrap_server_name }}"
-      image: "{{ rhosp_rhcoreos_image_name }}"
+      # image: "{{ rhosp_rhcoreos_image_name }}"
+      image: "{{ rhosp_ocp_bootstrap_ign_image_name }}"
       flavor: "{{ rhosp_flavor_master }}"
       userdata: "{{ lookup('file', '/tmp/bootstrap-' + metadata_json.infraID + '-shim.ign') | string }}"
       network: "{{ rhosp_network }}"

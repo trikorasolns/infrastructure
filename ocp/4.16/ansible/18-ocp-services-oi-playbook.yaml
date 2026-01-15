@@ -1,6 +1,6 @@
 ---
 - name: "Openshift Install"
-  hosts: "ocp_services"
+  hosts: "{{ ocp_services | default('localhost')}}"
   gather_facts: true
 
   pre_tasks:
@@ -83,6 +83,4 @@
       - bootstrap.ign
       - master.ign
       - worker.ign
-
-
 ...

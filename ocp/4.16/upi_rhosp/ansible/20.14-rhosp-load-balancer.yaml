@@ -36,6 +36,20 @@
       state: present
     loop: "{{ rhosp_lb_public_ports }}"
     failed_when: false # there is no way of knowing if the pool already exists and it fails when creating again
+    register: public_lb_pool_create_res
+
+  - name: "Print output"
+    ansible.builtin.debug:
+      var: public_lb_pool_create_res
+
+  - name: "Create public load-balancer listeners"
+    openstack.cloud.lb_listener:
+      name: "{{ item.name }}"
+      load_balancer: "{{ rhosp_loadbalancer_prefix }}-public"
+      protocol: "{{ item.protocol }}"
+      protocol_port: "{{ item.port }}"
+      state: present
+    loop: "{{ rhosp_lb_public_ports }}"
 
   - name: "Create private load-balancer pools"
     openstack.cloud.lb_pool:
@@ -46,15 +60,11 @@
       state: present
     loop: "{{ rhosp_lb_private_ports }}"
     failed_when: false # there is no way of knowing if the pool already exists and it fails when creating again
+    register: private_lb_pool_create_res
 
-  - name: "Create public load-balancer listeners"
-    openstack.cloud.lb_listener:
-      name: "{{ item.name }}"
-      load_balancer: "{{ rhosp_loadbalancer_prefix }}-public"
-      protocol: "{{ item.protocol }}"
-      protocol_port: "{{ item.port }}"
-      state: present
-    loop: "{{ rhosp_lb_public_ports }}"
+  - name: "Print output"
+    ansible.builtin.debug:
+      var: private_lb_pool_create_res
 
   - name: "Create private load-balancer listener"
     openstack.cloud.lb_listener:

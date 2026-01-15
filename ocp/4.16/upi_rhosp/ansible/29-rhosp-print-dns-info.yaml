@@ -19,6 +19,14 @@
       vip_network: "{{ rhosp_network }}"
     register: rhosp_lb_private_res
 
+  # WARNING: This task will create a LB if it doesn't exist.
+  #   Unfortunatelly there seems to be no other way of fetching the LB information.
+  - name: "Fetch public Load Balancer info"
+    openstack.cloud.loadbalancer:
+      name: "{{ rhosp_loadbalancer_prefix }}-public"
+      vip_network: "{{ rhosp_network }}"
+    register: rhosp_lb_public_res
+
   - name: "Set the external IPs for API and APPS"
     ansible.builtin.set_fact:
       openstack_fip_api_address: "{{ fip_api_info.floating_ips[0].floating_ip_address }}"
@@ -87,23 +95,50 @@
   - name: "Create private Load Balancer DNS records"
     ansible.builtin.debug:
       msg:
-      - "Create a DNS registries"
-      - "A record for api-int.{{ ocp_cluster_name }}.{{ local_domain}} with IP {{ rhosp_lb_private_res.load_balancer.vip_address }}"
-      - "A record for bootstrap.{{ ocp_cluster_name }}.{{ local_domain}} with IP {{ openstack_fip_bootstrap_address }}"
+      - "Create DNS registries for domain {{ local_domain}}"
+      - ""
+      - "Public IP: {{ rhosp_lb_public_res.load_balancer.vip_address }}"
+      - "  - A record for api.{{ ocp_cluster_name }}"
+      - "  - A record for *.apps.{{ ocp_cluster_name }}"
+      - ""
+      - "Private IP: {{ rhosp_lb_private_res.load_balancer.vip_address }}"
+      - "  - A record for api-int.{{ ocp_cluster_name }}"
+      - ""
+      - "Boostrap IP: {{ openstack_fip_bootstrap_address }}"
+      - "  - A record for bootstrap.{{ ocp_cluster_name }}"
+      - ""
       - "A record for each Control Plane:"
-      - "  - control-plane-1.{{ ocp_cluster_name }}.{{ local_domain}} with IP TBD"
-      - "  - control-plane-2.{{ ocp_cluster_name }}.{{ local_domain}} with IP TBD"
-      - "  - control-plane-3.{{ ocp_cluster_name }}.{{ local_domain}} with IP TBD"
+      - "  - control-plane-1.{{ ocp_cluster_name }} with IP TBD"
+      - "  - control-plane-2.{{ ocp_cluster_name }} with IP TBD"
+      - "  - control-plane-3.{{ ocp_cluster_name }} with IP TBD"
 
   - name: "MANUAL STEP: Create private Load Balancer DNS records"
     ansible.builtin.pause:
 
-  - name: "Wait for DNS propagation"
+
+  - name: "Waiting for DNS propagation"
     ansible.builtin.debug:
-      msg: "Wait for DNS propagation..."
+      msg: 
+      - "{{ api_dns_name }} must be {{ openstack_fip_api_address }}"
+      - "{{ apps_dns_name }} must be {{ openstack_fip_apps_address }}"
+
+  - name: "Wait for DNS propagation"
+    # ansible.builtin.debug:
+    #   msg: "Wait for DNS propagation..."
+    ansible.builtin.set_fact:
+      resolved_api_dns_name: "{{ lookup('community.general.dig', api_dns_name) }}"
+      resolved_apps_dns_name: "{{ lookup('community.general.dig', apps_dns_name) }}"
     until: (lookup('community.general.dig', api_dns_name) == openstack_fip_api_address) and (lookup('community.general.dig', apps_dns_name) == openstack_fip_apps_address)
-    retries: 30
+    retries: 900
     delay: 10
     when: skip_dns is undefined or not (skip_dns | bool)
 
+  # - name: "Wait for DNS propagation"
+  #   delegate_to: localhost
+  #   when: skip_dns is undefined or not (skip_dns | bool)
+  #   ansible.builtin.debug:
+  #     msg: Waiting...
+  #   until: (lookup('community.general.dig', api_dns_name) == openstack_fip_api_address) and (lookup('community.general.dig', apps_dns_name) == openstack_fip_apps_address)
+  #   retries: 900
+  #   delay: 10
 ...
