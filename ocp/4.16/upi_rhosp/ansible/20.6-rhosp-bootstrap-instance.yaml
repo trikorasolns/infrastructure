@@ -63,9 +63,8 @@
       # wait: false # due to TypeError: 'NoneType' object is not subscriptable
     when: rhosp_bootstrap_server_info.servers | length == 0
 
-  # - name: "Delete Bootstrap Ignition image"
-  #   openstack.cloud.image:
-  #     name: "{{ rhosp_ocp_bootstrap_ign_image_name }}"
-  #     state: absent
-
+  - name: "Delete Bootstrap Ignition image"
+    openstack.cloud.image:
+      name: "{{ rhosp_ocp_bootstrap_ign_image_name }}"
+      state: absent
 ...
