@@ -50,8 +50,8 @@
   - name: 'Create the bootstrap server'
     openstack.cloud.server:
       name: "{{ rhosp_bootstrap_server_name }}"
-      # image: "{{ rhosp_rhcoreos_image_name }}"
-      image: "{{ rhosp_ocp_bootstrap_ign_image_name }}"
+      image: "{{ rhosp_rhcoreos_image_name }}"
+      # image: "{{ rhosp_ocp_bootstrap_ign_image_name }}"
       flavor: "{{ rhosp_flavor_master }}"
       userdata: "{{ lookup('file', '/tmp/bootstrap-' + metadata_json.infraID + '-shim.ign') | string }}"
       network: "{{ rhosp_network }}"
@@ -63,8 +63,14 @@
       # wait: false # due to TypeError: 'NoneType' object is not subscriptable
     when: rhosp_bootstrap_server_info.servers | length == 0
 
-  - name: "Delete Bootstrap Ignition image"
-    openstack.cloud.image:
-      name: "{{ rhosp_ocp_bootstrap_ign_image_name }}"
-      state: absent
+  # - name: "Delete Bootstrap Ignition image"
+  #   openstack.cloud.image:
+  #     name: "{{ rhosp_ocp_bootstrap_ign_image_name }}"
+  #     state: absent
+
+  # - name: "Wait for the Bootstrap server to finish"
+  #   ansible.builtin.shell: |
+  #     ./openshift-install wait-for bootstrap-complete
+  #   args:
+
 ...
