@@ -212,7 +212,13 @@
 
   - name: "Wait for the bootstrap server to be deployed"
     ansible.builtin.shell: |
-      ./openshift-install wait-for bootstrap-complete --dir ovhcocppot/
+      ./openshift-install wait-for bootstrap-complete --dir {{ ocp_cluster_name }}
     args:
-      chdir: 
+      chdir: "{{ openshift_install_dir }}"
+    register: openshift_install_wait_bootstrap_complete
+
+  - name: "Print output"
+    ansible.builtin.debug:
+      var: openshift_install_wait_bootstrap_complete
+
 ...

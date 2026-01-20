@@ -12,6 +12,46 @@
   - name: "Fetch FIP information"
     include_tasks: tasks/rhosp-fetch-fip-info.yaml
 
+  - name: "Public LB Floating IP"
+    ansible.builtin.debug:
+      var: openstack_fip_api_address
+
+  - name: "Create public Load Balancer"
+    openstack.cloud.loadbalancer:
+      api_timeout: 120
+      name: "{{ rhosp_loadbalancer_prefix }}-public"
+      vip_network: "{{ rhosp_network }}"
+      # floating_ip_address: "{{ openstack_fip_api_address }}"
+      delete_floating_ip: true
+      state: present
+    register: rhosp_lb_public_deploy_res
+
+  - name: "Print Public LB Deploy output"
+    ansible.builtin.debug:
+      var: rhosp_lb_public_deploy_res
+
+  - name: "Associate the Floating IP with the public LB"
+    ansible.builtin.shell: |
+      # openstack floating ip set --port <load_balancer_vip_port_id> <floating_ip_id>
+      openstack floating ip set --port {{ rhosp_lb_public_deploy_res.load_balancer.vip_port_id }} {{ openstack_fip_api_id }}
+    register: rhosp_lb_deploy_assoc_fp_public_res
+
+  - name: "Print output of: Associate the Floating IP with the public LB"
+    ansible.builtin.debug:
+      var: rhosp_lb_deploy_assoc_fp_public_res
+
+  - name: "Create private Load Balancer"
+    openstack.cloud.loadbalancer:
+      # assign_floating_ip: false
+      name: "{{ rhosp_loadbalancer_prefix }}-private"
+      vip_network: "{{ rhosp_network }}"
+      state: present
+    register: rhosp_lb_private_deploy_res
+
+  - name: "Print Private LB Deploy output"
+    ansible.builtin.debug:
+      var: rhosp_lb_private_deploy_res
+
   # - name: "Create public Load Balancer"
   #   openstack.cloud.loadbalancer:
   #     name: "{{ rhosp_loadbalancer_prefix }}-public"
