@@ -5,6 +5,7 @@ openshift
 pyyaml
 firewall
 python-openstackclient
+python-octaviaclient
 openstacksdk
 netaddr
 dnspython

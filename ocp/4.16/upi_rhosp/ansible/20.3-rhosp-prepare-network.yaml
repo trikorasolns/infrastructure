@@ -84,30 +84,4 @@
       var: fip_bootstrap_create
     when: fip_bootstrap_create is defined
 
-  # - name: "Set the external IPs for API and APPS"
-  #   ansible.builtin.set_fact:
-  #     openstack_fip_api_address: "{% if fip_api_create.skipped is defined and fip_api_create.skipped | bool %}{{ fip_api_info.floating_ips[0].floating_ip_address }}{% else %}{{ fip_api_create.stdout }}{% endif %}"
-  #     openstack_fip_apps_address: "{% if fip_ingress_create.skipped is defined and fip_ingress_create.skipped | bool %}{{ fip_ingress_info.floating_ips[0].floating_ip_address }}{% else %}{{ fip_ingress_create.stdout }}{% endif %}"
-  #     openstack_fip_bootstrap_address: "{% if fip_bootstrap_create.skipped is defined and fip_bootstrap_create.skipped | bool %}{{ fip_bootstrap_info.floating_ips[0].floating_ip_address }}{% else %}{{ fip_bootstrap_create.stdout }}{% endif %}"
-
-  # - name: "Fetch FIP information"
-  #   include_tasks: tasks/rhosp-fetch-fip-info.yaml
-
-  # - name: "Create public Load Balancer"
-  #   openstack.cloud.loadbalancer:
-  #     api_timeout: 120
-  #     name: "{{ rhosp_loadbalancer_prefix }}-public"
-  #     vip_network: "{{ rhosp_network }}"
-  #     floating_ip_address: "{{ openstack_fip_api_address }}"
-  #     delete_floating_ip: true
-  #     state: present
-
-  # - name: "Create private Load Balancer"
-  #   openstack.cloud.loadbalancer:
-  #     assign_floating_ip: false
-  #     name: "{{ rhosp_loadbalancer_prefix }}-private"
-  #     vip_network: "{{ rhosp_network }}"
-  #     state: present
-  #   register: rhosp_lb_private_res
-
 ...

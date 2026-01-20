@@ -14,6 +14,18 @@
     description: "{{ rhosp_fip_bootstrap_name }}"
   register: fip_bootstrap_info
 
+- name: "Print fip_api_info"
+  ansible.builtin.debug:
+    var: fip_api_info
+
+- name: "Print fip_ingress_info"
+  ansible.builtin.debug:
+    var: fip_ingress_info
+
+- name: "Print fip_bootstrap_info"
+  ansible.builtin.debug:
+    var: fip_bootstrap_info
+
 - name: "Set the external IPs for API and APPS"
   ansible.builtin.set_fact:
     openstack_fip_api_address: "{{ fip_api_info.floating_ips[0].floating_ip_address }}"

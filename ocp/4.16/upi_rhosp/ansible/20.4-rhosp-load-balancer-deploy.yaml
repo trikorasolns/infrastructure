@@ -22,7 +22,7 @@
       name: "{{ rhosp_loadbalancer_prefix }}-public"
       vip_network: "{{ rhosp_network }}"
       # floating_ip_address: "{{ openstack_fip_api_address }}"
-      delete_floating_ip: true
+      # delete_floating_ip: true
       state: present
     register: rhosp_lb_public_deploy_res
 
@@ -36,7 +36,7 @@
       openstack floating ip set --port {{ rhosp_lb_public_deploy_res.load_balancer.vip_port_id }} {{ openstack_fip_api_id }}
     register: rhosp_lb_deploy_assoc_fp_public_res
 
-  - name: "Print output of: Associate the Floating IP with the public LB"
+  - name: "Print output of: Associate the Floating IP with the public LBº"
     ansible.builtin.debug:
       var: rhosp_lb_deploy_assoc_fp_public_res
 
