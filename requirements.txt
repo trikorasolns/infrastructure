@@ -6,6 +6,7 @@ pyyaml
 firewall
 python-openstackclient
 python-octaviaclient
+python3-manilaclient
 openstacksdk
 netaddr
 dnspython
