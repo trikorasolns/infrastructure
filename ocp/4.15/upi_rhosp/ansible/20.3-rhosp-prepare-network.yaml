@@ -97,7 +97,7 @@
   - name: "Create private Load Balancer"
     openstack.cloud.loadbalancer:
       assign_floating_ip: false
-      name: "{{ rhosp_loadbalancer_prefix }}-private"
+      name: "{{ rhosp_loadbalancer_prefix }}-internal"
       vip_network: "{{ rhosp_network }}"
       state: present
     register: rhosp_lb_private_res

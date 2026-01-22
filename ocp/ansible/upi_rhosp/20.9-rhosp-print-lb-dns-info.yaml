@@ -13,10 +13,10 @@
 
   - name: "Fetch private Load Balancer info"
     # openstack.cloud.loadbalancer:
-    #   name: "{{ rhosp_loadbalancer_prefix }}-private"
+    #   name: "{{ rhosp_loadbalancer_prefix }}-internal"
     #   vip_network: "{{ rhosp_network }}"
     ansible.builtin.shell: |
-       openstack loadbalancer show {{ rhosp_loadbalancer_prefix }}-private -f json
+       openstack loadbalancer show {{ rhosp_loadbalancer_prefix }}-internal -f json
     register: rhosp_lb_private_res
 
   - name: "Fetch public Load Balancer info"
@@ -120,17 +120,17 @@
     ansible.builtin.debug:
       msg:
       - "Create DNS registries for domain {{ local_domain}}"
+      - "More information on OCP DNS at: https://docs.redhat.com/en/documentation/openshift_container_platform/4.16/html/installing_on_any_platform/installing-platform-agnostic#installation-dns-user-infra_installing-platform-agnostic"
       - ""
       - "Public IP: {{ openstack_fip_api_address }}"
       - "  - A record for api.{{ ocp_cluster_name }}"
       - "  - A record for *.apps.{{ ocp_cluster_name }}"
       - ""
-      - "Private IP: {{ openstack_fip_bootstrap_address }}"
+      - "Internal IP: {{ rhosp_lb_private.vip_address }}"
       - "  - A record for api-int.{{ ocp_cluster_name }}"
+      - ""
+      - "Boostrap IP: {{ openstack_fip_bootstrap_address }}"
       - "  - A record for bootstrap.{{ ocp_cluster_name }}"
-      # - ""
-      # - "Boostrap IP: {{ openstack_fip_bootstrap_address }}"
-      # - "  - A record for bootstrap.{{ ocp_cluster_name }}"
       # - ""
       # - "A record for each Control Plane:"
       # - "  - control-plane-1.{{ ocp_cluster_name }} with IP TBD"

@@ -46,7 +46,7 @@
   # - name: "Add members to the private load-balancer pool"
   #   openstack.cloud.lb_member:
   #     name: "{{ rhosp_control_plane_server_prefix }}-{{ item }}"
-  #     pool: "{{ rhosp_loadbalancer_pool_name }}-private"
+  #     pool: "{{ rhosp_loadbalancer_pool_name }}-internal"
   #     state: present
   #   loop: "{{ range(1,4) }}"
 

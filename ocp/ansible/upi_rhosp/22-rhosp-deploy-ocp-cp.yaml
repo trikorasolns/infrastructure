@@ -45,6 +45,6 @@
   import_playbook: 20.9-rhosp-print-lb-dns-info.yaml
 
 - name: "Show required DNS records"
-  import_playbook: 22.9-rhosp-print-lb-dns-info.yaml
+  import_playbook: 22.9-rhosp-print-cp-dns-info.yaml
 
 ...

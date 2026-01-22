@@ -5,13 +5,18 @@
 # c3-16: 8/16
 rhosp_flavor_master: c3-16
 rhosp_flavor_worker: c3-8
-rhosp_lb_flavor: small
+# LB Flavor:
+# * small
+# * medium
+# * large
+# * xl
+rhosp_lb_flavor: medium
 # rhosp_lb_public_ports:
 # - {name: "api-server-public", port: 6443, protocol: "TCP"}
 # - {name: "https", port: 443, protocol: "TCP"}
 # - {name: "http", port: 80, protocol: "TCP"}
 # - {name: "stats", port: 9000, protocol: "TCP"}
-# rhosp_lb_private_ports:
+# rhosp_lb_internal_ports:
 # - {name: "api-int", port: 22623, protocol: "TCP"}
 # - {name: "api-server-private", port: 6443, protocol: "TCP"}
 # ocp_control_plane_count: 3

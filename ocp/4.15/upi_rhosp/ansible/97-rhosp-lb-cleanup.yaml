@@ -26,7 +26,7 @@
       state: absent
       rhosp_lb_member_address: "{{ rhosp_private_lb_pool_members_item.addr }}"
       rhosp_lb_member_name: "{{ rhosp_private_lb_pool_members_item.name }}"
-      rhosp_lb_member_pool: "{{ rhosp_loadbalancer_pool_name }}-private"
+      rhosp_lb_member_pool: "{{ rhosp_loadbalancer_pool_name }}-internal"
       rhosp_lb_member_ports: "{{ rhosp_lb_private_ports }}"
     loop: "{{ rhosp_instance_cp_array + rhosp_instance_bootstrap_array }}"
     loop_control:
@@ -76,7 +76,7 @@
   - name: "Delete private load-balancer listener"
     openstack.cloud.lb_listener:
       name: "{{ item.name }}"
-      load_balancer: "{{ rhosp_loadbalancer_prefix }}-private"
+      load_balancer: "{{ rhosp_loadbalancer_prefix }}-internal"
       # protocol: "{{ item.protocol }}"
       # protocol_port: "{{ item.port }}"
       state: absent
@@ -95,7 +95,7 @@
     openstack.cloud.lb_pool:
       name: "{{ item.name }}"
       # lb_algorithm: "ROUND_ROBIN"
-      loadbalancer: "{{ rhosp_loadbalancer_prefix }}-private"
+      loadbalancer: "{{ rhosp_loadbalancer_prefix }}-internal"
       # protocol: "{{ item.protocol }}"
       state: absent
     loop: "{{ rhosp_lb_private_ports }}"
@@ -108,6 +108,6 @@
 
   # - name: "Delete private Load Balancer"
   #   openstack.cloud.loadbalancer:
-  #     name: "{{ rhosp_loadbalancer_prefix }}-private"
+  #     name: "{{ rhosp_loadbalancer_prefix }}-internal"
   #     state: absent
 ...
