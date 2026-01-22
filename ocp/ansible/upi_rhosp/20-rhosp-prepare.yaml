@@ -89,28 +89,7 @@
 - name: "Deploy Load Balancer"
   import_playbook: 20.4-rhosp-load-balancer-deploy.yaml
 
-
-# Bootstrap Ignition Image
-# - name: "Generate Bootstrap Ignition Image"
-#   import_playbook: 20.5-rhosp-prepare-bootstrap-ign-img.yaml
-
-
-# # Bootstrap
-# - name: "Deploy Bootrap instances"
-#   import_playbook: 20.6-rhosp-bootstrap-instance.yaml
-
-# - name: "Load Balancer for Bootstrap"
-#   import_playbook: 20.7-rhosp-load-balancer-members-bootstrap.yaml
-
-# # Control Plane
-# - name: "Deploy Control Plane Instances"
-#   import_playbook: 20.8-rhosp-control-plane-instance.yaml
-
-# - name: "Load Balancer for Control Plane"
-#   import_playbook: 20.9-rhosp-load-balancer-members-controlplane.yaml
-
-# # Print DNS information
-# - name: "Print DNS information"
-#   import_playbook: 29-rhosp-print-dns-info.yaml
+- name: "Show required DNS records"
+  import_playbook: 20.9-rhosp-print-lb-dns-info.yaml
 
 ...

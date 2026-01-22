@@ -62,6 +62,16 @@
       meta: "{{ ocp_cluster_id_tag }}"
       # wait: false # due to TypeError: 'NoneType' object is not subscriptable
     when: rhosp_bootstrap_server_info.servers | length == 0
+    register: rhosp_server_bootstrap_deploy_res
+
+  - name: "Print Bootstrap server deploy output"
+    ansible.builtin.debug:
+      var: rhosp_server_bootstrap_deploy_res
+
+  - name: "Associate the Floating IP with the Boostrap node"
+    ansible.builtin.shell: |
+      openstack server add floating ip {{ }} {{ rhosp_server_bootstrap_deploy_res.server.ip }}
+    register: rhosp_lb_deploy_assoc_fp_public_res
 
   # - name: "Delete Bootstrap Ignition image"
   #   openstack.cloud.image:

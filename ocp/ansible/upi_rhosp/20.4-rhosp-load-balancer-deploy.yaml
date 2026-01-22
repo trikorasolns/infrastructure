@@ -133,7 +133,7 @@
       # url_path: '/status'
     loop: "{{ rhosp_lb_public_ports }}"
 
-  - name: "Add Health Monitor to privae Load Balancer pool"
+  - name: "Add Health Monitor to private Load Balancer pool"
     openstack.cloud.lb_health_monitor:
       delay: 5
       # expected_codes: '200'
@@ -247,5 +247,7 @@
   #     - "There seems to be no way to automate adding them."
   #     - "No options neither on Ansible nor on openstack-cli"
   #     - "Must add them manually."
+
+  # openstack loadbalancer listener set  --default-pool <pool> <listener>    Listener to modify (name or ID).
 
 ...

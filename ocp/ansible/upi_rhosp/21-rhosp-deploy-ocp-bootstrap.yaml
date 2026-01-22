@@ -29,19 +29,19 @@
 
   tasks:
 
-# Control Plane
-# - name: "Load Balancer for Bootstrap"
-#   import_playbook: 20.7-rhosp-load-balancer-members-bootstrap.yaml
+# Bootstrap Ignition Image
+- name: "Generate Bootstrap Ignition Image"
+  import_playbook: 21.5-rhosp-prepare-bootstrap-ign-img.yaml
 
-- name: "Deploy Control Plane Instances"
-  import_playbook: 22.8-rhosp-control-plane-instance.yaml
 
-# Load Balancer - 20.14-rhosp-load-balancer.yaml
-- name: "Load Balancer for Control Plane"
-  import_playbook: 22.9-rhosp-load-balancer-members-controlplane.yaml
+# Bootstrap
+- name: "Deploy Bootrap instances"
+  import_playbook: 21.6-rhosp-bootstrap-instance.yaml
 
-# Print DNS information
-- name: "Print DNS information"
-  import_playbook: 29-rhosp-print-dns-info.yaml
+- name: "Load Balancer for Bootstrap"
+  import_playbook: 21.7-rhosp-load-balancer-members-bootstrap.yaml
 
+
+- name: "Show required DNS records"
+  import_playbook: 20.9-rhosp-print-lb-dns-info.yaml
 ...
