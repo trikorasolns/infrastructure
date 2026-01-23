@@ -122,6 +122,7 @@
       rhosp_fip_ingress_name: "ocp-{{ ocp_cluster_name }}-ingress"
       rhosp_fip_bootstrap_name: "ocp-{{ ocp_cluster_name }}-bootstrap"
       rhosp_bootstrap_server_name: "{{ ocp_infra_id }}-bootstrap"
+      rhosp_bastion_server_name: "{{ ocp_infra_id }}-bastion"
       rhosp_control_plane_server_prefix: "{{ ocp_infra_id }}-controlplane"
       rhosp_compute_node_server_prefix: "{{ ocp_infra_id }}-computenode"
       rhosp_ocp_bootstrap_ign_image_name: "bootstrap-ign-{{ ocp_infra_id }}"
