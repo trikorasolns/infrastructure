@@ -96,8 +96,9 @@
 #       delegate_facts: True
 
 - name: "Setup Environment"
+  # hosts: "{{ ocp_bastion | default('ocp_bastion') | default('localhost') }}"
   hosts: "localhost"
-  gather_facts: false
+  gather_facts: true
 
   # pre_tasks:
   # - name: "Fetch Global variables"
@@ -115,7 +116,7 @@
   #   ansible.builtin.set_fact:
   #     ocp_infra_id: "{{ metadata_json.infraID }}"
 
-  - name: "Set requierd facts"
+  - name: "Set required RHOCP facts"
     ansible.builtin.set_fact:
       # ocp_subdomain: "{{ ocp_cluster_name }}.{{ local_domain }}"
       # ocp_cluster_id_tag: "openshiftClusterID={{ ocp_infra_id  }}"
@@ -132,4 +133,5 @@
       rhosp_loadbalancer_prefix: "ocp-{{ ocp_cluster_name }}" # Prefix used on the cluster load balancer names.
       # rhosp_loadbalancer_pool_name: "ocp-{{ ocp_cluster_name }}-pool"
       rhosp_loadbalancer_pool_name: "control-plane"
+
 ...
