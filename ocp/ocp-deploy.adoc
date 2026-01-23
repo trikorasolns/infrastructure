@@ -1,11 +1,11 @@
-= OCP 4.15.x Installation
+= Deploy OpenShift Container Platform on UPI
 Antonio C. <sp38af (at) trikorasolutions (dot) com>
 :revdate: {docdate}
 :icons: font
 :toc: left
 :toclevels: 3
 :toc-title: Table of Contents
-:description: OCP UPI Installation on Proxmox
+:description: Deploy OpenShift Container Platform on UPI
 
 == Acronyms
 
@@ -22,7 +22,7 @@ User-provisioned infrastructure
 
 [.lead]
 The different sections linked by this document describe the installation 
- process for OCP 4.15.x on different platforms.
+ process for OCP 4.16.x on different platforms.
 
 [#collect-information]
 == Collect information
@@ -90,9 +90,9 @@ Get the authentication.
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/ansible/50-ocp-services-get-ocp-auth-playbook.yaml \
-  -e @ocp/4.15/ansible/defaults/main.yaml \
-  -e ocp_cluster_name=${OCP_CLUSTER_NAME}
+ansible-playbook ocp/ansible/50-ocp-services-get-ocp-auth-playbook.yaml \
+  -e @ocp/ansible/defaults/main.yaml \
+  -e @_local_config/${OCP_CLUSTER_NAME}/${OCP_CLUSTER_NAME}.yaml
 ----
 
 === Remove worker from Control Plane nodes

@@ -1,6 +1,6 @@
 ---
 - name: "Install Openshift Install"
-  hosts: "{{ ocp_services | default('localhost')}}"
+  hosts: "{{ bastion_host | default('localhost')}}"
   gather_facts: true
 
   pre_tasks:

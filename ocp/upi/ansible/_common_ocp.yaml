@@ -1,6 +1,6 @@
 ---
 - name: "Read installation info from openshift installation"
-  hosts: "{{ ocp_installer | default('localhost')}}"
+  hosts: "{{ ocp_bastion | default('ocp_bastion') | default('localhost') }}"
   gather_facts: true
 
   pre_tasks:
@@ -13,9 +13,17 @@
 
   - name: "Define variables"
     ansible.builtin.include_tasks:
-      file: ../../ansible/tasks/set_ocp_install_dir.yaml
+      file: tasks/set_ocp_install_dir.yaml
 
   tasks:
+    # - name: "Read metadata file"
+    #   ansible.builtin.slurp:
+    #     src: "{{ openshift_cluster_install_dir }}/metadata.json"
+    #   register: metadata_json_slurp
+
+    # - name: "Parse metadata information"
+    #   ansible.builtin.set_fact:
+    #     metadata_json: "{{ metadata_json_slurp.content | b64decode }}"
     - name: "Obtain the correct version of your RHCOS images"
       ansible.builtin.shell: |
           ./openshift-install coreos print-stream-json
@@ -75,8 +83,14 @@
         src: "{{ openshift_cluster_install_dir }}/worker.ign.sig"
       register: worker_sig_slurp
 
+
   post_tasks:
 
+    # - name: "Set CoreOS Image Location under localhost"
+    #   ansible.builtin.set_fact:
+    #     global_metadata_json: "{{ metadata_json }}"
+    #   delegate_to: localhost
+    #   delegate_facts: True
     - name: "Set CoreOS Image Location under localhost"
       ansible.builtin.set_fact:
         global_coreos_image_location: "{{ coreos_image_location }}"
@@ -115,18 +129,5 @@
   - name: "Set requierd facts"
     ansible.builtin.set_fact:
       ocp_subdomain: "{{ ocp_cluster_name }}.{{ local_domain }}"
-      ocp_cluster_id_tag: "openshiftClusterID={{ ocp_infra_id  }}"
-      rhosp_region_name: "{{ lookup('ansible.builtin.env', 'OS_REGION_NAME') }}"
-      rhosp_rhcoreos_image_name: "rhcos-{{ ocp_cluster_name }}"
-      rhosp_fip_api_name: "ocp-{{ ocp_cluster_name }}-api"
-      rhosp_fip_ingress_name: "ocp-{{ ocp_cluster_name }}-ingress"
-      rhosp_fip_bootstrap_name: "ocp-{{ ocp_cluster_name }}-bootstrap"
-      rhosp_bootstrap_server_name: "{{ ocp_infra_id }}-bootstrap"
-      rhosp_bastion_server_name: "{{ ocp_infra_id }}-bastion"
-      rhosp_control_plane_server_prefix: "{{ ocp_infra_id }}-controlplane"
-      rhosp_compute_node_server_prefix: "{{ ocp_infra_id }}-computenode"
-      rhosp_ocp_bootstrap_ign_image_name: "bootstrap-ign-{{ ocp_infra_id }}"
-      rhosp_loadbalancer_prefix: "ocp-{{ ocp_cluster_name }}" # Prefix used on the cluster load balancer names.
-      # rhosp_loadbalancer_pool_name: "ocp-{{ ocp_cluster_name }}-pool"
-      rhosp_loadbalancer_pool_name: "control-plane"
+      ocp_cluster_id_tag: "openshiftClusterID={{ ocp_infra_id }}"
 ...
