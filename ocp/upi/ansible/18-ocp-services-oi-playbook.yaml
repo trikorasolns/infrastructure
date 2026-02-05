@@ -1,6 +1,6 @@
 ---
-- name: "Openshift Install"
-  hosts: "ocp_services"
+- name: "Install Openshift Install"
+  hosts: "{{ bastion_host | default('localhost')}}"
   gather_facts: true
 
   pre_tasks:
@@ -33,7 +33,7 @@
       state: absent
     failed_when: false
 
-  - name: "Create v install directory"
+  - name: "Create install directory"
     ansible.builtin.file:
       path: "{{ openshift_cluster_install_dir }}"
       state: directory
@@ -83,6 +83,4 @@
       - bootstrap.ign
       - master.ign
       - worker.ign
-
-
 ...

@@ -26,7 +26,7 @@
       state: absent
       rhosp_lb_member_address: "{{ rhosp_private_lb_pool_members_item.addr }}"
       rhosp_lb_member_name: "{{ rhosp_private_lb_pool_members_item.name }}"
-      rhosp_lb_member_pool: "{{ rhosp_loadbalancer_pool_name }}-private"
+      rhosp_lb_member_pool: "{{ rhosp_loadbalancer_pool_name }}-internal"
       rhosp_lb_member_ports: "{{ rhosp_lb_private_ports }}"
     loop: "{{ rhosp_instance_bootstrap_array }}"
     loop_control:

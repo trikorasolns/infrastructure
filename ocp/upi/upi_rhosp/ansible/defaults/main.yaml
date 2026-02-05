@@ -1,0 +1,58 @@
+# OVHCloud:
+# b3-8: 2/8
+# b3-16: 4/16
+# c3-8: 4/8
+# c3-16: 8/16
+# rhosp_flavor_master: b3-16
+# rhosp_flavor_worker: b3-8
+# rhosp_lb_flavor: small
+rhosp_lb_public_ports:
+- {name: "api", port: 6443, protocol: "TCP"}
+- {name: "https", port: 443, protocol: "TCP"}
+- {name: "http", port: 80, protocol: "TCP"}
+rhosp_lb_internal_ports:
+- {name: "internal-api-int", port: 22623, protocol: "TCP"}
+- {name: "internal-api", port: 6443, protocol: "TCP"}
+- {name: "internal-https", port: 443, protocol: "TCP"}
+- {name: "internal-http", port: 80, protocol: "TCP"}
+
+# rhosp_lb_app_public:
+# - {name: "https", port: 443, protocol: "TCP"}
+# - {name: "http", port: 80, protocol: "TCP"}
+# rhosp_lb_app_internal:
+# - {name: "internal-https", port: 443, protocol: "TCP"}
+# - {name: "internal-http", port: 80, protocol: "TCP"}
+# rhosp_lb_api_public:
+# - {name: "api", port: 6443, protocol: "TCP"}
+# - {name: "https", port: 443, protocol: "TCP"}
+# - {name: "http", port: 80, protocol: "TCP"}
+# rhosp_lb_api_internal:
+# - {name: "internal-api-int", port: 22623, protocol: "TCP"}
+# - {name: "internal-api", port: 6443, protocol: "TCP"}
+# - {name: "internal-https", port: 443, protocol: "TCP"}
+# - {name: "internal-http", port: 80, protocol: "TCP"}
+ocp_control_plane_count: 3
+ocp_compute_node_count: 3
+
+
+# rhosp_compute_node:
+#   1:
+#     flavor: b3-8
+#   2:
+#     flavor: b3-8
+#   3:
+#     flavor: b3-8
+#   # 4:ocp/ansible/upi_rhosp/defaults/main.yaml
+#   #   flavor: c3-16
+#   # 5:
+#   #   flavor: c3-16
+#   # 6:
+#   #   flavor: c3-16
+#   # 7:
+#   #   flavor: c3-16
+#   # 8:
+#   #   flavor: c3-16
+#   # 9:
+#   #   flavor: c3-16
+#   # 10:
+#   #   flavor: c3-16

@@ -15,7 +15,7 @@
   #   Unfortunatelly there seems to be no other way of fetching the LB information.
   - name: "Fetch private Load Balancer info"
     openstack.cloud.loadbalancer:
-      name: "{{ rhosp_loadbalancer_prefix }}-private"
+      name: "{{ rhosp_loadbalancer_prefix }}-internal"
       vip_network: "{{ rhosp_network }}"
     register: rhosp_lb_private_res
 
