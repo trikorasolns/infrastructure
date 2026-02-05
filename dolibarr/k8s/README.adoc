@@ -87,3 +87,7 @@ PostgreSQL
 ansible-playbook pgsql/k8s/helm/ansible/pgsql-uninstall-playbook.yaml \
   -e @dolibarr/k8s/helm/ansible/defaults/main.yaml
 ----
+
+== Backup and Restore
+
+Check the link:backupNRestore.adoc[Dolibarr Backup and Restore] document.
