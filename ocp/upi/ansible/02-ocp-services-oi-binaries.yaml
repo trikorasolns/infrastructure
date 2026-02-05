@@ -1,6 +1,6 @@
 ---
 - name: "Generate OCP Cluster installation"
-  hosts: "{{ bootstrap_host | default('localhost')}}"
+  hosts: "{{ bastion_host | default('localhost')}}"
   gather_facts: true
 
   pre_tasks:

@@ -40,15 +40,15 @@
     ansible.builtin.debug:
       var: rhosp_lb_deploy_assoc_fp_public_res
 
-  - name: "Create Internal Load Balancer"
+  - name: "Create private Load Balancer"
     openstack.cloud.loadbalancer:
       # assign_floating_ip: false
-      name: "{{ rhosp_loadbalancer_prefix }}-internal"
+      name: "{{ rhosp_loadbalancer_prefix }}-private"
       vip_network: "{{ rhosp_network }}"
       state: present
     register: rhosp_lb_private_deploy_res
 
-  - name: "Print Internal LB Deploy output"
+  - name: "Print Private LB Deploy output"
     ansible.builtin.debug:
       var: rhosp_lb_private_deploy_res
 
@@ -62,7 +62,7 @@
 
   # - name: "Create private Load Balancer"
   #   openstack.cloud.loadbalancer:
-  #     name: "{{ rhosp_loadbalancer_prefix }}-internal"
+  #     name: "{{ rhosp_loadbalancer_prefix }}-private"
   #     vip_network: "{{ rhosp_network }}"
   #     state: present
   #   register: rhosp_lb_private_res
@@ -91,14 +91,14 @@
       state: present
     loop: "{{ rhosp_lb_public_ports }}"
 
-  - name: "Create Internal load-balancer pools"
+  - name: "Create private load-balancer pools"
     openstack.cloud.lb_pool:
       name: "{{ item.name }}"
       lb_algorithm: "ROUND_ROBIN"
-      loadbalancer: "{{ rhosp_loadbalancer_prefix }}-internal"
+      loadbalancer: "{{ rhosp_loadbalancer_prefix }}-private"
       protocol: "{{ item.protocol }}"
       state: present
-    loop: "{{ rhosp_lb_internal_ports }}"
+    loop: "{{ rhosp_lb_private_ports }}"
     failed_when: false # there is no way of knowing if the pool already exists and it fails when creating again
     register: private_lb_pool_create_res
 
@@ -106,14 +106,14 @@
     ansible.builtin.debug:
       var: private_lb_pool_create_res
 
-  - name: "Create Internal load-balancer listener"
+  - name: "Create private load-balancer listener"
     openstack.cloud.lb_listener:
       name: "{{ item.name }}"
-      load_balancer: "{{ rhosp_loadbalancer_prefix }}-internal"
+      load_balancer: "{{ rhosp_loadbalancer_prefix }}-private"
       protocol: "{{ item.protocol }}"
       protocol_port: "{{ item.port }}"
       state: present
-    loop: "{{ rhosp_lb_internal_ports }}"
+    loop: "{{ rhosp_lb_private_ports }}"
 
 
   # LoadBalancer Health Monitor
@@ -133,7 +133,7 @@
       # url_path: '/status'
     loop: "{{ rhosp_lb_public_ports }}"
 
-  - name: "Add Health Monitor to Internal Load Balancer pool"
+  - name: "Add Health Monitor to private Load Balancer pool"
     openstack.cloud.lb_health_monitor:
       delay: 5
       # expected_codes: '200'
@@ -147,7 +147,7 @@
       state: present
       type: "TCP"
       # url_path: '/status'
-    loop: "{{ rhosp_lb_internal_ports }}"
+    loop: "{{ rhosp_lb_private_ports }}"
 
   # # Members
   # - name: "Fetch Bootstrap server info"
@@ -234,36 +234,16 @@
   #   vars:
   #     rhosp_lb_member_address: "{{ rhosp_private_lb_pool_members_item.addr }}"
   #     rhosp_lb_member_name: "{{ rhosp_private_lb_pool_members_item.name }}"
-  #     rhosp_lb_member_pool: "{{ rhosp_loadbalancer_pool_name }}-internal"
-  #     rhosp_lb_member_ports: "{{ rhosp_lb_internal_ports }}"
+  #     rhosp_lb_member_pool: "{{ rhosp_loadbalancer_pool_name }}-private"
+  #     rhosp_lb_member_ports: "{{ rhosp_lb_private_ports }}"
   #   loop: "{{ rhosp_instance_cp_array + rhosp_instance_bootstrap_array }}"
   #   loop_control:
   #     loop_var: rhosp_private_lb_pool_members_item
 
-  # Add default pool to listeners"
-  # Assuming the listener name and pool name is the same.
-  # openstack loadbalancer listener set --default-pool <pool> <listener>    Listener to modify (name or ID).
-  # openstack loadbalancer pool list --loadbalancer ocp-ovhcocppot-public -f json
-  - name: "Fetch Pools for Public LB"
-    ansible.builtin.shell: |
-      openstack loadbalancer pool list --loadbalancer {{ rhosp_loadbalancer_prefix }}-public -f json
-    register: public_lb_pool_res
+  - name: "WARNING: Manually add pool to listeners"
+    ansible.builtin.debug:
+      msg:
+      - "Pools aren't associated automatically with the Listener"
+  # openstack loadbalancer listener set  --default-pool <pool> <listener>    Listener to modify (name or ID).
 
-  - name: "Set default Pool on Listeners"
-    include_tasks: tasks/rrhosp-loadbalancer-add-pool-to-listener.yaml
-    loop: (public_lb_pool_res.stdout | from_json)
-    loop_control:
-      loop_var: rhosp_lb_pool
-
-  # openstack loadbalancer pool list --loadbalancer ocp-ovhcocppot-internal -f json
-  - name: "Fetch Pools for Internal LB"
-    ansible.builtin.shell: |
-      openstack loadbalancer pool list --loadbalancer {{ rhosp_loadbalancer_prefix }}-internal -f json
-    register: private_lb_pool_res
-
-  - name: "Set default Pool on Listeners"
-    include_tasks: tasks/rrhosp-loadbalancer-add-pool-to-listener.yaml
-    loop: (private_lb_pool_res.stdout | from_json)
-    loop_control:
-      loop_var: rhosp_lb_pool
 ...
