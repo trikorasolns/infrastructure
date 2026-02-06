@@ -1,4 +1,7 @@
 # OVHCloud:
+# Storage
+rhosp_share_type: standard-1az
+# Instances
 # b3-8: 2/8
 # b3-16: 4/16
 # c3-8: 4/8

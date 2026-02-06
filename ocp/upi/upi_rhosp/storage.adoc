@@ -1,4 +1,4 @@
-= Storage con RHOSP UPI
+= Storage with RHOSP UPI
 Antonio C. <sp38af (at) trikorasolutions (dot) com>
 :revdate: {docdate}
 :icons: font
@@ -21,7 +21,7 @@ RHOSP Cinder
 
 [source,bash]
 ----
-ansible-playbook ocp/upi/upi_rhosp/ansible/50-ocp-storage-cinder.yaml \
+ansible-playbook ocp/upi/upi_rhosp/ansible/50-ocp-storage-cinder-deploy.yaml \
   -i _local_config/ansible/inventory.yaml \
   -e @_local_config/network.yaml \
   -e @_local_config/${OCP_CLUSTER_NAME}/${OCP_CLUSTER_NAME}.yaml \
@@ -36,7 +36,7 @@ To test the configuration execute the following configuration that will deploy
 
 [source,bash]
 ----
-oc apply -f ocp/4.15/upi_rhosp/ansible/files/kubernetes-cloud-provider-openstack-cinder-test.yaml
+oc apply -f ocp/upi/upi_rhosp/ansible/templates/kubernetes-cloud-provider-openstack-cinder-test.yaml
 ----
 
 Check if the pod is up and running.
@@ -100,7 +100,7 @@ Delete the test resources.
 
 [source,bash]
 ----
-oc delete -f ocp/4.15/upi_rhosp/ansible/files/kubernetes-cloud-provider-openstack-cinder-test.yaml
+oc delete -f ocp/upi/upi_rhosp/ansible/templates/kubernetes-cloud-provider-openstack-cinder-test.yaml
 ----
 
 
@@ -109,13 +109,18 @@ oc delete -f ocp/4.15/upi_rhosp/ansible/files/kubernetes-cloud-provider-openstac
 [.lead]
 RHOSP Manila
 
+==== Deploy Manila
+
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi_rhosp/ansible/95-ocp-storage-manila-cleanup.yaml \
+ansible-playbook ocp/upi/upi_rhosp/ansible/50-ocp-storage-manila.yaml \
+  -i _local_config/ansible/inventory.yaml \
   -e @_local_config/network.yaml \
-  -e @ocp/4.15/ansible/defaults/main.yaml \
-  -e @ocp/4.15/upi_rhosp/ansible/defaults/main.yaml \
-  -e @_local_config/${OCP_CLUSTER_NAME}/${OCP_CLUSTER_NAME}.yaml
+  -e @_local_config/${OCP_CLUSTER_NAME}/${OCP_CLUSTER_NAME}.yaml \
+  -e @ocp/upi/ansible/defaults/main.yaml \
+  -e @ocp/4.16/ansible/defaults/main.yaml \
+  -e @ocp/upi/upi_rhosp/ansible/defaults/main.yaml \
+  -e @ocp/upi/upi_rhosp/ansible/defaults/ovhcloud.yaml
 ----
 
 To test the configuration execute the following configuration that will deploy 
@@ -134,15 +139,20 @@ Delete manila test.
 oc delete -f ocp/4.15/upi_rhosp/ansible/files/kubernetes-cloud-provider-openstack-manila-test.yaml
 ----
 
+==== Undeploy Manila
+
 Delete manila configuration.
 
 [source,bash]
 ----
-ansible-playbook ocp/4.15/upi_rhosp/ansible/95-ocp-storage-manila-cleanup.yaml \
+ansible-playbook ocp/upi/upi_rhosp/ansible/95-ocp-storage-manila-cleanup.yaml \
+  -i _local_config/ansible/inventory.yaml \
   -e @_local_config/network.yaml \
-  -e @ocp/4.15/ansible/defaults/main.yaml \
-  -e @ocp/4.15/upi_rhosp/ansible/defaults/main.yaml \
-  -e @_local_config/${OCP_CLUSTER_NAME}/${OCP_CLUSTER_NAME}.yaml
+  -e @_local_config/${OCP_CLUSTER_NAME}/${OCP_CLUSTER_NAME}.yaml \
+  -e @ocp/upi/ansible/defaults/main.yaml \
+  -e @ocp/4.16/ansible/defaults/main.yaml \
+  -e @ocp/upi/upi_rhosp/ansible/defaults/main.yaml \
+  -e @ocp/upi/upi_rhosp/ansible/defaults/ovhcloud.yaml
 ----
 
 References: 

@@ -63,6 +63,7 @@
       path: "/tmp/{{ item }}"
       regexp: '^( +)value: "SHARE-PROTOCOL"$'
       replace: '\1value: "NFS"'
+      # replace: '\1value: "CephFS"'
     # ansible.builtin.lineinfile:
     #   path: "/tmp/{{ item }}"
     #   search_string: 'value: "SHARE-PROTOCOL"'

@@ -9,8 +9,14 @@
   vars:
     manila_resource_templates:
     - kubernetes-cloud-provider-openstack-manila-secret
-    - kubernetes-cloud-provider-openstack-manila-cm
+    # - kubernetes-cloud-provider-openstack-manila-cm
     k8s_maj_min_version: "{{ (k8s_version | split('.'))[0] }}.{{ (k8s_version | split('.'))[1] }}"
+
+  pre_tasks:
+  - name: "Get RHOSP information from the environment"
+    ansible.builtin.set_fact:
+      rhosp_os_username: "{{ lookup('ansible.builtin.env', 'OS_USERNAME') }}"
+      rhosp_os_password: "{{ lookup('ansible.builtin.env', 'OS_PASSWORD') }}"
 
   tasks:
   - name: "Template Manila resources"
@@ -35,22 +41,22 @@
   #     oc apply -f /tmp/kubernetes-cloud-provider-openstack-manila-secret.yaml
   #   register: ocp_cinder_secret
 
-  - name: "Create Manila Storage Class"
-    ansible.builtin.command: |
-      oc apply -f https://raw.githubusercontent.com/kubernetes/cloud-provider-openstack/refs/heads/release-{{ k8s_maj_min_version }}/examples/manila-csi-plugin/nfs/dynamic-provisioning/storageclass.yaml
+  # - name: "Create Manila Storage Class"
+  #   ansible.builtin.command: |
+  #     oc apply -f https://raw.githubusercontent.com/kubernetes/cloud-provider-openstack/refs/heads/release-{{ k8s_maj_min_version }}/examples/manila-csi-plugin/nfs/dynamic-provisioning/storageclass.yaml
 
   - name: "Deploy the RBACs"
     ansible.builtin.shell: |
-      oc apply -f https://raw.githubusercontent.com/kubernetes/cloud-provider-openstack/refs/heads/release-{{ k8s_maj_min_version }}/manifests/manila-csi-plugin/csi-controllerplugin-rbac.yaml
-      oc apply -f https://raw.githubusercontent.com/kubernetes/cloud-provider-openstack/refs/heads/release-{{ k8s_maj_min_version }}/manifests/manila-csi-plugin/csi-nodeplugin-rbac.yaml
+      oc apply -f https://raw.githubusercontent.com/kubernetes/cloud-provider-openstack/refs/tags/{{ kubernetes_cloud_provider_openstack_version }}/manifests/manila-csi-plugin/csi-controllerplugin-rbac.yaml
+      oc apply -f https://raw.githubusercontent.com/kubernetes/cloud-provider-openstack/refs/tags/{{ kubernetes_cloud_provider_openstack_version }}/manifests/manila-csi-plugin/csi-nodeplugin-rbac.yaml
 
   - name: "Deploy the CSIDriver CRD"
     ansible.builtin.command: |
-      oc apply -f https://raw.githubusercontent.com/kubernetes/cloud-provider-openstack/refs/heads/release-{{ k8s_maj_min_version }}/manifests/manila-csi-plugin/csidriver.yaml
+      oc apply -f https://raw.githubusercontent.com/kubernetes/cloud-provider-openstack/refs/tags/{{ kubernetes_cloud_provider_openstack_version }}/manifests/manila-csi-plugin/csidriver.yaml
 
   - name: "Download Controller and Node plugins to be modified"
     ansible.builtin.get_url:
-      url: "https://raw.githubusercontent.com/kubernetes/cloud-provider-openstack/refs/heads/release-{{ k8s_maj_min_version }}/manifests/manila-csi-plugin/{{ item }}"
+      url: "https://raw.githubusercontent.com/kubernetes/cloud-provider-openstack/refs/tags/{{ kubernetes_cloud_provider_openstack_version }}/manifests/manila-csi-plugin/{{ item }}"
       dest: "/tmp/{{ item }}"
       mode: '0640'
     loop:
@@ -62,7 +68,8 @@
       after: "name: MANILA_SHARE_PROTO"
       path: "/tmp/{{ item }}"
       regexp: '^( +)value: "SHARE-PROTOCOL"$'
-      replace: '\1value: "NFS"'
+      replace: '\1value: "{{ rhosp_manila_share_protcol }}"'
+      # replace: '\1value: "CephFS"'
     # ansible.builtin.lineinfile:
     #   path: "/tmp/{{ item }}"
     #   search_string: 'value: "SHARE-PROTOCOL"'
@@ -79,6 +86,9 @@
   #   ansible.builtin.command: |
   #     oc apply -f https://raw.githubusercontent.com/kubernetes/cloud-provider-openstack/refs/heads/release-{{ k8s_maj_min_version }}/manifests/manila-csi-plugin/csidriver.yaml
 
+  # - name: "Pause until you can verify updates to an application were successful"
+  #   ansible.builtin.pause:
+
   - name: "Deploy the Controller and Node plugins"
     ansible.builtin.command: |
       oc apply -f /tmp/{{ item }}
@@ -87,3 +97,4 @@
     - csi-nodeplugin.yaml
 
 ...
+ 
