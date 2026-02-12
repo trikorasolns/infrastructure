@@ -158,8 +158,7 @@ awx-admin-password                   Opaque                1      70s
 
 [source,bash]
 ----
-$ kubectl -n awx get secret/awx-admin-password -o jsonpath="{.data.password}" | base64 --decode
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx$
+kubectl -n awx get secret/awx-admin-password -o jsonpath="{.data.password}" | base64 --decode
 ----
 
 === Ingress Controller
@@ -180,8 +179,8 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx$
 
 [source,bash]
 ----
-$ export AWX_HOST_NAME=localhost.localdomain
-$ yq '.spec.rules[0].host = env(AWX_HOST_NAME)' awx/k8s/ingress/ingress.yaml | kubectl apply -f -
+export AWX_HOST_NAME=localhost.localdomain
+yq '.spec.rules[0].host = env(AWX_HOST_NAME)' awx/k8s/ingress/ingress.yaml | yq '.spec.tls[0].hosts[0] = env(AWX_HOST_NAME)'  | kubectl apply -f -
 ----
 
 After this deployment the DNS for the `AWX_HOST_NAME` should point to the IP address assigned to the LoadBalancer service for the Ingress controller.
