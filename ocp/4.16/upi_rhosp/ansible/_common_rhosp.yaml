@@ -1,4 +1,0 @@
----
-- name: "Collect information"
-  import_playbook: ../../../ansible/upi_rhosp/_common_rhosp.yaml
-...
