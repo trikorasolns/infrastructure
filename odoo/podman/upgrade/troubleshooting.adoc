@@ -1,0 +1,73 @@
+= Troubleshooting
+Antonio C. <ac (at) trikorasolutions (dot) com>
+:toc: left
+:revdate: {docdate}
+:icons: font
+:Description: Guide for deploying Odoo as a podman container.
+
+== 13.0 -> 14.0
+
+=== column "account_reconcile_model_line_id" referenced in foreign key constraint does not exist
+
+[source,]
+----
+2024-04-30 07:55:02,772 50 INFO trikorasolns odoo.models: Storing computed values of res.company.account_tax_fiscal_country_id 
+2024-04-30 07:55:02,965 50 ERROR trikorasolns odoo.sql_db: bad query: ALTER TABLE "account_reconcile_model_analytic_tag_rel" ADD FOREIGN KEY ("account_reconcile_model_line_id") REFERENCES "account_reconcile_model_line"("id") ON DELETE cascade
+ERROR: column "account_reconcile_model_line_id" referenced in foreign key constraint does not exist
+----
+
+=== KeyError: ('ir.model.data', <function IrModelData.xmlid_lookup at 0x7f76702c3378>, 'base.module_category_services_timesheets')
+
+
+== 15.0
+
+=== Uncaught Promise > While parsing modifiers for span: for modifier "invisible": Unknown field meeting_count in domain
+
+==== Problem
+
+When opening a CRM lead the application fails with an error
+
+[source,]
+----
+Uncaught Promise > While parsing modifiers for span: for modifier "invisible": Unknown field meeting_count in domain
+----
+
+==== Cause
+
+==== Solution
+
+1. Go to Configuration and enable the developer mode
+2. Go to Configuration > Translations > Translated terms
+Search for "meeting_count" as translation value
+3. Replace every occurrence of "meeting_count" by "calendar_event_count"
+4. Go back to the configuration > Manage Languages
+5. Update every languages 
+
+
+== 15.0 -> 16.0
+
+=== ERROR trikorasolns odoo.sql_db: bad query: UPDATE "ir_rule" SET "name" = 'user: read own attendance only'
+
+
+==== Problem
+
+[source,]
+----
+2024-04-30 16:05:38,744 24 ERROR trikorasolns odoo.sql_db: bad query: UPDATE "ir_rule" SET "name" = 'user: read own attendance only', "perm_create" = false, "perm_write" = false, "write_date" = '2024-04-30 16:05:38.358473', "write_uid" = 1 WHERE id IN (131)
+ERROR: new row for relation "ir_rule" violates check constraint "ir_rule_no_access_rights"
+DETAIL:  Failing row contains (131, user: read own attendance only, t, 360, [('employee_id.user_id','=',user.id)], f, f, f, f, f, 1, 2019-12-04 00:53:27.393718, 1, 2024-04-30 16:05:38.358473).
+ 
+2024-04-30 16:05:38,744 24 ERROR trikorasolns OpenUpgrade: hr_attendance: error in migration script /mnt/extra-addons/openupgrade_scripts/scripts/hr_attendance/16.0.2.0/post-migration.py: while parsing /mnt/extra-addons/openupgrade_scripts/scripts/hr_attendance/16.0.2.0/noupdate_changes.xml:9, somewhere inside
+<record id="hr_attendance_rule_attendance_employee" model="ir.rule">
+    <field name="name">user: read own attendance only</field>
+    <field name="perm_create" eval="0"/>
+    <field name="perm_write" eval="0"/>
+  </record> 
+2024-04-30 16:05:38,744 24 ERROR trikorasolns OpenUpgrade: while parsing /mnt/extra-addons/openupgrade_scripts/scripts/hr_attendance/16.0.2.0/noupdate_changes.xml:9, somewhere inside
+<record id="hr_attendance_rule_attendance_employee" model="ir.rule">
+    <field name="name">user: read own attendance only</field>
+    <field name="perm_create" eval="0"/>
+    <field name="perm_write" eval="0"/>
+  </record> 
+----
+

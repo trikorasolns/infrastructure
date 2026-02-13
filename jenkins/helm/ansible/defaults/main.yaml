@@ -1,0 +1,4 @@
+app_name: jenkins
+app_namespace: jenkins
+app_image_tag: 2.516.2-lts
+app_version: 2.516.2-lts

@@ -1,0 +1,68 @@
+= Deploy PgSql on Kubernetes
+:author:    Antonio C.
+:email:     <ac (at) trikorasolutions (dot) com>
+:revdate:   {{docdate}}
+:toc:       left
+:toc-title: Table of Contents
+:icons:     font
+:description: Deploy PostgreSQL on a Kubernetes cluster
+:source-highlighter: highlight.js
+
+== Introduction
+
+[.lead]
+This document describes having PostgreSQL deployed on a Kubernetes cluster using Helm.
+
+== Preparation
+
+TBD
+
+== Install
+
+Template the helm file.
+
+[source,bash]
+----
+jinja2 --format=yaml -DDB_PASSWORD=${DB_PASSWORD} -DAPP_NAME=${APP_NAME} pgsql/k8s/helm/helm-pgsql-values.yaml.j2 > /tmp/helm-pgsql-values.yaml
+----
+
+[source,bash]
+----
+helm upgrade --install --namespace ${APP_NAME} -f /tmp/helm-odoo-odoo-values.yaml odoo ${HELM_CHART_FOLDER:-.}/postgresql
+----
+
+[source,bash]
+----
+ansible-playbook pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml \
+  -e app_name=${APP_NAME} \
+  -e app_version=${APP_VERSION} \
+  -e trikora_helm_project_dir=${TRIKORA_HELM} \
+  -e app_namespace=${APP_NAME} \
+  -e db_password=${DB_PASSWORD} \
+  -e db_name=${DB_PASSWORD} \
+  -e db_user=${APP_NAME} \
+  -e db_image_tag=13
+
+  -e k8s_host=${KUBERNETES_NODE_NAME} \
+
+----
+
+Use the application variables file.
+
+[source,bash]
+----
+ansible-playbook pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml \
+  -e "@gitea/k8s/gitea_variables.yaml" \
+  -e trikora_helm_project_dir=${TRIKORA_HELM} \
+  -e db_password=${DB_PASSWORD} \
+  -e db_image_tag=13 \
+  -e iscsi_portal=${ISCSI_PORTAL} \
+  -e iscsi_target=${ISCSI_TARGET}
+----
+
+== Uninstall
+
+[source,bash]
+----
+ansible-playbook pgsql/k8s/helm/ansible/pgsql-uninstall-playbook.yaml -e "@gitea/k8s/gitea_variables.yaml"   -e trikora_helm_project_dir=${TRIKORA_HELM}
+----

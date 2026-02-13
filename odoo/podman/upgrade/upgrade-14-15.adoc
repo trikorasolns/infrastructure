@@ -1,0 +1,70 @@
+= Odoo 13 -> 14 Upgrade Guide
+Antonio C. <ac (at) trikorasolutions (dot) com>
+:toc: left
+:revdate: {docdate}
+:icons: font
+:Description: Guide for deploying Odoo from 13 to 14 as a podman container.
+
+== Upgrade
+
+[.lead]
+Upgrade instructions.
+
+=== Requirements
+
+All upgrades require an export file with the database on the starting version.
+
+== 14.0 -> 15.0
+
+[source,bash]
+----
+git clone --branch=15.0 --depth=1 --single-branch git@github.com:OCA/OpenUpgrade.git OpenUpgrade-15.0
+----
+
+Copy the 2 addon folders to the container under the `/mnt/extra-addons/` folder.
+
+
+Start Odoo 15.0.
+
+[source,bash]
+----
+podman run -it --name odoo_web --privileged --pod odoo -v "odoo_web_data:/var/lib/odoo:z" -v "odoo_web_configs:/etc/odoo:Z"  -v "odoo_web_addons:/mnt/extra-addons:Z" -e POSTGRES_DB=postgres -e USER=odoo -e PASSWORD=1234  -e HOST=odoo_pgsql -e USER=odoo  --label "name=odoo,component=web,part-of=odoo" odoo:15.0 /bin/bash
+----
+
+Remove existing openupgrade folders.
+
+[source,bash]
+----
+podman exec odoo_web rm -Rf /mnt/extra-addons/openupgrade_scripts/
+podman exec odoo_web rm -Rf /mnt/extra-addons/openupgrade_framework/
+----
+
+Copy OpenUpgrade 15.0 files.
+
+[source,bash]
+----
+podman cp OpenUpgrade-15.0/openupgrade_scripts/ odoo_web:/mnt/extra-addons/
+podman cp OpenUpgrade-15.0/openupgrade_framework/ odoo_web:/mnt/extra-addons/
+----
+
+Check the <<openupgradelib,openupgradelib>> section to make sure this Python library is installed. The Python version for Odoo 15.0 is Python 3.9.
+
+Execute the upgrade by checking the <<execute_the_upgrade,Execute the upgrade>> section.
+
+=== Start the new Odoo version
+
+Before starting the odoo container remove the one used by the upgrade.
+
+[source,bash]
+----
+podman stop odoo_web
+podman rm odoo_web
+----
+
+Start the container using the correct odoo version.
+
+[source,bash]
+----
+podman run --name odoo_web --privileged --pod odoo -d -v "odoo_web_data:/var/lib/odoo:z" -v "odoo_web_configs:/etc/odoo:Z"  -v "odoo_web_addons:/mnt/extra-addons:Z" -e POSTGRES_DB=postgres -e USER=odoo -e PASSWORD=1234  -e HOST=odoo_pgsql -e USER=odoo  --label "name=odoo,component=web,part-of=odoo" odoo:15.0
+----
+

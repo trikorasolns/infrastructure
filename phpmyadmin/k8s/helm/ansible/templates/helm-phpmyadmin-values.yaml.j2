@@ -1,0 +1,16 @@
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations: {}
+  hosts:
+    - host: phpmyadmin.{{ app_name }}.{{ local_domain }}
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            serviceName: phpmyadmin
+            servicePort: 80
+
+phpmyadmin:
+  rootPassword: {{ phpmyadmin_root_pw }}
+  

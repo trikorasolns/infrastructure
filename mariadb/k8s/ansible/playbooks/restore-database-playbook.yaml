@@ -1,0 +1,122 @@
+---
+- name: "Restore MariabDB Database Playbook"
+  hosts: "localhost"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+    - name: "Validate backup file location is defined"
+      assert:
+        that:
+          - "db_dump_file is defined"
+        fail_msg: "Backup file location must be defined under the db_dump_file variable (-e db_dump_file=...)"
+        success_msg: "Backup file is {{ db_dump_file }}"
+
+    - name: "Set variables"
+      ansible.builtin.set_fact:
+        db_bk_user: "{{ db_user | default('root') }}"
+
+  tasks:
+
+    - name: "Set the database POD name"
+      ansible.builtin.set_fact:
+        database_pod_name: "mariadb-0"
+
+    - name: "Identify the GLPI POD name"
+      ansible.builtin.shell: |
+        kubectl get pods -n {{ app_name }} | grep glpi- |  awk '{print $1}'
+      register: glpi_pod_name_res
+
+    - name: "Get the file name from the backup"
+      ansible.builtin.set_fact: 
+        bk_file_name: "{{ db_dump_file | basename }}"
+
+    - name: "Print variables"
+      ansible.builtin.debug: 
+        msg: 
+          - "bk_file_name: {{ bk_file_name }}"
+          # - "bk_file_prefix: {{ bk_file_prefix }}"
+
+    - name: "Get mariadb password secret"
+      kubernetes.core.k8s_info:
+        api_version: v1
+        kind: Secret
+        name: mariadb
+        namespace: "{{ app_namespace }}"
+      register: mariadb_secret_res
+
+    - name: "Set variable with mariadb root password"
+      ansible.builtin.set_fact:
+        db_bk_pw: "{{ mariadb_secret_res.resources[0].data.MYSQL_PASSWORD | b64decode }}"
+      when: db_bk_pw is undefined
+
+    - name: "Print print_res result"
+      ansible.builtin.debug: 
+        msg: 
+          - "db_bk_pw: {{ db_bk_pw }}"
+
+    # - name: "print stuff..."
+    #   kubernetes.core.k8s_exec:
+    #     namespace: "{{ app_namespace }}"
+    #     pod: "{{ database_pod_name }}"
+    #     # command: ["bash","-c","MYSQL_PWD={{ db_bk_pw }} ; echo ${MYSQL_PWD}"]
+    #     command: "ls -la ; export"
+    #   # environment:
+    #   #   MYSQL_PWD: "{{ db_bk_pw }}"
+    #   register: print_res
+
+    # - name: "Print print_res result"
+    #   ansible.builtin.debug: 
+    #     msg: 
+    #       - "print_res: {{ print_res }}"
+
+    # - name: "Create temporary password file"
+    #   kubernetes.core.k8s_cp:
+    #     namespace: "{{ app_namespace }}"
+    #     pod: "{{ database_pod_name }}"
+    #     remote_path: /tmp/.sqlpwd
+    #     content: |
+    #       [mysqldump]
+    #       user="{{ db_bk_user }}"
+    #       password="{{ db_bk_pw }}"
+    #   when: db_bk_pw is defined
+
+    - name: "Copy the backup file to the kubernetes pod"
+      kubernetes.core.k8s_cp:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ database_pod_name }}"
+        remote_path: /tmp/
+        local_path: "{{ db_dump_file }}"
+        no_preserve: True
+        state: to_pod
+      when: skip_copy is undefined or not (skip_copy | bool)
+
+    # - name: "Restore the database"
+    #   kubernetes.core.k8s_exec:
+    #     namespace: "{{ app_namespace }}"
+    #     pod: "{{ database_pod_name }}"
+    #     command: |
+    #       mysql -u {{ db_bk_user }} {{ db_name }} < /tmp/{{ bk_file_name }}
+    #   environment:
+    #     MYSQL_PWD: "{{ db_bk_pw }}"
+    #   register: restore_res
+
+    - name: "Restore the database"
+      ansible.builtin.shell: |
+        kubectl -n {{ app_namespace }} exec "{{ database_pod_name }}" -- bash -c 'MYSQL_PWD="{{ db_bk_pw }}" mysql -u root {{ db_name }} -e "SOURCE /tmp/{{ bk_file_name }};"'
+      # environment:
+      #   MYSQL_PWD: "{{ db_bk_pw }}"
+      register: restore_res
+
+    # - name: "Remove temporary password file"
+    #   kubernetes.core.k8s_exec:
+    #     command: "rm -f /tmp/.sqlpwd"
+    #     namespace: "{{ k8s_ns }}"
+    #     pod: "{{ mariadb_pod_name }}"
+    #   ignore_errors: true
+
+    - name: "Print restore result"
+      ansible.builtin.debug: 
+        msg: 
+          - "restore_res: {{ restore_res }}"
+
+...

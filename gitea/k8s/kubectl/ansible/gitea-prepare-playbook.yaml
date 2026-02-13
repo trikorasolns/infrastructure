@@ -1,0 +1,43 @@
+---
+- name: "Install Pre install PostgreSQL"
+  hosts: "{{ k8s_host }}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+    - name: "Set gitea version"
+      ansible.builtin.set_fact:
+        app_version: "1.22.6"
+      when: app_version is undefined
+
+  tasks:
+    - name: "Template gitea configuration files"
+      include_tasks: tasks/template-gitea-k8s-config.yaml
+
+    - name: "Gitea: Apply PV files"
+      kubernetes.core.k8s:
+        state: present
+        src: "/tmp/{{ item }}"
+      loop:
+        - pv-gitea-db.yaml
+        - pv-gitea-data.yaml
+
+    - name: "Create Gitea namespace"
+      kubernetes.core.k8s:
+        name: gitea
+        api_version: v1
+        kind: Namespace
+        state: present
+
+    # Patch existing namespace : add label
+    - name: "Add labels to Gitea namespace"
+      kubernetes.core.k8s:
+        state: patched
+        kind: Namespace
+        name: gitea
+        definition:
+          metadata:
+            labels:
+              app.kubernetes.io/name: gitea
+              app.kubernetes.io/version: "{{ app_version }}"
+
+...

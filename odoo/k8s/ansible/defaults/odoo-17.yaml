@@ -1,0 +1,5 @@
+app_name: odoo-17
+app_namespace: odoo-17
+app_version: 17.0
+
+db_image_tag: 13

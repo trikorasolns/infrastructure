@@ -1,0 +1,39 @@
+= NodeRED on Podman
+:author:    Antonio C.
+:email:     <ac (at) trikorasolutions (dot) com>
+:revdate:   {{docdate}}
+:toc:       left
+:toc-title: Table of Contents
+:icons:     font
+:description: NodeRed on Podman
+:source-highlighter: highlight.js
+
+== Introduction
+
+[.lead]
+This section describes the nodered deployment and maintenance tasks on Podman.
+
+== Deploy
+
+Create a volume.
+
+[source,bash]
+----
+podman volume create node_red_data --label nodered
+----
+
+Deploy nodered.
+
+[source,bash]
+----
+podman pod create --label nodered -p 8080:1880 nodered
+podman run --pod nodered -it -v node_red_data:/data --name nodered_app nodered/node-red
+----
+
+== Undeploy
+
+[source,bash]
+----
+podman pod rm nodered
+podman volume rm node_red_data
+----

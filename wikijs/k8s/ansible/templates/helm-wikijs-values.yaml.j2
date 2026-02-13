@@ -1,0 +1,37 @@
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "180"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "180"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "180"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "180"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "180"
+    nginx.ingress.kubernetes.io/proxy-body-size: 50m
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 50m
+  hosts:
+    - host: "{{ url_prefix | default(app_name) }}.{{ local_domain }}"
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            serviceName: http
+            servicePort: 3000
+
+postgresql:
+  enabled: false
+  postgresqlDatabase: {{ db_name }}
+  postgresqlUser: {{ db_user }}
+  postgresqlHost: postgresql.{{ app_name }}.svc.cluster.local
+  #postgresqlPassword: {{ db_password }}
+  existingSecret: wikijs
+  existingSecretKey: 	postgresql-password
+  postgresqlPort: 5432
+  #ssl 	Enable external postgres SSL connection 	false
+  #ca 	Certificate of Authority path for postgres 	nil
+  #persistence:
+  #  enabled: true
+  #  existingClaim 	Provide an existing PersistentVolumeClaim for postgres 	nil
+  #  storageClass:  	Postgres PVC Storage Class (example: nfs) 	nil
+  #  size 	Postgers PVC Storage Request 	8Gi
+

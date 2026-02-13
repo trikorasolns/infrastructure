@@ -1,0 +1,34 @@
+image:
+  tag: "{{ app_version }}"
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations: {}
+  hosts:
+    - host: "{{ app_name }}.{{ local_domain }}"
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            serviceName: http
+            servicePort: 8080
+
+persistence:
+  dbType: {{ db_type }}
+  dbPort: {{ db_port }}
+  dbName: {{ db_name }}
+  dbUser: {{ db_user }}
+  dbPassword: {{ db_password }}
+{% if storage_class_rwo is defined or storage_class is defined %}
+  storageClassName: "{{ storage_class_rwo | default(storage_class) }}"
+{% endif %}
+
+volumes:
+- name: nodered-data
+  persistentVolumeClaim:
+    claimName: nodered-data
+    readOnly: false
+{% if storage_class_rwo is defined or storage_class is defined %}
+    storageClassName: "{{ storage_class_rwo | default(storage_class) }}"
+{% endif %}

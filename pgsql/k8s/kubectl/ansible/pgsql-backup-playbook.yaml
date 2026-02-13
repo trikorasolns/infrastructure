@@ -1,0 +1,45 @@
+---
+- name: "Backup PostgreSQL database"
+  hosts: "{{ k8s_host | default('localhost') }}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+    - name: "Check variables"
+      ansible.builtin.assert:
+        that:
+          - "k8s_ns is defined and k8s_ns | length > 0"
+          - "backup_root_folder is defined and backup_root_folder | length > 0"
+          - "db_pod_name is defined and db_pod_name | length > 0"
+          - "db_name is defined and db_name | length > 0"
+          - "db_user is defined and db_user | length > 0"
+          - "db_password is defined and db_password | length > 0"
+          - "backup_file_prefix is defined and backup_file_prefix | length > 0"
+
+  tasks:
+
+    - name: "Print backup result"
+      ansible.builtin.set_fact:
+        # postgresql_bk_command: "pg_dump --username={{ db_user }} --dbname={{ db_name }} > /tmp/{{ backup_file_prefix }}.{{ k8s_ns }}.{{ db_pod_name }}.backup.sql"
+        postgresql_bk_command: "pg_dump --username={{ db_user }} --dbname={{ db_name }}"
+
+    - name: "Print Backup command"
+      ansible.builtin.debug:
+        var: postgresql_bk_command
+
+    - name: "Backup PostgreSQL database"
+      kubernetes.core.k8s_exec:
+        command: "{{ postgresql_bk_command }}"
+        namespace: "{{ k8s_ns }}"
+        pod: "{{ db_pod_name }}"
+      register: postgresql_dump_res
+
+    # - name: "Print backup result"
+    #   ansible.builtin.debug:
+    #     var: postgresql_dump_res
+
+    - name: "Download the DB backup to the backup folder - {{ k8s_ns }}"
+      ansible.builtin.copy: 
+        content: "{{ postgresql_dump_res.stdout }}" 
+        # src: "{{ backup_file_prefix }}.{{ k8s_ns }}.{{ db_pod_name }}.backup.sql"
+        dest: "{{ backup_root_folder }}/{{ k8s_ns }}/{{ backup_file_prefix }}.sql"
+...

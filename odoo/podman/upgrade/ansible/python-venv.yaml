@@ -1,0 +1,23 @@
+- name: "Create a Python venv for the required Python version."
+  hosts: "localhost"
+  gather_facts: false
+  vars:
+    to_python_version: "3.10"
+    temporary_folder: /tmp
+
+  tasks:
+
+    - name: "Cleanup any existing upgrade installation."
+      ansible.builtin.shell: |
+        python{{ to_python_version }} -m venv {{ temporary_folder }}/venv_python_{{ to_python_version }}
+    
+    - name: "Cleanup any existing upgrade installation."
+      ansible.builtin.shell: |
+        source {{ temporary_folder }}/venv_python_{{ to_python_version }}/bin/activate
+        python -m ensurepip --upgrade
+        python -m pip install git+https://github.com/OCA/openupgradelib.git@3.11.1#egg=openupgradelib
+        python -m pip freeze | grep openupgradelib > requirements.txt
+        mkdir pip-reqs
+        python -m pip download -r requirements.txt -d pip-reqs/
+        deactivate
+...

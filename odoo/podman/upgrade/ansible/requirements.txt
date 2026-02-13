@@ -1,0 +1,1 @@
+openupgradelib @ git+https://github.com/OCA/openupgradelib.git@d47b4121814d8900a41e8c21a25cac69fdee3eb2

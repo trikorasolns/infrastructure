@@ -14,25 +14,30 @@
           # - "pgsql_version is defined"
     
   tasks:
+    - name: "Set names"
+      ansible.builtin.set_fact:
+        pgsql_container_name: "{{ pod_name }}_pgsql_{{ db_name }}"
+        pgsql_volume_name: "{{ pod_name }}_pgsql_{{ db_name }}_data"
+
     - name: Create PostgreSQL volume
       containers.podman.podman_volume:
         state: present
-        name: "{{ pod_name }}_{{ db_name }}_data"
+        name: "{{ pgsql_volume_name }}"
         label:
-          app.kubernetes.io/name: "{{ pod_name }}_pgsql_{{ db_name }}_data"
+          app.kubernetes.io/name: "{{ pgsql_volume_name }}"
           app.kubernetes.io/instance: "{{ pod_name }}"
           app.kubernetes.io/version: "{{ pgsql_version | default('14') }}"
-          app.kubernetes.io/component: "database"
+          app.kubernetes.io/component: "pv"
           app.kubernetes.io/part-of: "{{ pod_name }}"
 
     - name: "Create container"
       containers.podman.podman_container:
-        name: "{{ pod_name }}_pgsql_{{ db_name }}"
-        image: "postgres:{{ pgsql_version | default('14') }}"
+        name: "{{ pgsql_container_name }}"
+        image: "docker://postgres:{{ pgsql_version | default('14') }}"
         state: started
         pod: "{{ pod_name }}"
         volumes: 
-          - "{{ pod_name }}_pgsql_{{ db_name }}_data:/var/lib/postgresql/data"
+          - "{{ pgsql_volume_name }}:/var/lib/postgresql/data"
         env:
           POSTGRES_USER: "{{ db_user | default(db_name) }}"
           POSTGRES_PASSWORD: "{{ db_password | default(db_name) }}"

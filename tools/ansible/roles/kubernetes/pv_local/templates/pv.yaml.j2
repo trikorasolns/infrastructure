@@ -21,3 +21,4 @@ spec:
   storageClassName: {{ pv_local_storage_classname }}
   hostPath:
     path: "{{ pv_local_pv_root_folder }}/{{ pv_local_app_name }}/{{ pv_local_pv_name }}"
+    type: "Directory"

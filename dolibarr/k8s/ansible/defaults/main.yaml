@@ -1,0 +1,14 @@
+app_name: dolibarr
+app_namespace: dolibarr
+app_version: "22"
+
+db_name: dolibarr
+db_user: dolibarr
+
+resources:
+  limits:
+    cpu: "2000m"
+    memory: "2Gi"
+  requests:
+    cpu: "500m"
+    memory: "500Mi"

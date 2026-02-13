@@ -1,0 +1,43 @@
+= Kubernetes
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:source-highlighter: highlight.js
+:description: Kubernetes installation guide
+
+== Storage
+
+* link:./storage/ceph[Ceph]
+* link:./storage/host_path[TODO: Host Path]
+* link:./storage/iscsi[TODO: iSCSI]
+
+=== Local
+Create.
+
+[source,bash]
+----
+$ kubectl apply -f kubernetes/storageclass/05-storageclass-local.yaml
+----
+
+Delete.
+
+[source,bash]
+----
+$ kubectl delete -f misc/k8s/05-storageclass-local.yaml
+----
+
+=== iscsi
+
+[source,bash]
+----
+kubectl apply -f kubernetes/storageclass/05-storageclass-manual-iscsi.yaml
+----
+
+== Misc
+
+Disconnect PV from it's claim.
+
+[source,bash]
+----
+kubectl patch pv gitea-gitea-data-pv -p '{"spec":{"claimRef": null}}'
+----

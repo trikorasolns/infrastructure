@@ -1,0 +1,17 @@
+persistence:
+  dbPassword: {{ db_password }}
+  dbName: {{ db_name }}
+  dbUser: {{ db_user }}
+  storageClassName: "{{ storage_class }}"
+  dbDataSize: 5Gi
+  iscsi:
+    targetPortal: {{ iscsi_portal }}
+{% if iscsi_portals is defined %}
+    portals: {{ iscsi_portals }}
+{% endif %}
+    iqn: {{ iscsi_target }}
+    lun: {{ iscsi_lun | default(0) }}
+    fsType: {{ iscsi_fstype | default('ext4') }}
+    readOnly: false
+image:
+  tag: 13

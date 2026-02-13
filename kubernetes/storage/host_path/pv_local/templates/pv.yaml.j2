@@ -1,0 +1,23 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: "{{ pv_local_app_name }}-{{ pv_local_pv_name }}-pv"
+  labels:
+    type: local
+    app.kubernetes.io/name: {{ pv_local_pv_name }}
+    app.kubernetes.io/instance: "{{ pv_local_app_name }}"
+    app.kubernetes.io/version: "{{ pv_local_app_version }}"
+    app.kubernetes.io/component: "{{ pv_local_app_component | default('undefined') }}"
+    app.kubernetes.io/part-of: "{{ pv_local_app_name }}"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    namespace: "{{ pv_local_app_name }}"
+    name: {{ pv_local_pv_name }}
+  capacity:
+    storage: {{ pv_local_storage_capacity }}
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: {{ pv_local_storage_classname }}
+  hostPath:
+    path: "{{ pv_local_pv_root_folder }}/{{ pv_local_app_name }}/{{ pv_local_pv_name }}"

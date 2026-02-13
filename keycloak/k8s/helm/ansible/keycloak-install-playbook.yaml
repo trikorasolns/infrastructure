@@ -1,0 +1,43 @@
+---
+- name: "Init Keyclok namespace"
+  hosts: "localhost"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+
+    - name: "Validate variables"
+      assert:
+        that:
+          - "app_namespace is defined and (app_namespace | length > 0)"
+          - "app_version is defined and (app_version | length > 0)"
+        fail_msg: 
+          - "app_namespace must be defined with the kubernetes namespace"
+          - "app_version must be defined with the KEYCLOAK version"
+
+  tasks:
+
+    - name: "Template Keycloak Helm values file"
+      ansible.builtin.template:
+        src: "helm-keycloak-values.yaml.j2"
+        dest: "/tmp/helm-keycloak-values.yaml"
+        mode: '0644'
+
+    - name: "Deploy Keycloak with Helm"
+      kubernetes.core.helm:
+        name: "{{ app_name }}"
+        chart_ref: "{% if trikora_helm_project_dir is defined %}{{ trikora_helm_project_dir }}/charts/keycloak{% else %}trikorasolns/keycloak{% endif %}"
+        release_namespace: "{{ app_namespace }}"
+        wait: true
+        replace: true
+        values_files:
+          - "/tmp/helm-keycloak-values.yaml"
+      register: keycloak_helm_res 
+
+    - name: "Print Helm chart result"
+      ansible.builtin.debug:
+        msg:
+        - "keycloak_helm_res: {{ keycloak_helm_res }}"
+
+    #helm install --namespace keycloak  phpmyadmin phpmyadmin
+
+...

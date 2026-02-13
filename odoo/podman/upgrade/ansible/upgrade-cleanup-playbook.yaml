@@ -1,0 +1,25 @@
+---
+- name: "Upgrade cleanup Playbook"
+  hosts: "localhost"
+  gather_facts: yes
+  vars:
+    odoo_upg_pod_name_prefix: odoo_upg
+
+  tasks:
+
+    - name: "Cleanup any existing upgrade installation."
+      ansible.builtin.shell: |
+        podman stop {{ odoo_upg_pod_name_prefix }}_web
+        podman rm {{ odoo_upg_pod_name_prefix }}_web
+        podman pod rm -f {{ odoo_upg_pod_name_prefix }}
+        podman volume rm {{ odoo_upg_pod_name_prefix }}_db_data
+        podman volume rm {{ odoo_upg_pod_name_prefix }}_web_data
+        podman volume rm {{ odoo_upg_pod_name_prefix }}_web_addons
+        podman volume rm {{ odoo_upg_pod_name_prefix }}_web_configs
+        podman stop {{ odoo_upg_pod_name_prefix }}_web
+        podman rm {{ odoo_upg_pod_name_prefix }}_web
+        podman stop {{ odoo_upg_pod_name_prefix }}_pgsql
+        podman rm {{ odoo_upg_pod_name_prefix }}_pgsql
+      failed_when: false
+
+...

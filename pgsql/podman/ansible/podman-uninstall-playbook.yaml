@@ -9,20 +9,25 @@
         that:
           - "pod_name is defined"
           - "db_name is defined"
-          - "db_user is defined"
-          - "db_password is defined"
+          # - "db_user is defined"
+          # - "db_password is defined"
           # - "pgsql_version is defined"
     
   tasks:
+    - name: "Set names"
+      ansible.builtin.set_fact:
+        pgsql_container_name: "{{ pod_name }}_pgsql_{{ db_name }}"
+        pgsql_volume_name: "{{ pod_name }}_pgsql_{{ db_name }}_data"
+
     - name: Remove PostgreSQL container
       containers.podman.podman_container:
-        name: "{{ pod_name }}_pgsql_{{ db_name }}"
+        name: "{{ pgsql_container_name }}"
         pod: "{{ pod_name }}"
         state: absent
 
-    - name: Create PostgreSQL volume
+    - name: "Remove PostgreSQL volume - {{ pgsql_volume_name }}"
       containers.podman.podman_volume:
         state: absent
-        name: "{{ pod_name }}_{{ db_name }}_data"
+        name: "{{ pgsql_volume_name }}"
 
 ...

@@ -1,0 +1,25 @@
+{% if grafana_version is defined %}
+image:
+  tag: {{ grafana_version }}
+{% endif %}
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: "grafana.{{ app_name }}.{{ local_domain }}"    
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            serviceName: grafana
+            servicePort: 3000
+
+persistence:
+  volumeFileSize: 1Gi
+{% if storage_class_rwo is defined or storage_class is defined %}
+  storageClassName: "{{ storage_class_rwo | default(storage_class) }}"
+{% endif %}

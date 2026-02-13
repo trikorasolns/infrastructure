@@ -1,0 +1,55 @@
+---
+- name: "Install GLPI"
+  hosts: "localhost"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+
+    - name: "Validate variables"
+      assert:
+        that:
+          - "app_namespace is defined and (app_namespace | length > 0)"
+          - "app_version is defined and (app_version | length > 0)"
+        fail_msg: 
+          - "app_namespace must be defined with the kubernetes namespace"
+          - "app_version must be defined with the GLPI version"
+
+  tasks:
+
+    - name: Set glpicrypt file contents
+      ansible.builtin.set_fact:
+        # glpi_crypt_targz_base64: "{% if glpicrypt_targz_file is defined %}{{ lookup('file', crypt_file_location ) | default('') | b64encode }}{% else %}{% endif %}"
+        glpi_crypt_targz_base64: "{{ lookup('file', glpicrypt_targz_file ) | b64encode }}"
+      when: glpicrypt_targz_file is defined  and (glpicrypt_targz_file | length > 0)
+
+    - name: "Print glpicrypt contents"
+      ansible.builtin.debug:
+        msg:
+        - "glpicrypt_targz_file: {{ glpicrypt_targz_file }}"
+        - "glpi_crypt_targz_base64: {{ glpi_crypt_targz_base64 }}"
+      when: glpicrypt_targz_file is defined  and (glpicrypt_targz_file | length > 0)
+
+    - name: "Template GLPI Helm values file"
+      ansible.builtin.template:
+        src: helm-glpi-glpi-values.yaml.j2
+        dest: /tmp/helm-glpi-glpi-values.yaml
+
+    - name: "Deploy GLPI with Helm"
+      kubernetes.core.helm:
+        name: glpi
+        chart_ref: "{% if trikora_helm_project_dir is defined %}{{ trikora_helm_project_dir }}/charts/glpi{% else %}trikorasolns/glpi{% endif %}"
+        release_namespace: "{{ app_namespace }}"
+        wait: true
+        # replace: true
+        values_files:
+          - /tmp/helm-glpi-glpi-values.yaml
+      register: glpi_helm_res 
+
+    - name: "Print Helm chart result"
+      ansible.builtin.debug:
+        msg:
+        - "glpi_helm_res: {{ glpi_helm_res }}"
+
+    #helm install --namespace glpi  phpmyadmin phpmyadmin
+
+...

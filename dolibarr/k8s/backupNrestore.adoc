@@ -1,0 +1,53 @@
+= Dolibarr Backup and Restore
+:author:    Antonio C.
+:email:     <ac (at) trikorasolutions (dot) com>
+:revdate: {docdate}
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: GLPI backup and restore
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+== Preparation
+
+Define backup environment variables.
+
+Set the root location of the backup folder.
+
+[source,bash]
+----
+export BACKUP_ROOT_FOLDER=/z/_backup/apps
+----
+
+Set the kube config file.
+
+[source,bash]
+----  
+export KUBECONFIG=~/.kube/config
+----
+
+== Backup
+
+=== With Ansible
+
+[source,bash]
+----
+ansible-playbook dolibarr/k8s/ansible/dolibarr-backup-playbook.yaml \
+  -e @dolibarr/k8s/ansible/defaults/main.yaml
+----
+
+=== References
+
+References:
+
+* https://wiki.dolibarr.org/index.php/Backups
+
+== Restore
+
+For now, check the docs at https://wiki.dolibarr.org/index.php/Restores.

@@ -1,0 +1,60 @@
+= Odoo 17 -> 18 Upgrade Guide
+Antonio C. <ac (at) trikorasolutions (dot) com>
+:toc: left
+:revdate: {docdate}
+:icons: font
+:Description: Guide for deploying Odoo as a podman container.
+
+== Upgrade
+
+[.lead]
+TBD
+
+== Upgrade with Ansible
+
+ansible-playbook odoo/podman/upgrade/ansible/start-from-version.yaml -e from_version=16
+
+[source,bash]
+----
+ansible-playbook odoo/podman/upgrade/ansible/upgrade-playbook.yaml \
+  -e from_version="16" -e to_version="17" \
+  -e odoo_master_pw=${ODOO_MASTER_PW} \
+  -e odoo_bk_file=${ODOO_BK_FILE} \
+  -e perform_manual_upgrade=true \
+  -e temporary_folder=/z/_tmp \
+  -e skip_fuctional_check=true
+----
+
+[%header, cols="1, 4"]
+|===
+
+| Option
+| Description
+
+| `openupgradelib_tag`
+
+[.fuchsia]#string#
+
+| Specify the openupgradelib tag to use on the upgrade.
+
+Default: `3.11.1`
+
+Known options:
+
+* `master`
+
+| skip_fuctional_check
+
+[.fuchsia]#bool#
+
+| Description
+
+| openupgrade_commit
+
+[.fuchsia]#string#
+
+| Description
+
+* 95c496e7e1824287ab9031f5f066440d8fb48a1b
+
+|===

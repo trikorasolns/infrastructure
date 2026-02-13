@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodered
+  namespace: nodered
+  labels:
+    app.kubernetes.io/name: nodered
+    app.kubernetes.io/instance: nodered-app
+    app.kubernetes.io/component: app
+    app.kubernetes.io/part-of: nodered
+spec:
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: http
+      nodePort: 31880
+    # - name: nodered-http
+    #   port: 443
+    #   protocol: TCP
+    #   targetPort: 443
+  selector:
+    app.kubernetes.io/name: nodered
+  type: NodePort
+# status:
+#   loadBalancer: {}

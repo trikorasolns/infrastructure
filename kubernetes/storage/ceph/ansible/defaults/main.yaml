@@ -1,0 +1,4 @@
+# Storage
+storage_class_rwo: csi-rbd-sc
+storage_class_rwx: csi-cephfs-sc
+#storage_class: local-storage

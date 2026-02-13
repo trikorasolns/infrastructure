@@ -1,0 +1,23 @@
+= iscsi configuration guide
+
+== Default
+
+Resources:
+
+* https://github.com/kubernetes-csi/csi-driver-iscsi/blob/master/docs/install-csi-driver-master.md
+* https://github.com/kubernetes-csi/csi-driver-iscsi/blob/master/examples/pv.yaml
+
+[source,bash]
+----
+https://github.com/kubernetes-csi/csi-driver-iscsi/blob/master/docs/install-csi-driver-master.md
+----
+
+== democratic-csi
+[source,bash]
+----
+    helm upgrade \
+    --install \
+    --values kubernetes/iscsi/node-manual.yaml \
+    --namespace democratic-csi \
+    zfs-iscsi democratic-csi/democratic-csi
+----

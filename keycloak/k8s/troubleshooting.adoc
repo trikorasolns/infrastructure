@@ -1,0 +1,11 @@
+= Keycloak Troubleshooting
+:author:    Antonio C.
+:email:     <ac (at) trikorasolutions (dot) com>
+:revdate: {docdate}
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: Keycloak Troubleshooting
+
+:toc:
+

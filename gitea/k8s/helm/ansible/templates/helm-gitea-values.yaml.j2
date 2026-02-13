@@ -1,0 +1,22 @@
+image:
+  tag: "{{ app_version }}"
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations: {}
+  hosts:
+    - host: "{{ app_name }}.{{ local_domain }}"
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            serviceName: http
+            servicePort: 3000
+
+persistence:
+  dbName: {{ db_name }}
+  dbUser: {{ db_user }}
+  dbPassword: {{ db_password }}
+  dbHost: postgresql.{{ app_name }}.svc.cluster.local
+  storageClassName: local-storage

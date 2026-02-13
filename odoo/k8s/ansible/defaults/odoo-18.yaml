@@ -1,0 +1,5 @@
+app_name: odoo-18
+app_namespace: odoo-18
+app_version: 18.0
+
+db_image_tag: 13

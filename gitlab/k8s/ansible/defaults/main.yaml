@@ -1,0 +1,34 @@
+app_name: gitlab
+app_namespace: gitlab
+app_version: "18.3.1"
+app_image_tag: "18.3.1-ee.0"
+#gitlab_version: "15.4.0"
+
+# https://docs.gitlab.com/ee/administration/package_information/postgresql_versions.html
+#db_image_tag: 13.11
+#db_image_tag: 14.11
+db_image_tag: 16.8
+
+db_name: gitlab
+db_user: gitlab
+
+# Storage is defined on it's own kubernetes file.
+#storage_class_rwo: csi-rbd-sc
+#storage_class_rwx: csi-cephfs-sc
+#storage_class: local-storage
+
+volumes:
+  - name: gitlab-var-opt-local
+    capacity: 20Gi
+    component: scm
+  - name: gitlab-var-log-local
+    capacity: 5Gi
+    component: scm
+  - name: gitlab-etc-local
+    capacity: 5Gi
+    component: scm
+  - name: postgresql
+    capacity: 10Gi
+    owner_user: 26
+    owner_group: 26
+    component: database

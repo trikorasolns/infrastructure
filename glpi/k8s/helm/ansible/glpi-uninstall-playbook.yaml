@@ -1,0 +1,63 @@
+---
+- name: "Install GLPI"
+  hosts: "localhost"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+
+    - name: "Validate variables"
+      assert:
+        that:
+          - "app_namespace is defined and (app_namespace | length > 0)"
+        fail_msg: 
+          - "app_namespace must be defined with the kubernetes namespace"
+
+  tasks:
+
+    - name: "Uninstall GLPI with Helm"
+      kubernetes.core.helm:
+        name: glpi
+        release_namespace: "{{ app_namespace }}"
+        state: absent
+        wait: true
+      register: glpi_helm_res 
+
+    # - name: "Uninstall GLPI with Helm"
+    #   ansible.builtin.shell: |
+    #     helm uninstall --namespace glpi glpi
+    #   args:
+    #     chdir: "{{ trikora_helm_project_dir }}"
+    #   register: glpi_helm_res
+
+    - name: "Print GLPI uninstall result"
+      ansible.builtin.debug:
+        msg:
+          - "glpi_helm_res: {{ glpi_helm_res }}"
+
+    # - name: "Free the GLPI PV so they become available"
+    #   ansible.builtin.shell: |
+    #     kubectl patch pv {{ app_namespace }}-{{ item }}-pv -p '{"spec":{"claimRef": null}}'
+    #   # kubernetes.core.k8s:
+    #   #   kind: PV
+    #   #   name: "{{ app_namespace }}-{{ item }}-pv"
+    #   #   definition:
+    #   #     spec:
+    #   #       claimRef: null
+    #   loop:
+    #     - glpi-config
+    #     - glpi-files
+    #     - glpi-log
+    #     - glpi-marketplace
+    #     - glpi-plugins
+
+    # - name: "Patch the GLPI PV so they will be bound to the correct PVC"
+    #   ansible.builtin.shell: |
+    #     kubectl patch pv {{ app_namespace }}-{{ item }}-pv -p '{"spec":{"claimRef": {"name": "{{ item }}", "namespace": "{{ app_namespace }}"}}}'
+    #   loop:
+    #     - glpi-config
+    #     - glpi-files
+    #     - glpi-log
+    #     - glpi-marketplace
+    #     - glpi-plugins
+
+...

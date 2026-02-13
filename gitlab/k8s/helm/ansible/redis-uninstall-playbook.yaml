@@ -1,0 +1,22 @@
+---
+- name: "Uninstall Redis"
+  hosts: "{{ k8s_host | default('localhost') }}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+    - name: "Validate app_namespace"
+      assert:
+        that:
+          - "app_namespace is defined"
+        fail_msg: "app_namespace must be defined"
+        success_msg: "Deploying into {{ app_namespace }} namespace"
+
+  tasks:
+
+    - name: "Uninstall Redis"
+      kubernetes.core.helm:
+        name: redis
+        release_namespace: "{{ app_namespace }}"
+        state: absent
+
+...

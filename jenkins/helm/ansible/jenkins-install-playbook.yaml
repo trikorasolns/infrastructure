@@ -1,0 +1,64 @@
+---
+- name: "Prepare Jenkins"
+  hosts: "localhost"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+    - name: "Helm values templated file"
+      ansible.builtin.set_fact:
+        jenkins_helm_templated_values_file: "/tmp/{{ app_namespace }}_{{ app_name }}_helm_values.yaml"
+
+  tasks:
+    - name: "Create Jenkins k8s namespace"
+      kubernetes.core.k8s:
+        name: "{{ app_namespace }}"
+        api_version: v1
+        kind: Namespace
+        state: present
+
+    # # Patch existing namespace : add label
+    # - name: "Add labels to Jenkins namespace"
+    #   kubernetes.core.k8s:
+    #     state: patched
+    #     kind: Namespace
+    #     name: "{{ app_namespace }}"
+    #     definition:
+    #       metadata:
+    #         labels:
+    #           app.kubernetes.io/name: jenkins
+    #           app.kubernetes.io/version: "{{ jenkins_version }}"
+
+    # - name: "Fetch the Jenkins CASC configuration file contents"
+    #   ansible.builtin.set_fact:
+    #     jenkins_casc_config: "{{ lookup('file', jenkins_casc_config_file ) }}"
+    #   when: jenkins_casc_config_file is defined and (jenkins_casc_config_file | length > 0)
+
+    - name: "Template Helm values"
+      ansible.builtin.template:
+        src: "jenkins-helm-values.yaml"
+        dest: "{{ jenkins_helm_templated_values_file }}"
+
+    - name: "Create Jenkins CASC ConfigMap"
+      ansible.builtin.shell: |
+        kc -n jenkins create configmap jenkins-casc --from-file=${JENKINS_CASC_CONFIG_FILE}
+        kc -n jenkins create configmap jenkins-configuration-as-code --from-file=${JENKINS_CASC_CONFIG_FILE}
+        kc -n jenkins create configmap jenkins-plugins --from-file=${JENKINS_CASC_PLUGINS_FILE}
+      # kubernetes.core.k8s:
+      #   kind: ConfigMap
+      #   name: "jenkins-casc"
+      #   namespace: "{{ app_namespace }}"
+      #   src: "{{ jenkins_casc_config_file }}"
+      #   state: present
+
+
+    - name: "Deploy Jenkins with Helm"
+      kubernetes.core.helm:
+        name: jenkins
+        chart_ref: "{% if trikora_helm_project_dir is defined %}{{ trikora_helm_project_dir }}/charts/jenkins{% else %}trikorasolns/jenkins{% endif %}"
+        release_namespace: "{{ app_namespace }}"
+        wait: true
+        #replace: true
+        values_files:
+          - "{{ jenkins_helm_templated_values_file }}"
+      register: odoo_helm_res 
+...

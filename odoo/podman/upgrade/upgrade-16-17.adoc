@@ -1,0 +1,663 @@
+= Odoo 16 -> 17 Upgrade Guide
+Antonio C. <ac (at) trikorasolutions (dot) com>
+:toc: left
+:revdate: {docdate}
+:icons: font
+:Description: Guide for deploying Odoo as a podman container.
+
+== Upgrade
+
+[.lead]
+Upgrade instructions.
+
+=== Requirements
+
+All upgrades require an export file with the database on the starting version.
+
+
+[source,bash]
+----
+ansible-playbook odoo/podman/upgrade/ansible/python-venv.yaml \
+  -e temporary_folder=/z/_tmp
+----
+
+
+== Upgrade with Ansible
+
+ansible-playbook odoo/podman/upgrade/ansible/start-from-version.yaml -e from_version=16
+
+[source,bash]
+----
+ansible-playbook odoo/podman/upgrade/ansible/upgrade-playbook.yaml \
+  -e from_version=16 -e to_version=17 \
+  -e odoo_master_pw=${ODOO_MASTER_PW} \
+  -e odoo_bk_file=${ODOO_BK_FILE} \
+  -e perform_manual_upgrade=true
+----
+
+Other options.
+
+[%header, cols="1, 4"]
+|===
+
+| Option
+| Description
+
+| `openupgradelib_tag`
+
+[.fuchsia]#string#
+
+| Specify the openupgradelib tag to use on the upgrade.
+
+Default: `3.11.1`
+
+Known options:
+
+* `master`
+
+| skip_fuctional_check
+
+[.fuchsia]#bool#
+
+| Description
+
+| openupgrade_commit
+
+[.fuchsia]#string#
+
+| Description
+
+* 95c496e7e1824287ab9031f5f066440d8fb48a1b
+
+|===
+
+
+== Upgrade manually 
+
+Or do the process manually.
+
+=== Remove old Oddo versions
+
+[.lead]
+Remove old Odoo versions for source and target version.
+
+[source,bash]
+----
+podman image ls | grep odoo
+----
+
+[source,]
+----
+docker.io/library/odoo   17.0           a0ffdde288e4  12 days ago    1.86 GB
+docker.io/library/odoo   16.0           eed6bfdc7269  4 months ago   1.8 GB
+docker.io/library/odoo   15.0           af716c61892a  8 months ago   1.6 GB
+docker.io/library/odoo   16.0-20240429  139dc95d5964  8 months ago   1.79 GB
+docker.io/library/odoo   14.0           b9725887f315  14 months ago  1.53 GB
+docker.io/library/odoo   13.0           7f1c9323e405  2 years ago    1.46 GB
+----
+
+
+== Create source installation
+
+[.lead]
+The first step is to replicate the current Odoo installation.
+
+This installation will be used to fix any problems that might occur.
+
+[NOTE]
+====
+Cleanup the source installation if required
+
+[source,bash]
+----
+podman pod rm -f odoo_16
+
+podman stop odoo_16_web
+podman stop odoo_16_pgsql
+podman rm odoo_16_web 
+podman rm odoo_16_pgsql
+----
+====
+
+Create the pod.
+
+[source,bash]
+----
+podman pod create --name odoo_16 --publish 18069:8069,15432:5432 --label "name=odoo_16_upgrade_16_17"
+----
+
+Instantiate the PostgreSQL Upgrade container.
+
+Start the PostgreSQL database.
+
+[source,bash]
+----
+podman run --name odoo_16_pgsql -d --pod odoo_16 -e POSTGRES_DB=postgres -e POSTGRES_USER=odoo -e POSTGRES_PASSWORD=1234 -e "PGDATA=/var/lib/postgresql/data/pgdata"  --label "name=postgresql,component=database,part-of=odoo" postgres:13
+----
+
+Instantiate a new Podman container on the current Odoo version (16).
+
+[source,bash]
+----
+podman run --name odoo_16_web --privileged --pod odoo_16 -e POSTGRES_DB=postgres -e USER=odoo -e PASSWORD=1234  -e HOST=odoo_16_pgsql -e USER=odoo  --label "name=odoo,component=web,part-of=odoo" odoo:16.0
+----
+
+Import the database and check everything is OK.
+
+== Instantiate upgrade infrastructure
+
+[.lead]
+Instantiate upgrade infrastructure
+
+Cleanup any existing upgrade installation.
+
+[source,bash]
+----
+podman pod rm -f odoo_upg
+
+podman volume rm odoo_upg_db_data
+podman volume rm odoo_upg_web_data
+podman volume rm odoo_upg_web_addons
+podman volume rm odoo_upg_web_configs
+
+podman stop odoo_upg_web
+podman rm odoo_upg_web
+podman stop odoo_upg_pgsql
+podman rm odoo_upg_pgsql
+
+----
+
+Create the podman volumes to be used by Odoo to persist data.
+
+[source,bash]
+----
+podman volume create odoo_upg_db_data --label "part-of=odoo_upgrade_16_17"
+podman volume create odoo_upg_web_data --label "part-of=odoo_upgrade_16_17"
+podman volume create odoo_upg_web_addons --label "part-of=odoo_upgrade_16_17"
+podman volume create odoo_upg_web_configs --label "part-of=odoo_upgrade_16_17"
+----
+
+Create the upgrade pod.
+
+[source,bash]
+----
+podman pod create --name odoo_upg --publish 28069:8069,25432:5432 --label "name=odoo_upgrade_16_17"
+----
+
+Start the upgrade PostgreSQL database.
+
+[source,bash]
+----
+podman run --name odoo_upg_pgsql --pod odoo_upg -d -v "odoo_upg_db_data:/var/lib/postgresql/data/pgdata:Z" -e POSTGRES_DB=postgres -e POSTGRES_USER=odoo -e POSTGRES_PASSWORD=1234 -e "PGDATA=/var/lib/postgresql/data/pgdata"  --label "name=postgresql,component=database,part-of=odoo_upgrade_16_17" postgres:13
+----
+
+Instantiate a new Podman container on the current Odoo version (16).
+
+[source,bash]
+----
+podman run --name odoo_upg_web --privileged --pod odoo_upg \
+  -v "odoo_upg_web_data:/var/lib/odoo:z" -v "odoo_upg_web_configs:/etc/odoo:Z"  -v "odoo_upg_web_addons:/mnt/extra-addons:Z" \
+  -e POSTGRES_DB=postgres -e USER=odoo -e PASSWORD=1234 -e HOST=odoo_upg_pgsql -e USER=odoo  --label "name=odoo,component=web,part-of=odoo_upgrade_16_17" odoo:16.0
+----
+
+=== Import the database to be upgraded
+
+[.lead]
+Import the Odoo database previously backed up.
+
+Open Odoo using the Web page at http://localhost:28069/.
+
+Open the `or restore database` link.
+
+Select the backup file to import and set the appropriate Master Password and 
+ database name.
+
+When the restore finishes the web page will be redirected to the database 
+ selection page and the database will be populated with the database to be 
+ upgraded.
+
+=== Delete source Odoo container
+
+Stop with `^C` the running `odoo_upg_web` Odoo container and remove it.
+
+[source,bash]
+----
+podman stop odoo_upg_web
+podman rm odoo_upg_web
+----
+
+== Prepare Upgrade
+
+Start Odoo 17.0.
+
+[source,bash]
+----
+podman run -it --name odoo_upg_web --privileged --pod odoo_upg -v "odoo_upg_web_data:/var/lib/odoo:z" -v "odoo_upg_web_configs:/etc/odoo:Z"  -v "odoo_upg_web_addons:/mnt/extra-addons:Z" -e POSTGRES_DB=postgres -e USER=odoo -e PASSWORD=1234  -e HOST=odoo_upg_pgsql -e USER=odoo  --label "name=odoo,component=web,part-of=odoo" odoo:17.0 /bin/bash
+----
+
+=== Install OpenUpgrade
+
+These steps will be performed on a temporary folder _e.g._ `/z/_temp`.
+
+In the meantime clone the OpenUpgrade version for Odoo 17.0.
+
+[source,bash]
+----
+git clone --branch=17.0 --depth=1 --single-branch git@github.com:OCA/OpenUpgrade.git OpenUpgrade-17.0
+----
+
+Copy the 2 addon folders to the container under the `/mnt/extra-addons/` folder.
+
+Remove existing openupgrade folders, if they exist.
+
+[source,bash]
+----
+podman exec odoo_upg_web rm -Rf /mnt/extra-addons/openupgrade_scripts/
+podman exec odoo_upg_web rm -Rf /mnt/extra-addons/openupgrade_framework/
+----
+
+Copy OpenUpgrade 17.0 files.
+
+[source,bash]
+----
+podman cp OpenUpgrade-17.0/openupgrade_scripts/ odoo_upg_web:/mnt/extra-addons/
+podman cp OpenUpgrade-17.0/openupgrade_framework/ odoo_upg_web:/mnt/extra-addons/
+----
+
+=== Install openupgradelib [[openupgradelib]]
+
+[.lead]
+Install the latest `openupgradelib` version, locally.
+
+[NOTE]
+====
+Check the Python version for the Odoo container.
+
+[source,bash]
+----
+python3 --version
+Python 3.10.12
+----
+====
+
+For Odoo 17.0 use Python 3.10.
+
+Set the Python version.
+
+[source,bash]
+----
+ODOO_PYTHON_VERSION=3.10
+----
+
+Check the link:common-upgrade-instructions.adoc#install_python_vend[Install Python Virtual Environment] 
+ instructions to install Python.
+
+[CAUTION]
+====
+Check that the `/var/lib/odoo/.local/lib/python${ODOO_PYTHON_VERSION}` 
+ folder exists on the Odoo container. If the folder doesn't exist create it 
+ by installing anything, _e.g._ `yq`.
+
+[source,bash]
+----
+python3.10 -m pip install yq
+----
+====
+
+If not already inside, enter the Python venv.
+
+[source,bash]
+----
+source /z/_tmp/venv_python_${ODOO_PYTHON_VERSION}/bin/activate
+----
+
+Install `openupgradelib` from the GitHub either from the `master` branch or from a specific tag.
+
+[NOTE]
+====
+To install `openupgradelib` from the master branch check the 
+ <<install_openupgradelib_master>> section.
+====
+
+==== Install `openupgradelib` from specific tag
+
+[source,bash]
+----
+python -m pip install git+https://github.com/OCA/openupgradelib.git@3.11.1#egg=openupgradelib
+----
+
+Generate pip `requirements.txt` file for the `openupgradelib` version.
+
+[source,bash]
+----
+python -m pip freeze | grep openupgradelib > requirements.txt
+----
+
+Generate a requirements folder with the downloaded `openupgradelib` library.
+
+[source,bash]
+----
+mkdir pip-reqs
+python -m pip download -r requirements.txt -d pip-reqs/
+----
+
+Step out of the Python virtual environment.
+
+[source,bash]
+----
+deactivate
+----
+
+Copy the requirements to Odoo container.
+
+[source,bash]
+----
+podman cp pip-reqs/ odoo_upg_web:/opt/
+----
+
+On the Odoo container, install `openupgradelib` from the requirements folder.
+
+[source,bash]
+----
+pip3 uninstall -y openupgradelib
+pip3 install openupgradelib --find-links=/opt/pip-reqs/
+----
+
+== Prepare upgrade
+odoo/podman/upgrade/ansible/upgrade-playbook.yaml
+Create the upgrade configuration file.
+
+Download the file.
+
+[source,bash]
+----
+podman cp odoo_upg_web:/etc/odoo/odoo.conf ./odoo.upg.conf
+----
+
+The file will be something like this...
+
+[source,]
+----
+[options]
+addons_path = /mnt/extra-addons
+data_dir = /var/lib/odoo
+admin_passwd = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+----
+
+Add the required configuration to the `[options]` section.
+
+The database configuration
+
+[source,]
+----
+db_host = odoo_upg_pgsql
+db_port = 5432
+db_user = odoo
+db_password = 1234
+----
+
+And the `upgrade_path` configurations pointing to the copied `openupgrade_scripts` subfolder.
+
+[source,]
+----
+upgrade_path = /mnt/extra-addons/openupgrade_scripts/
+server_wide_modules = web,openupgrade_framework
+----
+
+Save the file and push it into the odoo container.
+
+[source,bash]
+----
+podman cp odoo.upg.conf odoo_upg_web:/etc/odoo/
+----
+
+== Upgrade
+
+[.lead]
+Execute the upgrade.
+
+From the bash session on the Odoo 17.0 container execute the following command.
+
+[source,bash]
+----
+odoo -c /etc/odoo/odoo.upg.conf --database=trikorasolns --upgrade-path=/mnt/extra-addons/openupgrade_scripts/scripts --load=base,web,openupgrade_framework --update all --stop-after-init --i18n-overwrite
+----
+
+
+== Start the new Odoo version
+
+Before starting the odoo container remove the one used by the upgrade.
+
+[source,bash]
+----
+podman stop odoo_upg_web
+podman rm odoo_upg_web
+----
+
+Start the container using the correct odoo version and the upgraded database.
+
+[source,bash]
+----
+podman run --name odoo_upg_web --privileged --pod odoo_upg -d -v "odoo_upg_web_data:/var/lib/odoo:z" -v "odoo_upg_web_configs:/etc/odoo:Z"  -v "odoo_upg_web_addons:/mnt/extra-addons:Z" -e POSTGRES_DB=postgres -e USER=odoo -e PASSWORD=1234  -e HOST=odoo_upg_pgsql -e USER=odoo  --label "name=odoo,component=web,part-of=odoo" odoo:17.0
+----
+
+== Appendix
+
+=== Install `openupgradelib` from the _master_ branch [[install_openupgradelib_master]]
+
+[source,bash]
+----
+python -m pip install git+https://github.com/OCA/openupgradelib.git@master#egg=openupgradelib
+----
+
+Copy the files to the Odoo container.
+
+Check the name of the folder with the `openupgradelib` specific version, something like 
+ `openupgradelib-3.7.3.dev3+g1f84d5c-py3.10.egg-info` under the `site-packages`
+ folder.
+
+[source,bash]
+----
+podman cp /z/_tmp/venv_python_${ODOO_PYTHON_VERSION}/lib/python${ODOO_PYTHON_VERSION}/site-packages/openupgradelib/ odoo_upg_web:/var/lib/odoo/.local/lib/python${ODOO_PYTHON_VERSION}/site-packages/
+podman cp /z/_tmp/venv_python_${ODOO_PYTHON_VERSION}/lib/python${ODOO_PYTHON_VERSION}/site-packages/openupgradelib-3.7.3.dev3+g1f84d5c-py${ODOO_PYTHON_VERSION}.egg-info/ odoo_upg_web:/var/lib/odoo/.local/lib/python${ODOO_PYTHON_VERSION}/site-packages/
+----
+
+== Troubleshooting
+
+=== ParseError on hr_data.xml:18 -> record id="onboarding_plan" model="mail.activity.plan"
+
+==== Problem
+
+Upgrade fails with the following error.
+
+[source,]
+----
+KeyError: 'hr.plan'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/odoo/service/server.py", line 1302, in preload_registries
+    registry = Registry.new(dbname, update_module=update_module)
+  File "<decorator-gen-16>", line 2, in new
+  File "/usr/lib/python3/dist-packages/odoo/tools/func.py", line 87, in locked
+    return func(inst, *args, **kwargs)
+  File "/usr/lib/python3/dist-packages/odoo/modules/registry.py", line 113, in new
+    odoo.modules.load_modules(registry, force_demo, status, update_module)
+  File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 476, in load_modules
+    processed_modules += load_marked_modules(env, graph,
+  File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 364, in load_marked_modules
+    loaded, processed = load_module_graph(
+  File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 227, in load_module_graph
+    load_data(env, idref, mode, kind='data', package=package)
+  File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 71, in load_data
+    tools.convert_file(env, package.name, filename, idref, mode, noupdate, kind)
+  File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 627, in convert_file
+    convert_xml_import(env, module, fp, idref, mode, noupdate)
+  File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 693, in convert_xml_import
+    obj.parse(doc.getroot())
+  File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 613, in parse
+    self._tag_root(de)
+  File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 556, in _tag_root
+    f(rec)
+  File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 569, in _tag_root
+    raise ParseError('while parsing %s:%s, somewhere inside\n%s' % (
+odoo.tools.convert.ParseError: while parsing /usr/lib/python3/dist-packages/odoo/addons/hr/data/hr_data.xml:18, somewhere inside
+<record id="onboarding_plan" model="mail.activity.plan">
+            <field name="name">Onboarding</field>
+            <field name="res_model">hr.employee</field>
+        </record>
+----
+
+==== Symptom
+
+==== Cause
+
+Something is wrong with the Onboarding activity.
+
+The container image used in the upgrade was old.
+
+[source,]
+----
+odoo@odoo_upg:/$ odoo --version
+Odoo Server 17.0-20240429
+----
+
+==== Solution
+
+Remove the Onboarding and Offboarding activities and the Onboarding as well as 
+ the Offboarding plans, using the Odoo UI.
+
+Remove the image and restart the upgrade process.
+
+=== ValueError: Wrong value for account.report.filter_account_type: 'false'
+
+*Problem*
+
+Upgrade fails with the following error.
+
+[source,]
+----
+2025-09-04 11:53:40,681 23 ERROR trikorasolns odoo.modules.registry: Failed to load registry 
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/odoo/modules/registry.py", line 110, in new
+    odoo.modules.load_modules(registry, force_demo, status, update_module)
+  File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 477, in load_modules
+    processed_modules += load_marked_modules(env, graph,
+  File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 365, in load_marked_modules
+    loaded, processed = load_module_graph(
+  File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 237, in load_module_graph
+    module._update_translations(overwrite=overwrite)
+  File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_module.py", line 846, in _update_translations
+    self.env['ir.module.module']._load_module_terms(mod_names, filter_lang, overwrite)
+  File "/usr/lib/python3/dist-packages/odoo/addons/account/models/ir_module.py", line 76, in _load_module_terms
+    super()._load_module_terms(modules, langs, overwrite)
+  File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_module.py", line 942, in _load_module_terms
+    translation_importer.save(overwrite=overwrite)
+  File "/usr/lib/python3/dist-packages/odoo/tools/translate.py", line 1448, in save
+    env.flush_all()
+  File "/usr/lib/python3/dist-packages/odoo/api.py", line 721, in flush_all
+    self._recompute_all()
+  File "/usr/lib/python3/dist-packages/odoo/api.py", line 717, in _recompute_all
+    self[field.model_name]._recompute_field(field)
+  File "/usr/lib/python3/dist-packages/odoo/models.py", line 6949, in _recompute_field
+    field.recompute(records)
+  File "/usr/lib/python3/dist-packages/odoo/fields.py", line 1367, in recompute
+    apply_except_missing(self.compute_value, recs)
+  File "/usr/lib/python3/dist-packages/odoo/fields.py", line 1340, in apply_except_missing
+    func(records)
+  File "/usr/lib/python3/dist-packages/odoo/fields.py", line 1389, in compute_value
+    records._compute_field_value(self)
+  File "/usr/lib/python3/dist-packages/odoo/models.py", line 4913, in _compute_field_value
+    fields.determine(field.compute, self)
+  File "/usr/lib/python3/dist-packages/odoo/fields.py", line 105, in determine
+    return needle(records, *args)
+  File "/usr/lib/python3/dist-packages/odoo/addons/account/models/account_report.py", line 130, in <lambda>
+    compute=lambda x: x._compute_report_option_filter('filter_account_type', 'disabled'), readonly=False, store=True, depends=['root_report_id'],
+  File "/usr/lib/python3/dist-packages/odoo/addons/account/models/account_report.py", line 154, in _compute_report_option_filter
+    report[field_name] = report.root_report_id[field_name]
+  File "/usr/lib/python3/dist-packages/odoo/models.py", line 6678, in __setitem__
+    return self._fields[key].__set__(self, value)
+  File "/usr/lib/python3/dist-packages/odoo/fields.py", line 1302, in __set__
+    self.write(protected_records, value)
+  File "/usr/lib/python3/dist-packages/odoo/fields.py", line 1121, in write
+    cache_value = self.convert_to_cache(value, records)
+  File "/usr/lib/python3/dist-packages/odoo/fields.py", line 2838, in convert_to_cache
+    raise ValueError("Wrong value for %s: %r" % (self, value))
+ValueError: Wrong value for account.report.filter_account_type: 'false'
+----
+
+*Symptom*
+
+*Cause*
+
+Queried the `account_report` table to get the contents of the `filter_account_type`.
+
+[source,sql]
+----
+select ar.filter_account_type  
+from account_report ar ;
+----
+
+The `filter_account_type` is boolean and probably should have a different type.
+
+*Solution*
+
+Set the field to null.
+
+[source,sql]
+----
+update account_report
+set filter_account_type = null;
+----
+
+Delete records as they don't seem to be used.
+
+[source,sql]
+----
+delete from account_report;
+----
+
+=== KeyError: 'planned_hours'
+
+*Problem*
+
+Upgrade fails with the following error.
+
+[source,]
+----
+2025-09-04 13:10:10,971 22 WARNING trikorasolns OpenUpgrade: Module Unknown: Not dropping the column of field subtask_planned_hours of model project.task 
+2025-09-04 13:10:11,013 22 INFO trikorasolns odoo.models.unlink: User #1 deleted ir.model.data records with IDs: [17006] 
+2025-09-04 13:10:11,013 22 INFO trikorasolns odoo.models.unlink: User #1 deleted ir.model.fields records with IDs: [6391] 
+2025-09-04 13:10:11,014 22 INFO trikorasolns odoo.addons.base.models.ir_model: Deleting 6390@ir.model.fields (project.field_project_task__planned_hours) 
+2025-09-04 13:10:11,098 22 WARNING trikorasolns odoo.modules.loading: Transient module states were reset 
+2025-09-04 13:10:11,099 22 ERROR trikorasolns odoo.modules.registry: Failed to load registry 
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/odoo/modules/registry.py", line 110, in new
+    odoo.modules.load_modules(registry, force_demo, status, update_module)
+  File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 537, in load_modules
+    env['ir.model.data']._process_end(processed_modules)
+  File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_model.py", line 2588, in _process_end
+    self._process_end_unlink_record(record)
+  File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_model.py", line 2517, in _process_end_unlink_record
+    record.unlink()
+  File "/usr/lib/python3/dist-packages/odoo/addons/mail/models/ir_model_fields.py", line 52, in unlink
+    'sequence': self.env[field.model_id.model]._mail_track_get_field_sequence(field.name),
+  File "/usr/lib/python3/dist-packages/odoo/addons/mail/models/models.py", line 181, in _mail_track_get_field_sequence
+    self._fields[fname], 'tracking',
+KeyError: 'planned_hours'
+----
+
+*Symptom*
+
+*Cause*
+
+*Solution*
+
+Delete all `planned_hours` on `project_task`.
+
+[source,sql]
+----
+update project_task set planned_hours = null;
+----
+

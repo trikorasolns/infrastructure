@@ -1,0 +1,26 @@
+app_name: gitea
+app_namespace: gitea
+app_version: "1.22.6"
+
+db_name: gitea
+db_user: gitea
+storage_class: local-storage
+
+volumes:
+  - name: gitea-data
+    capacity: 30Gi
+    component: scm
+    owner_user: 1000
+    owner_group: 1000
+  - name: gitea-config
+    capacity: 1Gi
+    component: scm
+    owner_user: 1000
+    owner_group: 1000
+  - name: postgresql
+    capacity: 10Gi
+    owner_user: 26
+    owner_group: 26
+    component: database
+
+db_image_tag: 14

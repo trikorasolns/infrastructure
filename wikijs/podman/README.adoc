@@ -1,0 +1,104 @@
+= Wiki.js on Podman
+:author:    Antonio C.
+:email:     <ac (at) trikorasolutions (dot) com>
+:Revision:  1
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:source-highlighter: highlight.js
+
+
+== Installation
+
+Create pod.
+
+[source,bash]
+----
+podman pod create -p 8080:3000 -p 8432:5432 wiki.js
+----
+
+Deploy PostgreSQL.
+
+[source,bash]
+----
+ansible-playbook pgsql/podman/ansible/podman-install-playbook.yaml \
+  -e pod_name="wiki.js" \
+  -e db_name="wikijs" \
+  -e db_user="wikijs" \
+  -e db_password="wikijs" \
+  -e pgsql_version="17.6"
+----
+
+-v wikijs/podman/config.yml:/wiki/config.yml
+
+[source,bash]
+----
+podman run --pod wiki.js -d --name wiki --restart unless-stopped -e "DB_TYPE=postgres" -e "DB_HOST=wiki.js_pgsql_wikijs" -e "DB_PORT=5432" -e "DB_USER=wikijs" -e "DB_PASS=wikijs" -e "DB_NAME=wikijs" ghcr.io/requarks/wiki:2
+----
+
+== Uninstall
+
+[source,bash]
+----
+    ansible-playbook pgsql/podman/ansible/podman-uninstall-playbook.yaml \
+    -e pod_name="wiki.js" \
+    -e db_name="wikijs"
+----
+
+[source,bash]
+----
+podman pod rm wiki.js 
+----
+
+== Backup
+
+== Restore
+
+Copy the database dump to the PostgreSQL POD.
+
+[source,bash]
+----
+kc cp -n wikijs /<backup_folder>/wikibackup.dump postgresql-0:/tmp/wikibackup.dump
+----
+
+Stop Wiki.js.
+
+[source,bash]
+----
+kubectl -n wikijs scale deployment wikijs --replicas=0
+----
+
+Connect to the database POD.
+
+[source,bash]
+----
+kubectl exec -it -n wikijs postgresql-0 -- bash
+----
+
+Drop the database
+
+[source,bash]
+----
+dropdb wikijs -U wikijs
+----
+
+Create the database
+
+[source,bash]
+----
+createdb -U wikijs wikijs
+----
+
+Restore the database.
+
+[source,bash]
+----
+cat /tmp/wikibackup.dump | pg_restore -U wikijs -d wikijs
+----
+
+Start Wiki.js.
+
+[source,bash]
+----
+kubectl -n wikijs scale deployment wikijs --replicas=1
+----

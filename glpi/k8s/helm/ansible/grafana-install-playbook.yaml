@@ -1,0 +1,37 @@
+---
+- name: "Install Grafana on GLPI"
+  hosts: "localhost"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+    - name: "Validate variables"
+      assert:
+        that:
+          - "app_name is defined and (app_name | length > 0)"
+          - "app_namespace is defined and (app_namespace | length > 0)"
+        fail_msg: 
+          - "app_name must be defined with the kubernetes namespace"
+          - "app_namespace is defined and (app_namespace | length > 0)"
+
+  tasks:
+
+    - name: "Template Grafana Helm values file"
+      ansible.builtin.template:
+        src: helm-glpi-grafana-values.yaml.j2
+        dest: /tmp/helm-glpi-grafana-values.yaml
+
+    - name: "Deploy Grafana with Helm"
+      kubernetes.core.helm:
+        name: grafana
+        chart_ref: "{{ trikora_helm_project_dir }}/charts/grafana"
+        release_namespace: "{{ app_namespace }}"
+        wait: true
+        values_files:
+          - /tmp/helm-glpi-grafana-values.yaml
+      register: grafana_helm_res 
+
+    - name: Print Grafana Helm Chart output
+      ansible.builtin.debug:
+        msg:
+          - "grafana_helm_res: {{ grafana_helm_res }}"
+...

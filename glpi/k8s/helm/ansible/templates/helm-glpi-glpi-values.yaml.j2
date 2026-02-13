@@ -1,0 +1,52 @@
+image:
+{% if app_image_tag is defined %}
+  tag: "{{ app_image_tag }}"
+{% else %}
+  tag: "{{ app_version }}"
+{% endif %}
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: "{{ app_name }}.{{ local_domain }}"
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            serviceName: http
+            servicePort: 80
+
+persistence:
+  dbName: {{ db_name }}
+  dbUser: {{ db_user }}
+  dbPassword: {{ db_password }}
+  dbHost: mariadb.{{ app_name }}.svc.cluster.local
+{% if storage_class_rwo is defined or storage_class is defined %}
+  storageClassName: "{{ storage_class_rwo | default(storage_class) }}"
+{% endif %}
+
+podSecurityContext:
+  fsGroup: 33
+
+#mountPaths:
+#  config: /etc/glpi:Z
+#  files: /var/lib/glpi:Z
+##  plugins: /var/www/html/glpi/plugins:Z
+#  marketplace: /var/www/html/glpi/plugins:Z
+
+application:
+{% if app_image_tag is defined %}
+  glpicrypt: {{ glpi_crypt_targz_base64 }}
+{% endif %}
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi

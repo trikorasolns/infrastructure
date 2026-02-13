@@ -1,0 +1,36 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: gitea-db-pv
+  labels:
+    app.kubernetes.io/name: gitea-db-pv
+    app.kubernetes.io/instance: gitea
+    app.kubernetes.io/version: "1.0.0"
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: gitea
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    namespace: gitea
+    name: postgresql
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions: []
+  #storageClassName: iscsi-storage
+  iscsi:
+    targetPortal: nas05t.trikorasolutions.net:3260
+    iqn: iqn.2012-05.net.trikorasolutions.iscsi:gitea-db
+{% if iscsiInitiatorName is defined %}
+    initiatorName: {{ iscsiInitiatorName }}
+{% endif %}
+    lun: 0
+    fsType: 'ext4'
+    readOnly: false
+    chapAuthSession: false
+    #  chapAuthDiscovery: true
+    #  chapAuthSession: true
+    #  secretRef:
+    #    name: chap-secret

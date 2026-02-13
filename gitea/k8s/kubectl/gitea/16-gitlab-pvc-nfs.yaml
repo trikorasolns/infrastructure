@@ -1,0 +1,94 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: gitlab-var-opt-nfs-nas-pvc
+  namespace: gitlab
+  labels:
+    app.kubernetes.io/name: gitlab
+    app.kubernetes.io/instance: gitlab-gitlab
+    app.kubernetes.io/version: "13.7.1"
+    app.kubernetes.io/component: scm
+    app.kubernetes.io/part-of: gitlab
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName: nfs
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gitlab-etc-nfs-nas-pvc
+  namespace: gitlab
+  labels:
+    app.kubernetes.io/name: gitlab
+    app.kubernetes.io/instance: gitlab-gitlab
+    app.kubernetes.io/version: "13.7.1"
+    app.kubernetes.io/component: scm
+    app.kubernetes.io/part-of: gitlab
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: nfs
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gitlab-var-log-nfs-nas-pvc
+  namespace: gitlab
+  labels:
+    app.kubernetes.io/name: gitlab
+    app.kubernetes.io/instance: gitlab-gitlab
+    app.kubernetes.io/version: "13.7.1"
+    app.kubernetes.io/component: scm
+    app.kubernetes.io/part-of: gitlab
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: nfs
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: gitlab-var-opt-local-pvc
+  namespace: gitlab
+  labels:
+    app.kubernetes.io/name: gitlab
+    app.kubernetes.io/instance: gitlab-gitlab
+    app.kubernetes.io/version: "13.7.1"
+    app.kubernetes.io/component: scm
+    app.kubernetes.io/part-of: gitlab
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName: manual
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: gitlab-var-log-local-pvc
+  namespace: gitlab
+  labels:
+    app.kubernetes.io/name: gitlab
+    app.kubernetes.io/instance: gitlab-gitlab
+    app.kubernetes.io/version: "13.7.1"
+    app.kubernetes.io/component: scm
+    app.kubernetes.io/part-of: gitlab
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: manual

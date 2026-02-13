@@ -1,0 +1,22 @@
+= Metal LB
+:toc: left
+:toc-title: Table of Contents
+:icons: font
+:description: Metal LB deployment guide
+:source-highlighter: highlight.js
+
+
+== Helm Chart
+
+[source,bash]
+----
+ansible-playbook kubernetes/ingress/metallb/ansible/metallb-install-playbook.yaml \
+  -e @kubernetes/ingress/metallb/ansible/defaults/main.yaml
+----
+
+If this a single node control-plane/worker, remove the label
+`node.kubernetes.io/exclude-from-external-load-balancers`.
+== References
+
+* https://metallb.universe.tf/installation/#installation-with-helm[Helm Installation Guide]
+* https://kubernetes.github.io/ingress-nginx/deploy/baremetal/#a-pure-software-solution-metallb[Ingress Considerations]

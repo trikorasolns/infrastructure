@@ -1,0 +1,66 @@
+---
+- name: "Install PostgreSQL - {{ db_image_tag }}"
+  hosts: "{{ k8s_host | default ('localhost') }}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+    - name: "Validate variables"
+      assert:
+        that:
+          - "db_password is defined and (db_password | length > 0)"
+          - "db_name is defined and (db_name | length > 0)"
+          - "db_user is defined and (db_user | length > 0)"
+        fail_msg: "Missing variables"
+
+  tasks:
+    - name: "Template PostgreSQL deployment files (iscsi)"
+      ansible.builtin.template:
+        src: "helm-pgsql-values.yaml.j2"
+        dest: "/tmp/helm-pgsql-iscsi-values.yaml"
+        mode: '0644'
+      when: custom_helm_values_file is not defined and (use_iscsi is not undefined and (use_iscsi | bool))
+
+    - name: "Template PostgreSQL deployment files (default)"
+      ansible.builtin.template:
+        src: "helm-pgsql-values.yaml.j2"
+        dest: "/tmp/helm-pgsql-values.yaml"
+        mode: '0644'
+      when: custom_helm_values_file is not defined and (use_iscsi is undefined or not (use_iscsi | bool))
+
+    - name: "Template PostgreSQL deployment files (custom)"
+      ansible.builtin.template:
+        src: "{{ custom_helm_values_file }}"
+        dest: "/tmp/helm-pgsql-values.yaml"
+        mode: '0644'
+      when: custom_helm_values_file is defined      
+
+    - name: "Deploy PostgreSQL with deployed Helm chart"
+      kubernetes.core.helm:
+        name: postgresql
+        chart_ref: "trikorasolns/postgresql"
+        release_namespace: "{{ app_namespace }}"
+        wait: true
+        replace: false
+        values_files:
+          - /tmp/helm-pgsql-values.yaml
+          - files/helm-pgsql-values.yaml
+      when: trikora_helm_project_dir is not defined
+      register: pgsql_helm_install_res 
+
+    - name: "Deploy PostgreSQL with local Helm chart"
+      kubernetes.core.helm:
+        name: postgresql
+        chart_ref: "{{ trikora_helm_project_dir }}/charts/postgresql"
+        release_namespace: "{{ app_namespace }}"
+        wait: true
+        replace: false
+        values_files:
+          - /tmp/helm-pgsql-values.yaml
+          - files/helm-pgsql-values.yaml
+      when: trikora_helm_project_dir is defined
+      register: pgsql_helm_install_res
+
+    - name: "Print installation result"
+      ansible.builtin.debug:
+        var: pgsql_helm_install_res
+...

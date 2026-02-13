@@ -1,6 +1,6 @@
 = Troubleshooting Odoo on Kubernetes
 :author:    Antonio C.
-:email:     <sp38af (at) trikorasolutions (dot) com>
+:email:     <ac (at) trikorasolutions (dot) com>
 :revdate:   {{docdate}}
 :toc:       left
 :toc-title: Table of Contents
@@ -124,4 +124,48 @@ Check the logs.
 [source,bash]
 ----
 kc -n odoo-16 logs -f pod/$(kubectl get pods -n odoo-16 | grep odoo |  awk '{print $1}')
+----
+
+== 413 Request Entity Too Large
+
+*Problem*
+
+Restoring a database fails with `13 Request Entity Too Large` error.
+
+*Cause*
+
+Nginx ingress doesn't support loading big files.
+
+*Solution*
+
+Increase the size supported by the ingress of the application.
+
+This is done by patching the 
+
+[source,bash]
+----
+kubectl -n odoo-16 patch ingress odoo -p '{"metadata": {"annotations": {"nginx.ingress.kubernetes.io/proxy-body-size": "50m"}}}'
+kubectl -n odoo-16 patch ingress odoo -p '{"metadata": {"annotations": {"nginx.ingress.kubernetes.io/client-body-buffer-size": "50m"}}}'
+----
+
+== 504 Gateway Time-out
+
+*Problem*
+
+*Cause*
+
+Nginx ingress timeout is too short for big restores.
+
+*Solution*
+
+Increase the timeout time for the application.
+
+This is done by patching the applications' ingress controller.
+
+
+[source,bash]
+----
+kubectl -n odoo-16 patch ingress odoo -p '{"metadata": {"annotations": {"nginx.ingress.kubernetes.io/proxy-connect-timeout": "180"}}}'
+kubectl -n odoo-16 patch ingress odoo -p '{"metadata": {"annotations": {"nginx.ingress.kubernetes.io/proxy-read-timeout": "180"}}}'
+kubectl -n odoo-16 patch ingress odoo -p '{"metadata": {"annotations": {"nginx.ingress.kubernetes.io/proxy-send-timeout": "180"}}}'
 ----

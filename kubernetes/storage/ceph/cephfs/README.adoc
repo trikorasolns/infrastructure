@@ -1,0 +1,278 @@
+= CephFS Storage on Kubernetes
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: Ceph Storage on Kubernetes
+:source-highlighter: highlight.js
+
+== Introduction
+
+[.lead]
+This section describes deploying Ceph storage on Kubernetes.
+
+
+== Ceph
+
+[.lead]
+Ceph configuration to create and init a CephFS and the access user.
+
+
+sudo ceph auth get-key client.admin
+
+[source,bash]
+----
+ceph osd pool create k8sprd_cephfs_data 128 128
+ceph osd pool create k8sprd_cephfs_metadata 64 64
+ceph fs new k8sprd_cephfs k8sprd_cephfs_metadata k8sprd_cephfs_data
+ceph fs subvolumegroup create k8sprd_cephfs csi
+----
+
+[source,bash]
+----
+ceph auth get-or-create client.k8sprd_cephfs \
+	mgr "allow rw" \
+	mds "allow rw fsname=k8sprd_cephfs path=/volumes, allow rw fsname=k8sprd_cephfs path=/volumes/csi" \
+	mon "allow r fsname=k8sprd_cephfs" \
+	osd "allow rw tag cephfs data=k8sprd_cephfs, allow rw tag cephfs metadata=k8sprd_cephfs"
+----
+
+
+[source,bash]
+----
+ceph fs ls
+----
+
+[source,]
+----
+name: k8sprd_cephfs, metadata pool: k8sprd_cephfs_metadata, data pools: [k8sprd_cephfs_data ]
+----
+
+Get the CEPH cluster ID.
+
+[source,bash]
+----
+CEPH_CLUSTER_ID=$(ssh <user>@<ceph_host> "ceph -s -f json" | jq -c ".fsid" -r)
+CEPH_MONS=$(ssh <user>@<ceph_host> "ceph mon dump -f json" | jq -c '[.mons[].public_addrs.addrvec[] | select(.type == "v1") | .addr]')
+CEPH_USER_KEY=$(ssh <user>@<ceph_host> "ceph auth get-key client.k8sprd_cephfs")
+----
+
+[source,bash]
+----
+ansible-playbook kubernetes/storage/ceph/cephfs/ansible/05-setup-ceph-csi-cephfs.yaml \
+  -e @kubernetes/storage/ceph/cephfs/ansible/defaults/main.yaml \
+  -e ceph_cluster_id=${CEPH_CLUSTER_ID} \
+  -e ceph_monitors=${CEPH_MONS} \
+  -e cephfs_user_key=${CEPH_USER_KEY}
+----
+
+Create Ceph CSI object.
+
+[source,bash]
+----
+kubectl apply -f kubernetes/storage/ceph/cephfs/files/csidriver.yaml
+----
+
+== Requirements
+
+[.lead]
+Requirements to use this section.
+
+* Add the https://ceph.github.io/csi-charts Helm repository
+
+Add the https://ceph.github.io/csi-charts helm repository.
+
+[sourec,bash]
+----
+helm repo add ceph-csi https://ceph.github.io/csi-charts
+----
+
+...and update the _Helm_ repository.
+
+[source,bash]
+----
+helm repo update
+----
+
+== Ansible Inventory
+
+.05-storage.yaml
+[source,yaml]
+----
+storage:
+  children:
+    ceph_01:
+      children:
+        ceph_01_mon:
+          hosts:
+            host01:
+              ceph_monitor_host: "10.10.10.11:6789"
+            host02:
+              ceph_monitor_host: "10.10.10.12:6789"
+            host03:
+              ceph_monitor_host: "10.10.10.13:6789"
+        ceph_osd:
+          hosts:
+            pve05:
+            pve06:
+            pve07:
+      vars:
+        ceph_cluster_id: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+----
+
+.15-kubernetes.yaml
+[source,yaml]
+----
+kubernetes:
+  children:
+    k8s_cluster_xxxx:
+      children:
+        k8s_control_plane:
+          hosts:
+            k8s-cp-1:
+          vars:
+            k8s_role: control-plane
+            hw:
+              ram: 16384 # In MiB
+              vcpu: 4  
+              storage: 150 # In GiB
+      vars:
+        ceph_cluster: ceph_01
+        ceph_monitor_group: ceph_01_mon
+        ceph_pool_name: cephfs_data
+        ceph_fs: cephfs
+        ceph_fs_subvolume: csi
+----
+
+== Ceph CephFS
+
+Create Ceph pool, failesystem and subvolume for Kubernetes & client key.
+
+[sourec,bash]
+----
+ansible-playbook kubernetes/storage/ceph/ansible/60-proxmox-create-cephfs-pool.yaml \
+  -e @kubernetes/storage/ceph/ansible/defaults/main.yaml \
+  -e proxmox_host=${PROXMOX_HOST}
+----
+
+== Collect information
+
+Define environment variables.
+
+[source,bash]
+----
+CEPH_ADM_KEY=<1>
+PROXMOX_HOST=<2>
+----
+<1> Ceph Admin Key obtained with `ceph auth get-key client.admin` using root.
+<2> Ansible inventory hostname for a proxmox host.
+
+== Using Ceph
+
+Install _cephfs_.
+
+[sourec,bash]
+----
+ansible-playbook kubernetes/storage/ceph/ansible/05-setup-ceph-csi-cephfs.yaml \
+  -e @kubernetes/storage/ceph/ansible/defaults/main.yaml \
+  -e ceph_admin_key=${CEPH_ADM_KEY}
+----
+
+Uninstall _cephfs_.
+
+[sourec,bash]
+----
+ansible-playbook kubernetes/storage/ceph/ansible/09-remove-ceph-csi-cephfs.yaml \
+  -e @kubernetes/storage/ceph/ansible/defaults/main.yaml
+----
+
+== Configure Ceph OSD
+
+The following instructions and scripts were generated with information 
+ obtained from 
+ link:https://computingforgeeks.com/ceph-persistent-storage-for-kubernetes-with-cephfs/[computingforgeeks - Ceph Persistent Storage for Kubernetes with Cephfs] 
+ and link:https://computingforgeeks.com/persistent-storage-for-kubernetes-with-ceph-rbd/[computingforgeeks - Persistent Storage for Kubernetes with Ceph RBD]
+ tutorials.
+
+[sourec,bash]
+----
+ansible-playbook kubernetes/storage/ceph/ansible/55-setup-cephfs.yaml \
+  -e @kubernetes/storage/ceph/ansible/defaults/main.yaml \
+  -e ceph_admin_key=${CEPH_ADM_KEY}
+----
+
+Set the `ceph_monitors` variable with the list of Ceph Monitor information, 
+ e.g. `10.10.10.11:6789,10.10.10.12:6789,10.10.10.13:6789`. It can be provided 
+ to the following playbook as part of the `_local_config/network.yaml` file.
+
+[sourec,bash]
+----
+ansible-playbook kubernetes/storage/ceph/ansible/65-setup-cephfs.yaml \
+  -e @kubernetes/storage/ceph/ansible/defaults/main.yaml \
+  -e @_local_config/network.yaml
+----
+
+[sourec,bash]
+----
+ansible-playbook kubernetes/storage/ceph/ansible/90-test-cephfs.yaml \
+  -e @kubernetes/storage/ceph/ansible/defaults/main.yaml
+----
+
+== Uninstall
+
+[sourec,bash]
+----
+ansible-playbook kubernetes/storage/ceph/ansible/99-uninstall.yaml \
+  -e @kubernetes/storage/ceph/ansible/defaults/main.yaml
+----
+
+== Configure Ceph RBD
+
+TBD
+
+
+== References
+
+* Ceph CSI:
+** https://github.com/ceph/ceph-csi
+** https://github.com/ceph/csi-charts
+* https://docs.ceph.com/en/latest/rbd/rbd-kubernetes/
+* https://computingforgeeks.com/ceph-persistent-storage-for-kubernetes-with-cephfs/
+* https://www.digitalocean.com/community/tutorials/how-to-set-up-a-ceph-cluster-within-kubernetes-using-rook
+* https://kifarunix.com/provisioning-kubernetes-persistent-volumes-with-cephfs-csi-driver/
+
+== Troubleshooting
+
+=== POD in Pending status
+
+*Problem*
+
+A POD that uses a PVC stays in _Pending_ status.
+
+*Symptom*
+
+POD shows a _FailedScheduling_ Warning stating `pod has unbound immediate PersistentVolumeClaims`.
+
+[source,]
+----
+Warning  FailedScheduling  32s   default-scheduler  0/3 nodes are available: pod has unbound immediate PersistentVolumeClaims. preemption: 0/3 nodes are available: 3 Preemption is not helpful for scheduling.
+----
+
+And the PVC is on _Pending_ state.
+
+*Cause*
+
+The provisioner doesn't seem to be provisioning the volume, check the provisioner POD logs for the problem.
+
+[source,bash]
+----
+kubectl -n cephfs logs -f cephfs-provisioner-59b5469fcb-pj2rv
+----
+
+[source,]
+----
+E0901 21:54:43.215487       1 controller.go:1004] provision "default/cephfs-claim1" class "cephfs": unexpected error getting claim reference: selfLink was empty, can't make reference
+----
+
+*Solution*
+
+Apply the fix for the logged message, in this case the pool name was incorrect.

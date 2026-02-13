@@ -1,6 +1,6 @@
 = Gitlab Deployment Guide (helm)
 :author:    Antonio C.
-:email:     <sp38af (at) trikorasolutions (dot) com>
+:email:     <ac (at) trikorasolutions (dot) com>
 :Date:      20220502
 :revdate: {docdate}
 :toc:       left
@@ -12,31 +12,161 @@
 
   * https://docs.gitlab.com/charts/
 
-== Installation 
+== Prepare
+
+=== Host Path
+Create the namespace.
 
 [source,bash]
 ----
-$ ansible-playbook gitlab/k8s/ansible/playbook-install-prepare.yaml -e k8s_host=${VM_NAME} -e @gitlab/k8s/ansible/default/main.yaml -K
+ansible-playbook -e k8s_host=${K8S_HOST} kubernetes/ansible/host_path/app-prepare-playbook.yaml \
+  -e "@gitlab/k8s/ansible/defaults/main.yaml"
 ----
 
-== PostgreSQL
+Create HostPath PVs and their supporting folders.
 
-[source,bash]
-----
-$ ansible-playbook gitlab/k8s/ansible/playbook-pgsql-prepare.yaml -e k8s_host=${VM_NAME} -e @gitlab/k8s/ansible/default/main.yaml -K
-$ helm upgrade --install --namespace gitlab postgresql ./postgresql
-----
-
-== Redis
+The persistence information is provided in the 
+ link:ansible/default/main.yaml[] file.
 
 [source,bash]
 ----
-$ helm upgrade --install --namespace gitlab redis ./redis
+ansible-playbook -e k8s_host=${K8S_HOST} kubernetes/ansible/host_path/app-pv-prepare-playbook.yaml -K \
+  -e "@gitlab/k8s/ansible/defaults/main.yaml"
 ----
 
-== GitLab
+== Install 
+
+Create namespace.
+
+[source,bash]
+----
+kc create namespace $(cat gitlab/k8s/ansible/defaults/main.yaml | yq -r .app_namespace)
+----
+
+=== PostgreSQL
+
+Install PostgreSQL. The PV have already been provisioned in the preparation 
+ steps.
+
+This will deploy a PostgreSQL database on the application namespace.
+
+[source,bash]
+----
+ansible-playbook pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml \
+  -e "@kubernetes/storage/ceph/ansible/defaults/main.yaml" \
+  -e "@gitlab/k8s/ansible/defaults/main.yaml" \
+  -e db_password=${DB_PASSWORD}
+----
+
+=== Redis
+
+[source,bash]
+----
+ansible-playbook gitlab/k8s/helm/ansible/redis-install-playbook.yaml \
+  -e "@gitlab/k8s/ansible/defaults/main.yaml"
+----
+
+Installing manually with Helm would be.
+
+[source,bash]
+----
+helm upgrade --install --namespace gitlab redis ./redis
+----
+
+To remove redis execute the corresponding uninstall playbook.
+
+[source,bash]
+----
+ansible-playbook gitlab/k8s/helm/ansible/redis-install-playbook.yaml \
+  -e "@gitlab/k8s/ansible/defaults/main.yaml" \
+  -e trikora_helm_project_dir=${TRIKORA_HELM}
+----
+
+=== GitLab
 
 Deploy the `gitlab` application using the `trikorasolns/gitlab` helm chart.
+
+[source,bash]
+----
+ansible-playbook gitlab/k8s/helm/ansible/gitlab-install-playbook.yaml \
+  -e "@kubernetes/storage/ceph/ansible/defaults/main.yaml" \
+  -e "@gitlab/k8s/ansible/defaults/main.yaml" \
+  -e "@_local_config/network.yaml" \
+  -e db_password=${DB_PASSWORD} 
+----
+
+== Uninstall
+
+Use the following playbook command to uninstall the helm chart.
+
+[source,bash]
+----
+ansible-playbook gitlab/k8s/helm/ansible/gitlab-uninstall-playbook.yaml \
+  -e "@gitlab/k8s/ansible/defaults/main.yaml" \
+  -e trikora_helm_project_dir=${TRIKORA_HELM}
+----
+
+Delete the GitLab namespace.
+
+[source,bash]
+----
+kubectl delete ns gitlab
+----
+
+Cleanup the PVs.
+
+[source,bash]
+----
+ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-cleanup-playbook.yaml -K \
+  -e "@gitlab/k8s/ansible/defaults/main.yaml"
+----
+
+Don't forget to check and eventually patch the _Released_ PVs.
+
+[source,bash]
+----
+kubectl get pv
+----
+
+[source,bash]
+----
+NAME                             CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS
+gitlab-gitlab-etc-local-pv       5Gi        RWO            Retain           Released
+gitlab-gitlab-var-log-local-pv   5Gi        RWO            Retain           Released
+gitlab-gitlab-var-opt-local-pv   20Gi       RWO            Retain           Released
+----
+
+Mark the `postgresql` PV as _Avilable_ and attach it to the `postgresql` PVC 
+ on the `gitlab` namespace.
+
+[source,bash]
+----
+kubectl patch pv gitlab-postgresql-pv -p '{"spec":{"claimRef": null}}'
+kubectl patch pv gitlab-postgresql-pv -p '{"spec":{"claimRef": {"name": "postgresql", "namespace": "gitlab"}}}'
+----
+
+Or completely remove everything.
+
+[NOTE]
+====
+The persistence information is provided in the 
+ link:ansible/default/main.yaml[] file.
+====
+
+[source,bash]
+----
+ansible-playbook --limit ${K8S_HOST} kubernetes/ansible/host_path/app-pv-cleanup-playbook.yaml -K \
+  -e "@gitlab/k8s/ansible/defaults/main.yaml"
+----
+
+== Manual steps
+
+== Manually Install 
+
+[source,bash]
+----
+kubectl patch pv gitlab-gitlab-etc-local-pv gitlab-gitlab-var-opt-local-pv gitlab-gitlab-var-log-local-pv -p '{"spec":{"claimRef": null}}'
+----
 
 [source,bash]
 ----
@@ -47,18 +177,18 @@ $ helm upgrade --install --namespace gitlab -f /tmp/helm-gitlab-values.yaml gitl
 
 [source,bash]
 ----
-$ ansible-playbook gitlab/k8s/ansible/playbook-gitlab-prepare.yaml -e k8s_host=${VM_NAME} -e gitlab_hostname=${GITLAB_HOSTNAME} -e @gitlab/k8s/ansible/default/main.yaml -K
+$ ansible-playbook gitlab/k8s/ansible/playbook-gitlab-prepare.yaml -e k8s_host=${VM_NAME} -e gitlab_hostname=${GITLAB_HOSTNAME} -e @gitlab/k8s/ansible/defaults/main.yaml -K
 $ helm upgrade --install --namespace gitlab gitlab ./gitlab
 ----
 
-== Uninstallation
+=== Manual Uninstall
 
 GitLab
 
 [source,bash]
 ----
 $ helm uninstall --namespace gitlab gitlab
-$ ansible-playbook gitlab/k8s/ansible/playbook-gitlab-remove.yaml -e k8s_host=${VM_NAME} -e @gitlab/k8s/ansible/default/main.yaml -K
+$ ansible-playbook gitlab/k8s/ansible/playbook-gitlab-remove.yaml -e k8s_host=${VM_NAME} -e @gitlab/k8s/ansible/defaults/main.yaml -K
 ----
 
 PostgreSQL
@@ -66,7 +196,7 @@ PostgreSQL
 [source,bash]
 ----
 $ helm uninstall --namespace gitlab postgresql
-$ ansible-playbook gitlab/k8s/ansible/playbook-pgsql-remove.yaml -e k8s_host=${VM_NAME} -e @gitlab/k8s/ansible/default/main.yaml -K
+$ ansible-playbook gitlab/k8s/ansible/playbook-pgsql-remove.yaml -e k8s_host=${VM_NAME} -e @gitlab/k8s/ansible/defaults/main.yaml -K
 ----
 
 == Preparation 
@@ -80,7 +210,7 @@ $ ansible-playbook gitlab/k8s/ansible/install-preparation.yaml  -e k8s_host=${VM
 
 [source,bash]
 ----
-$ ansible-playbook gitlab/k8s/ansible/playbook-install-prepare.yaml -e k8s_host=${VM_NAME} -e gitlab_hostname=${GITLAB_HOSTNAME} -e @gitlab/k8s/ansible/default/main.yaml -K
+$ ansible-playbook gitlab/k8s/ansible/playbook-install-prepare.yaml -e k8s_host=${VM_NAME} -e gitlab_hostname=${GITLAB_HOSTNAME} -e @gitlab/k8s/ansible/defaults/main.yaml -K
 ----
 
 === Create PV and folders

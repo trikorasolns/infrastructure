@@ -1,0 +1,5 @@
+---
+# defaults file for kubernetes/pv-local
+pv_local_folder_mode: "0777"
+pv_local_storage_capacity: "10Gi"
+pv_local_storage_classname: "local-storage"
