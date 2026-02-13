@@ -1,0 +1,52 @@
+= Deploy Backup and Restore on Podman
+:author:    Antonio C.
+:email:     <ac (at) trikorasolutions (dot) com>
+:revdate:   {{docdate}}
+:toc:       left
+:toc-title: Table of Contents
+:icons:     font
+:source-highlighter: highlight.js
+
+== Introduction
+
+[.lead]
+This document describes how to perform backup and restore operations on a 
+Dolibarr system deployed in Podman.
+
+== Backup
+
+[.lead]
+TBD
+
+== Restore
+
+=== Database Restore
+
+==== PostgreSQL Restore
+
+Copy the database backup to the PostgreSQL POD.
+
+[source,bash]
+----
+podman cp /z/_backup/apps/dolibarr/20260205T133756.dolibarr.backup.sql dolibarr_pgsql_dolibarr:/tmp/
+----  
+
+Open a bash shell on the Podman PostgreSQL container.
+
+[source,bash]
+----
+podman exec -it dolibarr_pgsql_dolibarr bash
+----
+
+Restore the database.
+
+[source,bash]
+----
+psql  -d dolibarr -U dolibarr -f /tmp/20260205T133756.dolibarr.backup.sql
+----
+
+=== Dolibarr Restore
+
+References:
+
+* https://wiki.dolibarr.org/index.php/Restores
