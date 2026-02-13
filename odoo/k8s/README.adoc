@@ -59,3 +59,12 @@ ansible-playbook odoo/ansible/odoo-backup-playbook.yaml \
   -e odoo_master_pw=${ODOO_MASTER_PW} \
   -e backup_folder=${BACKUP_ROOT_FOLDER}/odoo
 ----
+
+== Restore
+
+Restore 
+
+[source,bash]
+----
+cp -nr /var/lib/odoo/.local/share/Odoo/xxx/trikorasolns_2025-09-04_18-15-18/filestore/ /var/lib/odoo/.local/share/Odoo/filestore/trikorasolns/
+----
