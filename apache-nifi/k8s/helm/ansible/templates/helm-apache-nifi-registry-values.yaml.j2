@@ -1,0 +1,51 @@
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "180"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "180"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "180"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "180"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "180"
+    nginx.ingress.kubernetes.io/proxy-body-size: 50m
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 50m
+    kubernetes.io/tls-acme: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+  hosts:
+    - host: "{{ app_name }}.{{ local_domain }}"
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            serviceName: {{ app_name }}
+            servicePort: 443
+    - host: "{{ app_name }}-0.{{ local_domain }}"
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            serviceName: {{ app_name }}
+            servicePort: 443
+
+persistence:
+{% if storage_class_rwo is defined or storage_class is defined %}
+  storageClassName: "{{ storage_class_rwo | default(storage_class) }}"
+{% endif %}
+
+resources:
+  limits:
+    cpu: "1500m"
+    memory: "3Gi"
+  requests:
+    cpu: "500m"
+    memory: "1000Mi"
+
+app:
+  # Nifi Registry JDBC
+  nifiRegistryDbUrl: "jdbc:postgresql://postgresql.{{ app_namespace }}.svc.cluster.local/nifireg"
+  nifiRegistryDbDriverClass: org.postgresql.Driver
+  nifiRegistryDbDriverDirectory: "/opt/nifi-registry/nifi-registry-current/drivers"
+  nifiRegistryDbUsername: nifireg
+  nifiRegistryDbPassword: "{{ db_password }}"
+  nifiRegistryDbDriverUrl: "https://jdbc.postgresql.org/download/postgresql-42.7.8.jar"
+  nifiRegistryDbDriverFile: "postgresql-42.7.8.jar"

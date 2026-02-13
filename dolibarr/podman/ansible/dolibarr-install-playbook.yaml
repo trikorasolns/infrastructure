@@ -9,12 +9,17 @@
         that:
           - "pod_name is defined"
           # - "pgsql_version is defined"
-    
+
+    - name: "Set names"
+      ansible.builtin.set_fact:
+        d: "{{ db_name | default('dolibarr') }}"
+      when: doli_db_name is undefined
+
   tasks:
     - name: "Set names"
       ansible.builtin.set_fact:
-        doli_db_name: "{{ db_name | default('dolibarr') }}"
-      when: doli_db_name is undefined
+        dolibarr_version: "22.0.3"
+      when: dolibarr_version is undefined
         
     - name: Create Dolibarr volumes
       containers.podman.podman_volume:
@@ -23,7 +28,7 @@
         label:
           app.kubernetes.io/name: "{{ dolibarr_volume_item }}"
           app.kubernetes.io/instance: "{{ pod_name }}"
-          app.kubernetes.io/version: "{{ dolibarr_version | default('22') }}"
+          app.kubernetes.io/version: "{{ dolibarr_version }}"
           app.kubernetes.io/component: "application"
           app.kubernetes.io/part-of: "{{ pod_name }}"
       loop:
@@ -35,7 +40,7 @@
     - name: "Create container"
       containers.podman.podman_container:
         name: "{{ pod_name }}_dolibarr_{{ app_name | default('dolibarr') }}"
-        image: "docker://dolibarr/dolibarr:{{ dolibarr_version | default('22') }}"
+        image: "docker://dolibarr/dolibarr:{{ dolibarr_version }}"
         state: started
         pod: "{{ pod_name }}"
         volumes: 

@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: awx-ingress
+  name: awx
   namespace: awx
 spec:
   ingressClassName: nginx
@@ -10,6 +10,10 @@ spec:
       name: awx-service
       port:
         number: 80
+  tls:
+  - hosts:
+    - AWX_HOST_NAME
+    secretName: awx-cert-tls
   rules:
     - host: AWX_HOST_NAME
       http:

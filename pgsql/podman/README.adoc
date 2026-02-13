@@ -25,6 +25,8 @@ ansible-playbook pgsql/podman/ansible/podman-install-playbook.yaml \
   -e pod_name= \
   -e db_name= \
   -e db_user= \
+  -e "@kubernetes/storage/<storage>/ansible/defaults/main.yaml" \
+  -e "@<app>/k8s/ansible/defaults/main.yaml" \
   -e db_password=${DB_PASSWORD}
 ----
 

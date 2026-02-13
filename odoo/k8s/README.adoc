@@ -53,8 +53,9 @@ Installation
 [source,bash]
 ----
 ansible-playbook odoo/ansible/odoo-backup-playbook.yaml \
-  -e "@odoo/k8s/ansible/defaults/main.yaml" \
   -e "@odoo/k8s/ansible/defaults/odoo-${ODOO_VERSION}.yaml" \
+  -e "@odoo/k8s/ansible/defaults/main.yaml" \
+  -e odoo_db_name=${ODOO_DB} \
   -e odoo_master_pw=${ODOO_MASTER_PW} \
   -e backup_folder=${BACKUP_ROOT_FOLDER}/odoo
 ----
