@@ -1,6 +1,6 @@
 app_name: apache-superset
 app_namespace: apache-superset
-app_version: "22"
+app_version: "5.0.0"
 
 db_name: apachesuperset
 db_user: apachesuperset
