@@ -33,13 +33,15 @@ extraLabels: {}
 
 # -- User ID directive. This user must have enough permissions to run the bootstrap script
 # Running containers as root is not recommended in production. Change this to another UID - e.g. 1000 to be more secure
-runAsUser: 1000
+# WARNING: For chart version 0.15 this must be 0 as the bootstrap script must install packages.
+runAsUser: 0
 
 # -- Specify rather or not helm should create the secret described in `secret-env.yaml` template
 secretEnv:
   # -- Change to false in order to support externally created secret (Binami "Sealed Secrets" for Kubernetes or External Secrets Operator)
   # note: when externally creating the secret, the chart still expects to pull values from a secret with the name of the release defaults to `release-name-superset-env` - full logic located in _helpers.tpl file: `define "superset.fullname"`
-  create: true
+  # TKR: Changed
+  create: false
 
 # -- Specify service account name to be used
 serviceAccountName: ~
@@ -53,6 +55,14 @@ serviceAccount:
 # @default -- see `values.yaml`
 bootstrapScript: |
   #!/bin/bash
+  
+  # Install system-level dependencies
+  apt-get update && apt-get install -y
+  apt-get install -y pkg-config python3-dev default-libmysqlclient-dev build-essential
+
+  uv pip install authlib psycopg2-binary mysqlclient
+
+  # Create bootstrap file if it doesn't exist
   if [ ! -f ~/bootstrap ]; then echo "Running Superset with uid {{ .Values.runAsUser }}" > ~/bootstrap; fi
 
 # -- The name of the secret which we will use to generate a superset_config.py file
@@ -63,7 +73,8 @@ configFromSecret: '{{ template "superset.fullname" . }}-config'
 # This can be useful for secret keys, etc.
 envFromSecret: '{{ template "superset.fullname" . }}-env'
 # -- This can be a list of templated strings
-envFromSecrets: []
+envFromSecrets:
+- superset-env
 
 # -- Extra environment variables that will be passed into pods
 extraEnv: {}
@@ -98,13 +109,13 @@ extraEnvRaw: []
   #       key: password
 
 # -- Extra environment variables to pass as secrets
-extraSecretEnv: {}
+extraSecretEnv: []
   # MAPBOX_API_KEY: ...
   # # Google API Keys: https://console.cloud.google.com/apis/credentials
   # GOOGLE_KEY: ...
   # GOOGLE_SECRET: ...
   #   # Generate your own secret key for encryption. Use openssl rand -base64 42 to generate a good key
-  #  SUPERSET_SECRET_KEY: 'CHANGE_ME_TO_A_COMPLEX_RANDOM_SECRET'
+  # SUPERSET_SECRET_KEY:
 
 # -- Extra files to be mounted as ConfigMap on the path specified in `extraConfigMountPath`
 extraConfigs: {}
@@ -201,7 +212,7 @@ initImage:
 
 service:
   type: ClusterIP
-  port: 8088
+  port: 80
   annotations: {}
     # cloud.google.com/load-balancer-type: "Internal"
   loadBalancerIP: ~
@@ -210,7 +221,7 @@ service:
     http: nil
 
 ingress:
-  enabled: false
+  enabled: true
   ingressClassName: ~
   annotations: {}
     # kubernetes.io/tls-acme: "true"
@@ -221,7 +232,7 @@ ingress:
   path: /
   pathType: ImplementationSpecific
   hosts:
-    - apache-superset.{{ local_domain }}
+    - "apachesuperset"
   tls: []
   extraHostsRaw: []
   #  - secretName: chart-example-tls
@@ -235,12 +246,13 @@ resources:
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   # The limits below will apply to all Superset components. To set individual resource limitations refer to the pod specific values below.
   # The pod specific values will overwrite anything that is set here.
-  limits:
-    cpu: 100m
-    memory: 128Mi
-  requests:
-    cpu: 100m
-    memory: 128Mi
+    limits:
+      cpu: 600m
+      memory: 3Gi
+    requests:
+      cpu: 300m
+      memory: 512Mi
+
 
 # -- Custom hostAliases for all superset pods
 ## https://kubernetes.io/docs/tasks/network/customize-hosts-file-for-pods/
@@ -292,6 +304,7 @@ supersetNode:
       ssl_cert_reqs: CERT_NONE
     # You need to change below configuration incase bringing own PostgresSQL instance and also set postgresql.enabled:false
     # -- Database type for Superset metadata (Supported types: "postgresql", "mysql")
+    # TKR: Changed
     db_type: "postgresql"
     # db_host: "postgresql"
     db_host: "$(DB_HOST)"
@@ -300,7 +313,7 @@ supersetNode:
     # db_user: superset
     db_user: "$(DB_USER)"
     # db_pass: superset
-    db_pass: "$(DB_PASSWORD)"
+    db_pass: "$(DB_PASS)"
     # db_name: superset
     db_name: "$(DB_NAME)"
   env: {}
@@ -315,6 +328,8 @@ supersetNode:
       envFrom:
         - secretRef:
             name: "{{ tpl .Values.envFromSecret . }}"
+        - secretRef:
+            name: "superset-env"
       command:
         - /bin/sh
         - -c
@@ -371,11 +386,11 @@ supersetNode:
   # -- Resource settings for the supersetNode pods - these settings overwrite might existing values from the global resources object defined above.
   resources:
     limits:
-     cpu: 100m
-     memory: 128Mi
+      cpu: 600m
+      memory: 3Gi
     requests:
-     cpu: 100m
-     memory: 128Mi
+      cpu: 300m
+      memory: 512Mi
   podSecurityContext: {}
   containerSecurityContext: {}
   strategy: {}
@@ -420,6 +435,8 @@ supersetWorker:
       envFrom:
         - secretRef:
             name: "{{ tpl .Values.envFromSecret . }}"
+        - secretRef:
+            name: "superset-env"
       command:
         - /bin/sh
         - -c
@@ -448,11 +465,11 @@ supersetWorker:
   # -- Resource settings for the supersetWorker pods - these settings overwrite might existing values from the global resources object defined above.
   resources:
     limits:
-     cpu: 100m
-     memory: 128Mi
+     cpu: 600m
+     memory: 7Gi
     requests:
-     cpu: 100m
-     memory: 128Mi
+     cpu: 300m
+     memory: 3000Mi
   podSecurityContext: {}
   containerSecurityContext: {}
   strategy: {}
@@ -509,6 +526,8 @@ supersetCeleryBeat:
       envFrom:
         - secretRef:
             name: "{{ tpl .Values.envFromSecret . }}"
+        - secretRef:
+            name: "superset-env"
       command:
         - /bin/sh
         - -c
@@ -609,6 +628,8 @@ supersetCeleryFlower:
       envFrom:
         - secretRef:
             name: "{{ tpl .Values.envFromSecret . }}"
+        - secretRef:
+            name: "superset-env"
       command:
         - /bin/sh
         - -c
@@ -697,7 +718,13 @@ supersetWebsockets:
       # -- (int)
       http: nil
   command: []
-  resources: {}
+  resources:
+    limits:
+      cpu: 102m
+      memory: 128Mi
+    requests:
+      cpu: 102m
+      memory: 128Mi
   # -- Launch additional containers into supersetWebsockets pods
   extraContainers: []
   deploymentAnnotations: {}
@@ -746,7 +773,13 @@ init:
   # cause the process to be killed due to OOM if it exceeds limit
   # Make sure you are giving a strong password for the admin user creation( else make sure you are changing after setup)
   # Also change the admin email to your own custom email.
-  resources: {}
+  resources:
+    limits:
+     cpu: 101m
+     memory: 3Gi
+    requests:
+     cpu: 101m
+     memory: 512Mi
     # limits:
     #   cpu:
     #   memory:
@@ -780,6 +813,8 @@ init:
       envFrom:
         - secretRef:
             name: "{{ tpl .Values.envFromSecret . }}"
+        - secretRef:
+            name: "superset-env"
       command:
         - /bin/sh
         - -c
