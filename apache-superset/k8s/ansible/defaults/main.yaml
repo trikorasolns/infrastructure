@@ -4,15 +4,16 @@ app_version: "5.0.0"
 
 db_name: apachesuperset
 db_user: apachesuperset
-db_image_tag: 16
+db_image_tag: "17.9"
+mariadb_version: "10.11.14"
 
 namespace_quotas:
   limits:
-    cpu: "2000m"
-    memory: "4Gi"
+    cpu: 2500m
+    memory: 15Gi
   requests:
-    cpu: "1000m"
-    memory: "2000Mi"
+    cpu: 1400m
+    memory: 5000Mi
 
 app_resources:
   limits:
