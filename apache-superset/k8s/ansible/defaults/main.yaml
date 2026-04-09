@@ -6,7 +6,7 @@ db_name: apachesuperset
 db_user: apachesuperset
 db_image_tag: 16
 
-namespace_resources:
+namespace_quotas:
   limits:
     cpu: "2000m"
     memory: "4Gi"

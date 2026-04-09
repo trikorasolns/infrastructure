@@ -54,11 +54,15 @@ ansible-playbook dolibarr/podman/ansible/dolibarr-install-playbook.yaml \
 
 == Uninstall
 
+Uninstall Dolibarr.
+
 [source,bash]
 ----
 ansible-playbook dolibarr/podman/ansible/dolibarr-uninstall-playbook.yaml \
   -e pod_name=dolibarr
 ----
+
+Uninstall the PostgreSQL database.
 
 [source,bash]
 ----
@@ -68,4 +72,10 @@ ansible-playbook pgsql/podman/ansible/podman-uninstall-playbook.yaml \
 ----
 
 == Upgrade
+
+Uninstall the Dolibarr pod.
+
+Redeploy the Dolibarr Pod using a new version, _e.g._ `-e dolibarr_version="22.0.4"`.
+
+Open the Dolibarr URL and follow the on screen instructions to update the database.
 

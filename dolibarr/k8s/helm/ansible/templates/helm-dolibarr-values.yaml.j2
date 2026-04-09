@@ -1,0 +1,55 @@
+persistence:
+{% if storage_class_rwo is defined or storage_class is defined %}
+  storageClassName: "{{ storage_class_rwo | default(storage_class) }}"
+{% endif %}
+  volumeDolibarrDocuments: 20Gi
+  volumeDolibarrCustom: 1Gi
+  dbHost: postgresql.{{ app_name }}.svc.cluster.local
+  dbName: dolibarr
+  dbUser: dolibarr
+  dbType: pgsql
+  dbPort: "5432"
+  dbPassword: {{ db_password }}
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "180"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "180"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "180"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "180"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "180"
+    nginx.ingress.kubernetes.io/proxy-body-size: 50m
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 50m
+  hosts:
+    - host: "{{ app_name }}.{{ local_domain }}"
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            serviceName: http
+            servicePort: 80
+
+app:
+  adminUser: admin
+  adminPassword: "{{ app_admin_password }}" 
+  # dolibarr,ldap,openid,http
+  auth: dolibarr,openid
+  companyName: "{{ company_name }}"
+  companyCountryCode: ES
+  doliCron: "0"
+  doliCronKey: "{{ cron_key }}"
+  # Comma-separated list of modules to be activated at install. modUser will always be activated. (Ex: Societe,Facture,Stock).
+  enableModules: User,ExpenseReport,HRM,Societe,Propale,Commande,Contrat,Fournisseur,SupplierProposal,Reception,Facture,Tax,Margin,Product,Service,Projet,Agenda,Fckeditor,Import,Export,Api,OpenIDConnect
+  # Set initDemo to 1 to load the demo data.
+  initDemo: "0"
+  rootUrl: "{{ root_url }}"
+
+resources:
+  limits:
+    cpu: "1000m"
+    memory: "1Gi"
+  requests:
+    cpu: "750m"
+    memory: "750Mi"

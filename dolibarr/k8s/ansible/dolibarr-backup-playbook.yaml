@@ -1,0 +1,152 @@
+---
+- name: "Dolibarr backup"
+  hosts: "localhost"
+  gather_facts: yes
+
+  pre_tasks:
+    - name: "Fetch BACKUP_ROOT_FOLDER variable"
+      ansible.builtin.set_fact:
+        backup_root_folder: "{{ lookup('ansible.builtin.env', 'BACKUP_ROOT_FOLDER') }}"
+      when: backup_root_folder is undefined
+
+    - name: "Check variables"
+      ansible.builtin.assert:
+        that:
+          - "app_namespace is defined"
+          - "backup_root_folder is defined and backup_root_folder | length > 0"
+
+    - name: "Set variables"
+      ansible.builtin.set_fact:
+        backup_file_prefix: "{{ ansible_date_time.iso8601_basic_short }}.dolibarr.backup"
+        db_bk_user: "{{ db_user | default('root') }}"
+
+    - name: "Print pod card list"
+      ansible.builtin.debug:
+        var: backup_file_prefix 
+
+    - name: "Collect backup folder stats"
+      ansible.builtin.stat:
+        path: "{{ backup_root_folder }}/{{ app_namespace }}"
+      register: backup_folder_stats
+
+    - name: "Check backup folder exists"
+      ansible.builtin.assert:
+        that:
+          - "backup_folder_stats.stat.exists"
+        fail_msg: 
+          - "Folder {{ backup_root_folder }}/{{ app_namespace }} must exist."
+
+  tasks:
+    - name: "Get PostgreSQL pod"
+      kubernetes.core.k8s_info:
+        kind: "Pod"
+        namespace: "{{ app_namespace }}"
+        validate_certs: false
+        label_selectors:
+          - app.kubernetes.io/name = postgresql
+      register: postgresql_pod_list
+
+    - name: "Get Dolibarr Pod"
+      kubernetes.core.k8s_info:
+        kind: "Pod"
+        namespace: "{{ app_namespace }}"
+        validate_certs: false
+        label_selectors:
+          - app.kubernetes.io/name = dolibarr
+      register: dolibarr_pod_list
+
+    - name: "Print pod list"
+      ansible.builtin.debug:
+        msg: 
+        - "postgresql_pod_list: {{ postgresql_pod_list.resources }}"
+        - "postgresql_pod_list: {{ postgresql_pod_list.resources[0].metadata.name }}"
+        - "postgresql_pod_list: {{ postgresql_pod_list.resources }}"
+        - "postgresql_pod_list: {{ postgresql_pod_list.resources[0].metadata.name }}"
+        verbosity: 2
+
+    - name: "Set Pod names"
+      ansible.builtin.set_fact:
+        postgresql_pod_name: "{{ postgresql_pod_list.resources[0].metadata.name }}"
+        dolibarr_pod_name: "{{ dolibarr_pod_list.resources[0].metadata.name }}"
+
+    - name: "Print pod names"
+      ansible.builtin.debug:
+        msg: 
+        - "postgresql_pod_name: {{ postgresql_pod_name }}"
+        - "dolibarr_pod_name: {{ dolibarr_pod_name }}"
+
+    - name: "Get ConfigMap"
+      kubernetes.core.k8s_info:
+        api_version: v1
+        kind: ConfigMap
+        name: postgresql
+        namespace: "{{ app_namespace }}"
+      register: postgresql_cm_info
+
+    - name: "Print CM list"
+      ansible.builtin.debug:
+        var: postgresql_cm_info.resources[0]
+        verbosity: 2
+
+    - name: "Get Secrets"
+      kubernetes.core.k8s_info:
+        api_version: v1
+        kind: Secret
+        name: postgresql
+        namespace: "{{ app_namespace }}"
+      register: postgresql_secret_info
+
+    - name: "Extract DB password"
+      ansible.builtin.set_fact:
+        postgresql_user_pw: "{{ postgresql_secret_info.resources[0].data.POSTGRES_PASSWORD | b64decode }}"
+
+    - name: "Generate tar for Documents folder"
+      kubernetes.core.k8s_exec:
+        command: "tar --warning=no-file-changed -czvf /tmp/{{ backup_file_prefix }}.document.tgz /var/www/html/custom"
+        namespace: "{{ app_namespace }}"
+        pod: "{{ dolibarr_pod_name }}"
+      register: dolibarr_file_bk_res
+      failed_when: false
+
+    - name: "Print test result"
+      ansible.builtin.debug:
+        var: file_backup_test_res 
+
+
+#   # kubectl -n glpi cp ${GLPI_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz
+    - name: "Download document backup"
+      kubernetes.core.k8s_cp:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ dolibarr_pod_name }}"
+        state: from_pod
+        remote_path: "/tmp/{{ backup_file_prefix }}.document.tgz"
+        local_path: "{{ backup_root_folder }}/{{ app_namespace }}/{{ backup_file_prefix }}.document.tgz"
+
+    - name: "Test file backup"
+      ansible.builtin.shell: |
+        tar -tzvf {{ backup_root_folder }}/{{ app_namespace }}/{{ backup_file_prefix }}.document.tgz
+      register: file_backup_test_res
+
+    - name: "Download configuration file "
+      kubernetes.core.k8s_cp:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ dolibarr_pod_name }}"
+        state: from_pod
+        remote_path: "/var/www/html/conf/conf.php"
+        local_path: "{{ backup_root_folder }}/{{ app_namespace }}/{{ backup_file_prefix }}.conf.php"
+
+    - name: "Change config.php file permissions"
+      ansible.builtin.file:
+        path: "{{ backup_root_folder }}/{{ app_namespace }}/{{ backup_file_prefix }}.conf.php"
+        mode: '0600'
+
+- name: Backup PostgreSQL database
+  ansible.builtin.import_playbook: ../../../pgsql/k8s/kubectl/ansible/pgsql-backup-playbook.yaml
+  vars:
+    backup_file_prefix: "{{ backup_file_prefix }}"
+    db_pod_name: "{{ postgresql_pod_name }}"
+    k8s_ns: "{{ app_namespace }}"
+    db_name: "{{ postgresql_cm_info.resources[0].data.POSTGRES_DB }}"
+    db_user: "{{ postgresql_cm_info.resources[0].data.POSTGRES_USER }}"
+    db_password: "{{ postgresql_user_pw }}"
+...

@@ -79,3 +79,4 @@ kubectl -n wikijs cp wikijs/postgresql-0:/tmp/${BACKUP_FILE_NAME} ${BACKUP_ROOT_
 ----
 
 == Restore
+
