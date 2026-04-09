@@ -1,0 +1,55 @@
+---
+- name: "Install MariaDB on Podman container"
+  hosts: "{{ _host | default('localhost') }}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+    - name: "Validate variables"
+      assert:
+        that:
+          - "pod_name is defined"
+          - "db_name is defined"
+          - "db_user is defined"
+          - "db_password is defined"
+    
+  tasks:
+    - name: "Set names"
+      ansible.builtin.set_fact:
+        mariadb_container_name: "{{ pod_name }}_mariadb_{{ db_name }}"
+        mariadb_volume_name_data: "{{ pod_name }}_mariadb_{{ db_name }}_data"
+
+    - name: Create MariaDB volume
+      containers.podman.podman_volume:
+        state: present
+        name: "{{ mariadb_volume_name_data }}"
+        label:
+          app.kubernetes.io/name: "{{ mariadb_volume_name_data }}"
+          app.kubernetes.io/instance: "{{ pod_name }}"
+          app.kubernetes.io/version: "{{ mariadb_version | default('lts-ubi') }}"
+          app.kubernetes.io/component: "pv"
+          app.kubernetes.io/part-of: "{{ pod_name }}"
+
+    - name: "Create container"
+      containers.podman.podman_container:
+        name: "{{ mariadb_container_name }}"
+        image: "docker://mariadb:{{ mariadb_version | default('lts-ubi') }}"
+        state: started
+        pod: "{{ pod_name }}"
+        volumes: 
+          - "{{ mariadb_volume_name_data }}:/var/lib/mysql"
+          # - "{{ mariadb_volume_name_config }}:/etc/mysql/conf.d"
+        env:
+          MARIADB_USER: "{{ db_user | default(db_name) }}"
+          # MYSQL_USER: "{{ db_user | default(db_name) }}"
+          MARIADB_PASSWORD: "{{ db_password | default(db_name) }}"
+          # MYSQL_PASSWORD: "{{ db_password | default(db_name) }}"
+          # MYSQL_USER_PASSWORD: "{{ db_password | default(db_name) }}"
+          MARIADB_ROOT_PASSWORD: "{{ db_password | default(db_name) }}"
+          MARIADB_DATABASE: "{{ db_name }}"
+        label:
+          app.kubernetes.io/name: "{{ pod_name }}_mariadb_{{ db_name }}"
+          app.kubernetes.io/instance: "{{ pod_name }}"
+          app.kubernetes.io/version: "{{ mariadb_version | default('lts-ubi') }}"
+          app.kubernetes.io/component: "database"
+          app.kubernetes.io/part-of: "{{ pod_name }}"
+...

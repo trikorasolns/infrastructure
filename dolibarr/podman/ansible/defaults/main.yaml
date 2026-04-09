@@ -1,0 +1,9 @@
+db_name: dolibarr
+db_user: dolibarr
+# mariadb_volume_name: dolibarr-mariadb
+mariadb_version: lts-ubi
+pod_name: dolibarr
+dolibarr_version: 23
+# mysqli,pgsql
+doli_db_type: mysqli
+doli_db_port: 3306

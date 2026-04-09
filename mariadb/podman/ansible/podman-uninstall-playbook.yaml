@@ -1,0 +1,33 @@
+---
+- name: "Uninstall MariaDB on Podman container"
+  hosts: "{{ _host | default('localhost') }}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+    - name: "Validate variables"
+      assert:
+        that:
+          - "pod_name is defined"
+          - "db_name is defined"
+          # - "db_user is defined"
+          # - "db_password is defined"
+          # - "pgsql_version is defined"
+    
+  tasks:
+    - name: "Set names"
+      ansible.builtin.set_fact:
+        pgsql_container_name: "{{ pod_name }}_mariadb_{{ db_name }}"
+        pgsql_volume_name: "{{ pod_name }}_mariadb_{{ db_name }}_data"
+
+    - name: Remove MariaDB container
+      containers.podman.podman_container:
+        name: "{{ pgsql_container_name }}"
+        pod: "{{ pod_name }}"
+        state: absent
+
+    - name: "Remove MariaDB volume - {{ pgsql_volume_name }}"
+      containers.podman.podman_volume:
+        state: absent
+        name: "{{ pgsql_volume_name }}"
+
+...
