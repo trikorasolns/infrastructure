@@ -14,11 +14,60 @@
 
   tasks:
 
+    - name: "Get PostgreSQL uºser name"
+      ansible.builtin.shell: |
+        kubectl -n {{ app_namespace }} get cm postgresql -o jsonpath='{.data.POSTGRES_USER}'
+      register: superset_pgsql_dbuser_res
+
+    - name: "Get PostgreSQL user password"
+      ansible.builtin.shell: |
+        kubectl -n {{ app_namespace }} get secret postgresql -o jsonpath='{.data.POSTGRES_PASSWORD}' | base64 -d
+      register: superset_pgsql_dbpassword_res
+
+    - name: "Get PostgreSQL DB name"
+      ansible.builtin.shell: |
+        kubectl -n {{ app_namespace }} get cm postgresql -o jsonpath='{.data.POSTGRES_DB}')
+      register: superset_pgsql_dbname_res
+
+    - name: "Generate Superset secret key"
+      ansible.builtin.shell: |
+        openssl rand -base64 42
+      register: superset_secret_key_res
+
+    - name: "Set facts for secret"
+      ansible.builtin.set_fact:
+        db_user: "{{ superset_pgsql_dbuser_res.stdout }}"
+        db_password: "{{ superset_pgsql_dbpassword_res.stdout }}"
+        db_name: "{{ superset_pgsql_dbname_res.stdout }}"
+        superset_secret_key: "{{ superset_secret_key_res.stdout }}"
+
+    - name: "Print secret information"
+      ansible.builtin.debug:
+        msg:
+          - "db_user: {{ db_user }}"
+          - "db_name: {{ db_name }}"
+        #verbosity: 2
+
     - name: "Template Superset secret file"
       ansible.builtin.template:
         src: "superset-secret.yaml.j2"
         dest: "/tmp/superset-secret.yaml"
         mode: '0600'
+        
+    - name: "Create Superset secret"
+      ansible.builtin.shell: |
+        kubectl -n {{ app_namespace }} apply -f /tmp/superset-secret.yaml
+      register: superset_secret_create_res
+
+    - name: "Remove secret file"
+      ansible.builtin.file:
+        path: /tmp/superset-secret.yaml
+        state: absent
+
+    - name: "Print secret creation result"
+      ansible.builtin.debug:
+        var: superset_secret_create_res
+        #verbosity: 2
 
     - name: "Deploy Odoo with Helm"
       kubernetes.core.helm:
@@ -31,8 +80,4 @@
           - superset-values.yaml
       register: superset_helm_install_res
 
-    - name: "Remove secret file template"
-      ansible.builtin.file:
-        path: /tmp/superset-secret.yaml
-        state: absent
 ...
