@@ -1,0 +1,13 @@
+---
+- name: "Delete Namespace"
+  hosts: "{{ k8s_host | default('localhost')}}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  tasks:
+    - name: "Create the namespace"
+      kubernetes.core.k8s:
+        api_version: v1
+        kind: Namespace
+        name: "{{ app_namespace }}"
+        state: absent
+...
