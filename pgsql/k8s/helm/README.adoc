@@ -1,4 +1,4 @@
-= Deploy PgSql on Kubernetes
+= Deploy PostgreSQL on Kubernetes
 :author:    Antonio C.
 :email:     <ac (at) trikorasolutions (dot) com>
 :revdate:   {{docdate}}
@@ -17,7 +17,67 @@ This document describes having PostgreSQL deployed on a Kubernetes cluster using
 
 TBD
 
-== Install
+== Playbooks
+
+=== PostgreSQL Install Playbook
+
+[.lead]
+Playbook that deploys the Apache Superset application.
+
+*Parameters*
+
+.PostgreSQL install playbook parameters.
+[cols="20%,80%"]
+|===
+|Field name |Description
+
+| `app_namespace`
+
+[.fuchsia]#string# / [.red]#required# 
+
+a| Namespace where the database will be deployedinto.
+
+| `db_image_tag`
+
+[.fuchsia]#string#
+
+a| Database image tag
+
+[.blue]#*Default: 16*#
+
+| `db_name`
+
+[.fuchsia]#string# / [.red]#required# 
+
+a| Database name
+
+| `db_user`
+
+[.fuchsia]#string# / [.red]#required# 
+
+a| Database user name
+
+| `db_password`
+
+[.fuchsia]#string# / [.red]#required# 
+
+a| Database user password
+
+| `storageClassName`
+
+[.fuchsia]#string# 
+
+a| Storage class used to persist the database into.
+
+If not informed it will default to the kubernetes default storage class.
+
+| `trikora_helm_project_dir`
+
+[.fuchsia]#path#
+
+a| Local location for the Trikora Helm GitHub project.
+
+|===
 
 [source,bash]
 ----
@@ -27,6 +87,41 @@ ansible-playbook pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml \
   -e db_password=${DB_PASSWORD}
 ----
 
+=== PostgreSQL Uninstall Playbook
+
+*Parameters*
+
+.PostgreSQL uninstall parameters.
+[cols="20%,80%"]
+|===
+|Field name |Description
+
+| `app_namespace`
+
+[.fuchsia]#string# / [.red]#required# 
+
+a| Namespace where the database will be deployed into.
+
+| `trikora_helm_project_dir`
+
+[.fuchsia]#path#
+
+a| Local location for the Trikora Helm GitHub project.
+
+|===
+
+
+[source,bash]
+----
+ansible-playbook pgsql/k8s/helm/ansible/pgsql-uninstall-playbook.yaml -e "@gitea/k8s/gitea_variables.yaml"   -e trikora_helm_project_dir=${TRIKORA_HELM}
+----
+
+== Upgrade
+
+
+== Manual operations
+
+=== Manual deployment
 
 Template the helm file.
 
@@ -68,13 +163,3 @@ ansible-playbook pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml \
   -e iscsi_portal=${ISCSI_PORTAL} \
   -e iscsi_target=${ISCSI_TARGET}
 ----
-
-== Uninstall
-
-[source,bash]
-----
-ansible-playbook pgsql/k8s/helm/ansible/pgsql-uninstall-playbook.yaml -e "@gitea/k8s/gitea_variables.yaml"   -e trikora_helm_project_dir=${TRIKORA_HELM}
-----
-
-== Upgrade
-

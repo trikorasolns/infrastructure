@@ -1,6 +1,6 @@
 ---
 - name: "Install Apache Superset - {{ app_version }}"
-  hosts: "{{ k8s_host | default('localhost') }}"
+  hosts: "{{ k8s_host | ocp_bastion | default('ocp_bastion') | default('localhost') }}"
   gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
 
   pre_tasks:
@@ -14,7 +14,7 @@
 
   tasks:
 
-    - name: "Get PostgreSQL uºser name"
+    - name: "Get PostgreSQL user name"
       ansible.builtin.shell: |
         kubectl -n {{ app_namespace }} get cm postgresql -o jsonpath='{.data.POSTGRES_USER}'
       register: superset_pgsql_dbuser_res
