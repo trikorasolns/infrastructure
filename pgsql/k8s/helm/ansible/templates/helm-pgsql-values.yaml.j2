@@ -1,7 +1,10 @@
-{% if pgsql_image_repo is defined %}
 image:
+{% if pgsql_image_repo is defined %}
   repository: {{ pgsql_image_repo }}
   pullPolicy: IfNotPresent
+  tag: {{ pgsql_image_tag | default('latest') }}
+{% else %}  
+  tag: {{ db_image_tag | default('16') }}
 {% endif %}
 
 persistence:
@@ -12,4 +15,3 @@ persistence:
   storageClassName: "{{ storage_class_rwx | default(storage_class) }}"
 {% endif %}
 image:
-  tag: {{ db_image_tag | default('16') }}

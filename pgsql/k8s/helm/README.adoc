@@ -63,6 +63,25 @@ a| Database user name
 
 a| Database user password
 
+| `pgsql_image_repo`
+
+[.fuchsia]#string#
+
+a| Image repository for PostgreSQL
+
+Examples:
+
+* [.blue]#*Default: postgres*#
+* registry.redhat.io/rhel8/postgresql-16 (for OpenShift)
+
+| `pgsql_image_tag`
+
+[.fuchsia]#string#
+
+a| Tag for the Image repository provided in the `pgsql_image_repo` parameter.
+
+[.blue]#*Default: latest*#
+
 | `storageClassName`
 
 [.fuchsia]#string# 
