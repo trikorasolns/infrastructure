@@ -43,7 +43,6 @@
         replace: false
         values_files:
           - /tmp/helm-pgsql-values.yaml
-          - files/helm-pgsql-values.yaml
       when: trikora_helm_project_dir is not defined
       register: pgsql_helm_install_res 
 
@@ -56,11 +55,15 @@
         replace: false
         values_files:
           - /tmp/helm-pgsql-values.yaml
-          - files/helm-pgsql-values.yaml
       when: trikora_helm_project_dir is defined
       register: pgsql_helm_install_res
 
     - name: "Print installation result"
       ansible.builtin.debug:
         var: pgsql_helm_install_res
+
+    - name: "Delete template file"
+      ansible.builtin.file:
+        path: /tmp/helm-pgsql-values.yaml
+        state: absent
 ...
