@@ -1,6 +1,6 @@
 ---
 - name: "Delete Namespace"
-  hosts: "{{ k8s_host | ocp_bastion | default('ocp_bastion') | default('localhost') }}"
+  hosts: "{{ k8s_host | default(ocp_bastion) | default('ocp_bastion') | default('localhost') }}"
   gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
 
   tasks:
