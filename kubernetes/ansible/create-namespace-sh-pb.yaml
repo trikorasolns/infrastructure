@@ -1,0 +1,13 @@
+---
+- name: "Create Namespace using shell"
+  hosts: "{{ k8s_host | default('localhost')}}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  tasks:
+    - name: "Create the namespace - {{ app_namespace }}"
+      ansible.builtin.shell: |
+        create namespace {{ app_namespace }}
+      register: create_namespace_res
+      changed_when: create_namespace_res.rc == 0
+      failed_when: create_namespace_res.rc != 0 and 'already exists' not in create_namespace_res.stderr
+...
