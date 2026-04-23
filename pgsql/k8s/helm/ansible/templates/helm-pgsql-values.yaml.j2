@@ -1,3 +1,9 @@
+{% if pgsql_image_repo is defined %}
+image:
+  repository: {{ pgsql_image_repo }}
+  pullPolicy: IfNotPresent
+{% endif %}
+
 persistence:
   dbPassword: {{ db_password }}
   dbName: {{ db_name }}
