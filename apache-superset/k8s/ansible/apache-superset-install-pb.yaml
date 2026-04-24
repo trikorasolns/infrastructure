@@ -7,12 +7,14 @@
     - name: "Validate variables"
       ansible.builtin.assert:
         that:
-          # - "pv_root_folder is defined"
-          - "app_name is defined"
           - "app_namespace is defined"
         fail_msg: "Missing required parameters"
 
   tasks:
+    - name: "Set default app_name"
+      ansible.builtin.set_fact:
+        app_name: 'superset'
+      when: app_name is undefined or (app_name | length == 0)
 
     - name: "Get PostgreSQL user name"
       ansible.builtin.shell: |

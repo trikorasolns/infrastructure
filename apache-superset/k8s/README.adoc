@@ -108,6 +108,14 @@ Playbook that deploys a PostgreSQL database.
 
 a| Namespace where the database will be deployedinto.
 
+| `app_names`
+
+[.fuchsia]#string#
+
+a| Name for the application.
+
+[.blue]#*Default: superset*#
+
 |===
 
 [source,bash]
