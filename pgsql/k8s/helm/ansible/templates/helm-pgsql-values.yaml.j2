@@ -14,4 +14,3 @@ persistence:
 {% if storage_class_rwx is defined or storage_class is defined %}
   storageClassName: "{{ storage_class_rwx | default(storage_class) }}"
 {% endif %}
-image:
