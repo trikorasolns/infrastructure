@@ -233,7 +233,7 @@ kubectl -n apache-superset --type=strategic patch jobs.batch superset-init-db --
 
 kubectl -n apache-superset --type=strategic patch jobs.batch superset-init-db --patch-file apache-superset/k8s/ansible/files/patch-superset-job.json
 
-kubectl -n apache-superset --type=strategic patch jobs.batch superset-init-db --patch '{"spec":{"suspend":true}}'
+kubectl -n apache-superset --type=strategic patch jobs.batch superset-init-db --patch '{"spec":{"suspend":false}}'
 
 ----
 

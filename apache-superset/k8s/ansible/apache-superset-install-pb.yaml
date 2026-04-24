@@ -16,6 +16,13 @@
         app_name: 'superset'
       when: app_name is undefined or (app_name | length == 0)
 
+    - name: "Set files to copy "
+      ansible.builtin.set_fact:
+        superset_files_to_copy:
+          - superset-values.yaml
+          - patch-superset-job.json
+          - patch-superset-worker.json
+
     - name: "Get PostgreSQL user name"
       ansible.builtin.shell: |
         kubectl -n {{ app_namespace }} get cm postgresql -o jsonpath='{.data.POSTGRES_USER}'
@@ -50,6 +57,13 @@
           - "db_name: {{ db_name }}"
         #verbosity: 2
 
+    - name: "Copy required files"
+      ansible.builtin.copy:
+        src: "{{ item }}"
+        dest: "/tmp/{{ item }}"
+        mode: '0600'
+      loop: "{{ superset_files_to_copy }}"
+
     - name: "Template Superset secret file"
       ansible.builtin.template:
         src: "superset-secret.yaml.j2"
@@ -69,9 +83,9 @@
     - name: "Print secret creation result"
       ansible.builtin.debug:
         var: superset_secret_create_res
-        #verbosity: 2
+        verbosity: 2
 
-    - name: "Deploy Odoo with Helm"
+    - name: "Deploy Apache Superset with Helm"
       kubernetes.core.helm:
         name: "apache-superset"
         chart_ref: "superset/superset"
@@ -79,7 +93,21 @@
         wait: true
         replace: true
         values_files:
-          - superset-values.yaml
+          - /tmp/superset-values.yaml
       register: superset_helm_install_res
+
+kubectl -n apache-superset patch deployment superset-worker --patch-file apache-superset/k8s/ansible/files/patch-superset-worker.json
+
+kubectl -n apache-superset --type=strategic patch jobs.batch superset-init-db --patch '{"spec":{"suspend":true}}'
+
+kubectl -n apache-superset --type=strategic patch jobs.batch superset-init-db --patch-file apache-superset/k8s/ansible/files/patch-superset-job.json
+
+kubectl -n apache-superset --type=strategic patch jobs.batch superset-init-db --patch '{"spec":{"suspend":false}}'
+
+    - name: "Delete the secret templated file"
+      ansible.builtin.file:
+        path: '/tmp/{{ item }}'
+        state: 'absent'
+      loop: "{{ superset_files_to_copy }}"
 
 ...
