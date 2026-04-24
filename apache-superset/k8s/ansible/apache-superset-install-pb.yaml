@@ -16,7 +16,7 @@
         app_name: 'superset'
       when: app_name is undefined or (app_name | length == 0)
 
-    - name: "Set files to copy "
+    - name: "Set files to copy"
       ansible.builtin.set_fact:
         superset_files_to_copy:
           - superset-values.yaml
@@ -96,18 +96,16 @@
           - /tmp/superset-values.yaml
       register: superset_helm_install_res
 
-kubectl -n apache-superset patch deployment superset-worker --patch-file apache-superset/k8s/ansible/files/patch-superset-worker.json
-
-kubectl -n apache-superset --type=strategic patch jobs.batch superset-init-db --patch '{"spec":{"suspend":true}}'
-
-kubectl -n apache-superset --type=strategic patch jobs.batch superset-init-db --patch-file apache-superset/k8s/ansible/files/patch-superset-job.json
-
-kubectl -n apache-superset --type=strategic patch jobs.batch superset-init-db --patch '{"spec":{"suspend":false}}'
+    - name: "Deploy Apache Superset with Helm"
+      ansible.builtin.shell: |
+        kubectl -n {{ app_namespace }} patch deployment superset-worker --patch-file /tmp/patch-superset-worker.json
+        kubectl -n {{ app_namespace }} --type=strategic patch jobs.batch superset-init-db --patch '{"spec":{"suspend":true}}'
+        kubectl -n {{ app_namespace }} --type=strategic patch jobs.batch superset-init-db --patch-file /tmp/patch-superset-job.json
+        kubectl -n {{ app_namespace }} --type=strategic patch jobs.batch superset-init-db --patch '{"spec":{"suspend":false}}'
 
     - name: "Delete the secret templated file"
       ansible.builtin.file:
-        path: '/tmp/{{ item }}'
+        path: "/tmp/{{ item }}"
         state: 'absent'
       loop: "{{ superset_files_to_copy }}"
-
 ...
