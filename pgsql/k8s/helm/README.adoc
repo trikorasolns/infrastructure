@@ -169,16 +169,3 @@ ansible-playbook pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml \
   -e k8s_host=${KUBERNETES_NODE_NAME} \
 
 ----
-
-Use the application variables file.
-
-[source,bash]
-----
-ansible-playbook pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml \
-  -e "@gitea/k8s/gitea_variables.yaml" \
-  -e trikora_helm_project_dir=${TRIKORA_HELM} \
-  -e db_password=${DB_PASSWORD} \
-  -e db_image_tag=13 \
-  -e iscsi_portal=${ISCSI_PORTAL} \
-  -e iscsi_target=${ISCSI_TARGET}
-----
