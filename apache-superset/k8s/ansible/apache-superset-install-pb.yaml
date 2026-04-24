@@ -28,7 +28,7 @@
 
     - name: "Get PostgreSQL DB name"
       ansible.builtin.shell: |
-        kubectl -n {{ app_namespace }} get cm postgresql -o jsonpath='{.data.POSTGRES_DB}')
+        kubectl -n {{ app_namespace }} get cm postgresql -o jsonpath='{.data.POSTGRES_DB}'
       register: superset_pgsql_dbname_res
 
     - name: "Generate Superset secret key"
