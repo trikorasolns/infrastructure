@@ -1,5 +1,5 @@
 image:
-{% if pgsql_image_repo is defined %}
+{% if pgsql_image_repo is defined and (pgsql_image_repo | length > 0) %}
   repository: {{ pgsql_image_repo }}
   pullPolicy: IfNotPresent
   tag: {{ pgsql_image_tag | default('latest') }}
