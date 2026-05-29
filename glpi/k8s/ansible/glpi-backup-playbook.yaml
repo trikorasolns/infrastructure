@@ -1,6 +1,6 @@
 ---
 - name: "GLPI backup"
-  hosts: "{{ selected_target_hosts | default('localhost') }}"
+  hosts: "{{ selected_target_hosts }}"
   gather_facts: true
 
   pre_tasks:
