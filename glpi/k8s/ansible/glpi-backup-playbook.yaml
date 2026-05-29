@@ -1,7 +1,7 @@
 ---
 - name: "GLPI backup"
-  hosts: "localhost"
-  gather_facts: yes
+  hosts: "{{ selected_target_hosts | default('localhost') }}"
+  gather_facts: true
 
   pre_tasks:
     - name: "Check variables"
@@ -18,7 +18,7 @@
 
     - name: "Print pod card list"
       ansible.builtin.debug:
-        var: backup_file_prefix 
+        var: backup_file_prefix
 
     - name: "Collect backup folder stats"
       ansible.builtin.stat:
