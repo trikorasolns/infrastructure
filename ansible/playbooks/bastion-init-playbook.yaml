@@ -1,0 +1,23 @@
+---
+- name: "Prepare Bastion host"
+  hosts: "{{ selected_target_hosts | default('bastion') }}"
+  gather_facts: true
+
+  tasks:
+    - name: "Install python"
+      ansible.builtin.package:
+        name: 
+        - "python"
+        - "python-pip"
+      become: true
+
+    - name: "Copy Python requirements file"
+      ansible.builtin.copy:
+        src: "../../requirements.txt"
+        dest: "/tmp/requirements.txt"
+        mode: '0644'
+
+    - name: "Print pod card list"
+      ansible.builtin.shell: |
+        python -m pip install -r /tmp/requirements.txt 
+...

@@ -1,6 +1,6 @@
 ---
 - name: "GLPI backup"
-  hosts: "{{ selected_target_hosts }}"
+  hosts: "{{ selected_target_hosts | default('bastion') }}"
   gather_facts: true
 
   pre_tasks:
@@ -21,7 +21,7 @@
         var: backup_file_prefix
 
     - name: "Collect backup folder stats"
-      ansible.builtin.stat:
+      ansible.builtin.stat: 
         path: "{{ backup_root_folder }}/{{ k8s_ns }}"
       register: backup_folder_stats
 
