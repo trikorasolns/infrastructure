@@ -35,7 +35,6 @@
       kubernetes.core.k8s_info:
         kind: "Pod"
         namespace: "{{ k8s_ns }}"
-        # kubeconfig: "{{ k8s_config_file }}"
         validate_certs: false
       register: pod_list
 
@@ -57,6 +56,13 @@
       with_items:
         - "[?contains(MetadataName,'glpi-') && MetadataOwnerKind=='ReplicaSet']"
 
+    - name: "Get database password from secret"
+      kubernetes.core.k8s_info:
+        kind: "Secret"
+        name: "mariadb"
+        namespace: "{{ k8s_ns }}"
+        validate_certs: false
+      register: mariadb_secret_reg
 # MARIADB
     - name: "Fetch mariadb Pod name"
       ansible.builtin.set_fact:
@@ -77,9 +83,10 @@
 
   # GLPI_MYSQL_DUMP_FILENAME_PREFIX=$(date +%Y-%m-%d-%H-%M-%S).glpi.backup
   # kubectl -n glpi exec -it glpi-mariadb-0 -- mysqldump -u root glpi > ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.sql
+  # mysqldump --defaults-extra-file=/tmp/.sqlpwd -u {{ db_bk_user }}  glpi
     - name: "Backup GLPI database"
       kubernetes.core.k8s_exec:
-        command: "mysqldump --defaults-extra-file=/tmp/.sqlpwd -u {{ db_bk_user }}  glpi"
+        command: "mysqldump {% if db_bk_pw is defined %}--defaults-extra-file=/tmp/.sqlpwd{% endif %} -u {{ db_bk_user }} glpi"
         namespace: "{{ k8s_ns }}"
         pod: "{{ mariadb_pod_name }}"
       register: mysqldump_res
