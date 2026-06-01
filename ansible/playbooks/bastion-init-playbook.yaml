@@ -7,7 +7,6 @@
     - name: "Install python"
       ansible.builtin.package:
         name: 
-        - "python3-libdnf5"
         - "python"
         - "python-pip"
       become: true
@@ -18,7 +17,7 @@
         dest: "/tmp/requirements.txt"
         mode: '0644'
 
-    - name: "Print pod card list"
+    - name: "Install python requirements from file"
       ansible.builtin.shell: |
         python -m pip install -r /tmp/requirements.txt 
 ...
