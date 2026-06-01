@@ -16,12 +16,12 @@
         backup_file_prefix: "{{ ansible_date_time.iso8601_basic_short }}.glpi.backup"
         db_bk_user: "{{ db_user | default('root') }}"
 
-    - name: "Print pod card list"
+    - name: "Print backup prefix"
       ansible.builtin.debug:
         var: backup_file_prefix
 
     - name: "Collect backup folder stats"
-      ansible.builtin.stat: 
+      ansible.builtin.stat:
         path: "{{ backup_root_folder }}/{{ k8s_ns }}"
       register: backup_folder_stats
 
@@ -49,7 +49,7 @@
         msg: "pod_card_list: {{ pod_card_list }}"
         verbosity: 2
 
-    - name: "Print pod list 2"
+    - name: "Print pod list with glpi prefix"
       ansible.builtin.debug:
         msg: "select pod (filter: {{ item }}): {{ pod_card_list | to_json | from_json | community.general.json_query(item) }}"
         verbosity: 2
@@ -63,6 +63,13 @@
         namespace: "{{ k8s_ns }}"
         validate_certs: false
       register: mariadb_secret_reg
+      when: db_bk_pw is undefined
+
+    - name: "Parse GLPI database password from secret output"
+      ansible.builtin.set_fact:
+        db_bk_pw: "{{ mariadb_secret_reg.resources[0].data['MYSQL_PASSWORD'] | b64decode }}"
+      when: db_bk_pw is undefined
+
 # MARIADB
     - name: "Fetch mariadb Pod name"
       ansible.builtin.set_fact:
@@ -111,7 +118,7 @@
       vars:
         jmesquery: "[?contains(MetadataName,'glpi-') && MetadataOwnerKind=='ReplicaSet'].MetadataName"
 
-    - name: "Print pod card list"
+    - name: "Print GLPI Pod name"
       ansible.builtin.debug:
         msg: "glpi_pod_name: {{ glpi_pod_name }}"
         verbosity: 2
