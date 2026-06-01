@@ -9,7 +9,7 @@
     db_user: "{{ db_name }}"
     db_password: "{{ db_pw | default(db_name) }}"
 
-- name: "Install Dolibarr - {{ app_version }}"
+- name: "Install Apache Superset - {{ app_version }}"
   hosts: "{{ k8s_host | default('localhost') }}"
   gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
 
@@ -23,16 +23,25 @@
         fail_msg: "Missing required parameters"
 
   tasks:
+
+    # - name: "Create superset secret"
+    #   kubernetes.core.k8s_info:
+    #     api_version: v1
+    #     kind: Secret
+    #     name: postgresql
+    #     namespace: "{{ app_namespace }}"
+    #   register: postgresql_secret_info
+
     - name: "Template Odoo deployment files"
       ansible.builtin.template:
-        src: "helm-odoo-odoo-values.yaml.j2"
-        dest: "/tmp/helm-odoo-odoo-values.yaml"
+        src: "superset-secret.yaml.j2"
+        dest: "/tmp/superset-secret.yaml"
         mode: '0600'
 
     - name: "Deploy Odoo with Helm"
       kubernetes.core.helm:
-        name: odoo
-        chart_ref: "{% if trikora_helm_project_dir is defined %}{{ trikora_helm_project_dir }}/charts/odoo{% else %}trikorasolns/odoo{% endif %}"
+        name: "apache-superset"
+        chart_ref: "superset/superset"
         release_namespace: "{{ app_namespace }}"
         wait: true
         replace: true

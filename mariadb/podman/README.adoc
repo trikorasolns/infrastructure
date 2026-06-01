@@ -1,0 +1,42 @@
+= Deploy MariaDB on Podman
+:author:    Antonio C.
+:email:     <ac (at) trikorasolutions (dot) com>
+:revdate:   {{docdate}}
+:toc:       left
+:toc-title: Table of Contents
+:icons:     font
+:description: Deploy PostgreSQL on a Podman
+:source-highlighter: highlight.js
+
+== Introduction
+
+[.lead]
+This document describes how to deploy a MariaDB database with Podman.
+
+== Preparation
+
+TBD
+
+== Install
+
+[source,bash]
+----
+ansible-playbook mariadb/podman/ansible/podman-install-playbook.yaml \
+  -e pod_name= \
+  -e db_name= \
+  -e db_user= \
+  -e "@<app>/k8s/ansible/defaults/main.yaml" \
+  -e db_password=${DB_PASSWORD}
+----
+
+
+== Uninstall
+
+[source,bash]
+----
+ansible-playbook mariadb/podman/ansible/podman-uninstall-playbook.yaml \
+  -e pod_name=<pod name>
+----
+
+== Upgrade
+
