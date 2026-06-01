@@ -103,12 +103,13 @@
         command: "rm -f /tmp/.sqlpwd"
         namespace: "{{ k8s_ns }}"
         pod: "{{ mariadb_pod_name }}"
-      ignore_errors: true
+      failed_when: false
 
     - name: "Write DB backup to file"
-      ansible.builtin.copy: 
-        content: "{{ mysqldump_res.stdout }}" 
+      ansible.builtin.copy:
+        content: "{{ mysqldump_res.stdout }}"
         dest: "{{ backup_root_folder }}/{{ k8s_ns }}/{{ backup_file_prefix }}.sql"
+        mode: '0644'
 
 # GLPI
 
@@ -123,7 +124,7 @@
         msg: "glpi_pod_name: {{ glpi_pod_name }}"
         verbosity: 2
 
-  # kubectl -n glpi exec -it ${GLPI_POD} -- tar --warning=no-file-changed -czvf /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz /var/www/html/files 
+  # kubectl -n glpi exec -it ${GLPI_POD} -- tar --warning=no-file-changed -czvf /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz /var/www/html/files
     - name: "Generate tar for GLPI files"
       kubernetes.core.k8s_exec:
         command: "tar --warning=no-file-changed -czvf /tmp/{{ backup_file_prefix }}.files.tgz /var/lib/glpi"
@@ -134,7 +135,7 @@
 
     - name: "Print test result"
       ansible.builtin.debug:
-        var: file_backup_test_res 
+        var: file_backup_test_res
 
 
   # kubectl -n glpi cp ${GLPI_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz
@@ -150,10 +151,11 @@
       ansible.builtin.shell: |
         tar -tzvf {{ backup_root_folder }}/{{ k8s_ns }}/{{ backup_file_prefix }}.files.tgz
       register: file_backup_test_res
+      changed_when: false
 
-    - name: "Print test result"
+    - name: "Print backup file test result"
       ansible.builtin.debug:
-        var: file_backup_test_res 
+        var: file_backup_test_res
 
     - name: "Remove backup file"
       kubernetes.core.k8s_exec:
@@ -184,7 +186,7 @@
   # kubectl -n glpi exec -it ${GLPI_POD} -- tar --warning=no-file-changed -czvf /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz /var/www/html/plugins
     - name: "Generate tar for GLPI config"
       kubernetes.core.k8s_exec:
-        #command: "tar --warning=no-file-changed -czvf /tmp/{{ backup_file_prefix }}.config.tgz /var/www/html/glpi/config"
+        # command: "tar --warning=no-file-changed -czvf /tmp/{{ backup_file_prefix }}.config.tgz /var/www/html/glpi/config"
         command: "tar --warning=no-file-changed -czvf /tmp/{{ backup_file_prefix }}.config.tgz /etc/glpi"
         namespace: "{{ k8s_ns }}"
         pod: "{{ glpi_pod_name }}"
