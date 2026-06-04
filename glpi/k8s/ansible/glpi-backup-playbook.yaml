@@ -5,7 +5,7 @@
 # Other parameters:
 # . require_escalation_to_copy: If set to 'true' the backup files copy tasks will be performed using escalation.
 ---
-- name: "GLPI backup"
+- name: "GLPI Backup Playbook"
   hosts: "{{ selected_target_hosts | default('bastion') }}"
   gather_facts: true
 
@@ -20,6 +20,7 @@
     - name: "Set variables"
       ansible.builtin.set_fact:
         backup_file_prefix: "{{ ansible_date_time.iso8601_basic_short }}.glpi.backup"
+        backup_folder: "{{ backup_root_folder }}/{{ k8s_ns }}"
         db_bk_user: "{{ db_user | default('root') }}"
 
     - name: "Set require_escalation_to_copy"
@@ -33,7 +34,7 @@
 
     - name: "Collect backup folder stats"
       ansible.builtin.stat:
-        path: "{{ backup_root_folder }}/{{ k8s_ns }}"
+        path: "backup_folder"
       register: backup_folder_stats
 
     - name: "Check backup folder exists"
@@ -119,7 +120,7 @@
     - name: "Write DB backup to file"
       ansible.builtin.copy:
         content: "{{ mysqldump_res.stdout }}"
-        dest: "{{ backup_root_folder }}/{{ k8s_ns }}/{{ backup_file_prefix }}.sql"
+        dest: "backup_folder/{{ backup_file_prefix }}.sql"
         mode: '0644'
       become: "{{ require_escalation_to_copy | bool }}"
 
@@ -159,12 +160,12 @@
         pod: "{{ glpi_pod_name }}"
         state: from_pod
         remote_path: "/tmp/{{ backup_file_prefix }}.files.tgz"
-        local_path: "{{ backup_root_folder }}/{{ k8s_ns }}/{{ backup_file_prefix }}.files.tgz"
+        local_path: "backup_folder/{{ backup_file_prefix }}.files.tgz"
       become: "{{ require_escalation_to_copy | bool }}"
 
     - name: "Test file backup"
       ansible.builtin.shell: |
-        tar -tzvf {{ backup_root_folder }}/{{ k8s_ns }}/{{ backup_file_prefix }}.files.tgz
+        tar -tzvf backup_folder/{{ backup_file_prefix }}.files.tgz
       register: file_backup_test_res
       changed_when: false
 
@@ -216,7 +217,7 @@
         pod: "{{ glpi_pod_name }}"
         state: from_pod
         remote_path: "/tmp/{{ backup_file_prefix }}.config.tgz"
-        local_path: "{{ backup_root_folder }}/{{ k8s_ns }}/{{ backup_file_prefix }}.config.tgz"
+        local_path: "backup_folder/{{ backup_file_prefix }}.config.tgz"
       become: "{{ require_escalation_to_copy | bool }}"
 
     - name: "Remove the config backup file from the POD"
@@ -244,7 +245,7 @@
         pod: "{{ glpi_pod_name }}"
         state: from_pod
         remote_path: "/tmp/{{ backup_file_prefix }}.marketplace.tgz"
-        local_path: "{{ backup_root_folder }}/{{ k8s_ns }}/{{ backup_file_prefix }}.marketplace.tgz"
+        local_path: "backup_folder/{{ backup_file_prefix }}.marketplace.tgz"
       become: "{{ require_escalation_to_copy | bool }}"
 
     - name: "Remove the marketplace backup file from the POD"
