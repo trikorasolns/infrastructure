@@ -152,6 +152,7 @@
     # kubectl -n glpi cp ${GLPI_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz
     - name: "Download file backup"
       kubernetes.core.k8s_cp:
+        kubeconfig: "~{{ ansible_user }}/.kube/config"
         namespace: "{{ k8s_ns }}"
         pod: "{{ glpi_pod_name }}"
         state: from_pod
@@ -206,7 +207,7 @@
     # kubectl -n glpi cp ${GLPI_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.config.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz
     - name: "Download config backup"
       kubernetes.core.k8s_cp:
-        # kubeconfig: "{{ k8s_config_file }}"
+        kubeconfig: "~{{ ansible_user }}/.kube/config"
         namespace: "{{ k8s_ns }}"
         pod: "{{ glpi_pod_name }}"
         state: from_pod
@@ -232,7 +233,7 @@
     # kubectl -n glpi cp ${GLPI_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.config.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz
     - name: "Download marketplace file"
       kubernetes.core.k8s_cp:
-        # kubeconfig: "{{ k8s_config_file }}"
+        kubeconfig: "~{{ ansible_user }}/.kube/config"
         namespace: "{{ k8s_ns }}"
         pod: "{{ glpi_pod_name }}"
         state: from_pod
