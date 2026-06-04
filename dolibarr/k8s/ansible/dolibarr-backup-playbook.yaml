@@ -12,7 +12,7 @@
     - name: "Check variables"
       ansible.builtin.assert:
         that:
-          - "app_namespace is defined"
+          - "k8s_ns is defined"
           - "backup_root_folder is defined and backup_root_folder | length > 0"
 
     - name: "Set variables"
@@ -41,7 +41,7 @@
     - name: "Get PostgreSQL pod"
       kubernetes.core.k8s_info:
         kind: "Pod"
-        namespace: "{{ app_namespace }}"
+        namespace: "{{ k8s_ns }}"
         validate_certs: false
         label_selectors:
           - app.kubernetes.io/name = postgresql
@@ -50,7 +50,7 @@
     - name: "Get Dolibarr Pod"
       kubernetes.core.k8s_info:
         kind: "Pod"
-        namespace: "{{ app_namespace }}"
+        namespace: "{{ k8s_ns }}"
         validate_certs: false
         label_selectors:
           - app.kubernetes.io/name = dolibarr
@@ -81,7 +81,7 @@
         api_version: v1
         kind: ConfigMap
         name: postgresql
-        namespace: "{{ app_namespace }}"
+        namespace: "{{ k8s_ns }}"
       register: postgresql_cm_info
 
     - name: "Print CM list"
@@ -94,7 +94,7 @@
         api_version: v1
         kind: Secret
         name: postgresql
-        namespace: "{{ app_namespace }}"
+        namespace: "{{ k8s_ns }}"
       register: postgresql_secret_info
 
     - name: "Extract DB password"
@@ -104,7 +104,7 @@
     - name: "Generate tar for Documents folder"
       kubernetes.core.k8s_exec:
         command: "tar --warning=no-file-changed -czvf /tmp/{{ backup_file_prefix }}.document.tgz /var/www/html/custom"
-        namespace: "{{ app_namespace }}"
+        namespace: "{{ k8s_ns }}"
         pod: "{{ dolibarr_pod_name }}"
       register: dolibarr_file_bk_res
       failed_when: false
@@ -119,7 +119,7 @@
       kubernetes.core.k8s_cp:
         container: dolibarr
         kubeconfig: "~{{ ansible_user }}/.kube/config"
-        namespace: "{{ app_namespace }}"
+        namespace: "{{ k8s_ns }}"
         pod: "{{ dolibarr_pod_name }}"
         state: from_pod
         remote_path: "/tmp/{{ backup_file_prefix }}.document.tgz"
@@ -135,7 +135,7 @@
       kubernetes.core.k8s_cp:
         container: dolibarr
         kubeconfig: "~{{ ansible_user }}/.kube/config"
-        namespace: "{{ app_namespace }}"
+        namespace: "{{ k8s_ns }}"
         pod: "{{ dolibarr_pod_name }}"
         state: from_pod
         remote_path: "/var/www/html/conf/conf.php"
@@ -152,7 +152,7 @@
       vars:
         backup_file_prefix: "{{ backup_file_prefix }}"
         db_pod_name: "{{ postgresql_pod_name }}"
-        k8s_ns: "{{ app_namespace }}"
+        k8s_ns: "{{ k8s_ns }}"
         db_name: "{{ postgresql_cm_info.resources[0].data.POSTGRES_DB }}"
         db_user: "{{ postgresql_cm_info.resources[0].data.POSTGRES_USER }}"
         db_password: "{{ postgresql_user_pw }}"
@@ -162,7 +162,7 @@
 #   vars:
 #     backup_file_prefix: "{{ backup_file_prefix }}"
 #     db_pod_name: "{{ postgresql_pod_name }}"
-#     k8s_ns: "{{ app_namespace }}"
+#     k8s_ns: "{{ k8s_ns }}"
 #     db_name: "{{ postgresql_cm_info.resources[0].data.POSTGRES_DB }}"
 #     db_user: "{{ postgresql_cm_info.resources[0].data.POSTGRES_USER }}"
 #     db_password: "{{ postgresql_user_pw }}"
