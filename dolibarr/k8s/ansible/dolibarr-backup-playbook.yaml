@@ -1,6 +1,6 @@
 ---
-- name: "Dolibarr backup"
-  hosts: "localhost"
+- name: "Dolibarr Backup Playbook"
+  hosts: "{{ selected_target_hosts | default('bastion') }}"
   gather_facts: yes
 
   pre_tasks:
@@ -18,6 +18,7 @@
     - name: "Set variables"
       ansible.builtin.set_fact:
         backup_file_prefix: "{{ ansible_date_time.iso8601_basic_short }}.dolibarr.backup"
+        backup_folder: "{{ backup_root_folder }}/{{ k8s_ns }}"
         db_bk_user: "{{ db_user | default('root') }}"
 
     - name: "Print pod card list"
@@ -26,7 +27,7 @@
 
     - name: "Collect backup folder stats"
       ansible.builtin.stat:
-        path: "{{ backup_root_folder }}/{{ app_namespace }}"
+        path: "{{ backup_folder }}"
       register: backup_folder_stats
 
     - name: "Check backup folder exists"
@@ -34,7 +35,7 @@
         that:
           - "backup_folder_stats.stat.exists"
         fail_msg: 
-          - "Folder {{ backup_root_folder }}/{{ app_namespace }} must exist."
+          - "Folder {{ backup_folder }} must exist."
 
   tasks:
     - name: "Get PostgreSQL pod"
@@ -116,37 +117,53 @@
 #   # kubectl -n glpi cp ${GLPI_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz
     - name: "Download document backup"
       kubernetes.core.k8s_cp:
+        container: dolibarr
+        kubeconfig: "~{{ ansible_user }}/.kube/config"
         namespace: "{{ app_namespace }}"
         pod: "{{ dolibarr_pod_name }}"
         state: from_pod
         remote_path: "/tmp/{{ backup_file_prefix }}.document.tgz"
-        local_path: "{{ backup_root_folder }}/{{ app_namespace }}/{{ backup_file_prefix }}.document.tgz"
+        local_path: "{{ backup_folder }}/{{ backup_file_prefix }}.document.tgz"
+      become: "{{ require_escalation_to_copy | bool }}"
 
     - name: "Test file backup"
       ansible.builtin.shell: |
-        tar -tzvf {{ backup_root_folder }}/{{ app_namespace }}/{{ backup_file_prefix }}.document.tgz
+        tar -tzvf {{ backup_folder }}/{{ backup_file_prefix }}.document.tgz
       register: file_backup_test_res
 
     - name: "Download configuration file "
       kubernetes.core.k8s_cp:
+        container: dolibarr
+        kubeconfig: "~{{ ansible_user }}/.kube/config"
         namespace: "{{ app_namespace }}"
         pod: "{{ dolibarr_pod_name }}"
         state: from_pod
         remote_path: "/var/www/html/conf/conf.php"
-        local_path: "{{ backup_root_folder }}/{{ app_namespace }}/{{ backup_file_prefix }}.conf.php"
+        local_path: "{{ backup_folder }}/{{ backup_file_prefix }}.conf.php"
+      become: "{{ require_escalation_to_copy | bool }}"
 
     - name: "Change config.php file permissions"
       ansible.builtin.file:
-        path: "{{ backup_root_folder }}/{{ app_namespace }}/{{ backup_file_prefix }}.conf.php"
+        path: "{{ backup_folder }}/{{ backup_file_prefix }}.conf.php"
         mode: '0600'
 
-- name: Backup PostgreSQL database
-  ansible.builtin.import_playbook: ../../../pgsql/k8s/kubectl/ansible/pgsql-backup-playbook.yaml
-  vars:
-    backup_file_prefix: "{{ backup_file_prefix }}"
-    db_pod_name: "{{ postgresql_pod_name }}"
-    k8s_ns: "{{ app_namespace }}"
-    db_name: "{{ postgresql_cm_info.resources[0].data.POSTGRES_DB }}"
-    db_user: "{{ postgresql_cm_info.resources[0].data.POSTGRES_USER }}"
-    db_password: "{{ postgresql_user_pw }}"
+    - name: "Backup PostgreSQL database"
+      ansible.builtin.include_tasks: ../../../pgsql/k8s/kubectl/ansible/tasks/pgsql-backup.yaml
+      vars:
+        backup_file_prefix: "{{ backup_file_prefix }}"
+        db_pod_name: "{{ postgresql_pod_name }}"
+        k8s_ns: "{{ app_namespace }}"
+        db_name: "{{ postgresql_cm_info.resources[0].data.POSTGRES_DB }}"
+        db_user: "{{ postgresql_cm_info.resources[0].data.POSTGRES_USER }}"
+        db_password: "{{ postgresql_user_pw }}"
+
+# - name: Backup PostgreSQL database
+#   ansible.builtin.import_playbook: ../../../pgsql/k8s/kubectl/ansible/pgsql-backup-playbook.yaml
+#   vars:
+#     backup_file_prefix: "{{ backup_file_prefix }}"
+#     db_pod_name: "{{ postgresql_pod_name }}"
+#     k8s_ns: "{{ app_namespace }}"
+#     db_name: "{{ postgresql_cm_info.resources[0].data.POSTGRES_DB }}"
+#     db_user: "{{ postgresql_cm_info.resources[0].data.POSTGRES_USER }}"
+#     db_password: "{{ postgresql_user_pw }}"
 ...
