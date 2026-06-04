@@ -31,11 +31,13 @@
         namespace: "{{ k8s_ns }}"
         name: "odoo"
       register: odoo_ingress
+      when: odoo_web_host is undefined
 
     - name: "Set Odoo URL and Port"
       ansible.builtin.set_fact:
         odoo_web_host: "{{ odoo_ingress.resources[0].spec.rules[0].host }}"
         odoo_web_port: "{{ odoo_ingress.resources[0].spec.rules[0].http.paths[0].backend.service.port.number }}"
+      when: odoo_web_host is undefined
 
     - name: "Get Odoo Master password (if Master Password not set)"
       kubernetes.core.k8s_info:
@@ -56,7 +58,7 @@
     #curl -X POST -F 'master_pwd={{ odoo_master_pw }}' -F 'name={{ odoo_db_name }}' -F 'backup_format=zip' -O {{ odoo_web_protocol | default('http') }}://{{ odoo_web_host }}:{{ odoo_web_port | default('8069')}}/web/database/backup
     - name: "Backup the database"
       ansible.builtin.shell: |
-        curl -X POST -F 'master_pwd={{ odoo_master_pw }}' -F 'name={{ odoo_db_name }}' -F 'backup_format=zip' -o {{ backup_folder }}/{{ odoo_file_name }} {{ odoo_web_protocol | default('http') }}://{{ odoo_web_host }}:{{ odoo_web_port | default('8069')}}/web/database/backup
+        curl -v -L --insecure -X POST -F 'master_pwd={{ odoo_master_pw }}' -F 'name={{ odoo_db_name }}' -F 'backup_format=zip' -o {{ backup_folder }}/{{ odoo_file_name }} {{ odoo_web_protocol | default('http') }}://{{ odoo_web_host }}:{{ odoo_web_port | default('8069')}}/web/database/backup
       register: backup_res
       become: "{{ require_escalation_to_copy | bool }}"
 
