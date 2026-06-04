@@ -146,6 +146,7 @@
       ansible.builtin.file:
         path: "{{ backup_folder }}/{{ backup_file_prefix }}.conf.php"
         mode: '0600'
+      become: "{{ require_escalation_to_copy | bool }}"
 
     - name: "Backup PostgreSQL database"
       ansible.builtin.include_tasks: ../../../pgsql/k8s/kubectl/ansible/tasks/pgsql-backup.yaml
