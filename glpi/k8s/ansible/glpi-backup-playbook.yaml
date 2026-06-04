@@ -140,6 +140,7 @@
     - name: "Generate tar for GLPI files"
       kubernetes.core.k8s_exec:
         command: "tar --warning=no-file-changed -czvf /tmp/{{ backup_file_prefix }}.files.tgz /var/lib/glpi"
+        container: glpi
         namespace: "{{ k8s_ns }}"
         pod: "{{ glpi_pod_name }}"
       register: glpi_file_bk_res
@@ -152,6 +153,7 @@
     # kubectl -n glpi cp ${GLPI_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz
     - name: "Download file backup"
       kubernetes.core.k8s_cp:
+        container: glpi
         kubeconfig: "~{{ ansible_user }}/.kube/config"
         namespace: "{{ k8s_ns }}"
         pod: "{{ glpi_pod_name }}"
@@ -173,6 +175,7 @@
     - name: "Remove the files backup file from the POD"
       kubernetes.core.k8s_exec:
         command: "rm -f /tmp/{{ backup_file_prefix }}.files.tgz"
+        container: glpi
         namespace: "{{ k8s_ns }}"
         pod: "{{ glpi_pod_name }}"
 
@@ -198,8 +201,8 @@
     # kubectl -n glpi exec -it ${GLPI_POD} -- tar --warning=no-file-changed -czvf /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz /var/www/html/plugins
     - name: "Generate tar for GLPI config"
       kubernetes.core.k8s_exec:
-        # command: "tar --warning=no-file-changed -czvf /tmp/{{ backup_file_prefix }}.config.tgz /var/www/html/glpi/config"
         command: "tar --warning=no-file-changed -czvf /tmp/{{ backup_file_prefix }}.config.tgz /etc/glpi"
+        container: glpi
         namespace: "{{ k8s_ns }}"
         pod: "{{ glpi_pod_name }}"
       register: glpi_config_bk_res
@@ -207,6 +210,7 @@
     # kubectl -n glpi cp ${GLPI_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.config.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz
     - name: "Download config backup"
       kubernetes.core.k8s_cp:
+        container: glpi
         kubeconfig: "~{{ ansible_user }}/.kube/config"
         namespace: "{{ k8s_ns }}"
         pod: "{{ glpi_pod_name }}"
@@ -217,6 +221,7 @@
 
     - name: "Remove the config backup file from the POD"
       kubernetes.core.k8s_exec:
+        container: glpi
         command: "rm -f /tmp/{{ backup_file_prefix }}.config.tgz"
         namespace: "{{ k8s_ns }}"
         pod: "{{ glpi_pod_name }}"
@@ -225,7 +230,7 @@
     - name: "Generate tar for  GLPI marketplace"
       kubernetes.core.k8s_exec:
         command: "tar --warning=no-file-changed -czvf /tmp/{{ backup_file_prefix }}.marketplace.tgz /var/www/html/glpi/marketplace"
-        # kubeconfig: "{{ k8s_config_file }}"
+        container: glpi
         namespace: "{{ k8s_ns }}"
         pod: "{{ glpi_pod_name }}"
       register: glpi_marketplace_bk_res
@@ -233,6 +238,7 @@
     # kubectl -n glpi cp ${GLPI_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.config.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz
     - name: "Download marketplace file"
       kubernetes.core.k8s_cp:
+        container: glpi
         kubeconfig: "~{{ ansible_user }}/.kube/config"
         namespace: "{{ k8s_ns }}"
         pod: "{{ glpi_pod_name }}"
@@ -244,6 +250,7 @@
     - name: "Remove the marketplace backup file from the POD"
       kubernetes.core.k8s_exec:
         command: "rm -f /tmp/{{ backup_file_prefix }}.marketplace.tgz"
+        container: glpi
         namespace: "{{ k8s_ns }}"
         pod: "{{ glpi_pod_name }}"
 ...
