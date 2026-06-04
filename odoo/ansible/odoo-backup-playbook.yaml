@@ -13,10 +13,17 @@
     
     - name: "Set some variables"
       ansible.builtin.set_fact:
-        backup_folder: "{{ backup_root_folder }}/{{ k8s_ns }}"
+        backup_folder: "{{ backup_root_folder }}/{{ k8s_ns }}/{{ odoo_db_name }}"
         odoo_file_name: "{{ odoo_db_name }}_{{ '%Y-%m-%d_%H-%M-%S' | strftime }}.zip"
 
   tasks:
+    - name: "Create backup folder"
+      ansible.builtin.file:
+        path: "{{ backup_folder }}"
+        state: directory
+        mode: '0755'
+      become: "{{ require_escalation_to_copy | bool }}"
+
     - name: "Get Odoo Ingress"
       kubernetes.core.k8s_info:
         api_version: "v1"
