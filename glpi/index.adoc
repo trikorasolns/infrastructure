@@ -28,10 +28,10 @@ include::k8s/troubleshooting.adoc[]
 
 :leveloffset: +1
 
-include::install.adoc[]
+include::podman/install.adoc[]
 
-include::maintenance.adoc[]
+include::podman/backup.adoc[]
 
-include::troubleshooting.adoc[]
+include::podman/restore.adoc[]
 
 :leveloffset: -1

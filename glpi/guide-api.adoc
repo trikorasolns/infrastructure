@@ -1,0 +1,38 @@
+= GLPI API Guide
+:author:    Antonio C.
+:email:     <ac (at) trikorasolutions (dot) com>
+:revdate: {docdate}
+:toc:       left
+:toc-title: Table of Contents
+:icons: font
+:description: GLPI Index.
+:source-highlighter: highlight.js
+
+
+== Login
+
+[source,bash]
+----
+curl -X GET -H 'Content-Type: application/json' \
+  -H "Authorization: user_token <token_from_a_user>" \
+  -H "App-Token: <token_from_an_app>" \
+  'https://glpi.localdomain/apirest.php/initSession?get_full_session=true'
+----
+
+
+== Fields
+
+[source,bash]
+----
+curl -X GET -H 'Content-Type: application/json' \
+    -H "Session-Token: <session_token>" \
+    -H "App-Token: <token_from_an_app>" \
+    'https://glpi.apps.trikorasolutions.net/apirest.php/listSearchOptions/Computer'
+----
+
+Result
+
+[source,json]
+----
+include::computers.json[]
+----
