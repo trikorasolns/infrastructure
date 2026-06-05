@@ -151,9 +151,9 @@
     - name: "Backup PostgreSQL database"
       ansible.builtin.include_tasks: ../../../pgsql/k8s/kubectl/ansible/tasks/pgsql-backup.yaml
       vars:
-        backup_file_prefix: "{{ backup_file_prefix }}"
+        # backup_file_prefix: "{{ backup_file_prefix }}"
         db_pod_name: "{{ postgresql_pod_name }}"
-        k8s_ns: "{{ k8s_ns }}"
+        # k8s_ns: "{{ k8s_ns }}"
         db_name: "{{ postgresql_cm_info.resources[0].data.POSTGRES_DB }}"
         db_user: "{{ postgresql_cm_info.resources[0].data.POSTGRES_USER }}"
         db_password: "{{ postgresql_user_pw }}"
