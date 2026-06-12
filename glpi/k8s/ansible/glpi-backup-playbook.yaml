@@ -39,7 +39,7 @@
 
     - name: "Print stat"
       ansible.builtin.debug:
-        var: backup_folder
+        var: backup_folder_stats
         # verbosity: 2
 
     - name: "Check backup folder exists"
