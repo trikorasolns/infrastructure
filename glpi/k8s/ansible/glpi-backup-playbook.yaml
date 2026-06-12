@@ -178,7 +178,7 @@
 
     - name: "Test file backup"
       ansible.builtin.shell: |
-        tar -tzvf backup_folder/{{ backup_file_prefix }}.files.tgz
+        tar -tzvf {{ backup_folder }}/{{ backup_file_prefix }}.files.tgz
       register: file_backup_test_res
       changed_when: false
 
