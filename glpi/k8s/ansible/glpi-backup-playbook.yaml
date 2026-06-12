@@ -41,6 +41,8 @@
       ansible.builtin.assert:
         that:
           - "backup_folder_stats.stat.exists"
+        fail_msg:
+          - "Folder {{ backup_folder }} must exist."
 
   tasks:
     - name: "Get pods"
