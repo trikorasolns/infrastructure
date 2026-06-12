@@ -42,6 +42,11 @@
         var: backup_folder_stats
         # verbosity: 2
 
+    - name: "Print stat"
+      ansible.builtin.debug:
+        var: backup_folder_stats.stat.isdir
+        # verbosity: 2
+
     - name: "Check backup folder exists"
       ansible.builtin.assert:
         that:
