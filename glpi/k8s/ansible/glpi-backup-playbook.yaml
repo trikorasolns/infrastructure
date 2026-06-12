@@ -133,7 +133,7 @@
     - name: "Write DB backup to file"
       ansible.builtin.copy:
         content: "{{ mysqldump_res.stdout }}"
-        dest: "backup_folder/{{ backup_file_prefix }}.sql"
+        dest: "{{ backup_folder }}/{{ backup_file_prefix }}.sql"
         mode: '0644'
       become: "{{ require_escalation_to_copy | bool }}"
 
