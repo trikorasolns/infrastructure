@@ -37,6 +37,11 @@
         path: "backup_folder"
       register: backup_folder_stats
 
+    - name: "Print stat"
+      ansible.builtin.debug:
+        var: backup_folder
+        # verbosity: 2
+
     - name: "Check backup folder exists"
       ansible.builtin.assert:
         that:
