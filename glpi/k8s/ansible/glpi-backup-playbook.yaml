@@ -160,10 +160,6 @@
       register: glpi_file_bk_res
       failed_when: false
 
-    - name: "Print test result"
-      ansible.builtin.debug:
-        var: file_backup_test_res
-
     # kubectl -n glpi cp ${GLPI_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz
     - name: "Download file backup"
       kubernetes.core.k8s_cp:
