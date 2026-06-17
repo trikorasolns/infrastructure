@@ -1,9 +1,16 @@
+image:
+{% if pgsql_image_repo is defined and (pgsql_image_repo | length > 0) %}
+  repository: {{ pgsql_image_repo }}
+  pullPolicy: IfNotPresent
+  tag: {{ pgsql_image_tag | default('latest') }}
+{% else %}  
+  tag: {{ db_image_tag | default('16') }}
+{% endif %}
+
 persistence:
   dbPassword: {{ db_password }}
   dbName: {{ db_name }}
   dbUser: {{ db_user }}
-{% if storage_class_rwx is defined or storage_class is defined %}
-  storageClassName: "{{ storage_class_rwx | default(storage_class) }}"
+{% if storage_class_rwo is defined or storage_class is defined %}
+  storageClassName: "{{ storage_class_rwo | default(storage_class) }}"
 {% endif %}
-image:
-  tag: {{ db_image_tag | default('16') }}

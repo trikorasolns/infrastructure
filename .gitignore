@@ -8,3 +8,5 @@ contexts
 !_local_config/
 _local_config/*
 !_local_config/README.adoc
+
+.ansible

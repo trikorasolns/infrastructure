@@ -1,42 +1,111 @@
 ---
-
-- name: Create namespace
-  import_playbook: ../../../kubernetes/ansible/create-namespace-playbook.yaml
-
-- name: Install database
-  import_playbook: ../../pgsql/podman/ansible/podman-install-playbook.yaml
-  vars: 
-    db_user: "{{ db_name }}"
-    db_password: "{{ db_pw | default(db_name) }}"
-
-- name: "Install Dolibarr - {{ app_version }}"
-  hosts: "{{ k8s_host | default('localhost') }}"
+- name: "Install Apache Superset - {{ app_version }}"
+  hosts: "{{ k8s_host | default(ocp_bastion) | default('ocp_bastion') | default('localhost') }}"
   gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
 
   pre_tasks:
     - name: "Validate variables"
-      assert:
+      ansible.builtin.assert:
         that:
-          # - "pv_root_folder is defined"
-          - "app_name is defined"
           - "app_namespace is defined"
         fail_msg: "Missing required parameters"
 
   tasks:
-    - name: "Template Odoo deployment files"
-      ansible.builtin.template:
-        src: "helm-odoo-odoo-values.yaml.j2"
-        dest: "/tmp/helm-odoo-odoo-values.yaml"
-        mode: '0600'
+    - name: "Set default app_name"
+      ansible.builtin.set_fact:
+        app_name: 'superset'
+      when: app_name is undefined or (app_name | length == 0)
 
-    - name: "Deploy Odoo with Helm"
+    - name: "Set files to copy"
+      ansible.builtin.set_fact:
+        superset_files_to_copy:
+          - superset-values.yaml
+          - patch-superset-job.json
+          - patch-superset-worker.json
+
+    - name: "Get PostgreSQL user name"
+      ansible.builtin.shell: |
+        kubectl -n {{ app_namespace }} get cm postgresql -o jsonpath='{.data.POSTGRES_USER}'
+      register: superset_pgsql_dbuser_res
+
+    - name: "Get PostgreSQL user password"
+      ansible.builtin.shell: |
+        kubectl -n {{ app_namespace }} get secret postgresql -o jsonpath='{.data.POSTGRES_PASSWORD}' | base64 -d
+      register: superset_pgsql_dbpassword_res
+
+    - name: "Get PostgreSQL DB name"
+      ansible.builtin.shell: |
+        kubectl -n {{ app_namespace }} get cm postgresql -o jsonpath='{.data.POSTGRES_DB}'
+      register: superset_pgsql_dbname_res
+
+    - name: "Generate Superset secret key"
+      ansible.builtin.shell: |
+        openssl rand -base64 42
+      register: superset_secret_key_res
+
+    - name: "Set facts for secret"
+      ansible.builtin.set_fact:
+        db_user: "{{ superset_pgsql_dbuser_res.stdout }}"
+        db_password: "{{ superset_pgsql_dbpassword_res.stdout }}"
+        db_name: "{{ superset_pgsql_dbname_res.stdout }}"
+        superset_secret_key_b64: "{{ superset_secret_key_res.stdout }}"
+
+    - name: "Print secret information"
+      ansible.builtin.debug:
+        msg:
+          - "db_user: {{ db_user }}"
+          - "db_name: {{ db_name }}"
+        #verbosity: 2
+
+    - name: "Copy required files"
+      ansible.builtin.copy:
+        src: "{{ item }}"
+        dest: "/tmp/{{ item }}"
+        mode: '0600'
+      loop: "{{ superset_files_to_copy }}"
+
+    - name: "Template Superset secret file"
+      ansible.builtin.template:
+        src: "superset-secret.yaml.j2"
+        dest: "/tmp/superset-secret.yaml"
+        mode: '0600'
+        
+    - name: "Create Superset secret"
+      ansible.builtin.shell: |
+        kubectl -n {{ app_namespace }} apply -f /tmp/superset-secret.yaml
+      register: superset_secret_create_res
+
+    - name: "Remove secret file"
+      ansible.builtin.file:
+        path: /tmp/superset-secret.yaml
+        state: absent
+
+    - name: "Print secret creation result"
+      ansible.builtin.debug:
+        var: superset_secret_create_res
+        verbosity: 2
+
+    - name: "Deploy Apache Superset with Helm"
       kubernetes.core.helm:
-        name: odoo
-        chart_ref: "{% if trikora_helm_project_dir is defined %}{{ trikora_helm_project_dir }}/charts/odoo{% else %}trikorasolns/odoo{% endif %}"
+        name: "apache-superset"
+        chart_ref: "superset/superset"
         release_namespace: "{{ app_namespace }}"
         wait: true
         replace: true
         values_files:
-          - /tmp/helm-odoo-odoo-values.yaml
-      register: odoo_helm_res 
+          - /tmp/superset-values.yaml
+      register: superset_helm_install_res
+
+    - name: "Deploy Apache Superset with Helm"
+      ansible.builtin.shell: |
+        kubectl -n {{ app_namespace }} patch deployment superset-worker --patch-file /tmp/patch-superset-worker.json
+        kubectl -n {{ app_namespace }} --type=strategic patch jobs.batch superset-init-db --patch '{"spec":{"suspend":true}}'
+        kubectl -n {{ app_namespace }} --type=strategic patch jobs.batch superset-init-db --patch-file /tmp/patch-superset-job.json
+        kubectl -n {{ app_namespace }} --type=strategic patch jobs.batch superset-init-db --patch '{"spec":{"suspend":false}}'
+
+    - name: "Delete the secret templated file"
+      ansible.builtin.file:
+        path: "/tmp/{{ item }}"
+        state: 'absent'
+      loop: "{{ superset_files_to_copy }}"
 ...

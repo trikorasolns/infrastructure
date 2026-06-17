@@ -1,0 +1,23 @@
+{
+  "spec": {
+    "template": {
+      "spec": {
+        "containers": [
+          {
+            "name": "superset",
+            "resources": {
+              "limits": {
+                "cpu": "600m",
+                "memory": "7Gi"
+              },
+              "requests": {
+                "cpu": "300m",
+                "memory": "3000Mi"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}
