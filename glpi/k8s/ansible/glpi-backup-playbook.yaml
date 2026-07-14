@@ -1,7 +1,13 @@
+# Backup a GLPI installation
+# Required parameters:
+# . k8s_ns: Namespace where the GLPI application is located
+# . backup_root_folder: Root folder where the files will be copied to. A sub-folder with the namespace will be used to drop the files into.
+# Other parameters:
+# . require_escalation_to_copy: If set to 'true' the backup files copy tasks will be performed using escalation.
 ---
-- name: "GLPI backup"
-  hosts: "localhost"
-  gather_facts: yes
+- name: "GLPI Backup Playbook"
+  hosts: "{{ selected_target_hosts | default('bastion') }}"
+  gather_facts: true
 
   pre_tasks:
     - name: "Check variables"
@@ -14,28 +20,46 @@
     - name: "Set variables"
       ansible.builtin.set_fact:
         backup_file_prefix: "{{ ansible_date_time.iso8601_basic_short }}.glpi.backup"
+        backup_folder: "{{ backup_root_folder }}/{{ k8s_ns }}"
         db_bk_user: "{{ db_user | default('root') }}"
 
-    - name: "Print pod card list"
+    - name: "Set require_escalation_to_copy"
+      ansible.builtin.set_fact:
+        require_escalation_to_copy: false
+      when: require_escalation_to_copy is undefined
+
+    - name: "Print backup prefix"
       ansible.builtin.debug:
-        var: backup_file_prefix 
+        var: backup_file_prefix
 
-    - name: "Collect backup folder stats"
-      ansible.builtin.stat:
-        path: "{{ backup_root_folder }}/{{ k8s_ns }}"
-      register: backup_folder_stats
+    # - name: "Collect backup folder stats"
+    #   ansible.builtin.stat:
+    #     path: "backup_folder"
+    #   register: backup_folder_stats
+    #   become: "{{ require_escalation_to_copy | bool }}"
 
-    - name: "Check backup folder exists"
-      ansible.builtin.assert:
-        that:
-          - "backup_folder_stats.stat.exists"
+    # - name: "Print stat"
+    #   ansible.builtin.debug:
+    #     var: backup_folder_stats
+    #     # verbosity: 2
+
+    # - name: "Print stat"
+    #   ansible.builtin.debug:
+    #     var: backup_folder_stats.stat.isdir
+    #     # verbosity: 2
+
+    # - name: "Check backup folder exists"
+    #   ansible.builtin.assert:
+    #     that:
+    #       - "backup_folder_stats.stat.exists"
+    #     fail_msg:
+    #       - "Folder {{ backup_folder }} must exist."
 
   tasks:
     - name: "Get pods"
       kubernetes.core.k8s_info:
         kind: "Pod"
         namespace: "{{ k8s_ns }}"
-        # kubeconfig: "{{ k8s_config_file }}"
         validate_certs: false
       register: pod_list
 
@@ -50,14 +74,28 @@
         msg: "pod_card_list: {{ pod_card_list }}"
         verbosity: 2
 
-    - name: "Print pod list 2"
+    - name: "Print pod list with glpi prefix"
       ansible.builtin.debug:
         msg: "select pod (filter: {{ item }}): {{ pod_card_list | to_json | from_json | community.general.json_query(item) }}"
         verbosity: 2
       with_items:
         - "[?contains(MetadataName,'glpi-') && MetadataOwnerKind=='ReplicaSet']"
 
-# MARIADB
+    - name: "Get database password from secret"
+      kubernetes.core.k8s_info:
+        kind: "Secret"
+        name: "mariadb"
+        namespace: "{{ k8s_ns }}"
+        validate_certs: false
+      register: mariadb_secret_reg
+      when: db_bk_pw is undefined
+
+    - name: "Parse GLPI database password from secret output"
+      ansible.builtin.set_fact:
+        db_bk_pw: "{{ mariadb_secret_reg.resources[0].data['MYSQL_PASSWORD'] | b64decode }}"
+      when: db_bk_pw is undefined
+
+    # MARIADB
     - name: "Fetch mariadb Pod name"
       ansible.builtin.set_fact:
         mariadb_pod_name: "{{ pod_card_list | to_json | from_json | community.general.json_query(jmesquery) | first }}"
@@ -75,11 +113,12 @@
           password="{{ db_bk_pw }}"
       when: db_bk_pw is defined
 
-  # GLPI_MYSQL_DUMP_FILENAME_PREFIX=$(date +%Y-%m-%d-%H-%M-%S).glpi.backup
-  # kubectl -n glpi exec -it glpi-mariadb-0 -- mysqldump -u root glpi > ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.sql
+    # GLPI_MYSQL_DUMP_FILENAME_PREFIX=$(date +%Y-%m-%d-%H-%M-%S).glpi.backup
+    # kubectl -n glpi exec -it glpi-mariadb-0 -- mysqldump -u root glpi > ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.sql
+    # mysqldump --defaults-extra-file=/tmp/.sqlpwd -u {{ db_bk_user }}  glpi
     - name: "Backup GLPI database"
       kubernetes.core.k8s_exec:
-        command: "mysqldump --defaults-extra-file=/tmp/.sqlpwd -u {{ db_bk_user }}  glpi"
+        command: "mysqldump {% if db_bk_pw is defined %}--defaults-extra-file=/tmp/.sqlpwd{% endif %} -u {{ db_bk_user }} glpi"
         namespace: "{{ k8s_ns }}"
         pod: "{{ mariadb_pod_name }}"
       register: mysqldump_res
@@ -89,14 +128,16 @@
         command: "rm -f /tmp/.sqlpwd"
         namespace: "{{ k8s_ns }}"
         pod: "{{ mariadb_pod_name }}"
-      ignore_errors: true
+      failed_when: false
 
     - name: "Write DB backup to file"
-      ansible.builtin.copy: 
-        content: "{{ mysqldump_res.stdout }}" 
-        dest: "{{ backup_root_folder }}/{{ k8s_ns }}/{{ backup_file_prefix }}.sql"
+      ansible.builtin.copy:
+        content: "{{ mysqldump_res.stdout }}"
+        dest: "{{ backup_folder }}/{{ backup_file_prefix }}.sql"
+        mode: '0644'
+      become: "{{ require_escalation_to_copy | bool }}"
 
-# GLPI
+    # GLPI
 
     - name: "Fetch GLPI Pod name"
       ansible.builtin.set_fact:
@@ -104,104 +145,122 @@
       vars:
         jmesquery: "[?contains(MetadataName,'glpi-') && MetadataOwnerKind=='ReplicaSet'].MetadataName"
 
-    - name: "Print pod card list"
+    - name: "Print GLPI Pod name"
       ansible.builtin.debug:
         msg: "glpi_pod_name: {{ glpi_pod_name }}"
         verbosity: 2
 
-  # kubectl -n glpi exec -it ${GLPI_POD} -- tar --warning=no-file-changed -czvf /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz /var/www/html/files 
+    # kubectl -n glpi exec -it ${GLPI_POD} -- tar --warning=no-file-changed -czvf /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz /var/www/html/files
     - name: "Generate tar for GLPI files"
       kubernetes.core.k8s_exec:
         command: "tar --warning=no-file-changed -czvf /tmp/{{ backup_file_prefix }}.files.tgz /var/lib/glpi"
+        container: glpi
         namespace: "{{ k8s_ns }}"
         pod: "{{ glpi_pod_name }}"
       register: glpi_file_bk_res
       failed_when: false
 
-    - name: "Print test result"
-      ansible.builtin.debug:
-        var: file_backup_test_res 
-
-
-  # kubectl -n glpi cp ${GLPI_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz
+    # kubectl -n glpi cp ${GLPI_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.files.tgz
     - name: "Download file backup"
       kubernetes.core.k8s_cp:
+        container: glpi
+        kubeconfig: "~{{ ansible_user }}/.kube/config"
         namespace: "{{ k8s_ns }}"
         pod: "{{ glpi_pod_name }}"
         state: from_pod
         remote_path: "/tmp/{{ backup_file_prefix }}.files.tgz"
-        local_path: "{{ backup_root_folder }}/{{ k8s_ns }}/{{ backup_file_prefix }}.files.tgz"
+        local_path: "{{ backup_folder }}/{{ backup_file_prefix }}.files.tgz"
+      become: "{{ require_escalation_to_copy | bool }}"
 
     - name: "Test file backup"
       ansible.builtin.shell: |
-        tar -tzvf {{ backup_root_folder }}/{{ k8s_ns }}/{{ backup_file_prefix }}.files.tgz
+        tar -tzvf {{ backup_folder }}/{{ backup_file_prefix }}.files.tgz
       register: file_backup_test_res
+      changed_when: false
 
-    - name: "Print test result"
+    - name: "Print backup file test result"
       ansible.builtin.debug:
-        var: file_backup_test_res 
+        var: file_backup_test_res
 
-    - name: "Remove backup file"
+    - name: "Remove the files backup file from the POD"
       kubernetes.core.k8s_exec:
         command: "rm -f /tmp/{{ backup_file_prefix }}.files.tgz"
+        container: glpi
         namespace: "{{ k8s_ns }}"
         pod: "{{ glpi_pod_name }}"
 
-  # # kubectl -n glpi exec -it ${GLPI_POD} -- tar --warning=no-file-changed -czvf /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz /var/www/html/plugins
-  #   - name: "Backup GLPI plugins"
-  #     kubernetes.core.k8s_exec:
-  #       command: "tar --warning=no-file-changed -czvf /tmp/{{ backup_file_prefix }}.plugins.tgz /var/www/html/glpi/plugins"
-  #       # kubeconfig: "{{ k8s_config_file }}"
-  #       namespace: "{{ k8s_ns }}"
-  #       pod: "{{ glpi_pod_name }}"
-  #     register: glpi_plugin_bk_res
+    # # kubectl -n glpi exec -it ${GLPI_POD} -- tar --warning=no-file-changed -czvf /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz /var/www/html/plugins
+    #   - name: "Backup GLPI plugins"
+    #     kubernetes.core.k8s_exec:
+    #       command: "tar --warning=no-file-changed -czvf /tmp/{{ backup_file_prefix }}.plugins.tgz /var/www/html/glpi/plugins"
+    #       # kubeconfig: "{{ k8s_config_file }}"
+    #       namespace: "{{ k8s_ns }}"
+    #       pod: "{{ glpi_pod_name }}"
+    #     register: glpi_plugin_bk_res
 
+    # # kubectl -n glpi cp ${GLPI_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz
+    #   - name: "Download plugin backup"
+    #     kubernetes.core.k8s_cp:
+    #       # kubeconfig: "{{ k8s_config_file }}"
+    #       namespace: "{{ k8s_ns }}"
+    #       pod: "{{ glpi_pod_name }}"
+    #       state: from_pod
+    #       remote_path: "/tmp/{{ backup_file_prefix }}.plugins.tgz"
+    #       local_path: "{{ backup_root_folder }}/{{ k8s_ns }}/{{ backup_file_prefix }}.plugins.tgz"
 
-  # # kubectl -n glpi cp ${GLPI_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz
-  #   - name: "Download plugin backup"
-  #     kubernetes.core.k8s_cp:
-  #       # kubeconfig: "{{ k8s_config_file }}"
-  #       namespace: "{{ k8s_ns }}"
-  #       pod: "{{ glpi_pod_name }}"
-  #       state: from_pod
-  #       remote_path: "/tmp/{{ backup_file_prefix }}.plugins.tgz"
-  #       local_path: "{{ backup_root_folder }}/{{ k8s_ns }}/{{ backup_file_prefix }}.plugins.tgz"
-
-  # kubectl -n glpi exec -it ${GLPI_POD} -- tar --warning=no-file-changed -czvf /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz /var/www/html/plugins
+    # kubectl -n glpi exec -it ${GLPI_POD} -- tar --warning=no-file-changed -czvf /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz /var/www/html/plugins
     - name: "Generate tar for GLPI config"
       kubernetes.core.k8s_exec:
-        #command: "tar --warning=no-file-changed -czvf /tmp/{{ backup_file_prefix }}.config.tgz /var/www/html/glpi/config"
         command: "tar --warning=no-file-changed -czvf /tmp/{{ backup_file_prefix }}.config.tgz /etc/glpi"
+        container: glpi
         namespace: "{{ k8s_ns }}"
         pod: "{{ glpi_pod_name }}"
       register: glpi_config_bk_res
 
-  # kubectl -n glpi cp ${GLPI_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.config.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz
+    # kubectl -n glpi cp ${GLPI_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.config.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz
     - name: "Download config backup"
       kubernetes.core.k8s_cp:
-        # kubeconfig: "{{ k8s_config_file }}"
+        container: glpi
+        kubeconfig: "~{{ ansible_user }}/.kube/config"
         namespace: "{{ k8s_ns }}"
         pod: "{{ glpi_pod_name }}"
         state: from_pod
         remote_path: "/tmp/{{ backup_file_prefix }}.config.tgz"
-        local_path: "{{ backup_root_folder }}/{{ k8s_ns }}/{{ backup_file_prefix }}.config.tgz"
+        local_path: "{{ backup_folder }}/{{ backup_file_prefix }}.config.tgz"
+      become: "{{ require_escalation_to_copy | bool }}"
 
-  # kubectl -n glpi exec -it ${GLPI_POD} -- tar --warning=no-file-changed -czvf /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz /var/www/html/plugins
+    - name: "Remove the config backup file from the POD"
+      kubernetes.core.k8s_exec:
+        container: glpi
+        command: "rm -f /tmp/{{ backup_file_prefix }}.config.tgz"
+        namespace: "{{ k8s_ns }}"
+        pod: "{{ glpi_pod_name }}"
+
+    # kubectl -n glpi exec -it ${GLPI_POD} -- tar --warning=no-file-changed -czvf /tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz /var/www/html/plugins
     - name: "Generate tar for  GLPI marketplace"
       kubernetes.core.k8s_exec:
         command: "tar --warning=no-file-changed -czvf /tmp/{{ backup_file_prefix }}.marketplace.tgz /var/www/html/glpi/marketplace"
-        # kubeconfig: "{{ k8s_config_file }}"
+        container: glpi
         namespace: "{{ k8s_ns }}"
         pod: "{{ glpi_pod_name }}"
       register: glpi_marketplace_bk_res
 
-  # kubectl -n glpi cp ${GLPI_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.config.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz
+    # kubectl -n glpi cp ${GLPI_POD}:/tmp/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.config.tgz ${BACKUP_ROOT_FOLDER}/glpi/${GLPI_MYSQL_DUMP_FILENAME_PREFIX}.plugins.tgz
     - name: "Download marketplace file"
       kubernetes.core.k8s_cp:
-        # kubeconfig: "{{ k8s_config_file }}"
+        container: glpi
+        kubeconfig: "~{{ ansible_user }}/.kube/config"
         namespace: "{{ k8s_ns }}"
         pod: "{{ glpi_pod_name }}"
         state: from_pod
         remote_path: "/tmp/{{ backup_file_prefix }}.marketplace.tgz"
-        local_path: "{{ backup_root_folder }}/{{ k8s_ns }}/{{ backup_file_prefix }}.marketplace.tgz"
+        local_path: "{{ backup_folder }}/{{ backup_file_prefix }}.marketplace.tgz"
+      become: "{{ require_escalation_to_copy | bool }}"
+
+    - name: "Remove the marketplace backup file from the POD"
+      kubernetes.core.k8s_exec:
+        command: "rm -f /tmp/{{ backup_file_prefix }}.marketplace.tgz"
+        container: glpi
+        namespace: "{{ k8s_ns }}"
+        pod: "{{ glpi_pod_name }}"
 ...

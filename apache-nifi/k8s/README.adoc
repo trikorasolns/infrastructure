@@ -13,6 +13,21 @@
 [.lead]
 This document describes having Apache Nifi deployed on a Kubernetes cluster using Helm.
 
+== User Guide
+
+=== Connecto to Apache Nifi
+
+Forward the HTTPS port to a local port.
+
+[source,bash]
+----
+kubectl port-forward -n apache-nifi --address 0.0.0.0 service/apache-nifi 8443:443
+----
+
+Open a browser against the forwarded port, in this case port `8443`.
+
+https://localhost:8443/nifi/#/login
+
 == Backup
 
 [source,bash]
