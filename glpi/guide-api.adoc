@@ -14,20 +14,26 @@
 [source,bash]
 ----
 curl -X GET -H 'Content-Type: application/json' \
-  -H "Authorization: user_token <token_from_a_user>" \
-  -H "App-Token: <token_from_an_app>" \
-  'https://glpi.localdomain/apirest.php/initSession?get_full_session=true'
+  -H "Authorization: user_token ${GLPI_USER_TOKEN}" \
+  -H "App-Token: ${GLPI_APP_TOKEN}" \
+  "https://${GLPI_APP_HOST}/apirest.php/initSession?get_full_session=true"
 ----
 
+[source,bash]
+----
+GLPI_SESSION_TOKEN=$(curl -s -X GET -H 'Content-Type: application/json' \
+  -H "Authorization: user_token ${GLPI_USER_TOKEN}" \
+  -H "App-Token: ${GLPI_APP_TOKEN}" \
+  "https://${GLPI_APP_HOST}/apirest.php/initSession?get_full_session=true" | jq -r '.session_token')
 
 == Fields
 
 [source,bash]
 ----
 curl -X GET -H 'Content-Type: application/json' \
-    -H "Session-Token: <session_token>" \
-    -H "App-Token: <token_from_an_app>" \
-    'https://glpi.apps.trikorasolutions.net/apirest.php/listSearchOptions/Computer'
+    -H "Session-Token: ${GLPI_SESSION_TOKEN}" \
+    -H "App-Token: ${GLPI_APP_TOKEN}" \
+    "https://${GLPI_APP_HOST}/apirest.php/listSearchOptions/Computer"
 ----
 
 Result
