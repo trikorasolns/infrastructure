@@ -1,0 +1,11 @@
+# file: configuration.yaml
+
+varReference:
+- path: spec/routes/match
+  kind: IngressRoute
+- path: spec/loadBalancerIP
+  kind: Service
+# Add additional entries into `varReference` if you would like substitution to occur anywhere else.
+
+# Default varReference list from Kustomize:
+# https://github.com/kubernetes-sigs/kustomize/blob/master/api/konfig/builtinpluginconsts/varreference.go
