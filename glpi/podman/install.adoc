@@ -19,13 +19,13 @@ This guide uses the https://hub.docker.com/r/fametec/glpi[fametec/glpi] docker c
 .Production
 [source,bash]
 ----
-include::config/env-pro.properties[]
+include::config/env-pro.yaml[]
 ----
 
 .Development
 [source,bash]
 ----
-include::config/env-dev.properties[]
+include::config/env-dev.yaml[]
 ----
 
 [CAUTION]

@@ -1,0 +1,75 @@
+---
+- name: "Restore GLPI files"
+  hosts: "localhost"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+    - name: "Validate backup file location is defined"
+      assert:
+        that:
+          - "glpi_bk_file is defined and (glpi_bk_file | length > 0)"
+          #- "glpi_bk_plugin is defined"
+          #- "glpi_bk_marketplace is defined"
+          # - "glpi_bk_config is defined"
+        fail_msg: "Backup files must be defined as variables (e.g. -e glpi_bk_file=...)"
+        success_msg: |
+          * Backup file is {{ glpi_bk_file }}
+
+  tasks:
+
+    - name: "Identify the GLPI POD name"
+      ansible.builtin.shell: |
+        kubectl get pods -n glpi | grep glpi- |  awk '{print $1}'
+      register: glpi_pod_name_res
+
+    - name: "Get the file name from the backup"
+      ansible.builtin.set_fact: 
+        glpi_pod_name: "{{ glpi_pod_name_res.stdout }}"
+        bk_file_name: "{{ glpi_bk_file | basename }}"
+
+    - name: "Get backup file prefix"
+      ansible.builtin.set_fact: 
+        bk_file_prefix: "{{ bk_file_name | replace('_glpi_backup.tar', '') }}"
+
+    - name: "Print variables"
+      ansible.builtin.debug: 
+        msg: 
+          - "glpi_pod_name: {{ glpi_pod_name }}"
+          - "bk_file_name: {{ bk_file_name }}"
+          - "bk_file_prefix: {{ bk_file_prefix }}"
+
+    - name: "Copy the backup file to the kubernetes pod"
+      kubernetes.core.k8s_cp:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ glpi_pod_name }}"
+        # container: some-container
+        remote_path: /tmp/files.tgz
+        local_path: "{{ glpi_bk_file }}"
+        no_preserve: True
+        state: to_pod
+
+    - name: "Copy the config file to the kubernetes pod"
+      kubernetes.core.k8s_cp:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ glpi_pod_name }}"
+        # container: some-container
+        remote_path: /tmp/config.tgz
+        local_path: "{{ glpi_bk_config }}"
+        no_preserve: True
+        state: to_pod
+      when: glpi_bk_config is defined and (glpi_bk_config | length > 0)
+
+    - name: "Extract the files backup"
+      kubernetes.core.k8s_exec:
+        namespace: "{{ app_namespace }}"
+        pod: "{{ glpi_pod_name }}"
+        command: |
+          tar -xzvm --no-overwrite-dir -C / -f /tmp/files.tgz
+      register: files_extract_res
+
+    - name: "Print extract result"
+      ansible.builtin.debug: 
+        msg: 
+          - "files_extract_res: {{ files_extract_res }}"
+
+...

@@ -28,6 +28,7 @@
         wait: true
         replace: false
         values_files:
+          - files/helm-pgsql-values.yaml
           - /tmp/helm-pgsql-values.yaml
       register: pgsql_helm_install_res 
 

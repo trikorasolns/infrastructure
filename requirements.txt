@@ -10,3 +10,4 @@ python-manilaclient
 openstacksdk
 netaddr
 dnspython
+kubernetes

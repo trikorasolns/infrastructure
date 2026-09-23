@@ -1,5 +1,6 @@
 .jython_cache
 .vscode
+.ansible
 
 **/_build/
 contexts
