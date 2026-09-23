@@ -1,0 +1,13 @@
+---
+- name: "Delete Namespace"
+  hosts: "{{ k8s_host | default(ocp_bastion) | default('ocp_bastion') | default('localhost') }}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  tasks:
+    - name: "Delete the namespace"
+      kubernetes.core.k8s:
+        api_version: v1
+        kind: Namespace
+        name: "{{ app_namespace }}"
+        state: absent
+...
