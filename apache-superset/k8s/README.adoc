@@ -54,18 +54,149 @@ ansible-playbook pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml \
   -e @_local_config/apache-superset.yaml
 ----
 
-=== Dolibarr
-
-[.lead]
-Deploy the Dolibarr container.
+Uninstall
 
 [source,bash]
 ----
-ansible-playbook kubernetes/ansible/create-namespace-playbook.yaml \
-  -e @dolibarr/k8s/ansible/defaults/main.yaml
+ansible-playbook pgsql/k8s/helm/ansible/pgsql-uninstall-playbook.yaml \
+  -e @apache-superset/k8s/ansible/defaults/main.yaml \
+  -e @_local_config/apache-superset.yaml
 ----
 
-Deploy the PostgreSQL Database.
+=== MariaDB
+
+This will deploy a MariaDB database on the application namespace.
+
+*Install*
+
+[source,bash]
+----
+ansible-playbook mariadb/k8s/helm/ansible/mariadb-install-playbook.yaml \
+  -e @kubernetes/storage/ceph/ansible/defaults/main.yaml \
+  -e @apache-superset/k8s/ansible/defaults/main.yaml \
+  -e @_local_config/apache-superset.yaml
+----
+
+*Uninstall*
+
+[source,bash]
+----
+ansible-playbook mariadb/k8s/helm/ansible/mariadb-uninstall-playbook.yaml \
+  -e @kubernetes/storage/ceph/ansible/defaults/main.yaml \
+  -e @apache-superset/k8s/ansible/defaults/main.yaml \
+  -e @_local_config/apache-superset.yaml
+----
 
 
-docker.io/dolibarr/dolibarr:22
+=== Apache Superset
+
+[.lead]
+Deploy Apache Superset using Helm.
+
+References:
+
+* https://superset.apache.org/admin-docs/installation/kubernetes/
+* https://devopsofworld.com/deploying-apache-superset-on-kubernetes-helm-from-chaos-to-production
+
+Add the Superset helm repository.
+
+[source,bash]
+----
+helm repo add superset https://apache.github.io/superset
+----
+
+Create the Superset _environment_ secret.
+
+.Secret for PostgreSQL
+[source,bash]
+----
+kubectl -n apache-superset create secret generic superset-env \
+  --from-literal=DB_HOST=postgresql \
+  --from-literal=DB_PORT=5432 \
+  --from-literal=DB_USER=$(kubectl -n apache-superset get cm postgresql -o jsonpath='{.data.POSTGRES_USER}') \
+  --from-literal=DB_PASS=$(kubectl -n apache-superset get secret postgresql -o jsonpath='{.data.POSTGRES_PASSWORD}' | base64 -d) \
+  --from-literal=DB_NAME=$(kubectl -n apache-superset get cm postgresql -o jsonpath='{.data.POSTGRES_DB}') \
+  --from-literal=REDIS_CELERY_DB=0 \
+  --from-literal=REDIS_DB=1 \
+  --from-literal=REDIS_HOST=redis \
+  --from-literal=REDIS_PORT=6379 \
+  --from-literal=REDIS_PROTO=redis \
+  --from-literal=REDIS_USER="" \
+  --from-literal=SUPERSET_SECRET_KEY=$(openssl rand -base64 42)
+----
+
+.Secret for MariaDB
+[source,bash]
+----
+kubectl -n apache-superset create secret generic superset-env \
+  --from-literal=DB_HOST=mariadb \
+  --from-literal=DB_PORT=3306 \
+  --from-literal=DB_USER=$(kubectl -n apache-superset get cm mariadb -o jsonpath='{.data.MARIADB_USER}') \
+  --from-literal=DB_PASS=$(kubectl -n apache-superset get secret mariadb -o jsonpath='{.data.MYSQL_PASSWORD}' | base64 -d) \
+  --from-literal=DB_NAME=$(kubectl -n apache-superset get cm mariadb -o jsonpath='{.data.MARIADB_DATABASE}') \
+  --from-literal=REDIS_CELERY_DB=0 \
+  --from-literal=REDIS_DB=1 \
+  --from-literal=REDIS_HOST=redis \
+  --from-literal=REDIS_PORT=6379 \
+  --from-literal=REDIS_PROTO=redis \
+  --from-literal=REDIS_USER="" \
+  --from-literal=SUPERSET_SECRET_KEY=$(openssl rand -base64 42)
+----
+
+*Install*
+
+[source,bash]
+----
+helm upgrade --install --namespace apache-superset --values _local_config/network.yaml --values apache-superset/k8s/ansible/files/superset-values.yaml superset superset/superset
+----
+
+
+*Uninstall*
+
+[source,bash]
+----
+helm uninstall --namespace apache-superset superset
+----
+
+
+
+
+
+
+
+
+
+
+
+
+
+== Misc
+
+[source,bash]
+----
+kubectl -n apache-superset create secret generic superset-backend-secret \
+  --from-literal=DB_HOST=postgresql \
+  --from-literal=DB_PORT=5432 \
+  --from-literal=DB_USER=$(kubectl -n apache-superset get cm postgresql -o jsonpath='{.data.POSTGRES_USER}') \
+  --from-literal=DB_PASSWORD=$(kubectl -n apache-superset get secret postgresql -o jsonpath='{.data.POSTGRES_PASSWORD}' | base64 -d) \
+  --from-literal=DB_NAME=$(kubectl -n apache-superset get cm postgresql -o jsonpath='{.data.POSTGRES_DB}') \
+  --from-literal=REDIS_HOST=redis \
+  --from-literal=REDIS_PORT=6379
+----
+
+
+
+.Apply secret.
+
+[source,bash]
+----
+kubectl -n apache-superset patch deployment superset-worker --patch-file apache-superset/k8s/ansible/files/patch-superset-worker.json
+
+kubectl -n apache-superset --type=strategic patch jobs.batch superset-init-db --patch '{"spec":{"suspend":true}}'
+
+kubectl -n apache-superset --type=strategic patch jobs.batch superset-init-db --patch-file apache-superset/k8s/ansible/files/patch-superset-job.json
+
+kubectl -n apache-superset --type=strategic patch jobs.batch superset-init-db --patch '{"spec":{"suspend":true}}'
+
+----
+

@@ -26,29 +26,27 @@ Create the POD.
 podman pod create --label app=dolibarr \
   --label app.kubernetes.io/name="dolibarr" \
   --label app.kubernetes.io/instance="dolibarr" \
-  --label app.kubernetes.io/version="22" \
+  --label app.kubernetes.io/version="23" \
   --label app.kubernetes.io/component="application" \
   --label app.kubernetes.io/part-of="dolibarr" \
-  -p 7180:80 -p 7432:5432 \
+  -p 7280:80 -p 7206:3306 \
   dolibarr 
 ----
 
-Deploy the database
+Deploy the MariaDB database.
 
 [source,bash]
 ----
-  ansible-playbook pgsql/podman/ansible/podman-install-playbook.yaml \
-    -e pod_name=dolibarr \
-    -e db_name=dolibarr \
-    -e db_user=dolibarr \
-    -e pgsql_version="17.1" \
-    -e db_password="${DB_PASSWORD:-dolibarr}"
+ansible-playbook mariadb/podman/ansible/podman-install-playbook.yaml \
+  -e @dolibarr/podman/ansible/defaults/main.yaml \
+  -e db_password="${DB_PASSWORD:-dolibarr}"
 ----
 
 [source,bash]
 ----
 ansible-playbook dolibarr/podman/ansible/dolibarr-install-playbook.yaml \
-  -e pod_name=dolibarr
+  -e @dolibarr/podman/ansible/defaults/main.yaml \
+  -e doli_company_name=<company name>
 ----
 
 
@@ -59,16 +57,15 @@ Uninstall Dolibarr.
 [source,bash]
 ----
 ansible-playbook dolibarr/podman/ansible/dolibarr-uninstall-playbook.yaml \
-  -e pod_name=dolibarr
+  -e @dolibarr/podman/ansible/defaults/main.yaml
 ----
 
 Uninstall the PostgreSQL database.
 
 [source,bash]
 ----
-ansible-playbook pgsql/podman/ansible/podman-uninstall-playbook.yaml \
-  -e pod_name=dolibarr \
-  -e db_name=dolibarr
+ansible-playbook mariadb/podman/ansible/podman-uninstall-playbook.yaml \
+  -e @dolibarr/podman/ansible/defaults/main.yaml
 ----
 
 == Upgrade

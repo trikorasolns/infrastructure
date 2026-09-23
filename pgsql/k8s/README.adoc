@@ -1,0 +1,22 @@
+= PostgreSQL on Kubernetes
+:author:    Antonio C.
+:email:     <ac (at) trikorasolutions (dot) com>
+:revdate:   {{docdate}}
+:toc:       left
+:toc-title: Table of Contents
+:icons:     font
+:source-highlighter: highlight.js
+
+== Introduction
+
+[.lead]
+Miscelanous documentation on PostgreSQL deployed on Kubernetes.
+
+== Connect to the database
+
+To connect to the database 
+
+[source,bash]
+----
+kubectl port-forward -n apache-superset --address 0.0.0.0 service/postgresql 15432:5432
+----
