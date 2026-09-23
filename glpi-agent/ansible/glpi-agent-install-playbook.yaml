@@ -1,0 +1,23 @@
+---
+- name: "Instal GLPI Agent"
+  hosts: "{{ target_host | default ('baremetal:vms') }}"
+  gather_facts: yes
+
+  pre_tasks:
+    - name: "Check variables"
+      ansible.builtin.assert:
+        that:
+          - "glpi_agent_version is defined && glpi_agent_version | length > 0"
+
+  tasks:
+    - name: "Download GLPI Agent"
+      ansible.builtin.get_url:
+        url: "https://github.com/glpi-project/glpi-agent/releases/download/{{ glpi_agent_version }}/glpi-agent-{{ glpi_agent_version }}-1.noarch.rpm"
+        dest: "/tmp/glpi-agent-{{ glpi_agent_version }}-1.noarch.rpm"
+        mode: '0440'
+
+    - name: "Install GLPI Agent package"
+      ansible.builtin.package:
+        name: "/tmp/glpi-agent-{{ glpi_agent_version }}-1.noarch.rpm"
+      become: true
+...
