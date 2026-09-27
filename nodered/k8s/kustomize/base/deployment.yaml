@@ -2,11 +2,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nodered
-  namespace: nodered
   labels:
     app.kubernetes.io/name: nodered
     app.kubernetes.io/instance: nodered-app
-    app.kubernetes.io/version: "13.7.1"
+    app.kubernetes.io/version: "4.1.1-20"
     app.kubernetes.io/component: app
     app.kubernetes.io/part-of: nodered
 spec:
@@ -30,7 +29,19 @@ spec:
           name: nodered-storage
       containers:
       - name: nodered
-        image: nodered/node-red:latest
+        image: nodered/node-red:4.1.1-20
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        envFrom:
+        - secretRef:
+            name: nodered
+        - configMapRef:
+            name: nodered
         ports:
         - name: http
           containerPort: 1880
