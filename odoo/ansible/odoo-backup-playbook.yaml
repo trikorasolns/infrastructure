@@ -10,7 +10,12 @@
           - "backup_root_folder is defined"
           - "k8s_ns is defined"
           - "odoo_db_name is defined"
-    
+
+    - name: "Set require_escalation_to_copy"
+      ansible.builtin.set_fact:
+        require_escalation_to_copy: false
+      when: require_escalation_to_copy is undefined
+
     - name: "Set some variables"
       ansible.builtin.set_fact:
         backup_folder: "{{ backup_root_folder }}/{{ k8s_ns }}/{{ odoo_db_name }}"

@@ -165,6 +165,7 @@
       kubernetes.core.k8s_cp:
         container: glpi
         kubeconfig: "~{{ ansible_user }}/.kube/config"
+        # kubeconfig: "{{ lookup('vars', 'K8S_AUTH_KUBECONFIG', default='~' ~ ansible_user ~ '/.kube/config') }}"
         namespace: "{{ k8s_ns }}"
         pod: "{{ glpi_pod_name }}"
         state: from_pod
@@ -222,6 +223,7 @@
       kubernetes.core.k8s_cp:
         container: glpi
         kubeconfig: "~{{ ansible_user }}/.kube/config"
+        # kubeconfig: "{{ lookup('ansible.builtin.env', 'K8S_AUTH_KUBECONFIG', default='~' ~ ansible_user ~ '/.kube/config') }}"
         namespace: "{{ k8s_ns }}"
         pod: "{{ glpi_pod_name }}"
         state: from_pod
@@ -250,6 +252,7 @@
       kubernetes.core.k8s_cp:
         container: glpi
         kubeconfig: "~{{ ansible_user }}/.kube/config"
+        # kubeconfig: "{{ lookup('ansible.builtin.env', 'K8S_AUTH_KUBECONFIG', default='~' ~ ansible_user ~ '/.kube/config') }}"
         namespace: "{{ k8s_ns }}"
         pod: "{{ glpi_pod_name }}"
         state: from_pod

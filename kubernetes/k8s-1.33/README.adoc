@@ -39,7 +39,7 @@ sudo dnf update
 [source,bash]
 ----
 sudo systemctl stop swap-create@zram0
-sudo dnf remove zram-generator-defaults
+sudo dnf remove -y zram-generator-defaults
 sudo reboot now
 ----
 
@@ -112,7 +112,14 @@ sudo systemctl enable --now crio
 sudo kubeadm config images pull
 ----
 
+sudo systemctl enable kubelet
+
 === Initialize cluster
+
+[.lead]
+Initialize or join an existing cluster.
+
+==== Initialize cluster
 
 Initialize the cluster or join an existing cluster.
 
@@ -148,6 +155,8 @@ This will create a new token and return the join command.
 ----
 kubeadm join 192.168.1.10:6443 --token yyyyyy.xxxxxxxxxxxxxxxx --discovery-token-ca-cert-hash sha256:zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz 
 ----
+
+sudo kubeadm init phase upload-certs --upload-certs
 
 === Taint nodes
 
