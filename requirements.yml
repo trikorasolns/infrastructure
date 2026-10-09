@@ -3,8 +3,4 @@ collections:
   - name: kubernetes.core
     version: 5.0.0
   - name: openstack.cloud
-<<<<<<< Updated upstream
   - name: containers.podman
-=======
-  - name: containers.podman
->>>>>>> Stashed changes

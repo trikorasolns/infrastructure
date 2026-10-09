@@ -23,18 +23,6 @@ Create the POD.
 
 [source,bash]
 ----
-<<<<<<< Updated upstream
-ansible-playbook dolibarr/podman/ansible/dolibarr-prepare-playbook.yaml \
-  -e @dolibarr/ansible/defaults.yaml
-----
-
-Deploy the MariaDB database.
-
-[source,bash]
-----
-ansible-playbook pgsql/podman/ansible/podman-install-playbook.yaml \
-  -e @dolibarr/ansible/defaults.yaml \
-=======
 podman pod create --label app=dolibarr \
   --label app.kubernetes.io/name="dolibarr" \
   --label app.kubernetes.io/instance="dolibarr" \
@@ -63,7 +51,6 @@ ansible-playbook pgsql/podman/ansible/podman-install-playbook.yaml \
   -e db_name=dolibarr \
   -e db_user=dolibarr \
   -e pgsql_version="17.1" \
->>>>>>> Stashed changes
   -e db_password="${DB_PASSWORD:-dolibarr}"
 ----
 
@@ -72,11 +59,7 @@ Deploy the Dolibarr application.
 [source,bash]
 ----
 ansible-playbook dolibarr/podman/ansible/dolibarr-install-playbook.yaml \
-<<<<<<< Updated upstream
-  -e @dolibarr/ansible/defaults.yaml
-=======
   -e @dolibarr/podman/ansible/defaults/main.yaml
->>>>>>> Stashed changes
 ----
 
 If deploying with PostgreSQL proceed with the manual first installation using 
