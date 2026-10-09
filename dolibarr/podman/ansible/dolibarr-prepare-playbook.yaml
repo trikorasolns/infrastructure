@@ -1,0 +1,23 @@
+---
+- name: "Prepare Podman for Dolibarr container installation"
+  hosts: "{{ _host | default('localhost') }}"
+  gather_facts: "{{ gathering_host_info | default('true') | bool == true }}"
+
+  pre_tasks:
+    - name: "Validate variables"
+      assert:
+        that:
+          - "pod_name is defined"
+          # - "pgsql_version is defined"
+    
+  tasks:
+        
+    - name: "Create Dolibarr Podman Pod"
+      containers.podman.podman_pod:
+        name: "{{ pod_name }}"
+        state: started
+        publish: 
+        - "{{ dolibarr_host_port }}:80"
+        - "{{ pgsql_host_port }}:5432"
+        - "{{ mariadb_host_port }}:5432"
+...

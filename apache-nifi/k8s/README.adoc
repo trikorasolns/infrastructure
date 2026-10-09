@@ -28,6 +28,19 @@ Open a browser against the forwarded port, in this case port `8443`.
 
 https://localhost:8443/nifi/#/login
 
+=== Connecto to Apache Nifi Registry
+
+Forward the HTTPS port to a local port.
+
+[source,bash]
+----
+kubectl port-forward -n apache-nifi-registry --address 0.0.0.0 service/apache-nifi-registry 18080:80
+----
+
+Open a browser against the forwarded port, in this case port `8443`.
+
+http://localhost:18080/
+
 == Backup
 
 [source,bash]

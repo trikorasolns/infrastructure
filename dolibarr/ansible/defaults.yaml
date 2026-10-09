@@ -1,0 +1,12 @@
+pod_name: dolibarr
+db_name: dolibarr
+db_user: dolibarr
+dolibarr_version: 23.0.4
+dolibarr_host_port: 7180
+# mariadb, pgsql
+doli_db_type: mariadb
+mariadb_version: 12.3
+mariadb_host_port: 13306
+pgsql_version: 17.1
+pgsql_host_port: 15432
+doli_enable_modules: User,ExpenseReport,HRM,Societe,Propale,Commande,Contrat,Fournisseur,SupplierProposal,Reception,Facture,Tax,Margin,Product,Service,Projet,Agenda,Fckeditor,Import,Export,Api,OpenIDConnect

@@ -11,7 +11,6 @@
           - "db_name is defined"
           - "db_user is defined"
           - "db_password is defined"
-          # - "pgsql_version is defined"
     
   tasks:
     - name: "Set names"
@@ -19,7 +18,7 @@
         pgsql_container_name: "{{ pod_name }}_pgsql_{{ db_name }}"
         pgsql_volume_name: "{{ pod_name }}_pgsql_{{ db_name }}_data"
 
-    - name: Create PostgreSQL volume
+    - name: "Create PostgreSQL volume"
       containers.podman.podman_volume:
         state: present
         name: "{{ pgsql_volume_name }}"
