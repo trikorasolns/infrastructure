@@ -5,6 +5,7 @@
 :toc:       left
 :toc-title: Table of Contents
 :icons:     font
+:description: Deploy MariaDB on a Podman
 :source-highlighter: highlight.js
 
 == Introduction
@@ -21,9 +22,10 @@ TBD
 [source,bash]
 ----
 ansible-playbook mariadb/podman/ansible/podman-install-playbook.yaml \
-  -e "@kubernetes/storage/<storage>/ansible/defaults/main.yaml" \
-  -e "@<app>/k8s/ansible/defaults/main.yaml" \
-  -e db_password=${DB_PASSWORD}
+  -e pod_name=${POD_NAME:-mariadb} \
+  -e db_name=${DB_NAME:-mariadb} \
+  -e db_user=${DB_USER:-mariadb} \
+  -e db_password=${DB_PASSWORD:-mariadb}
 ----
 
 
@@ -31,17 +33,17 @@ Template the helm file.
 
 [source,bash]
 ----
-jinja2 --format=yaml -DDB_PASSWORD=${DB_PASSWORD} -DAPP_NAME=${APP_NAME} pgsql/k8s/helm/helm-pgsql-values.yaml.j2 > /tmp/helm-pgsql-values.yaml
+jinja2 --format=yaml -DDB_PASSWORD=${DB_PASSWORD} -DAPP_NAME=${APP_NAME} mariadb/k8s/helm/helm-mariadb-values.yaml.j2 > /tmp/helm-mariadb-values.yaml
 ----
 
 [source,bash]
 ----
-helm upgrade --install --namespace ${APP_NAME} -f /tmp/helm-odoo-odoo-values.yaml odoo ${HELM_CHART_FOLDER:-.}/postgresql
+helm upgrade --install --namespace ${APP_NAME} -f /tmp/helm-odoo-odoo-values.yaml odoo ${HELM_CHART_FOLDER:-.}/MariaDB
 ----
 
 [source,bash]
 ----
-ansible-playbook pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml \
+ansible-playbook mariadb/k8s/helm/ansible/mariadb-install-playbook.yaml \
   -e app_name=${APP_NAME} \
   -e app_version=${APP_VERSION} \
   -e trikora_helm_project_dir=${TRIKORA_HELM} \
@@ -59,7 +61,7 @@ Use the application variables file.
 
 [source,bash]
 ----
-ansible-playbook pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml \
+ansible-playbook mariadb/k8s/helm/ansible/mariadb-install-playbook.yaml \
   -e "@gitea/k8s/gitea_variables.yaml" \
   -e trikora_helm_project_dir=${TRIKORA_HELM} \
   -e db_password=${DB_PASSWORD} \
@@ -72,7 +74,7 @@ ansible-playbook pgsql/k8s/helm/ansible/pgsql-install-playbook.yaml \
 
 [source,bash]
 ----
-ansible-playbook pgsql/k8s/helm/ansible/pgsql-uninstall-playbook.yaml -e "@gitea/k8s/gitea_variables.yaml"   -e trikora_helm_project_dir=${TRIKORA_HELM}
+ansible-playbook mariadb/k8s/helm/ansible/mariadb-uninstall-playbook.yaml -e "@gitea/k8s/gitea_variables.yaml"   -e trikora_helm_project_dir=${TRIKORA_HELM}
 ----
 
 == Upgrade

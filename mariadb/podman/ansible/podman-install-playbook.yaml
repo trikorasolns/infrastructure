@@ -11,6 +11,12 @@
           - "db_name is defined"
           - "db_user is defined"
           - "db_password is defined"
+          # - "mariadb_version is defined"
+
+    - name: "Set default version"
+      ansible.builtin.set_fact:
+        mariadb_version: "12.3"
+      when: mariadb_version is undefined
     
   tasks:
     - name: "Set names"
@@ -18,34 +24,34 @@
         mariadb_container_name: "{{ pod_name }}_mariadb_{{ db_name }}"
         mariadb_volume_name: "{{ pod_name }}_mariadb_{{ db_name }}_data"
 
-    - name: "Create PostgreSQL volume"
+    - name: Create MariaDB volume
       containers.podman.podman_volume:
         state: present
         name: "{{ mariadb_volume_name }}"
         label:
           app.kubernetes.io/name: "{{ mariadb_volume_name }}"
           app.kubernetes.io/instance: "{{ pod_name }}"
-          app.kubernetes.io/version: "{{ mariadb_version | default('11') }}"
+          app.kubernetes.io/version: "{{ mariadb_version }}"
           app.kubernetes.io/component: "pv"
           app.kubernetes.io/part-of: "{{ pod_name }}"
 
     - name: "Create container"
       containers.podman.podman_container:
         name: "{{ mariadb_container_name }}"
-        image: "docker://mariadb:{{ mariadb_version | default('11') }}"
+        image: "docker://mariadb:{{ mariadb_version }}"
         state: started
         pod: "{{ pod_name }}"
         volumes: 
           - "{{ mariadb_volume_name }}:/var/lib/mysql"
         env:
+          MARIADB_DATABASE: "{{ db_name }}"
           MARIADB_USER: "{{ db_user | default(db_name) }}"
           MARIADB_PASSWORD: "{{ db_password | default(db_name) }}"
           MARIADB_ROOT_PASSWORD: "{{ db_password | default(db_name) }}"
-          MARIADB_DATABASE: "{{ db_name }}"
         label:
           app.kubernetes.io/name: "{{ pod_name }}_mariadb_{{ db_name }}"
           app.kubernetes.io/instance: "{{ pod_name }}"
-          app.kubernetes.io/version: "{{ mariadb_version | default('14') }}"
+          app.kubernetes.io/version: "{{ mariadb_version }}"
           app.kubernetes.io/component: "database"
           app.kubernetes.io/part-of: "{{ pod_name }}"
 ...

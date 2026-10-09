@@ -1,0 +1,16 @@
+pod_name: dolibarr
+db_name: dolibarr
+db_user: dolibarr
+db_password: dolibarr
+
+doli_db_host: dolibarr
+# 3306,5432
+doli_db_port: 3306
+# mysqli,pgsql
+doli_db_type: mysqli
+doli_enable_modules: User,ExpenseReport,HRM,Societe,Propale,Commande,Contrat,Fournisseur,SupplierProposal,Reception,Facture,Tax,Margin,Product,Service,Projet,Agenda,Fckeditor,Import,Export,Api,User
+#dolibarr,ldap
+doli_auth: dolibarr
+doli_install_auto: 1
+
+dolibarr_version: 24.0.0

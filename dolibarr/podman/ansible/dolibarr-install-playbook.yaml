@@ -9,13 +9,22 @@
         that:
           - "pod_name is defined"
           # - "pgsql_version is defined"
-    
-  tasks:
-    - name: "Set names"
+
+    - name: "Set db name"
       ansible.builtin.set_fact:
         doli_db_name: "{{ db_name | default('dolibarr') }}"
       when: doli_db_name is undefined
 
+<<<<<<< Updated upstream
+=======
+    - name: "Set db version"
+      ansible.builtin.set_fact:
+        dolibarr_version: '23.0.4'
+      when: dolibarr_version is undefined
+
+  tasks:
+        
+>>>>>>> Stashed changes
     - name: Create Dolibarr volumes
       containers.podman.podman_volume:
         state: present
@@ -23,7 +32,7 @@
         label:
           app.kubernetes.io/name: "{{ dolibarr_volume_item }}"
           app.kubernetes.io/instance: "{{ pod_name }}"
-          app.kubernetes.io/version: "{{ dolibarr_version | default('22') }}"
+          app.kubernetes.io/version: "{{ dolibarr_version }}"
           app.kubernetes.io/component: "application"
           app.kubernetes.io/part-of: "{{ pod_name }}"
       loop:
@@ -35,7 +44,7 @@
     - name: "Create container"
       containers.podman.podman_container:
         name: "{{ pod_name }}_dolibarr_{{ app_name | default('dolibarr') }}"
-        image: "docker://dolibarr/dolibarr:{{ dolibarr_version | default('22') }}"
+        image: "docker://dolibarr/dolibarr:{{ dolibarr_version }}"
         state: started
         pod: "{{ pod_name }}"
         volumes: 
@@ -43,6 +52,7 @@
           - "{{ pod_name }}_dolibarr_{{ app_name | default('dolibarr') }}_custom:/var/www/html/custom"
         env:
           DOLI_INIT_DEMO: "{{ doli_init_demo | default(0) }}"
+<<<<<<< Updated upstream
           DOLI_DB_HOST: "{{doli_db_host | default(pod_name + '_pgsql_' + doli_db_name) }}"
           DOLI_DB_HOST_PORT: "{{doli_db_port | default('3306') }}"
           DOLI_DB_TYPE: "{{doli_db_type | default('mariadb') }}"
@@ -60,6 +70,27 @@
           WWW_GROUP_ID: "{{www_group_id | default('1000') }}"
           DOLI_AUTH: "dolibarr,openid_connect"
           DOLI_ENABLE_MODULES: "{{ doli_enable_modules }}"
+=======
+          DOLI_DB_HOST: "{{ doli_db_host  | default(pod_name + '_' + doli_db_type + '_' + doli_db_name) }}"
+          DOLI_DB_HOST_PORT: "{{ doli_db_port | default('3306') }}"
+          DOLI_DB_TYPE: "{{doli_db_type | default('pgsql') }}"
+          DOLI_DB_NAME: "{{ doli_db_name }}"
+          DOLI_DB_USER: "{{ db_user | default('dolibarr') }}"
+          DOLI_DB_PASSWORD: "{{ db_password | default('dolibarr') }}"
+          DOLI_URL_ROOT: "{{ doli_url_root | default('http://0.0.0.0') }}"
+          DOLI_ADMIN_LOGIN: "{{ doli_admin_login | default('admin') }}"
+          DOLI_ADMIN_PASSWORD: "{{ doli_admin_password | default('admin') }}"
+          DOLI_CRON: "{{ doli_cron | default(0) }}"
+          DOLI_CRON_KEY: "{{ doli_cron_key | default('mycronsecurekey') }}"
+          DOLI_COMPANY_NAME: "{{ doli_company_name | default('MyBigCompany') }}"
+          DOLI_COMPANY_COUNTRYCODE: "{{ doli_company_countrycode | default('ES') }}"
+          DOLI_ENABLE_MODULES: "{{ doli_enable_modules | default('') }}"
+          WWW_USER_ID: "{{ www_user_id | default('1000') }}"
+          WWW_GROUP_ID: "{{ www_group_id | default('1000') }}"
+          DOLI_AUTH: "{{ doli_auth | default('dolibarr,openid_connect') }}"
+          DOLI_INSTALL_AUTO: "{{ doli_install_auto | default('0') }}"
+          # INVOICE_SUBTYPE_ENABLED: "1"
+>>>>>>> Stashed changes
         label:
           app.kubernetes.io/name: "dolibarr"
           app.kubernetes.io/instance: "{{ pod_name }}"
